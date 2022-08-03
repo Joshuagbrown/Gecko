@@ -2,6 +2,7 @@ package seng202.team6;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -16,5 +17,12 @@ public class AppTest
     public void testApp()
     {
         assertTrue( true );
+    }
+
+    @Test
+    public void taraTest() {
+        int a = 7;
+        int b = 8;
+        assertEquals(15,a+b);
     }
 }
