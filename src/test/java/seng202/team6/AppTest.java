@@ -46,4 +46,11 @@ public class AppTest
         int three = 3;
         assertEquals(4,one+three);
     }
+
+    @Test
+    public void lucasTest() {
+        int x = 12;
+        int y = 16;
+        assertEquals(28,x+y);
+    }
 }
