@@ -32,4 +32,11 @@ public class AppTest
         int b = 8;
         assertEquals(15,a+b);
     }
+
+    @Test
+    public void philipTest() {
+        int one = 1;
+        int three = 3;
+        assertEquals(4,one+three);
+    }
 }
