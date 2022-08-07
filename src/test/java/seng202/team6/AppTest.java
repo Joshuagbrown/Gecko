@@ -34,6 +34,13 @@ public class AppTest
     }
 
     @Test
+    public void swanTest() {
+        int a = 1;
+        int b = 2;
+        assertEquals(3,a+b);
+    }
+
+    @Test
     public void philipTest() {
         int one = 1;
         int three = 3;
