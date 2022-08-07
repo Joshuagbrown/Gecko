@@ -46,4 +46,11 @@ public class AppTest
         int three = 3;
         assertEquals(4,one+three);
     }
+
+    @Test
+    public void corentinTest() {
+        int a = 9;
+        int b = 3;
+        assertEquals(12, a+b);
+    }
 }
