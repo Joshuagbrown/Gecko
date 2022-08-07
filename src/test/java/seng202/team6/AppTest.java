@@ -48,6 +48,13 @@ public class AppTest
     }
 
     @Test
+    public void lucasTest() {
+        int x = 12;
+        int y = 16;
+        assertEquals(28,x+y);
+    }
+
+    @Test
     public void corentinTest() {
         int a = 9;
         int b = 3;
