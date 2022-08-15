@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
  */
 public class CSVImporterTest {
     @Test
-    public void testReadFromValidFileDoesNotError() throws URISyntaxException {
+    public void testReadFromFileWithValidFileDoesNotError() throws URISyntaxException {
         CSVImporter importer = new CSVImporter();
         File file = new File(getClass().getResource("/validCSVTest.csv").toURI());
         assertDoesNotThrow(() -> importer.readFromFile(file));
