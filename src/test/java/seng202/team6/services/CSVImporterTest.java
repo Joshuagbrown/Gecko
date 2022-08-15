@@ -19,4 +19,11 @@ public class CSVImporterTest {
         File file = new File(getClass().getResource("/validCSVTest.csv").toURI());
         assertDoesNotThrow(() -> importer.readFromFile(file));
     }
+
+    @Test
+    public void testReadFromFileWithInconsistentDataSizeThrows() throws URISyntaxException {
+        CSVImporter importer = new CSVImporter();
+        File file = new File(getClass().getResource("/invalidCSVTest.csv").toURI());
+        assertThrows(RuntimeException.class, () -> importer.readFromFile(file));
+    }
 }
