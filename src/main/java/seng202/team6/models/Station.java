@@ -2,6 +2,9 @@ package seng202.team6.models;
 
 import java.util.List;
 
+/**
+ * Represents a charging station
+ */
 public class Station {
     private Position coordinates;
     private int objectId;
