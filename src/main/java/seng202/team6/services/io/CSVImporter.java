@@ -48,8 +48,8 @@ public class CSVImporter implements Importable<Station> {
     private Station readStationFromLine(String[] line) throws LineValidationException {
         // Initialise position
         try {
-            float xCoord = Float.parseFloat(line[0]);
-            float yCoord = Float.parseFloat(line[1]);
+            double yCoord = Double.parseDouble(line[1]);
+            double xCoord = Double.parseDouble(line[0]);
             Position coordinates = new Position(xCoord, yCoord);
 
             String name = line[3];
