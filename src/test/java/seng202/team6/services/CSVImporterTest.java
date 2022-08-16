@@ -1,29 +1,34 @@
 package seng202.team6.services;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import seng202.team6.exceptions.ValidationException;
+import seng202.team6.models.Station;
 import seng202.team6.services.io.CSVImporter;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
- * Test CSVImporter implementation
+ * Test CSVImporter
  * @author Philip Dolbel
  */
 public class CSVImporterTest {
     @Test
-    public void testReadFromFileWithValidFileDoesNotError() throws URISyntaxException {
-        CSVImporter importer = new CSVImporter();
-        File file = new File(getClass().getResource("/validCSVTest.csv").toURI());
-        assertDoesNotThrow(() -> importer.readFromFile(file));
+    public void readFromInvalidCSVShouldThrow() {
+        CSVImporter csvImporter = new CSVImporter();
+        assertThrows(ValidationException.class,
+            () ->csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI())));
     }
 
     @Test
-    public void testReadFromFileWithInconsistentDataSizeThrows() throws URISyntaxException {
-        CSVImporter importer = new CSVImporter();
-        File file = new File(getClass().getResource("/invalidCSVTest.csv").toURI());
-        assertThrows(RuntimeException.class, () -> importer.readFromFile(file));
+    public void readFromValidCSVReadsTheCorrectNumberOfStations() throws URISyntaxException, ValidationException {
+        CSVImporter csvImporter = new CSVImporter();
+        List<Station> stations =  csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
+        assertEquals(4, stations.size());
     }
+
 }

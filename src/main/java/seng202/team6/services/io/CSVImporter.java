@@ -1,29 +1,30 @@
 package seng202.team6.services.io;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import seng202.team6.exceptions.ValidationException;
+import seng202.team6.models.Station;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-
-public class CSVImporter implements Importable<CSVRecord> {
+public class CSVImporter implements Importable<Station> {
 
     @Override
-    public List<CSVRecord> readFromFile(File file) {
+    public List<Station> readFromFile(File file) throws ValidationException {
+        try (CSVReader reader = new CSVReader(new FileReader(file))) {
+            reader.skip(1);
+            String[] line;
+            while ((line = reader.readNext()) != null) {
 
-        try (CSVParser parser = CSVFormat.DEFAULT.builder()
-                .setSkipHeaderRecord(true).build().parse(new FileReader(file))) {
-            for (CSVRecord csvRecord : parser.getRecords()) {
-                if (!csvRecord.isConsistent()) {
-                    throw new RuntimeException("File is inconsistent");
-                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (CsvValidationException e) {
+            throw new ValidationException(e);
         }
         return new ArrayList<>();
     }
