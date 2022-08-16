@@ -12,7 +12,7 @@
          <children>
             <SplitPane dividerPositions="0.15675403225806453" layoutX="-29.0" layoutY="72.0" orientation="VERTICAL" prefHeight="398.4" prefWidth="116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="114.0">
+                <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="59.2" prefWidth="114.0">
                      <children>
                         <ImageView layoutX="-57.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true" />
                         <Text layoutX="18.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ElecTrip" wrappingWidth="81.21484756469727">
@@ -29,7 +29,7 @@
                                  <children>
                                     <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="247.2" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="77.6" prefWidth="160.0">
                                  <children>
                                     <GridPane layoutX="-32.0" layoutY="-11.0" prefHeight="68.8" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
@@ -60,7 +60,7 @@
          </children></AnchorPane>
       <SplitPane dividerPositions="0.11596385542168676" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="43.2" prefWidth="160.0">
                <children>
                   <GridPane layoutX="70.0" layoutY="-24.0" prefHeight="66.4" prefWidth="476.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
