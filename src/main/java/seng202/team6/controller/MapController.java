@@ -33,7 +33,7 @@ public class MapController {
      * Initialise the map view
      * @param stage current stage
      */
-    void init(Stage stage) {
+    public void init(Stage stage) {
         this.stage = stage;
         initMap();
         stage.sizeToScene();
@@ -73,7 +73,7 @@ public class MapController {
      * @return String of html file
      */
     private String getHtml() {
-        InputStream is = getClass().getResourceAsStream("/html/leaftlet_osm_map.html");
+        InputStream is = getClass().getResourceAsStream("/html/leaflet_osm_map.html");
         return new BufferedReader(
                 new InputStreamReader(is, StandardCharsets.UTF_8))
                 .lines()
