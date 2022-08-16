@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import seng202.team6.controller.MapController;
 
 import java.io.IOException;
 
@@ -21,10 +22,10 @@ public class MainWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
         Parent root = baseLoader.load();
 
-        MainController baseController = baseLoader.getController();
+        MapController baseController = baseLoader.getController();
         baseController.init(primaryStage);
 
         primaryStage.setTitle("Revolt App");
