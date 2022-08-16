@@ -27,7 +27,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="176.0" prefWidth="113.0">
                                  <children>
-                                    <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" prefHeight="247.2" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="247.2" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>

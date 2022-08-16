@@ -26,7 +26,7 @@ public class MainApplication extends Application {
             MainScreenController baseController = baseLoader.getController();
             baseController.init(primaryStage);
 
-            primaryStage.setTitle("Sales App");
+            primaryStage.setTitle("ElecTrip App");
             Scene scene = new Scene(root, 600, 400);
             //scene.getStylesheets().add(getClass().getResource("/stylesheets/login.css").toExternalForm());
             // Add a custom application icon
