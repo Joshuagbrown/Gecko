@@ -21,7 +21,7 @@ public class MainWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
         Parent root = baseLoader.load();
 
         MainController baseController = baseLoader.getController();
