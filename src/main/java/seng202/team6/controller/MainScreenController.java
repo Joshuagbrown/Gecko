@@ -4,12 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -67,20 +63,35 @@ public class MainScreenController {
     }
 
     @FXML
-    private void LoadDataView(Stage stage){
+    private void LoadDataViewAndToolBars(Stage stage){
         try {
             // Load our sales_table.fxml file
-            FXMLLoader dataViewLoader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
+            FXMLLoader dataViewLoader = new FXMLLoader(getClass().getResource("/fxml/Data.fxml"));
             // Get the root FXML element after loading
             Parent dataViewParent = dataViewLoader.load();
             // Get access to the controller the FXML is using
-            TableController dataController = dataViewLoader.getController();
+            DataController dataController = dataViewLoader.getController();
             // Initialise the controller
             dataController.init(stage);
 
             // Set the root of our new component to the center of the borderpane
 
             ScrollPaneMainScreen.setContent(dataViewParent);
+
+
+            FXMLLoader mapToolBarLoader = new FXMLLoader(getClass().getResource("/fxml/DataToolBar.fxml"));
+            // Get the root FXML element after loading
+            Parent mapToolBarParent = mapToolBarLoader.load();
+            // Get access to the controller the FXML is using
+            MapController mapToolBarController = mapToolBarLoader.getController();
+            // Initialise the controller
+            dataController.init(stage);
+
+            // Set the root of our new component to the center of the borderpane
+
+            toolBarPane.setCenter(mapToolBarParent);
+            //toolBarPane.getChildren().add(mapToolBarParent);
+            //toolBarPane.setTop(mapToolBarParent);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +101,7 @@ public class MainScreenController {
         LoadMapViewAndToolBars(stage);
     }
 
-    public void LoadDataView(ActionEvent actionEvent) {
-        LoadDataView(stage);
+    public void LoadDataViewAndToolBars(ActionEvent actionEvent) {
+        LoadDataViewAndToolBars(stage);
     }
 }

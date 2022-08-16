@@ -7,7 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.controller.TableController;
+import seng202.team6.controller.DataController;
 
 import java.io.IOException;
 
@@ -28,10 +28,10 @@ public class MainController {
      * @param stage Top level container for this window
      */
     public void init(Stage stage) throws IOException {
-        FXMLLoader tableLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
+        FXMLLoader tableLoader = new FXMLLoader(getClass().getResource("/fxml/Data.fxml"));
         Parent tableParent = tableLoader.load();
 
-        TableController tableController = tableLoader.getController();
+        DataController tableController = tableLoader.getController();
         tableController.init(stage);
 
         scrollPaneMainScreen.setContent(tableParent);
