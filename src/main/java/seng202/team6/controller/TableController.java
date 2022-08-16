@@ -1,4 +1,4 @@
-package seng202.team6.gui;
+package seng202.team6.controller;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -58,7 +58,7 @@ public class TableController {
 
         try {
             CSVImporter csvImporter = new CSVImporter();
-            List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
+            List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/full.csv").toURI()));
             table.getItems().addAll(stations);
         } catch (Exception e) {
             log.error(e);

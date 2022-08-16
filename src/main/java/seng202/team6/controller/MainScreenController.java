@@ -64,12 +64,33 @@ public class MainScreenController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @FXML
+    private void LoadDataView(Stage stage){
+        try {
+            // Load our sales_table.fxml file
+            FXMLLoader dataViewLoader = new FXMLLoader(getClass().getResource("/fxml/Table.fxml"));
+            // Get the root FXML element after loading
+            Parent dataViewParent = dataViewLoader.load();
+            // Get access to the controller the FXML is using
+            TableController dataController = dataViewLoader.getController();
+            // Initialise the controller
+            dataController.init(stage);
 
+            // Set the root of our new component to the center of the borderpane
 
+            ScrollPaneMainScreen.setContent(dataViewParent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void LoadMapViewAndToolBars(ActionEvent actionEvent) {
         LoadMapViewAndToolBars(stage);
+    }
+
+    public void LoadDataView(ActionEvent actionEvent) {
+        LoadDataView(stage);
     }
 }
