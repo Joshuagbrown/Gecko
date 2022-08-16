@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MainWindow extends Application {
 
     /**
-     * Opens the gui with the fxml content specified in resources/fxml/main.fxml
+     * Opens the gui with the fxml content specified in resources/fxml/table.fxml
      * @param primaryStage The current fxml stage, handled by javaFX Application class
      * @throws IOException if there is an issue loading fxml file
      */
@@ -28,7 +28,7 @@ public class MainWindow extends Application {
         baseController.init(primaryStage);
 
         primaryStage.setTitle("Revolt App");
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 580, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

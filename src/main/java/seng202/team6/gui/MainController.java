@@ -1,11 +1,16 @@
 package seng202.team6.gui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 /**
  * Controller for the main.fxml window
@@ -16,18 +21,21 @@ public class MainController {
     private static final Logger log = LogManager.getLogger();
 
     @FXML
-    private Label defaultLabel;
-
-    @FXML
-    private Button defaultButton;
-
+    public ScrollPane scrollPaneMainScreen;
 
     /**
      * Initialize the window
      *
      * @param stage Top level container for this window
      */
-    public void init(Stage stage) {
+    public void init(Stage stage) throws IOException {
+        FXMLLoader tableLoader = new FXMLLoader(getClass().getResource("/fxml/table.fxml"));
+        Parent tableParent = tableLoader.load();
+
+        TableController tableController = tableLoader.getController();
+        tableController.init(stage);
+
+        scrollPaneMainScreen.setContent(tableParent);
     }
 
 }

@@ -1,5 +1,7 @@
 package seng202.team6.models;
 
+import javafx.scene.text.Text;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +25,14 @@ public class Station {
     public Station(Position coordinates, String name) {
         this.coordinates = coordinates;
         this.name = name;
+    }
+
+    public Position getCoordinates() {
+        return coordinates;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
