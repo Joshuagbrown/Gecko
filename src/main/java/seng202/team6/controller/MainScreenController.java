@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,10 +29,8 @@ public class MainScreenController {
         LoadMapViewAndToolBars(stage);
         stage.sizeToScene();
     }
+
     @FXML
-    void LoadMapViewAndToolBar(Stage stage) {LoadMapViewAndToolBars(stage);}
-
-
     private void LoadMapViewAndToolBars(Stage stage){
         try {
             // Load our sales_table.fxml file
@@ -58,6 +57,8 @@ public class MainScreenController {
             // Set the root of our new component to the center of the borderpane
 
             toolBarPane.setCenter(mapToolBarParent);
+            //toolBarPane.getChildren().add(mapToolBarParent);
+            //toolBarPane.setTop(mapToolBarParent);
 
 
         } catch (IOException e) {
@@ -66,5 +67,9 @@ public class MainScreenController {
 
 
 
+    }
+
+    public void LoadMapViewAndToolBars(ActionEvent actionEvent) {
+        LoadMapViewAndToolBars(stage);
     }
 }

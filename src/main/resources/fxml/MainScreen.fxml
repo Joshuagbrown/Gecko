@@ -27,7 +27,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="176.0" prefWidth="113.0">
                                  <children>
-                                    <BorderPane fx:id="ToolBarPane" layoutX="-44.0" layoutY="24.0" prefHeight="247.2" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" prefHeight="247.2" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
@@ -72,7 +72,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#LoadMapViewAndToolBar" text="Map">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#LoadMapViewAndToolBars" text="Map">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                            </GridPane.margin>

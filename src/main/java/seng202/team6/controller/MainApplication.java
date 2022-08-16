@@ -9,42 +9,37 @@ import javafx.stage.Stage;
 import seng202.team6.gui.MainController;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainApplication extends Application {
-    /*@Override
-    public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainScreen.fxml"));
-        //primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
-    }*/
-    //public class App extends javafx.application.Application {
 
-        /*@Override
-        public void start(Stage primaryStage) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-            MainScreenController control = new MainScreenController();
-            loader.setController(control);
-            //loader.setController(this);
-            Stage stage = primaryStage;
-            stage.show();"/fxml/MainScreen.fxml"
-        }*/
         @Override
         public void start(Stage primaryStage) throws IOException {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainScreen.fxml"));
+
+
+                /*Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/fxml/MainScreen.fxml"));
                 primaryStage.setTitle("Hello World");
                 primaryStage.setScene(new Scene(root, 300, 275));
-                primaryStage.show();
-            }catch (Exception e){
+                primaryStage.show();*/
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
+            Parent root = baseLoader.load();
+            MainScreenController baseController = baseLoader.getController();
+            baseController.init(primaryStage);
 
-        }
+            primaryStage.setTitle("Sales App");
+            Scene scene = new Scene(root, 600, 400);
+            //scene.getStylesheets().add(getClass().getResource("/stylesheets/login.css").toExternalForm());
+            // Add a custom application icon
+            //primaryStage.getIcons().add(new Image(getClass().getResource("/images/icon.png").toExternalForm()));
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-    }
+
+
+            }
 
 
 
-    public static void main(String[] args) {
-        launch();
-    }
+
+    public static void main(String[] args) { launch(args); }
 }
