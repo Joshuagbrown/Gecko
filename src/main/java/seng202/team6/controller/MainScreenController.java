@@ -19,15 +19,26 @@ public class MainScreenController {
 
     private Stage stage;
 
+    /**
+     * Initialize the window
+     *
+     * @param stage Top level container for this window
+     */
     void init(Stage stage) {
-        this.stage = stage;
 
+        this.stage = stage;
         LoadMapViewAndToolBars(stage);
         stage.sizeToScene();
     }
 
+    /**
+     * Load the map view and the related toolbar when the map button is clicked
+     *
+     * @param stage Top level container for this window
+     */
     @FXML
     private void LoadMapViewAndToolBars(Stage stage){
+
         try {
             // Load our sales_table.fxml file
             FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
@@ -53,8 +64,6 @@ public class MainScreenController {
             // Set the root of our new component to the center of the borderpane
 
             toolBarPane.setCenter(mapToolBarParent);
-            //toolBarPane.getChildren().add(mapToolBarParent);
-            //toolBarPane.setTop(mapToolBarParent);
 
 
         } catch (IOException e) {
@@ -62,6 +71,11 @@ public class MainScreenController {
         }
     }
 
+    /**
+     * Load the data view and the related toolbar when the map button is clicked
+     *
+     * @param stage Top level container for this window
+     */
     @FXML
     private void LoadDataViewAndToolBars(Stage stage){
         try {
@@ -90,17 +104,26 @@ public class MainScreenController {
             // Set the root of our new component to the center of the borderpane
 
             toolBarPane.setCenter(mapToolBarParent);
-            //toolBarPane.getChildren().add(mapToolBarParent);
-            //toolBarPane.setTop(mapToolBarParent);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * The action handler that linked to the map button on main screen
+     *
+     * @param actionEvent Top level container for this window
+     */
     public void LoadMapViewAndToolBars(ActionEvent actionEvent) {
         LoadMapViewAndToolBars(stage);
     }
 
+    /**
+     * The action handler that linked to the map button on main screen
+     *
+     * @param actionEvent Top level container for this window
+     */
     public void LoadDataViewAndToolBars(ActionEvent actionEvent) {
         LoadDataViewAndToolBars(stage);
     }

@@ -17,20 +17,17 @@ public class MainApplication extends Application {
         public void start(Stage primaryStage) throws IOException {
 
 
-                /*Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/fxml/MainScreen.fxml"));
-                primaryStage.setTitle("Hello World");
-                primaryStage.setScene(new Scene(root, 300, 275));
-                primaryStage.show();*/
+
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
             Parent root = baseLoader.load();
             MainScreenController baseController = baseLoader.getController();
             baseController.init(primaryStage);
 
             primaryStage.setTitle("ElecTrip App");
-            Scene scene = new Scene(root, 600, 400);
-            //scene.getStylesheets().add(getClass().getResource("/stylesheets/login.css").toExternalForm());
+            Scene scene = new Scene(root, 1200, 800);
+
             // Add a custom application icon
-            //primaryStage.getIcons().add(new Image(getClass().getResource("/images/icon.png").toExternalForm()));
+
             primaryStage.setScene(scene);
             primaryStage.show();
 

@@ -36,7 +36,6 @@ public class MapController {
     public void init(Stage stage) {
         this.stage = stage;
         initMap();
-        stage.sizeToScene();
     }
 
 
