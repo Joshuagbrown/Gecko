@@ -18,19 +18,22 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 
-
+/**
+ * Map Controller Class
+ * Based off LeafletOSMViewController from seng202-advanced-fx-public by Morgan English
+ * @author Tara Lipscombe and Lucas Redding
+ */
 public class MapController {
 
     private static final Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
-
     @FXML
     private WebView webView;
     private WebEngine webEngine;
     private Stage stage;
 
     /**
-     * Initialise the map view
+     * Initialises the map view
      * @param stage current stage
      */
     public void init(Stage stage) {
