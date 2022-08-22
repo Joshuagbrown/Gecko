@@ -16,6 +16,9 @@ public class MainScreenController {
     public ScrollPane ScrollPaneMainScreen;
     @FXML
     public BorderPane toolBarPane;
+    public BorderPane mainBorderPane;
+
+    private String currentStage = null;
 
     private Stage stage;
 
@@ -27,7 +30,12 @@ public class MainScreenController {
     void init(Stage stage) {
 
         this.stage = stage;
-        LoadMapViewAndToolBars(stage);
+        //LoadMapViewAndToolBars(stage);
+        try {
+            loadMapAndToolBar();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         stage.sizeToScene();
     }
     public Stage getStage() {
@@ -88,8 +96,9 @@ public class MainScreenController {
     public void LoadMapViewAndToolBars(ActionEvent actionEvent) throws IOException {
 
         LoadScreen screen = new LoadScreen();
-        screen.LoadBigScreen(stage,"/fxml/Map.fxml",ScrollPaneMainScreen);
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",ScrollPaneMainScreen));
         screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,ScrollPaneMainScreen);
+        currentStage = "Map";
 
     }
 
@@ -101,21 +110,38 @@ public class MainScreenController {
     public void LoadDataViewAndToolBars(ActionEvent actionEvent) throws IOException {
 
         LoadScreen screen = new LoadScreen();
-        screen.LoadBigScreen(stage,"/fxml/Data.fxml",ScrollPaneMainScreen);
-        screen.LoadToolBar(stage,"/fxml/DataToolBar.fxml",toolBarPane,ScrollPaneMainScreen);
+        mainBorderPane.setCenter(screen.LoadBigScreen(this.stage,"/fxml/Data.fxml",ScrollPaneMainScreen));
+        screen.LoadToolBar(this.stage,"/fxml/DataToolBar.fxml",toolBarPane,ScrollPaneMainScreen);
+        currentStage = "Data";
     }
 
     public void loadHelpScreenAndToolBar(ActionEvent actionEvent) throws IOException {
 
-        LoadScreen screen = new LoadScreen();
-        screen.LoadBigScreen(stage,"/fxml/Help.fxml",ScrollPaneMainScreen);
-        screen.LoadToolBar(stage,"/fxml/HelpToolBar.fxml",toolBarPane,ScrollPaneMainScreen);
+        if (currentStage == "Map") {
+            LoadScreen screen = new LoadScreen();
+            mainBorderPane.setRight(screen.LoadBigScreen(stage, "/fxml/MapHelpScreen.fxml", ScrollPaneMainScreen));
+
+
+
+
+        } else if (currentStage == "Data") {
+
+        } else {
+            LoadScreen screen = new LoadScreen();
+            mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Help.fxml", ScrollPaneMainScreen));
+            screen.LoadToolBar(stage, "/fxml/HelpToolBar.fxml", toolBarPane, ScrollPaneMainScreen);
+        }
+
     }
 
     public void loadMapAndToolBar() throws IOException {
         LoadScreen screen = new LoadScreen();
-        screen.LoadBigScreen(stage,"/fxml/Map.fxml",ScrollPaneMainScreen);
+
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",ScrollPaneMainScreen));
         screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,ScrollPaneMainScreen);
     }
 
+    public void loadMyDetail(ActionEvent actionEvent) {
+        currentStage = "Detail";
+    }
 }

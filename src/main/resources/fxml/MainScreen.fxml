@@ -82,7 +82,7 @@
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="My Details" GridPane.columnIndex="2">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMyDetail" text="My Details" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </GridPane.margin>
@@ -92,7 +92,11 @@
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <ScrollPane fx:id="ScrollPaneMainScreen" fitToHeight="true" fitToWidth="true" layoutX="109.0" layoutY="-19.0" prefHeight="326.4" prefWidth="477.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <BorderPane fx:id="mainBorderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <center>
+                        <ScrollPane fx:id="ScrollPaneMainScreen" fitToHeight="true" fitToWidth="true" prefHeight="326.4" prefWidth="477.0" />
+                     </center>
+                  </BorderPane>
                </children></AnchorPane>
         </items>
       </SplitPane>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.FAQController">
+  <panes>
+    <TitledPane animated="false" text="What is the general feature of the app?">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="generalFeatureText" layoutX="66.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </AnchorPane>
+      </content>
+    </TitledPane>
+      <TitledPane animated="false" layoutX="10.0" layoutY="10.0" text="What is the Advance feature of the app?">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="advanceFeatureText" layoutX="66.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+  </panes>
+</Accordion>
