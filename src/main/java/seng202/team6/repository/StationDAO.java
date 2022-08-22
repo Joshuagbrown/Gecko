@@ -1,12 +1,11 @@
 package seng202.team6.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StationDAO implements DAOInterface<Station> {
@@ -22,7 +21,24 @@ public class StationDAO implements DAOInterface<Station> {
 
     @Override
     public List<Station> getAll() {
-        return null;
+        List<Station> stations = new ArrayList<>();
+        String sql = "SELECT * FROM stations";
+        try (Connection conn = databaseManager.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                stations.add(new Station(
+                        new Position(
+                                rs.getDouble("lat"),
+                                rs.getDouble("long")
+                        ),
+                        rs.getString("name")
+                ));
+            }
+            return stations;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
