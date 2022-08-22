@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 
-public class MapController {
+public class MapController implements ScreenController{
 
     private static final Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;

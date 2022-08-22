@@ -14,7 +14,7 @@ import seng202.team6.models.Station;
 import java.io.File;
 import java.util.List;
 
-public class DataController {
+public class DataController implements ScreenController{
 
     private static final Logger log = LogManager.getLogger();
 

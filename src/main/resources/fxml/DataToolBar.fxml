@@ -9,7 +9,7 @@
    <center>
       <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="162.0" minWidth="112.8" prefWidth="202.0" BorderPane.alignment="TOP_LEFT">
         <panes>
-          <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Distance">
+                              <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Distance">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                      <children>
