@@ -13,7 +13,7 @@ public class FAQController implements ScreenController{
     private Stage stage;
 
     @Override
-    public void init(Stage stage) {
+    public void init(Stage stage,MainScreenController controller) {
         this.stage = stage;
         try {
             loadGeneralFeatureText();

@@ -32,7 +32,7 @@ public class MainController {
         Parent tableParent = tableLoader.load();
 
         DataController tableController = tableLoader.getController();
-        tableController.init(stage);
+        tableController.init(stage,null);
 
         scrollPaneMainScreen.setContent(tableParent);
     }

@@ -35,7 +35,7 @@ public class DataController implements ScreenController{
      *
      * @param stage Top level container for this window
      */
-    public void init(Stage stage) {
+    public void init(Stage stage,MainScreenController controller) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xColumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getX()));

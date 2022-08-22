@@ -7,5 +7,5 @@ import java.awt.*;
 import java.io.IOException;
 
 public interface ToolBarController  {
-    void init(Stage stage, ScrollPane pane);
+    void init(Stage stage, MainScreenController controller);
 }

@@ -5,11 +5,11 @@ import javafx.stage.Stage;
 
 public class MapToolBarController implements ToolBarController {
     private Stage stage;
-    private ScrollPane pane;
+    private MainScreenController controller;
 
     @Override
-    public void init(Stage stage, ScrollPane pane) {
+    public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
-        this.pane = pane;
+        this.controller = controller;
     }
 }

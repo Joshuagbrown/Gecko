@@ -26,7 +26,7 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
 
         MapController baseController = baseLoader.getController();
-        baseController.init(primaryStage);
+        baseController.init(primaryStage,null);
 
         primaryStage.setTitle("Revolt App");
         Scene scene = new Scene(root, 580, 400);

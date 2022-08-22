@@ -33,7 +33,7 @@ public class MapController implements ScreenController{
      * Initialise the map view
      * @param stage current stage
      */
-    public void init(Stage stage) {
+    public void init(Stage stage,MainScreenController controller) {
         this.stage = stage;
         initMap();
     }

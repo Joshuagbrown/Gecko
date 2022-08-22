@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -33,4 +34,14 @@
    <bottom>
       <Button mnemonicParsing="false" onAction="#exitScreen" text="Exit" BorderPane.alignment="CENTER_RIGHT" />
    </bottom>
+   <top>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="47.0" maxWidth="1.7976931348623157E308" prefHeight="34.0" text="Help section for map screen" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </Label>
+   </top>
 </BorderPane>
