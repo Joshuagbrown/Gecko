@@ -9,12 +9,16 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.models.Position;
+import seng202.team6.models.Station;
 
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -67,6 +71,7 @@ public class MapController {
 
                         javaScriptConnector.call("initMap");
 
+                        addStationsToMap();
                     }
                 });
     }
@@ -82,6 +87,38 @@ public class MapController {
                 .lines()
                 .collect(Collectors.joining("\n"));
     }
+
+
+    private void addStationsToMap() {
+        Position firstPos = new Position(-43.557139, 172.680089);
+        Station firstStation = new Station(firstPos, "The Tannery");
+
+        Position secondPos = new Position(-43.539238, 172.607516);
+        Station secondStation = new Station(secondPos, "Tower Junction");
+
+        Position thirdPos = new Position(-43.5531026851514, 172.556282579727);
+        Station thirdStation = new Station(thirdPos, "SILKY OTTER CINEMA");
+
+        Position fourthPos = new Position(-43.53300448, 172.6418037);
+        Station fourthStation = new Station(fourthPos, "LES MILLS CHRISTCHURCH");
+
+        List<Station> stations = new ArrayList<Station>();
+        stations.add(firstStation);
+        stations.add(secondStation);
+        stations.add(thirdStation);
+        stations.add(fourthStation);
+
+        for (Station station : stations) {
+            addStation(station);
+        }
+    }
+
+
+    private void addStation(Station station) {
+        javaScriptConnector.call("addMarker", station.getName(), station.getCoordinates().getX(), station.getCoordinates().getY());
+    }
+
+
 
 
 
