@@ -98,9 +98,7 @@ public class MainScreenController {
 
         LoadScreen screen = new LoadScreen();
         mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",this));
-        System.out.println("got here");
         screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,this);
-        System.out.println("got here too");
         currentStage = "Map";
         mainBorderPane.setRight(null);
 
