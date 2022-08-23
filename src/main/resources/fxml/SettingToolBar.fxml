@@ -3,10 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-      <ToolBar orientation="VERTICAL" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="221.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.SettingToolBarController">
+   <center>
+      <ToolBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="400.0" prefWidth="336.0" BorderPane.alignment="CENTER">
         <items>
           <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Admin Setting" />
             <Button layoutX="10.0" layoutY="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="User Setting" />
@@ -14,5 +13,5 @@
             <Button layoutX="10.0" layoutY="69.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Quit app" />
         </items>
       </ToolBar>
-   </left>
+   </center>
 </BorderPane>

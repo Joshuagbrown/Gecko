@@ -152,7 +152,11 @@ public class MainScreenController {
     }
 
 
-    public void loadSetting(ActionEvent actionEvent) {
+    public void loadSetting(ActionEvent actionEvent) throws IOException {
+        LoadScreen screen = new LoadScreen();
+
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Setting.fxml",this));
+        screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml",toolBarPane,this);
 
     }
 }
