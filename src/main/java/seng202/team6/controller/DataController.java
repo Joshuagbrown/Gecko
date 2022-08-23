@@ -14,7 +14,7 @@ import seng202.team6.models.Station;
 import java.io.File;
 import java.util.List;
 
-public class DataController {
+public class DataController implements ScreenController{
 
     private static final Logger log = LogManager.getLogger();
 
@@ -35,7 +35,7 @@ public class DataController {
      *
      * @param stage Top level container for this window
      */
-    public void init(Stage stage) {
+    public void init(Stage stage,MainScreenController controller) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xColumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getX()));

@@ -1,4 +1,12 @@
 package seng202.team6.controller;
 
-public class SettingController {
+import javafx.stage.Stage;
+
+public class SettingController implements ScreenController {
+    private Stage stage;
+
+    @Override
+    public void init(Stage stage,MainScreenController controller) {
+        this.stage = stage;
+    }
 }

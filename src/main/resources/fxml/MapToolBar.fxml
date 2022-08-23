@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
    <center>
       <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" BorderPane.alignment="TOP_LEFT">
         <panes>
@@ -64,7 +64,7 @@
                           </rowConstraints>
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
-                              <Button fx:id="newStationButton" onAction="#addNewStation" text="Add Station!" GridPane.rowIndex="6" />
+                              <Button fx:id="newStationButton" text="Add Station!" GridPane.rowIndex="6" />
                               <TextField fx:id="newStationTitle" GridPane.rowIndex="1" />
                               <TextField fx:id="newStationLatitude" GridPane.rowIndex="3" />
                               <TextField fx:id="newStationLongitude" GridPane.rowIndex="5" />
