@@ -131,7 +131,7 @@ public class MapController implements ScreenController{
 
 
     private void addStation(Station station) {
-        javaScriptConnector.call("addMarker", station.getName(), station.getCoordinates().getX(), station.getCoordinates().getY());
+        javaScriptConnector.call("addMarker", station.getName(), station.getCoordinates().getFirst(), station.getCoordinates().getSecond());
     }
 
 
