@@ -2,11 +2,7 @@ package seng202.team6.controller;
 
 import com.sun.javafx.webkit.WebConsoleListener;
 import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -39,18 +35,6 @@ public class MapController {
     private WebView webView;
     private WebEngine webEngine;
     private Stage stage;
-
-    @FXML
-    private TextField newStationTitle;
-
-    @FXML
-    private TextField newStationLatitude;
-
-    @FXML
-    private TextField newStationLongitude;
-
-    @FXML
-    private Button newStationButton;
 
     /**
      * Initialises the map view
@@ -88,7 +72,6 @@ public class MapController {
                         javaScriptConnector.call("initMap");
 
                         addStationsToMap();
-
                     }
                 });
     }
@@ -136,14 +119,14 @@ public class MapController {
     }
 
 
-    public void addNewStation(ActionEvent actionEvent) {
-        String stationTitle = newStationTitle.getText();
-        Double latitude = Double.parseDouble(newStationLatitude.getText());
-        Double longitude = Double.parseDouble(newStationLongitude.getText());
 
-        Position pos = new Position(latitude, longitude);
-        Station newStation = new Station(pos, stationTitle);
 
-        addStation(newStation);
-    }
+
+
+
+
+
+
+
+
 }
