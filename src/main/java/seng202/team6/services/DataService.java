@@ -26,7 +26,6 @@ public class DataService {
             log.error(e);
         }
     }
-
     public static void main(String[] args) throws URISyntaxException {
         DataService serv = new DataService();
         serv.loadDataFromCSV(new File(DataService.class.getResource("/small.csv").toURI()));

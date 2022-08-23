@@ -44,9 +44,9 @@ public class CSVImporterTest {
     public void validCSVLinesShouldBeParsedProperly() throws URISyntaxException, CSVFileException {
         CSVImporter csvImporter = new CSVImporter();
         List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
-        assertEquals(stations.get(0), new Station(new Position(1366541.2354, 5153202.1642), "YHA MT COOK"));
-        assertEquals(stations.get(1), new Station(new Position(1570148.5238, 5173542.4743), "CHRISTCHURCH ADVENTURE PARK"));
-        assertEquals(stations.get(2), new Station(new Position(1822955.3955, 5488854.3202), "PUKAHA NATIONAL WILDLIFE CENTRE"));
+        assertEquals(stations.get(0), new Station(new Position(-43.73745, 170.100913), "YHA MT COOK"));
+        assertEquals(stations.get(1), new Station(new Position(-43.59049, 172.630201), "CHRISTCHURCH ADVENTURE PARK"));
+        assertEquals(stations.get(2), new Station(new Position(-40.721068, 175.639788), "PUKAHA NATIONAL WILDLIFE CENTRE"));
     }
 
 }

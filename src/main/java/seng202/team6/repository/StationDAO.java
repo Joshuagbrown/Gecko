@@ -56,8 +56,8 @@ public class StationDAO implements DAOInterface<Station> {
         String sql = "INSERT INTO stations (lat, long, name) values (?,?,?);";
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setDouble(1, toAdd.getCoordinates().getX());
-            ps.setDouble(2, toAdd.getCoordinates().getY());
+            ps.setDouble(1, toAdd.getCoordinates().getFirst());
+            ps.setDouble(2, toAdd.getCoordinates().getSecond());
             ps.setString(3, toAdd.getName());
 
             ps.executeUpdate();
