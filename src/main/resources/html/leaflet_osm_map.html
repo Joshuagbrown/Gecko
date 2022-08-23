@@ -31,13 +31,14 @@
      * This object can be returned to our java code, where we can call the functions we define inside of it
      */
     let jsConnector = {
+        addMarker: addMarker,
         initMap: initMap
     };
 
 
     function initMap() {
         var mapOptions = {
-            center: [-44.0, 171.0],
+            center: [-43.525650, 172.639847],
             zoom: 10
         }
         map = new L.map('map', mapOptions);
@@ -45,6 +46,20 @@
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map)
     }
+
+    /**
+     * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
+     * @param title tooltip to display on hover
+     * @param lat latitude to place marker at
+     * @param lng longitude to place marker at
+     */
+    function addMarker(title, lat, lng) {
+        var m = new L.Marker([lat, lng])
+        m.bindPopup(title).openPopup()
+        m.addTo(map)
+        markers.push(m)
+    }
+
 
 
 </script>
