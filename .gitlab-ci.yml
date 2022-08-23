@@ -8,4 +8,4 @@ generate_artifacts:
     - mvn -B clean package
   artifacts:
     paths:
-    - target/[your_project_name]*.jar
+    - target/revolt*.jar
