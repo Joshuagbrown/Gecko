@@ -38,9 +38,9 @@ public class DataController implements ScreenController{
     public void init(Stage stage,MainScreenController controller) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getX()));
+                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
         yColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getY()));
+                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getSecond()));
 
         try {
             CSVImporter csvImporter = new CSVImporter();
