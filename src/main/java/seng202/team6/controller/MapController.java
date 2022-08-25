@@ -1,6 +1,13 @@
 package seng202.team6.controller;
 
 import com.sun.javafx.webkit.WebConsoleListener;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,18 +23,8 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-
 /**
- * Map Controller Class
+ * Map Controller Class.
  * Based off LeafletOSMViewController from seng202-advanced-fx-public by Morgan English
  * @author Tara Lipscombe and Lucas Redding
  */
@@ -53,7 +50,7 @@ public class MapController implements ScreenController {
     private Button newStationButton;
 
     /**
-     * Initialises the map view
+     * Initialises the map view.
      * @param stage current stage
      */
     public void init(Stage stage, MainScreenController controller) {
@@ -72,7 +69,8 @@ public class MapController implements ScreenController {
         webEngine.loadContent(getHtml());
         // Forwards console.log() output from any javascript to info log
         WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
-                log.info(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)));
+                log.info(String.format(
+                        "Map WebView console log line: %d, message : %s", lineNumber, message)));
 
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
@@ -81,7 +79,8 @@ public class MapController implements ScreenController {
                         // set our bridge object
                         JSObject window = (JSObject) webEngine.executeScript("window");
                         //window.setMember("javaScriptBridge", javaScriptBridge);
-                        // get a reference to the js object that has a reference to the js methods we need to use in java
+                        // get a reference to the js object that has a reference
+                        // to the js methods we need to use in java
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
 
                         javaScriptConnector.call("initMap");
@@ -131,10 +130,16 @@ public class MapController implements ScreenController {
 
 
     private void addStation(Station station) {
-        javaScriptConnector.call("addMarker", station.getName(), station.getCoordinates().getFirst(), station.getCoordinates().getSecond());
+        javaScriptConnector.call(
+                "addMarker", station.getName(), station.getCoordinates().getFirst(),
+                station.getCoordinates().getSecond());
     }
 
-
+    /**
+     * Action handler method for add new station to map button.
+     *
+     * @param actionEvent button pressed event
+     */
     public void addNewStation(ActionEvent actionEvent) {
         String stationTitle = newStationTitle.getText();
         Double latitude = Double.parseDouble(newStationLatitude.getText());
