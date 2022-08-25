@@ -1,20 +1,30 @@
 package seng202.team6.services;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.io.CSVImporter;
 import seng202.team6.models.Station;
-import seng202.team6.repository.StationDAO;
+import seng202.team6.repository.StationDao;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.List;
-
+/**
+ * Service class to handle accessing and storing the necessary information.
+ * @author Philip Dolbel
+ */
 public class DataService {
     private static final Logger log = LogManager.getLogger();
-    private final StationDAO dao = new StationDAO();
+    private final StationDao dao = new StationDao();
 
-    public void loadDataFromCSV(File file) {
+
+    /**
+     * Loads required data from the provided CSV file. Implements the CsvImporter class to
+     * read the file and then adds the station information to the station dao.
+     *
+     * @param file file to retrieve necessary data from
+     */
+    public void loadDataFromCsv(File file) {
         try {
             CSVImporter csvImporter = new CSVImporter();
             List<Station> stations = csvImporter.readFromFile(file);
@@ -26,8 +36,17 @@ public class DataService {
             log.error(e);
         }
     }
+
+
     public static void main(String[] args) throws URISyntaxException {
         DataService serv = new DataService();
-        serv.loadDataFromCSV(new File(DataService.class.getResource("/small.csv").toURI()));
+
+        try {
+            serv.loadDataFromCsv(new File(DataService.class.getResource("/small.csv").toURI()));
+        } catch (NullPointerException e) {
+            System.out.println("NullPointerException produced in DataService class trying "
+                    + " to load data.");
+        }
+
     }
 }

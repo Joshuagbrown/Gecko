@@ -1,21 +1,30 @@
 package seng202.team6.repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-public class StationDAO implements DAOInterface<Station> {
+/**
+ * Station class which implements the DaoInterface, provides common functionality for
+ * database access.
+ * @author Philip Dolbel
+ */
+public class StationDao implements DaoInterface<Station> {
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger();
 
     /**
-     * Creates new StationDAO object and gets reference to the database singleton
+     * Creates new StationDAO object and gets reference to the database singleton.
      */
-    public StationDAO() {
+    public StationDao() {
         databaseManager = DatabaseManager.getInstance();
     }
 
@@ -47,7 +56,7 @@ public class StationDAO implements DAOInterface<Station> {
     }
 
     /**
-     * Adds a station to the database
+     * Adds a station to the database.
      * @param toAdd object of type T to add
      * @return The id of the station in the db, or -1 if there was an error
      */
