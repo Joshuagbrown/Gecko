@@ -42,7 +42,7 @@ public class DataController implements ScreenController {
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getSecond()));
 
         try {
-            CSVImporter csvImporter = new CSVImporter();
+            CsvImporter csvImporter = new CsvImporter();
             List<Station> stations = csvImporter.readFromFile(
                     new File(getClass().getResource("/full.csv").toURI()));
             table.getItems().addAll(stations);
