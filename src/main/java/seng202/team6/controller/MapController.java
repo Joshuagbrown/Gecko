@@ -15,7 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import seng202.team6.repository.StationDAO;
+import seng202.team6.repository.StationDao;
 
 
 import java.io.BufferedReader;
@@ -39,7 +39,7 @@ public class MapController implements ScreenController {
     @FXML
     private WebView webView;
     private WebEngine webEngine;
-    private StationDAO stationDAO = new StationDAO();
+    private StationDao stationDao = new StationDao();
     private Stage stage;
 
     @FXML
@@ -132,7 +132,7 @@ public class MapController implements ScreenController {
 //        stations.add(thirdStation);
 //        stations.add(fourthStation);
 
-        List<Station> stations = stationDAO.getAll();
+        List<Station> stations = stationDao.getAll();
 
         for (Station station : stations) {
             addStation(station);
