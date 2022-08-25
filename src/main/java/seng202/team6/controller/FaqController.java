@@ -1,13 +1,12 @@
 package seng202.team6.controller;
 
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-public class FAQController implements ScreenController {
+public class FaqController implements ScreenController {
     public Text generalFeatureText;
     public Text advanceFeatureText;
     private Stage stage;
@@ -21,11 +20,17 @@ public class FAQController implements ScreenController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Loads user manual text file onto the screen.
+     *
+     * @throws FileNotFoundException exception thrown when user manual file is not found
+     */
     public void loadGeneralFeatureText() throws FileNotFoundException {
         Scanner text = new Scanner(new File("src/main/resources/fxml/UserManual"));
 
         String lines = "";
-        while (text.hasNextLine()){
+        while (text.hasNextLine()) {
             lines += text.nextLine() + '\n';
 
         }
