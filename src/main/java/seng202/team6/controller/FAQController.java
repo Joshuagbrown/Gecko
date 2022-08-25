@@ -7,13 +7,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class FAQController implements ScreenController{
+public class FAQController implements ScreenController {
     public Text generalFeatureText;
     public Text advanceFeatureText;
     private Stage stage;
 
     @Override
-    public void init(Stage stage,MainScreenController controller) {
+    public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         try {
             loadGeneralFeatureText();
