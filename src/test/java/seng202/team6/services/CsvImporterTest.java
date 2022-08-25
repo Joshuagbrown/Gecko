@@ -1,11 +1,12 @@
 package seng202.team6.services;
 
 import org.junit.jupiter.api.Test;
-import seng202.team6.exceptions.CSVFileException;
-import seng202.team6.exceptions.CSVException;
+
+import seng202.team6.exceptions.CsvException;
+import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import seng202.team6.io.CSVImporter;
+import seng202.team6.io.CsvImporter;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test CSVImporter implementation
  */
-public class CSVImporterTest {
+public class CsvImporterTest {
     // TODO: Not sure how to make an invalid csv file
 //    @Test
 //    public void readFromInvalidCSVFileShouldThrow() {
@@ -27,22 +28,22 @@ public class CSVImporterTest {
 //    }
 
     @Test
-    public void readFromValidCSVReadsTheCorrectNumberOfStations() throws URISyntaxException, CSVException {
-        CSVImporter csvImporter = new CSVImporter();
+    public void readFromValidCSVReadsTheCorrectNumberOfStations() throws URISyntaxException, CsvException {
+        CsvImporter csvImporter = new CsvImporter();
         List<Station> stations =  csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
         assertEquals(4, stations.size());
     }
 
     @Test
-    public void invalidCSVLinesShouldBeSkippedWhenReadingFile() throws URISyntaxException, CSVFileException {
-        CSVImporter csvImporter = new CSVImporter();
+    public void invalidCSVLinesShouldBeSkippedWhenReadingFile() throws URISyntaxException, CsvFileException {
+        CsvImporter csvImporter = new CsvImporter();
         List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/invalidline.csv").toURI()));
         assertEquals(3, stations.size());
     }
 
     @Test
-    public void validCSVLinesShouldBeParsedProperly() throws URISyntaxException, CSVFileException {
-        CSVImporter csvImporter = new CSVImporter();
+    public void validCSVLinesShouldBeParsedProperly() throws URISyntaxException, CsvFileException {
+        CsvImporter csvImporter = new CsvImporter();
         List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
         assertEquals(stations.get(0), new Station(new Position(-43.73745, 170.100913), "YHA MT COOK"));
         assertEquals(stations.get(1), new Station(new Position(-43.59049, 172.630201), "CHRISTCHURCH ADVENTURE PARK"));
