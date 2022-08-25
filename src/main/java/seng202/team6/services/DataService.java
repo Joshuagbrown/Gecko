@@ -2,7 +2,7 @@ package seng202.team6.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.io.CSVImporter;
+import seng202.team6.io.CsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDAO;
 
@@ -16,7 +16,7 @@ public class DataService {
 
     public void loadDataFromCSV(File file) {
         try {
-            CSVImporter csvImporter = new CSVImporter();
+            CsvImporter csvImporter = new CsvImporter();
             List<Station> stations = csvImporter.readFromFile(file);
             for (Station station : stations) {
                 dao.add(station);

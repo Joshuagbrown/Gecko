@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.repository.StationDAO;
 
 
 import java.io.BufferedReader;
@@ -38,6 +39,7 @@ public class MapController implements ScreenController {
     @FXML
     private WebView webView;
     private WebEngine webEngine;
+    private StationDAO stationDAO = new StationDAO();
     private Stage stage;
 
     @FXML
@@ -48,6 +50,12 @@ public class MapController implements ScreenController {
 
     @FXML
     private TextField newStationLongitude;
+
+    @FXML
+    private TextField startLocation;
+
+    @FXML
+    private TextField endLocation;
 
     @FXML
     private Button newStationButton;
@@ -106,23 +114,25 @@ public class MapController implements ScreenController {
 
 
     private void addStationsToMap() {
-        Position firstPos = new Position(-43.557139, 172.680089);
-        Station firstStation = new Station(firstPos, "The Tannery");
+//        Position firstPos = new Position(-43.557139, 172.680089);
+//        Station firstStation = new Station(firstPos, "The Tannery");
+//
+//        Position secondPos = new Position(-43.539238, 172.607516);
+//        Station secondStation = new Station(secondPos, "Tower Junction");
+//
+//        Position thirdPos = new Position(-43.5531026851514, 172.556282579727);
+//        Station thirdStation = new Station(thirdPos, "SILKY OTTER CINEMA");
+//
+//        Position fourthPos = new Position(-43.53300448, 172.6418037);
+//        Station fourthStation = new Station(fourthPos, "LES MILLS CHRISTCHURCH");
+//
+//        List<Station> stations = new ArrayList<Station>();
+//        stations.add(firstStation);
+//        stations.add(secondStation);
+//        stations.add(thirdStation);
+//        stations.add(fourthStation);
 
-        Position secondPos = new Position(-43.539238, 172.607516);
-        Station secondStation = new Station(secondPos, "Tower Junction");
-
-        Position thirdPos = new Position(-43.5531026851514, 172.556282579727);
-        Station thirdStation = new Station(thirdPos, "SILKY OTTER CINEMA");
-
-        Position fourthPos = new Position(-43.53300448, 172.6418037);
-        Station fourthStation = new Station(fourthPos, "LES MILLS CHRISTCHURCH");
-
-        List<Station> stations = new ArrayList<Station>();
-        stations.add(firstStation);
-        stations.add(secondStation);
-        stations.add(thirdStation);
-        stations.add(fourthStation);
+        List<Station> stations = stationDAO.getAll();
 
         for (Station station : stations) {
             addStation(station);
@@ -130,7 +140,7 @@ public class MapController implements ScreenController {
     }
 
 
-    private void addStation(Station station) {
+    public void addStation(Station station) {
         javaScriptConnector.call("addMarker", station.getName(), station.getCoordinates().getFirst(), station.getCoordinates().getSecond());
     }
 
@@ -145,4 +155,11 @@ public class MapController implements ScreenController {
 
         addStation(newStation);
     }
+
+    public void findRoute(ActionEvent actionEvent) {
+        String firstLocation = startLocation.getText();
+        String secondLocation = endLocation.getText();
+        javaScriptConnector.call("addRoute", firstLocation, secondLocation);
+    }
+
 }
