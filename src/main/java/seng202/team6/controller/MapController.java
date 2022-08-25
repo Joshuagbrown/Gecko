@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * Based off LeafletOSMViewController from seng202-advanced-fx-public by Morgan English
  * @author Tara Lipscombe and Lucas Redding
  */
-public class MapController implements ScreenController{
+public class MapController implements ScreenController {
 
     private static final Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
@@ -64,7 +64,7 @@ public class MapController implements ScreenController{
      * Initialises the map view
      * @param stage current stage
      */
-    public void init(Stage stage,MainScreenController controller) {
+    public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         initMap();
     }

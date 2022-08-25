@@ -97,8 +97,10 @@ public class MainScreenController {
     public void LoadMapViewAndToolBars(ActionEvent actionEvent) throws IOException {
 
         LoadScreen screen = new LoadScreen();
-        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",this));
-        screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,this);
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Map.fxml", this));
+        System.out.println("got here");
+        screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml", toolBarPane, this);
+        System.out.println("got here too");
         currentStage = "Map";
         mainBorderPane.setRight(null);
 
@@ -117,8 +119,8 @@ public class MainScreenController {
     public void LoadDataViewAndToolBars(ActionEvent actionEvent) throws IOException {
 
         LoadScreen screen = new LoadScreen();
-        mainBorderPane.setCenter(screen.LoadBigScreen(this.stage,"/fxml/Data.fxml",this));
-        screen.LoadToolBar(this.stage,"/fxml/DataToolBar.fxml",toolBarPane,this);
+        mainBorderPane.setCenter(screen.LoadBigScreen(this.stage, "/fxml/Data.fxml",this));
+        screen.LoadToolBar(this.stage,"/fxml/DataToolBar.fxml", toolBarPane, this);
         currentStage = "Data";
         mainBorderPane.setRight(null);
     }
@@ -137,7 +139,7 @@ public class MainScreenController {
 
         } else {
             LoadScreen screen = new LoadScreen();
-            mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Help.fxml",this));
+            mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Help.fxml", this));
             screen.LoadToolBar(stage, "/fxml/HelpToolBar.fxml", toolBarPane, this);
         }
 
@@ -159,8 +161,8 @@ public class MainScreenController {
     public void loadSetting(ActionEvent actionEvent) throws IOException {
         LoadScreen screen = new LoadScreen();
 
-        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Setting.fxml",this));
-        screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml",toolBarPane,this);
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this));
+        screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml", toolBarPane, this);
 
     }
 }

@@ -10,6 +10,9 @@ import netscape.javascript.JSObject;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
+/**
+ * Controller for the map toolbar.
+ */
 public class MapToolBarController implements ToolBarController {
     private Stage stage;
     private MainScreenController controller;
@@ -34,6 +37,11 @@ public class MapToolBarController implements ToolBarController {
     @FXML
     private Button newStationButton;
 
+    /**
+     * Initializes the controller.
+     * @param stage Primary Stage of the application
+     * @param controller The Controller class for the main screen.
+     */
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
