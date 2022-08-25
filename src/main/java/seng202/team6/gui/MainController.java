@@ -1,5 +1,6 @@
 package seng202.team6.gui;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.controller.DataController;
 
-import java.io.IOException;
 
 /**
  * Controller for the main.fxml window
@@ -23,7 +23,7 @@ public class MainController {
     public ScrollPane scrollPaneMainScreen;
 
     /**
-     * Initialize the window
+     * Initialize the window.
      *
      * @param stage Top level container for this window
      */
@@ -32,7 +32,7 @@ public class MainController {
         Parent tableParent = tableLoader.load();
 
         DataController tableController = tableLoader.getController();
-        tableController.init(stage);
+        tableController.init(stage,null);
 
         scrollPaneMainScreen.setContent(tableParent);
     }

@@ -2,12 +2,11 @@
 
 <?import javafx.scene.control.*?>
 
-
 <TableView fx:id="table" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataController">
   <columns>
     <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Name" />
-    <TableColumn prefWidth="75.0" text="X Coordinate" fx:id="xColumn" />
-    <TableColumn fx:id="yColumn" prefWidth="75.0" text="Y Coordinate" />
+    <TableColumn prefWidth="75.0" text="Latitude" fx:id="xcolumn" />
+    <TableColumn fx:id="ycolumn" prefWidth="75.0" text="Longitude" />
   </columns>
   <columnResizePolicy>
     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

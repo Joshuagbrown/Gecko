@@ -1,13 +1,12 @@
 package seng202.team6.gui;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import seng202.team6.controller.MapController;
-
-import java.io.IOException;
 
 /**
  * Class starts the javaFX application window
@@ -26,7 +25,7 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
 
         MapController baseController = baseLoader.getController();
-        baseController.init(primaryStage);
+        baseController.init(primaryStage,null);
 
         primaryStage.setTitle("Revolt App");
         Scene scene = new Scene(root, 580, 400);

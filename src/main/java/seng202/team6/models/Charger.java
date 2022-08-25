@@ -13,10 +13,15 @@ public class Charger {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Charger charger = (Charger) o;
-        return operative == charger.operative && wattage == charger.wattage && plugType.equals(charger.plugType);
+        return operative == charger.operative && wattage == charger.wattage
+                && plugType.equals(charger.plugType);
     }
 
     @Override
