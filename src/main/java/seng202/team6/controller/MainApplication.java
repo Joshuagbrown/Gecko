@@ -28,6 +28,7 @@ public class MainApplication extends Application {
 
             primaryStage.setTitle("ElecTrip App");
             Scene scene = new Scene(root, 1200, 800);
+            scene.getStylesheets().add(getClass().getResource("/stylesheets/main.css").toExternalForm());
 
             // Add a custom application icon
 
