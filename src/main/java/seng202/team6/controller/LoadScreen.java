@@ -34,10 +34,10 @@ public class LoadScreen<ScrollPaneMainScreen> {
         //return (dataViewParent);
     }
 
-    public void LoadToolBar(Stage stage, String toolBar, BorderPane toolBarPane,MainScreenController controller) throws IOException {
+    public Parent LoadToolBar(Stage stage, String toolBar, BorderPane toolBarPane,MainScreenController controller) throws IOException {
 
         //Parent mapToolBarParent = null;
-        try {
+
 
             FXMLLoader toolBarLoader = new FXMLLoader(getClass().getResource(toolBar));
 
@@ -51,11 +51,10 @@ public class LoadScreen<ScrollPaneMainScreen> {
 
             // Set the root of our new component to the center of the borderpane
 
-            toolBarPane.setCenter(toolBarParent);
+            return toolBarParent;
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
     }
 }

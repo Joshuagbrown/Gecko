@@ -41,13 +41,34 @@
     function initMap() {
         var mapOptions = {
             center: [-43.525650, 172.639847],
-            zoom: 10
+            zoom: 13
         }
         map = new L.map('map', mapOptions);
         new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
-        }).addTo(map)
+        }).addTo(map);
+
+        clickMap();
+
     }
+
+    /**
+     * This object can be returned to our java code, where we can call the functions we define inside of it
+     */
+    function clickMap() {
+        var marker;
+
+        map.on('click', onMapClick);
+        function onMapClick(e) {
+            if (marker != null) {
+                map.removeLayer(marker)
+            }
+            marker = new L.Marker(e.latlng, {draggable:true});
+            map.addLayer(marker);
+            marker.bindPopup("<b>New Locaiton</b><br />I am a popup.").openPopup();
+        };
+    }
+
 
     /**
      * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
