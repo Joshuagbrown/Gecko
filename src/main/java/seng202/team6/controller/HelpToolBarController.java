@@ -2,7 +2,6 @@ package seng202.team6.controller;
 
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;

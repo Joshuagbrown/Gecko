@@ -3,12 +3,13 @@ package seng202.team6.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+
+import java.io.IOException;
 
 /**
  * Controller for the map toolbar.
@@ -37,6 +38,9 @@ public class MapToolBarController implements ToolBarController {
     @FXML
     private Button newStationButton;
 
+    private String[] possibleList;
+
+
     /**
      * Initializes the controller.
      * @param stage Primary Stage of the application
@@ -46,6 +50,7 @@ public class MapToolBarController implements ToolBarController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
+
     }
 
     public void addNewStation(ActionEvent actionEvent) {
@@ -64,5 +69,10 @@ public class MapToolBarController implements ToolBarController {
         String firstLocation = startLocation.getText();
         String secondLocation = endLocation.getText();
         javaScriptConnector.call("addRoute", firstLocation, secondLocation);
+    }
+
+    public void showTable(ActionEvent actionEvent) throws IOException {
+        LoadScreen screen = new LoadScreen();
+        controller.getToolBarPane().setBottom(screen.LoadToolBar(stage,"/fxml/TableInToolBar.fxml", controller.getToolBarPane(),controller));
     }
 }

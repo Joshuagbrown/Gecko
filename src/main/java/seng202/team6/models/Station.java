@@ -2,7 +2,6 @@ package seng202.team6.models;
 
 import java.util.List;
 import java.util.Objects;
-import javafx.scene.text.Text;
 
 /**
  * Represents a charging station.
@@ -49,5 +48,10 @@ public class Station {
     @Override
     public int hashCode() {
         return Objects.hash(coordinates, objectId, name, operator, owner, address, timeLimit, chargers);
+    }
+
+    public String toString(){
+
+        return name ;
     }
 }

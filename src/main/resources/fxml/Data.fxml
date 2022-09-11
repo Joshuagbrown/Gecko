@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 
-<TableView fx:id="table" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataController">
+<TableView fx:id="table" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataController">
   <columns>
     <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Name" />
     <TableColumn prefWidth="75.0" text="Latitude" fx:id="xcolumn" />

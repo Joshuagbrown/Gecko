@@ -22,7 +22,16 @@
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+
+
 <script>
+
     // console.log("Leaflet OSM map")
     let map;
     let markers = [];
@@ -44,9 +53,17 @@
             zoom: 13
         }
         map = new L.map('map', mapOptions);
+
+
+
+
+
         new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map);
+
+
+
 
         clickMap();
 
@@ -58,6 +75,7 @@
     function clickMap() {
         var marker;
 
+
         map.on('click', onMapClick);
         function onMapClick(e) {
             if (marker != null) {
@@ -66,7 +84,7 @@
             marker = new L.Marker(e.latlng, {draggable:true});
             map.addLayer(marker);
             marker.bindPopup("<b>New Locaiton</b><br />I am a popup.").openPopup();
-        };
+        }
     }
 
 
@@ -92,14 +110,13 @@
     }
 
     function moreInfo() {
-
     }
 
     function addMarker(title, lat, lng) {
-        var m = new L.Marker([lat, lng])
-        m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
-        m.addTo(map)
-        markers.push(m)
+        // var m = new L.Marker([lat, lng])
+        // m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
+        // m.addTo(map)
+        // markers.push(m)
     }
 
 

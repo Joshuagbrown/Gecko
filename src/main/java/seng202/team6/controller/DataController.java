@@ -1,7 +1,5 @@
 package seng202.team6.controller;
 
-import java.io.File;
-import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -12,6 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.io.CsvImporter;
 import seng202.team6.models.Station;
+
+import java.io.File;
+import java.util.List;
 
 public class DataController implements ScreenController {
 
@@ -40,6 +41,7 @@ public class DataController implements ScreenController {
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
         ycolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getSecond()));
+
 
         try {
             CsvImporter csvImporter = new CsvImporter();

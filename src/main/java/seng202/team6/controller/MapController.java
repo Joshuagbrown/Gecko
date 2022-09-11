@@ -1,16 +1,8 @@
 package seng202.team6.controller;
 
 import com.sun.javafx.webkit.WebConsoleListener;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -23,6 +15,13 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Map Controller Class.
@@ -139,7 +138,7 @@ public class MapController implements ScreenController {
     }
 
 
-    private void addStation(Station station) {
+    public void addStation(Station station) {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getFirst(),
                 station.getCoordinates().getSecond());
@@ -150,7 +149,7 @@ public class MapController implements ScreenController {
      *
      * @param actionEvent button pressed event
      */
-    public void addNewStation(ActionEvent actionEvent) {
+    public void addNewStation(Station actionEvent) {
         String stationTitle = newStationTitle.getText();
         Double latitude = Double.parseDouble(newStationLatitude.getText());
         Double longitude = Double.parseDouble(newStationLongitude.getText());
@@ -166,5 +165,6 @@ public class MapController implements ScreenController {
         String secondLocation = endLocation.getText();
         javaScriptConnector.call("addRoute", firstLocation, secondLocation);
     }
+
 
 }

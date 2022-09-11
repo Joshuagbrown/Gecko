@@ -1,13 +1,16 @@
 package seng202.team6.controller;
 
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.NotImplementedException;
+
+import java.io.IOException;
 
 public class MainScreenController {
 
@@ -16,6 +19,7 @@ public class MainScreenController {
     @FXML
     public BorderPane toolBarPane;
     public BorderPane mainBorderPane;
+    public TextField showInfo;
 
     private String currentStage = null;
 
@@ -34,6 +38,12 @@ public class MainScreenController {
 
 
 
+    private LoadScreen screen = new LoadScreen();
+
+    private MapController mapController;
+
+
+
     /**
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen
@@ -42,12 +52,22 @@ public class MainScreenController {
      * @param stage Top level container for this window
      */
     void init(Stage stage) {
-        LoadScreen screen = new LoadScreen();
+
 
         this.stage = stage;
         //LoadMapViewAndToolBars(stage);
         try {
-            mapScreen = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
+
+            FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
+            // Get the root FXML element after loading
+            mapScreen = viewLoader.load();
+            // Get access to the controller the FXML is using
+            ScreenController newScreenController = viewLoader.getController();
+
+            // Initialise the controller
+            newScreenController.init(stage, this);
+            mapController = (MapController) newScreenController;
+            //mapScreen = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
             dataScreen = screen.LoadBigScreen(stage, "/fxml/Data.fxml",this);
             helpScreen = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
             mapToolBarScreen = screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml", toolBarPane, this);
@@ -65,6 +85,9 @@ public class MainScreenController {
 
     }
 
+    public MapController getMapController() { return mapController;}
+
+
     public Stage getStage() {
         return this.stage;
     }
@@ -74,7 +97,7 @@ public class MainScreenController {
     }
 
     public BorderPane getToolBarPane() {
-        return this.getToolBarPane();
+        return this.toolBarPane;
     }
 
     public BorderPane getMainBorderPane() {
@@ -141,6 +164,9 @@ public class MainScreenController {
         mainBorderPane.setRight(null);
 
 
+    }
+    public void setInfo(String info){
+        showInfo.setText(info);
     }
 
 
