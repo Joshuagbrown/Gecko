@@ -1,12 +1,11 @@
 package seng202.team6.models;
 
-import javafx.scene.text.Text;
-
 import java.util.List;
 import java.util.Objects;
+import javafx.scene.text.Text;
 
 /**
- * Represents a charging station
+ * Represents a charging station.
  */
 public class Station {
     private Position coordinates;
@@ -37,8 +36,12 @@ public class Station {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Station station = (Station) o;
         return objectId == station.objectId && timeLimit == station.timeLimit && Objects.equals(coordinates, station.coordinates) && Objects.equals(name, station.name) && Objects.equals(operator, station.operator) && Objects.equals(owner, station.owner) && Objects.equals(address, station.address) && Objects.equals(chargers, station.chargers);
     }

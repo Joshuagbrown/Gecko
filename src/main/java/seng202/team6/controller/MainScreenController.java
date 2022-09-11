@@ -1,19 +1,17 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class MainScreenController {
 
     @FXML
-    public ScrollPane ScrollPaneMainScreen;
+    public ScrollPane scrollPaneMainScreen;
     @FXML
     public BorderPane toolBarPane;
     public BorderPane mainBorderPane;
@@ -23,7 +21,7 @@ public class MainScreenController {
     private Stage stage;
 
     /**
-     * Initialize the window
+     * Initialize the window.
      *
      * @param stage Top level container for this window
      */
@@ -32,74 +30,82 @@ public class MainScreenController {
         this.stage = stage;
         //LoadMapViewAndToolBars(stage);
         try {
-            LoadMapViewAndToolBars();
+            loadMapViewAndToolBars();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
     }
+
     public Stage getStage() {
         return this.stage;
     }
+
     public ScrollPane getScrollPane() {
-        return this.ScrollPaneMainScreen;
+        return this.scrollPaneMainScreen;
     }
+
     public BorderPane getToolBarPane() {
         return this.getToolBarPane();
     }
 
-    public BorderPane getMainBorderPane() {return mainBorderPane;}
-    /**
-     * Load the map view and the related toolbar when the map button is clicked
-     *
-     * @param stage Top level container for this window
-     */
-//    @FXML
-//    private void LoadMapViewAndToolBars(Stage stage){
-//
-//        try {
-//            // Load our sales_table.fxml file
-//            FXMLLoader mapViewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
-//            // Get the root FXML element after loading
-//            Parent mapViewParent = mapViewLoader.load();
-//            // Get access to the controller the FXML is using
-//            MapController mapController = mapViewLoader.getController();
-//            // Initialise the controller
-//            mapController.init(stage,this);
-//
-//            // Set the root of our new component to the center of the borderpane
-//
-//            ScrollPaneMainScreen.setContent(mapViewParent);
-//
-//            FXMLLoader mapToolBarLoader = new FXMLLoader(getClass().getResource("/fxml/MapToolBar.fxml"));
-//            // Get the root FXML element after loading
-//            Parent mapToolBarParent = mapToolBarLoader.load();
-//            // Get access to the controller the FXML is using
-//            MapController mapToolBarController = mapToolBarLoader.getController();
-//            // Initialise the controller
-//            mapController.init(stage,this);
-//
-//            // Set the root of our new component to the center of the borderpane
-//
-//            toolBarPane.setCenter(mapToolBarParent);
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public BorderPane getMainBorderPane() {
+        return mainBorderPane;
+    }
+
+    //    /**
+    //     * Load the map view and the related toolbar when the map button is clicked
+    //     *
+    //     * @param stage Top level container for this window
+    //     */
+    //    @FXML
+    //    private void LoadMapViewAndToolBars(Stage stage){
+    //
+    //        try {
+    //            // Load our sales_table.fxml file
+    //            FXMLLoader mapViewLoader = new FXMLLoader(
+    //                    getClass().getResource("/fxml/Map.fxml"));
+    //            // Get the root FXML element after loading
+    //            Parent mapViewParent = mapViewLoader.load();
+    //            // Get access to the controller the FXML is using
+    //            MapController mapController = mapViewLoader.getController();
+    //            // Initialise the controller
+    //            mapController.init(stage,this);
+    //
+    //            // Set the root of our new component to the center of the borderpane
+    //
+    //            ScrollPaneMainScreen.setContent(mapViewParent);
+    //
+    //            FXMLLoader mapToolBarLoader = new FXMLLoader(
+    //                    getClass().getResource("/fxml/MapToolBar.fxml"));
+    //            // Get the root FXML element after loading
+    //            Parent mapToolBarParent = mapToolBarLoader.load();
+    //            // Get access to the controller the FXML is using
+    //            MapController mapToolBarController = mapToolBarLoader.getController();
+    //            // Initialise the controller
+    //            mapController.init(stage,this);
+    //
+    //            // Set the root of our new component to the center of the borderpane
+    //
+    //            toolBarPane.setCenter(mapToolBarParent);
+    //
+    //
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        }
+    //   }
 
     /**
-     * The action handler that linked to the map button on main screen
+     * The action handler that linked to the map button on main screen.
      *
      * @param actionEvent Top level container for this window
      */
-    public void LoadMapViewAndToolBars(ActionEvent actionEvent) throws IOException {
+    public void loadMapViewAndToolBars(ActionEvent actionEvent) throws IOException {
 
         LoadScreen screen = new LoadScreen();
-        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",this));
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Map.fxml", this));
         System.out.println("got here");
-        screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,this);
+        screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml", toolBarPane, this);
         System.out.println("got here too");
         currentStage = "Map";
         mainBorderPane.setRight(null);
@@ -107,24 +113,29 @@ public class MainScreenController {
 
     }
 
-    public void LoadMapViewAndToolBars() throws IOException {
-        LoadMapViewAndToolBars(null);
+    public void loadMapViewAndToolBars() throws IOException {
+        loadMapViewAndToolBars(null);
     }
 
     /**
-     * The action handler that linked to the map button on main screen
+     * The action handler that linked to the map button on main screen.
      *
      * @param actionEvent Top level container for this window
      */
-    public void LoadDataViewAndToolBars(ActionEvent actionEvent) throws IOException {
+    public void loadDataViewAndToolBars(ActionEvent actionEvent) throws IOException {
 
         LoadScreen screen = new LoadScreen();
-        mainBorderPane.setCenter(screen.LoadBigScreen(this.stage,"/fxml/Data.fxml",this));
-        screen.LoadToolBar(this.stage,"/fxml/DataToolBar.fxml",toolBarPane,this);
+        mainBorderPane.setCenter(screen.LoadBigScreen(this.stage, "/fxml/Data.fxml",this));
+        screen.LoadToolBar(this.stage,"/fxml/DataToolBar.fxml", toolBarPane, this);
         currentStage = "Data";
         mainBorderPane.setRight(null);
     }
 
+    /**
+     * The action handler that linked to the help button on toolbar.
+     *
+     * @param actionEvent Top level container for this window
+     */
     public void loadHelpScreenAndToolBar(ActionEvent actionEvent) throws IOException {
 
         if (currentStage == "Map") {
@@ -136,33 +147,37 @@ public class MainScreenController {
 
 
         } else if (currentStage == "Data") {
-
+            throw new NotImplementedException();
         } else {
             LoadScreen screen = new LoadScreen();
-            mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Help.fxml",this));
+            mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Help.fxml", this));
             screen.LoadToolBar(stage, "/fxml/HelpToolBar.fxml", toolBarPane, this);
         }
 
     }
 
-//    public void loadMapAndToolBar() throws IOException {
-//        LoadScreen screen = new LoadScreen();
-//
-//        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",this));
-//        screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,this);
-//    }
+    //    public void loadMapAndToolBar() throws IOException {
+    //        LoadScreen screen = new LoadScreen();
+    //
+    //        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Map.fxml",this));
+    //        screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml",toolBarPane,this);
+    //    }
 
     public void loadMyDetail(ActionEvent actionEvent) {
         currentStage = "Detail";
         mainBorderPane.setRight(null);
     }
 
-
+    /**
+     * The action handler that linked to the settings button on toolbar.
+     *
+     * @param actionEvent Top level container for this window
+     */
     public void loadSetting(ActionEvent actionEvent) throws IOException {
         LoadScreen screen = new LoadScreen();
 
-        mainBorderPane.setCenter(screen.LoadBigScreen(stage,"/fxml/Setting.fxml",this));
-        screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml",toolBarPane,this);
+        mainBorderPane.setCenter(screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this));
+        screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml", toolBarPane, this);
 
     }
 }
