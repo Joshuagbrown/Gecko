@@ -9,10 +9,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.io.CsvImporter;
 import seng202.team6.models.Station;
 
-import java.io.File;
 import java.util.List;
 
 public class DataController implements ScreenController {
@@ -33,6 +31,17 @@ public class DataController implements ScreenController {
 
     public MainScreenController controller;
 
+    public TableColumn objectId;
+    public TableColumn operator;
+    public TableColumn is24Hour;
+    public TableColumn timeLimit;
+    public TableColumn address;
+    public TableColumn owner;
+    public TableColumn noOfCarPark;
+    public TableColumn carParkCost;
+    public TableColumn chargingCost;
+    public TableColumn tourstAttraction;
+
     /**
      * Initialize the window.
      *
@@ -45,6 +54,16 @@ public class DataController implements ScreenController {
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
         ycolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getSecond()));
+        objectId.setCellValueFactory(new PropertyValueFactory<>("objectId"));
+        operator.setCellValueFactory(new PropertyValueFactory<>("operator"));
+        owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
+        address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        timeLimit.setCellValueFactory(new PropertyValueFactory<>("timeLimit"));
+        noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarparks"));
+        carParkCost.setCellValueFactory(new PropertyValueFactory<>("carparkCost"));
+        tourstAttraction.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
+
+
 
 
         try {
@@ -59,7 +78,7 @@ public class DataController implements ScreenController {
     }
 
     public void clickItem(MouseEvent mouseEvent) {
-        controller.setInfo(table.getSelectionModel().getSelectedItem().getName());
+        controller.setInfo(table.getSelectionModel().getSelectedItem().toString());
 
     }
 }

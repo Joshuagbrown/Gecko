@@ -55,14 +55,9 @@
         map = new L.map('map', mapOptions);
 
 
-
-
-
         new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map);
-
-
 
 
         clickMap();
@@ -110,13 +105,14 @@
     }
 
     function moreInfo() {
+
     }
 
     function addMarker(title, lat, lng) {
-        // var m = new L.Marker([lat, lng])
-        // m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
-        // m.addTo(map)
-        // markers.push(m)
+        var m = new L.Marker([lat, lng])
+        m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
+        m.addTo(map)
+        markers.push(m)
     }
 
 

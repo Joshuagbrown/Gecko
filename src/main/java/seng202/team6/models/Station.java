@@ -112,7 +112,21 @@ public class Station {
     }
 
     public String toString(){
+        String stationInfo = "Station Name : " + name + "\n"+
+                "Coordinate : " + coordinates.getFirst() + "," + coordinates.getSecond() + "\n"+
+                "ObjectId : " + objectId + "\r\n" +
+                "Operator : " + operator + "\n" +
+                "Owner : " + owner + "\n"+
+                "Address : " + address + "\n" +
+                "Time Limit : " + timeLimit + "\n"+
+                "Is 24 Hour : " + is24Hours + "\n"+
+                "Charger : " + "\n" +
+                "Number Of Carpark : " + numberOfCarparks + "\n"+
+                "Carpark Cost : " + carparkCost + "\n" +
+                "Charging Cost : " + chargingCost +"\n"+
+                "Has Tourist Attraction : " + hasTouristAttraction;
 
-        return name ;
+
+        return stationInfo ;
     }
 }

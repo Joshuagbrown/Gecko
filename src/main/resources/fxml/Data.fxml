@@ -7,6 +7,16 @@
     <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Name" />
     <TableColumn prefWidth="75.0" text="Latitude" fx:id="xcolumn" />
     <TableColumn fx:id="ycolumn" prefWidth="75.0" text="Longitude" />
+      <TableColumn fx:id="objectId" prefWidth="75.0" text="ObjectId" />
+      <TableColumn fx:id="operator" prefWidth="75.0" text="Operator" />
+      <TableColumn fx:id="owner" prefWidth="75.0" text="Owner" />
+      <TableColumn fx:id="address" prefWidth="75.0" text="Address" />
+      <TableColumn fx:id="timeLimit" prefWidth="75.0" text="TIme Lmit" />
+      <TableColumn fx:id="is24Hour" prefWidth="75.0" text="Is 24 Hour" />
+      <TableColumn fx:id="noOfCarPark" prefWidth="75.0" text="No. of Car Park" />
+      <TableColumn fx:id="carParkCost" prefWidth="75.0" text="Car Park Cost" />
+      <TableColumn fx:id="chargingCost" prefWidth="75.0" text="Charging Cost" />
+      <TableColumn fx:id="tourstAttraction" prefWidth="75.0" text="Has Tourist Attraction" />
   </columns>
   <columnResizePolicy>
     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
