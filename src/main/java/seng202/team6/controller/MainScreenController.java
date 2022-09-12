@@ -60,6 +60,7 @@ public class MainScreenController {
         this.dataService = dataService;
         //LoadMapViewAndToolBars(stage);
         try {
+            loadMapScreen();
 
 //            FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
 //            // Get the root FXML element after loading
