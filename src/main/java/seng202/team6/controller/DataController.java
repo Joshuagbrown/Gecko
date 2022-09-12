@@ -48,13 +48,13 @@ public class DataController implements ScreenController {
 
 
         try {
-            CsvImporter csvImporter = new CsvImporter();
-            List<Station> stations = csvImporter.readFromFile(
-                    new File(getClass().getResource("/full.csv").toURI()));
+            List<Station> stations = controller.getDataService().fetchAllData();
             table.getItems().addAll(stations);
         } catch (Exception e) {
             log.error(e);
         }
+
+
 
     }
 

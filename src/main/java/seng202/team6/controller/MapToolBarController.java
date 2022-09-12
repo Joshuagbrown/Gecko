@@ -54,12 +54,12 @@ public class MapToolBarController implements ToolBarController {
     }
 
     public void addNewStation(ActionEvent actionEvent) {
-        String stationTitle = newStationTitle.getText();
-        Double latitude = Double.parseDouble(newStationLatitude.getText());
-        Double longitude = Double.parseDouble(newStationLongitude.getText());
-
-        Position pos = new Position(latitude, longitude);
-        Station newStation = new Station(pos, stationTitle);
+//        String stationTitle = newStationTitle.getText();
+//        Double latitude = Double.parseDouble(newStationLatitude.getText());
+//        Double longitude = Double.parseDouble(newStationLongitude.getText());
+//
+//        Position pos = new Position(latitude, longitude);
+//        Station newStation = new Station(pos, stationTitle);
 
 //        controller.addNewStation(station);
 

@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.NotImplementedException;
+import seng202.team6.services.DataService;
 
 import java.io.IOException;
 
@@ -24,6 +25,8 @@ public class MainScreenController {
     private String currentStage = null;
 
     private Stage stage;
+
+    private DataService dataService;
 
     private Parent mapScreen;
     private Parent dataScreen;
@@ -51,10 +54,10 @@ public class MainScreenController {
      *
      * @param stage Top level container for this window
      */
-    void init(Stage stage) {
-
+    void init(Stage stage, DataService dataService) {
 
         this.stage = stage;
+        this.dataService = dataService;
         //LoadMapViewAndToolBars(stage);
         try {
 
@@ -119,6 +122,11 @@ public class MainScreenController {
     public BorderPane getMainBorderPane() {
         return mainBorderPane;
     }
+
+    public DataService getDataService() {
+        return dataService;
+    }
+
 
     //    /**
     //     * Load the map view and the related toolbar when the map button is clicked

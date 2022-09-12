@@ -149,16 +149,16 @@ public class MapController implements ScreenController {
      *
      * @param actionEvent button pressed event
      */
-    public void addNewStation(Station actionEvent) {
-        String stationTitle = newStationTitle.getText();
-        Double latitude = Double.parseDouble(newStationLatitude.getText());
-        Double longitude = Double.parseDouble(newStationLongitude.getText());
-
-        Position pos = new Position(latitude, longitude);
-        Station newStation = new Station(pos, stationTitle);
-
-        addStation(newStation);
-    }
+//    public void addNewStation(Station actionEvent) {
+//        String stationTitle = newStationTitle.getText();
+//        Double latitude = Double.parseDouble(newStationLatitude.getText());
+//        Double longitude = Double.parseDouble(newStationLongitude.getText());
+//
+//        Position pos = new Position(latitude, longitude);
+//        Station newStation = new Station(pos, stationTitle);
+//
+//        addStation(newStation);
+//    }
 
     public void findRoute(ActionEvent actionEvent) {
         String firstLocation = startLocation.getText();

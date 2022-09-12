@@ -37,16 +37,20 @@ public class DataService {
         }
     }
 
-
-    public static void main(String[] args) throws URISyntaxException {
-        DataService serv = new DataService();
-
-        try {
-            serv.loadDataFromCsv(new File(DataService.class.getResource("/small.csv").toURI()));
-        } catch (NullPointerException e) {
-            System.out.println("NullPointerException produced in DataService class trying "
-                    + " to load data.");
-        }
-
+    public List<Station> fetchAllData() {
+        return dao.getAll();
     }
+
+//
+//    public static void main(String[] args) throws URISyntaxException {
+//        DataService serv = new DataService();
+//
+//        try {
+//            serv.loadDataFromCsv(new File(DataService.class.getResource("/small.csv").toURI()));
+//        } catch (NullPointerException e) {
+//            System.out.println("NullPointerException produced in DataService class trying "
+//                    + " to load data.");
+//        }
+//
+//    }
 }
