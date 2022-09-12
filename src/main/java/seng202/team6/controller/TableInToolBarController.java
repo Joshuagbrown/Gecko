@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,8 +14,11 @@ import seng202.team6.models.Station;
 import java.io.File;
 import java.util.List;
 
-public class DataController implements ScreenController {
+public class TableInToolBarController implements ToolBarController {
 
+    private Stage stage;
+
+    private MainScreenController controller;
     private static final Logger log = LogManager.getLogger();
 
     @FXML
@@ -31,15 +33,17 @@ public class DataController implements ScreenController {
     @FXML
     public TableColumn<Station, Double> ycolumn;
 
-    public MainScreenController controller;
 
     /**
-     * Initialize the window.
-     *
-     * @param stage Top level container for this window
+     * Initializes the controller.
+     * @param stage Primary Stage of the application
+     * @param controller The Controller class for the main screen
      */
+    @Override
     public void init(Stage stage, MainScreenController controller) {
+        this.stage = stage;
         this.controller = controller;
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
@@ -53,13 +57,26 @@ public class DataController implements ScreenController {
                     new File(getClass().getResource("/full.csv").toURI()));
             table.getItems().addAll(stations);
         } catch (Exception e) {
-            log.error(e);
+
         }
 
     }
+//    public void clickItem(MouseEvent event)
+//    {
+//        System.out.println("Hello");
+//        //MapController mapController = new MapController();
+//        if (event.getClickCount() == 2) //Checking double click
+//        {
+//            System.out.println("Hello");
+//            controller.getMapController().addNewStation(table.getSelectionModel().getSelectedItem());
+//            //Station station = new Station()
+//
+//
+//        }
+//    }
 
-    public void clickItem(MouseEvent mouseEvent) {
-        controller.setInfo(table.getSelectionModel().getSelectedItem().getName());
-
-    }
+//   public void clickItem(javafx.scene.input.MouseEvent mouseEvent) {
+//        controller.setInfo(table.getSelectionModel().getSelectedItem().getName());
+//        //controller.getMapController().addStation(table.getSelectionModel().getSelectedItem());
+//    }
 }

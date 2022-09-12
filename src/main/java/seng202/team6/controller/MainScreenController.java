@@ -58,15 +58,18 @@ public class MainScreenController {
         //LoadMapViewAndToolBars(stage);
         try {
 
-            FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
-            // Get the root FXML element after loading
-            mapScreen = viewLoader.load();
-            // Get access to the controller the FXML is using
-            ScreenController newScreenController = viewLoader.getController();
+//            FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
+//            // Get the root FXML element after loading
+//            mapScreen = viewLoader.load();
+//            // Get access to the controller the FXML is using
+//            ScreenController newScreenController = viewLoader.getController();
+//
+//            // Initialise the controller
+//            newScreenController.init(stage, this);
+//            mapController = (MapController) newScreenController;
 
-            // Initialise the controller
-            newScreenController.init(stage, this);
-            mapController = (MapController) newScreenController;
+
+
             //mapScreen = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
             dataScreen = screen.LoadBigScreen(stage, "/fxml/Data.fxml",this);
             helpScreen = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
@@ -83,6 +86,19 @@ public class MainScreenController {
         stage.sizeToScene();
 
 
+    }
+
+    public void loadMapScreen() throws IOException {
+        FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("/fxml/Map.fxml"));
+        // Get the root FXML element after loading
+        mapScreen = viewLoader.load();
+        // Get access to the controller the FXML is using
+        ScreenController newScreenController = viewLoader.getController();
+
+        // Initialise the controller
+        newScreenController.init(stage, this);
+        //
+        mapController = (MapController) newScreenController;
     }
 
     public MapController getMapController() { return mapController;}

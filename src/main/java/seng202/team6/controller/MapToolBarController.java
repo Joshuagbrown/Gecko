@@ -72,7 +72,7 @@ public class MapToolBarController implements ToolBarController {
     }
 
     public void showTable(ActionEvent actionEvent) throws IOException {
-        LoadScreen screen = new LoadScreen();
-        controller.getToolBarPane().setBottom(screen.LoadToolBar(stage,"/fxml/TableInToolBar.fxml", controller.getToolBarPane(),controller));
+//        LoadScreen screen = new LoadScreen();
+//        controller.getToolBarPane().setBottom(screen.LoadToolBar(stage,"/fxml/TableInToolBar.fxml", controller.getToolBarPane(),controller));
     }
 }
