@@ -26,7 +26,7 @@ public class MainApplication extends Application {
             MainScreenController baseController = baseLoader.getController();
             baseController.init(primaryStage);
 
-            primaryStage.setTitle("ElecTrip App");
+            primaryStage.setTitle("Gecko");
             Scene scene = new Scene(root, 1200, 800);
             scene.getStylesheets().add(getClass().getResource("/stylesheets/main.css").toExternalForm());
 
