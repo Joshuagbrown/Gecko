@@ -24,7 +24,7 @@ public class MainApplication extends Application {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
             Parent root = baseLoader.load();
             MainScreenController baseController = baseLoader.getController();
-            baseController.init(primaryStage);
+            baseController.init(primaryStage, dataService);
 
             primaryStage.setTitle("ElecTrip App");
             Scene scene = new Scene(root, 1200, 800);
