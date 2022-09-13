@@ -71,9 +71,7 @@ public class MapToolBarController implements ToolBarController {
         Double longitude = Double.parseDouble(newStationLongitude.getText());
 
         Position pos = new Position(latitude, longitude);
-        //Station newStation = new Station(pos, stationTitle);
 
-//        controller.addNewStation(station);
 
     }
 
