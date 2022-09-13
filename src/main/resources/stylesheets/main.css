@@ -1,6 +1,6 @@
 .root {
     -fx-font: 12px Tahoma;
-    -fx-background: rgb(144, 206, 94);
+    -fx-background: rgb(103, 159, 136);
 }
 .border-pane {
     -fx-text-fill: #FFFFFF;
@@ -28,19 +28,19 @@
 
 .button {
     -fx-background-color:
-            linear-gradient(#f3ff62, #71e795),
-            radial-gradient(center 50% -40%, radius 200%, #b7e056 45%, #80c800 50%);
+            linear-gradient(#8fc0a9, #8fc0a9),
+            radial-gradient(center 50% -40%, radius 200%, #8fc0a9 45%, #8fc0a9 50%);
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #c9f377;
+    -fx-text-fill: #ffffff;
 }
 
 .accordion {
     -fx-background-color:
-            linear-gradient(#9af170, #a9ff00, #5DA23B);
+            linear-gradient(#8fc0a9, #8fc0a9, #8fc0a9);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #8af590;
+    -fx-text-fill: #ffffff;
 }
 
 .titled-pane {
@@ -51,7 +51,7 @@
 
 .titled-pane > *.content
 {
-    -fx-background-color: linear-gradient(#f0ff35, #a9ff00);
+    -fx-background-color: linear-gradient(#8fc0a9, #8fc0a9);
 }
 
 .table-view {
@@ -59,7 +59,7 @@
 }
 
 #toolBarPane {
-    -fx-background-color: #9cecac;
+    -fx-background-color: #8fc0a9;
 }
 
 #mainBorderPane {
