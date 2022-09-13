@@ -6,15 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
-import seng202.team6.models.Position;
-import seng202.team6.models.Station;
 
 import java.io.IOException;
 
 /**
  * Controller for the map toolbar.
  */
-public class MapToolBarController implements ToolBarController {
+public class MapToolBarController implements ScreenController {
     private Stage stage;
     private MainScreenController controller;
 

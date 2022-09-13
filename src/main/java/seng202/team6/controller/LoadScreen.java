@@ -2,7 +2,6 @@ package seng202.team6.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -54,10 +53,12 @@ public class LoadScreen<ScrollPaneMainScreen> {
 
             // Set the root of our new component to the center of the borderpane
 
-            return toolBarParent;
+            return new Pair<Parent, ScreenController>(dataViewParent, screenController);
+
+    }
 
 
-
+    }
 
     }
 }
