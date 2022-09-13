@@ -74,10 +74,10 @@
 
     }
 
-    function addMarker(title, lat, lng) {
+    function addMarker(title, lat, lng, stationId) {
         var m = new L.Marker([lat, lng])
-        m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
-        m.addTo(map)
+        m.bindPopup(title).openPopup();
+        m.addTo(map).on('click', () => e => javaScriptBridge.getStationFromClick(stationId));
         markers.push(m)
     }
 

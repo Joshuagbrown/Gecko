@@ -38,6 +38,7 @@ public class DataService {
     }
 
 
+
     public static void main(String[] args) throws URISyntaxException {
         DataService serv = new DataService();
 

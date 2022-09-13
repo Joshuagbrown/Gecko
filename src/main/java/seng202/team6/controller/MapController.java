@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
@@ -33,6 +34,7 @@ public class MapController implements ScreenController {
 
     private static final Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
+    private JavaScriptBridge javaScriptBridge;
     @FXML
     private WebView webView;
     private WebEngine webEngine;
@@ -63,7 +65,12 @@ public class MapController implements ScreenController {
      */
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
+        this.javaScriptBridge = new JavaScriptBridge(this::getStationFromClick);
         initMap();
+    }
+
+    public int getStationFromClick(int id) {
+        return id;
     }
 
 
@@ -86,7 +93,8 @@ public class MapController implements ScreenController {
                     if (newState == Worker.State.SUCCEEDED) {
                         // set our bridge object
                         JSObject window = (JSObject) webEngine.executeScript("window");
-                        //window.setMember("javaScriptBridge", javaScriptBridge);
+
+                        window.setMember("javaScriptBridge", javaScriptBridge);
                         // get a reference to the js object that has a reference
                         // to the js methods we need to use in java
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
@@ -113,23 +121,6 @@ public class MapController implements ScreenController {
 
 
     private void addStationsToMap() {
-//        Position firstPos = new Position(-43.557139, 172.680089);
-//        Station firstStation = new Station(firstPos, "The Tannery");
-//
-//        Position secondPos = new Position(-43.539238, 172.607516);
-//        Station secondStation = new Station(secondPos, "Tower Junction");
-//
-//        Position thirdPos = new Position(-43.5531026851514, 172.556282579727);
-//        Station thirdStation = new Station(thirdPos, "SILKY OTTER CINEMA");
-//
-//        Position fourthPos = new Position(-43.53300448, 172.6418037);
-//        Station fourthStation = new Station(fourthPos, "LES MILLS CHRISTCHURCH");
-//
-//        List<Station> stations = new ArrayList<Station>();
-//        stations.add(firstStation);
-//        stations.add(secondStation);
-//        stations.add(thirdStation);
-//        stations.add(fourthStation);
 
         List<Station> stations = stationDao.getAll();
 

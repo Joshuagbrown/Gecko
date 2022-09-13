@@ -91,4 +91,9 @@ public class StationDao implements DaoInterface<Station> {
     public void update(Station toUpdate) {
 
     }
+
+    @Override
+    public Station getStation(int stationId) {
+        return null;
+    }
 }
