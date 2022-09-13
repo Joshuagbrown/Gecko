@@ -1,0 +1,78 @@
+.root {
+    -fx-font: 12px Tahoma;
+    -fx-background: #5DA23B;
+}
+.border-pane {
+    -fx-text-fill: #FFFFFF;
+    -fx-font: 10px Tahoma;
+    -fx-background-color: #1f2833;
+
+    -fx-border-style: none;
+    -fx-border-color: blue;
+    -fx-border-width: 25;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.border-pane {
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+.menu-bar {
+    -fx-background-color: #1f2833;
+    -fx-base: #1f2883;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.button {
+    -fx-background-color:
+            linear-gradient(#f0ff35, #a9ff00),
+            radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+
+.accordion {
+    -fx-background-color:
+            linear-gradient(#5DA23B, #a9ff00, #5DA23B);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+
+.titled-pane {
+    -fx-background-color: linear-gradient(#5DA23B, #a9ff00);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+
+.titled-pane > *.content
+{
+    -fx-background-color: linear-gradient(#f0ff35, #a9ff00);
+}
+
+.table-view {
+
+}
+
+#toolBarPane {
+    -fx-background-color: #5DA23B;
+}
+
+#mainBorderPane {
+    -fx-background-color: #395306;
+    -fx-base: #5DA23B;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+#scrollPaneMainScreen {
+    -fx-background-color: #fc0000;
+    -fx-base: #560000;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
