@@ -14,27 +14,22 @@ public class LoadScreen<ScrollPaneMainScreen> {
         //Parent dataViewParent = null;
         //Parent dataViewParent = null;
 
-            // Load our sales_table.fxml file
-            FXMLLoader viewLoader = new FXMLLoader(getClass().getResource(screen));
-            // Get the root FXML element after loading
-            Parent dataViewParent = viewLoader.load();
-            // Get access to the controller the FXML is using
-            ScreenController screenController = viewLoader.getController();
+        // Load our sales_table.fxml file
+        FXMLLoader viewLoader = new FXMLLoader(getClass().getResource(screen));
+        // Get the root FXML element after loading
+        Parent dataViewParent = viewLoader.load();
+        // Get access to the controller the FXML is using
+        ScreenController screenController = viewLoader.getController();
 
-            // Initialise the controller
-            screenController.init(stage, controller);
+        // Initialise the controller
+        screenController.init(stage, controller);
 
-            //controller.setScreenController( viewLoader.getController());
-
-            // Set the root of our new component to the center of the borderpane
-            //ScrollPaneMainScreen.setContent(dataViewParent);
-            //return viewLoader;
-            return new Pair<Parent, ScreenController>(dataViewParent, screenController);
+        // Set the root of our new component to the center of the borderpane
+        return new Pair<Parent, ScreenController>(dataViewParent, screenController);
 
 
-        //return dataViewParent;
-        //return (dataViewParent);
     }
 
 
 }
+

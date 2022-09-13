@@ -1,3 +1,7 @@
+
+
+
+
 package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
@@ -64,12 +68,8 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
-        //LoadMapViewAndToolBars(stage);
         try {
 
-
-            //mapScreen = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
-            //dataScreen = screen.LoadBigScreen(stage, "/fxml/Data.fxml",this);
             Pair p = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
             helpScreen = (Parent) p.getKey();
             helpController= (HelpController) p.getValue();
@@ -94,10 +94,6 @@ public class MainScreenController {
             helpToolBarScreen = (Parent) p.getKey();
             helpToolBarController= (HelpToolBarController) p.getValue();
 
-
-            //mapToolBarScreen = screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml", toolBarPane, this);
-            //dataToolBarScreen = screen.LoadToolBar(stage,"/fxml/DataToolBar.fxml", toolBarPane, this);
-            //helpToolBarScreen = screen.LoadToolBar(stage, "/fxml/HelpToolBar.fxml", toolBarPane, this);
             p = screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this);
             settingScreen = (Parent) p.getKey();
             settingController= (SettingController) p.getValue();
@@ -106,8 +102,6 @@ public class MainScreenController {
             settingToolBarScreen = (Parent) p.getKey();
             settingToolBarController= (SettingToolBarController) p.getValue();
 
-
-            //settingToolBarScreen = screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml", toolBarPane, this);
 
             loadMapViewAndToolBars();
         } catch (IOException e) {
@@ -156,10 +150,7 @@ public class MainScreenController {
         textAreaInMainScreen.setText("");
 
         mainBorderPane.setCenter(mapScreen);
-        System.out.println("got here");
         toolBarPane.setCenter(mapToolBarScreen);
-
-        System.out.println("got here too");
         currentStage = "Map";
         mainBorderPane.setRight(null);
 
@@ -198,8 +189,8 @@ public class MainScreenController {
     public void loadHelpScreenAndToolBar(ActionEvent actionEvent) throws IOException {
 
 
-            mainBorderPane.setCenter(helpScreen);
-            toolBarPane.setCenter(helpToolBarScreen);
+        mainBorderPane.setCenter(helpScreen);
+        toolBarPane.setCenter(helpToolBarScreen);
 
 
     }
