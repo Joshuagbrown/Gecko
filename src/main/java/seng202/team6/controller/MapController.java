@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
 
@@ -110,6 +109,9 @@ public class MapController implements ScreenController {
                 .collect(Collectors.joining("\n"));
     }
 
+    public JSObject getJavaScriptConnector() {
+        return javaScriptConnector;
+    }
 
     private void addStationsToMap() {
 //        Position firstPos = new Position(-43.557139, 172.680089);
