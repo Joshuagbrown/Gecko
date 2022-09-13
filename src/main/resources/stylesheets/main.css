@@ -1,6 +1,6 @@
 .root {
     -fx-font: 12px Tahoma;
-    -fx-background: #5DA23B;
+    -fx-background: rgb(144, 206, 94);
 }
 .border-pane {
     -fx-text-fill: #FFFFFF;
@@ -28,25 +28,25 @@
 
 .button {
     -fx-background-color:
-            linear-gradient(#f0ff35, #a9ff00),
-            radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+            linear-gradient(#f3ff62, #71e795),
+            radial-gradient(center 50% -40%, radius 200%, #b7e056 45%, #80c800 50%);
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #395306;
+    -fx-text-fill: #c9f377;
 }
 
 .accordion {
     -fx-background-color:
-            linear-gradient(#5DA23B, #a9ff00, #5DA23B);
+            linear-gradient(#9af170, #a9ff00, #5DA23B);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #395306;
+    -fx-text-fill: #8af590;
 }
 
 .titled-pane {
-    -fx-background-color: linear-gradient(#5DA23B, #a9ff00);
+    -fx-background-color: linear-gradient(#bfde66, #13dea0);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #395306;
+    -fx-text-fill: #a5c16f;
 }
 
 .titled-pane > *.content
@@ -59,11 +59,11 @@
 }
 
 #toolBarPane {
-    -fx-background-color: #5DA23B;
+    -fx-background-color: #9cecac;
 }
 
 #mainBorderPane {
-    -fx-background-color: #395306;
+    -fx-background-color: #b8ecf8;
     -fx-base: #5DA23B;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
