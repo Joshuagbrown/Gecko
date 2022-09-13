@@ -118,6 +118,9 @@ public class MapController implements ScreenController {
                 .collect(Collectors.joining("\n"));
     }
 
+    public JSObject getJavaScriptConnector() {
+        return javaScriptConnector;
+    }
 
     private void addStationsToMap() {
 
@@ -132,7 +135,7 @@ public class MapController implements ScreenController {
     public void addStation(Station station) {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getFirst(),
-                station.getCoordinates().getSecond());
+                station.getCoordinates().getSecond(), station.getObjectId());
     }
 
     /**

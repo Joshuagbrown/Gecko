@@ -14,7 +14,7 @@ import seng202.team6.models.Station;
 import java.io.File;
 import java.util.List;
 
-public class TableInToolBarController implements ToolBarController {
+public class TableInToolBarController implements ScreenController {
 
     private Stage stage;
 

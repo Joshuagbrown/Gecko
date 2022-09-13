@@ -78,7 +78,7 @@ public class DataController implements ScreenController {
     }
 
     public void clickItem(MouseEvent mouseEvent) {
-        controller.setInfo(table.getSelectionModel().getSelectedItem().toString());
+        controller.setTextAreaInMainScreen(table.getSelectionModel().getSelectedItem().toString());
 
     }
 }
