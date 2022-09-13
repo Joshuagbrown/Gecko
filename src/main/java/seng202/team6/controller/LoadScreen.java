@@ -4,13 +4,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 
 public class LoadScreen<ScrollPaneMainScreen> {
 
 
-    public Parent LoadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
+    public Pair<Parent, ScreenController> LoadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
         //Parent dataViewParent = null;
         //Parent dataViewParent = null;
 
@@ -29,7 +30,7 @@ public class LoadScreen<ScrollPaneMainScreen> {
             // Set the root of our new component to the center of the borderpane
             //ScrollPaneMainScreen.setContent(dataViewParent);
             //return viewLoader;
-            return dataViewParent;
+            return new Pair<Parent, ScreenController>(dataViewParent, screenController);
 
 
         //return dataViewParent;
