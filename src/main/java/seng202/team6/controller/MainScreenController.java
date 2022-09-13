@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import org.apache.commons.lang3.NotImplementedException;
 import seng202.team6.services.DataService;
 
@@ -66,11 +67,14 @@ public class MainScreenController {
 
             //mapScreen = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
             //dataScreen = screen.LoadBigScreen(stage, "/fxml/Data.fxml",this);
-            helpScreen = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
+            Pair p = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
+            helpScreen = (Parent) p.getKey();
+
             mapToolBarScreen = screen.LoadToolBar(stage,"/fxml/MapToolBar.fxml", toolBarPane, this);
-            dataToolBarScreen = screen.LoadToolBar(this.stage,"/fxml/DataToolBar.fxml", toolBarPane, this);
+            dataToolBarScreen = screen.LoadToolBar(stage,"/fxml/DataToolBar.fxml", toolBarPane, this);
             helpToolBarScreen = screen.LoadToolBar(stage, "/fxml/HelpToolBar.fxml", toolBarPane, this);
-            settingScreen =screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this);
+            p = screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this);
+            settingScreen = (Parent) p.getKey();
             settingToolBarScreen = screen.LoadToolBar(stage,"/fxml/SettingToolBar.fxml", toolBarPane, this);
 
             loadMapViewAndToolBars();
@@ -189,7 +193,8 @@ public class MainScreenController {
 
         if (currentStage == "Map") {
             LoadScreen screen = new LoadScreen();
-            mainBorderPane.setRight(screen.LoadBigScreen(stage, "/fxml/MapHelpScreen.fxml",this));
+            Pair p = screen.LoadBigScreen(stage, "/fxml/MapHelpScreen.fxml",this);
+            mainBorderPane.setRight((Parent) p.getKey());
 
 
 

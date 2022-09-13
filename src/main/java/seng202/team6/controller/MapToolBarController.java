@@ -25,7 +25,7 @@ import java.time.Duration;
 /**
  * Controller for the map toolbar.
  */
-public class MapToolBarController implements ToolBarController {
+public class MapToolBarController implements ScreenController {
     private Stage stage;
     private MainScreenController controller;
 

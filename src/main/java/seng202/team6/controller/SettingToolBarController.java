@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 /**
  * Controller for the settings toolbar.
  */
-public class SettingToolBarController implements ToolBarController {
+public class SettingToolBarController implements ScreenController {
     private Stage stage;
     private MainScreenController controller;
 

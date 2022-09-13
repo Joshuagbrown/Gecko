@@ -103,7 +103,6 @@ public class StationDao implements DaoInterface<Station> {
                 insertId = rs.getInt(1);
             }
 
-            log.info(toAdd.getChargers().size());
             for (Charger charger : toAdd.getChargers()) {
                 PreparedStatement ps2 = conn.prepareStatement(chargerSql);
                 ps2.setInt(1, insertId);
