@@ -106,10 +106,12 @@
 
     function moreInfo() {
 
+
+
     }
 
-    function addMarker(title, lat, lng) {
-        var m = new L.Marker([lat, lng])
+    function addMarker(title, lat, lng, stationId) {
+        var m = new L.Marker([lat, lng], { id:stationId });
         m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
         m.addTo(map)
         markers.push(m)
