@@ -57,6 +57,7 @@ public class MapController implements ScreenController {
 
     @FXML
     private Button newStationButton;
+    private MainScreenController controller;
 
     /**
      * Initialises the map view.
@@ -64,12 +65,14 @@ public class MapController implements ScreenController {
      */
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
-        this.javaScriptBridge = new JavaScriptBridge(this::getStationFromClick);
+        this.controller = controller;
+        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked);
         initMap();
     }
 
-    public int getStationFromClick(int id) {
-        return id;
+    public void onStationClicked(int id) {
+        Station station = controller.getDataService().getStationById(id);
+        controller.setTextAreaInMainScreen(station.toString());
     }
 
 
