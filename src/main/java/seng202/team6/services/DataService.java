@@ -41,6 +41,10 @@ public class DataService {
         return dao.getAll();
     }
 
+    public Station getStationById(int id) {
+        return dao.getOne(id);
+    }
+
 //
 //    public static void main(String[] args) throws URISyntaxException {
 //        DataService serv = new DataService();
