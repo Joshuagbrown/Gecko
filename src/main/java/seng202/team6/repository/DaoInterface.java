@@ -2,6 +2,7 @@ package seng202.team6.repository;
 
 import java.util.List;
 import seng202.team6.exceptions.DuplicateEntryException;
+import seng202.team6.models.Station;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for
@@ -44,4 +45,10 @@ public interface DaoInterface<T> {
      */
     void update(T toUpdate);
 
+    /**
+     * Gets a station object from the database;
+     * @param stationId the ID of the Station that needs to be grabbed
+     * @return
+     */
+    Station getStation(int stationId);
 }
