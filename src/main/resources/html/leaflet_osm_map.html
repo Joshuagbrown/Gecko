@@ -36,6 +36,7 @@
     let map;
     let markers = [];
     var route;
+    var javaScriptBridge;
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside of it
@@ -78,7 +79,7 @@
             }
             marker = new L.Marker(e.latlng, {draggable:true});
             map.addLayer(marker);
-            marker.bindPopup("<b>New Locaiton</b><br />I am a popup.").openPopup();
+            marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
         }
     }
 
@@ -111,9 +112,9 @@
     }
 
     function addMarker(title, lat, lng, stationId) {
-        var m = new L.Marker([lat, lng], { id:stationId });
-        m.bindPopup(title + '<br/><button onclick="moreInfo()">More Info</button>').openPopup();
-        m.addTo(map)
+        var m = new L.Marker([lat, lng])
+        m.bindPopup(title).openPopup();
+        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
         markers.push(m)
     }
 

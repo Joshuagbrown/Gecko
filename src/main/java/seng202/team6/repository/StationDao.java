@@ -29,6 +29,27 @@ public class StationDao implements DaoInterface<Station> {
         databaseManager = DatabaseManager.getInstance();
     }
 
+    private Station stationFromResultSet(ResultSet rs) throws SQLException {
+        return new Station(
+                new Position(
+                        rs.getDouble("lat"),
+                        rs.getDouble("long")
+                ),
+                rs.getString("name"),
+                rs.getInt("objectId"),
+                rs.getString("operator"),
+                rs.getString("owner"),
+                rs.getString("address"),
+                rs.getInt("timeLimit"),
+                rs.getBoolean("is24Hours"),
+                null,
+                rs.getInt("numberOfCarparks"),
+                rs.getBoolean("carparkCost"),
+                rs.getBoolean("chargingCost"),
+                rs.getBoolean("hasTouristAttraction")
+        );
+    }
+
     @Override
     public List<Station> getAll() {
         List<Station> stations = new ArrayList<>();
@@ -37,24 +58,7 @@ public class StationDao implements DaoInterface<Station> {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                stations.add(new Station(
-                        new Position(
-                                rs.getDouble("lat"),
-                                rs.getDouble("long")
-                        ),
-                        rs.getString("name"),
-                        rs.getInt("objectId"),
-                        rs.getString("operator"),
-                        rs.getString("owner"),
-                        rs.getString("address"),
-                        rs.getInt("timeLimit"),
-                        rs.getBoolean("is24Hours"),
-                        null,
-                        rs.getInt("numberOfCarparks"),
-                        rs.getBoolean("carparkCost"),
-                        rs.getBoolean("chargingCost"),
-                        rs.getBoolean("hasTouristAttraction")
-                ));
+                stations.add(stationFromResultSet(rs));
             }
             return stations;
         } catch (SQLException e) {
@@ -64,7 +68,17 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public Station getOne(int id) {
-        return null;
+        String sql = "SELECT * FROM stations WHERE stationId == (?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            return stationFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -126,5 +140,10 @@ public class StationDao implements DaoInterface<Station> {
     @Override
     public void update(Station toUpdate) {
 
+    }
+
+    @Override
+    public Station getStation(int stationId) {
+        return null;
     }
 }
