@@ -29,6 +29,10 @@ public class JavaScriptBridge {
     public JavaScriptBridge(GetStationInterface getStationLambda) {
         getStationInterface = getStationLambda;
     }
+
+    public void getStationFromClick(int id) {
+        getStationInterface.operation(id);
+    }
 }
 
 
