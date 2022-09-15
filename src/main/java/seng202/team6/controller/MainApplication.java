@@ -24,10 +24,11 @@ public class MainApplication extends Application {
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
             Parent root = baseLoader.load();
             MainScreenController baseController = baseLoader.getController();
-            baseController.init(primaryStage);
+            baseController.init(primaryStage, dataService);
 
-            primaryStage.setTitle("ElecTrip App");
+            primaryStage.setTitle("Gecko");
             Scene scene = new Scene(root, 1200, 800);
+            scene.getStylesheets().add(getClass().getResource("/stylesheets/main.css").toExternalForm());
 
             // Add a custom application icon
 
