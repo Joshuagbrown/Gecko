@@ -194,6 +194,9 @@ public class MainScreenController {
 
 
     }
+    public DataController getDataController() {
+        return dataController;
+    }
 
 
     public void loadMyDetail(ActionEvent actionEvent) {

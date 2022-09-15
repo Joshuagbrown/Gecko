@@ -13,7 +13,6 @@ import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.business.JavaScriptBridge;
-import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
 
@@ -127,7 +126,7 @@ public class MapController implements ScreenController {
 
     private void addStationsToMap() {
 
-        List<Station> stations = stationDao.getAll();
+        List<Station> stations = stationDao.getAll(null);
 
         for (Station station : stations) {
             addStation(station);

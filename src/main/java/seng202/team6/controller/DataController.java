@@ -49,6 +49,14 @@ public class DataController implements ScreenController {
      */
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
+        loadData(null);
+
+
+    }
+
+        public void loadData(String sql) {
+        table.getItems().clear();
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
@@ -67,7 +75,7 @@ public class DataController implements ScreenController {
 
 
         try {
-            List<Station> stations = controller.getDataService().fetchAllData();
+            List<Station> stations = controller.getDataService().fetchAllData(sql);
             table.getItems().addAll(stations);
         } catch (Exception e) {
             log.error(e);
@@ -78,7 +86,9 @@ public class DataController implements ScreenController {
     }
 
     public void clickItem(MouseEvent mouseEvent) {
-        controller.setTextAreaInMainScreen(table.getSelectionModel().getSelectedItem().toString());
-
+        Station selected =table.getSelectionModel().getSelectedItem();
+        if(selected != null){
+            controller.setTextAreaInMainScreen(selected.toString());
+        }
     }
 }
