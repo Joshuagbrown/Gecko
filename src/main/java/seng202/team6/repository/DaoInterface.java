@@ -1,8 +1,9 @@
 package seng202.team6.repository;
 
-import java.util.List;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Station;
+
+import java.util.List;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for
@@ -14,7 +15,7 @@ public interface DaoInterface<T> {
      * Gets all of T from the database.
      * @return List of all objects type T from the database
      */
-    List<T> getAll();
+    List<T> getAll(String sql);
 
     /**
      * Gets a single object of type T from the database by id.

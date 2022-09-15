@@ -1,13 +1,13 @@
 package seng202.team6.services;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.io.CsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Service class to handle accessing and storing the necessary information.
@@ -37,9 +37,10 @@ public class DataService {
         }
     }
 
-    public List<Station> fetchAllData() {
-        return dao.getAll();
+    public List<Station> fetchAllData(String sql) {
+        return dao.getAll(sql);
     }
+
 
     public Station getStationById(int id) {
         return dao.getOne(id);

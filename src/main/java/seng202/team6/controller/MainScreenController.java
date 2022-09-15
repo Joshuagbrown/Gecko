@@ -56,6 +56,8 @@ public class MainScreenController {
     private SettingController settingController;
     private SettingToolBarController settingToolBarController;
 
+    private Pair p;
+
 
     /**
      * Initialize the window by loading necessary screen and
@@ -70,7 +72,7 @@ public class MainScreenController {
         this.dataService = dataService;
         try {
 
-            Pair p = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
             helpScreen = (Parent) p.getKey();
             helpController= (HelpController) p.getValue();
 
@@ -89,6 +91,7 @@ public class MainScreenController {
             p = screen.LoadBigScreen(stage, "/fxml/DataToolBar.fxml",this);
             dataToolBarScreen = (Parent) p.getKey();
             dataToolBarController= (DataToolBarController) p.getValue();
+            mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
 
             p = screen.LoadBigScreen(stage, "/fxml/HelpToolBar.fxml",this);
             helpToolBarScreen = (Parent) p.getKey();
@@ -103,6 +106,9 @@ public class MainScreenController {
             settingToolBarController= (SettingToolBarController) p.getValue();
 
 
+            loadFilterSectionOnMapToolBar();
+
+
             loadMapViewAndToolBars();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -112,6 +118,8 @@ public class MainScreenController {
 
     }
 
+    private void loadFilterSectionOnMapToolBar() {
+    }
 
 
     public MapController getMapController() { return mapController;}
@@ -153,6 +161,7 @@ public class MainScreenController {
         toolBarPane.setCenter(mapToolBarScreen);
         currentStage = "Map";
         mainBorderPane.setRight(null);
+        mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
 
 
     }
@@ -193,6 +202,9 @@ public class MainScreenController {
         toolBarPane.setCenter(helpToolBarScreen);
 
 
+    }
+    public DataController getDataController() {
+        return dataController;
     }
 
 

@@ -1,17 +1,14 @@
 package seng202.team6.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Station class which implements the DaoInterface, provides common functionality for
@@ -51,9 +48,13 @@ public class StationDao implements DaoInterface<Station> {
     }
 
     @Override
-    public List<Station> getAll() {
+    public List<Station> getAll(String sql) {
         List<Station> stations = new ArrayList<>();
-        String sql = "SELECT * FROM stations";
+        if (sql == null)
+        {
+            sql = "SELECT * FROM stations";
+        }
+        //String
         try (Connection conn = databaseManager.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -146,4 +147,6 @@ public class StationDao implements DaoInterface<Station> {
     public Station getStation(int stationId) {
         return null;
     }
+
+
 }

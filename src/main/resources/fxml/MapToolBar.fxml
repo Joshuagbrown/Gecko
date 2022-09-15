@@ -6,9 +6,9 @@
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
    <center>
-      <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" BorderPane.alignment="TOP_LEFT">
+      <Accordion fx:id="AccordionForFilter" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="213.0" minWidth="112.8" prefHeight="213.0" prefWidth="202.0" BorderPane.alignment="TOP_LEFT">
         <panes>
-          <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Plan Trip">
+          <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="202.0" text="Plan Trip">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -35,14 +35,9 @@
                   </AnchorPane>
             </content>
           </TitledPane>
-          <TitledPane animated="false" text="Add Stops">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </TitledPane>
           <TitledPane animated="false" prefHeight="552.0" prefWidth="202.0" text="Filter Station">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <BorderPane fx:id="filterSectionOnMapToolBar" />
             </content>
           </TitledPane>
             <TitledPane animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Add Station">

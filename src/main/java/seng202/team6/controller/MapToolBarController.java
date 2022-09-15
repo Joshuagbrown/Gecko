@@ -2,8 +2,10 @@ package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -26,6 +28,11 @@ import java.time.Duration;
  * Controller for the map toolbar.
  */
 public class MapToolBarController implements ScreenController {
+
+
+
+
+    public BorderPane filterSectionOnMapToolBar;
     private Stage stage;
     private MainScreenController controller;
 
@@ -146,6 +153,10 @@ public class MapToolBarController implements ScreenController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setFilterSectionOnMapToolBar(Parent screen) {
+        this.filterSectionOnMapToolBar.setCenter(screen);
     }
 
     public void showTable(ActionEvent actionEvent) {
