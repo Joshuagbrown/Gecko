@@ -1,8 +1,10 @@
 package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class DataToolBarController implements ScreenController {
@@ -12,6 +14,8 @@ public class DataToolBarController implements ScreenController {
     public Slider distanceSliderOfFilter;
     public CheckBox hasChargingCostCheckBox;
     public Slider timeLimitInFilter;
+    public Button resetFilter;
+    public TextField inputStationName;
     private Stage stage;
     private MainScreenController controller;
 
@@ -24,6 +28,10 @@ public class DataToolBarController implements ScreenController {
 
     public String createSqlQueryStringFromFilter() {
         String sql = "SELECT * FROM Stations WHERE ";
+        if (inputStationName.getText()!=null) {
+            sql += "name LIKE '%"+inputStationName.getText()+"%' AND";
+
+        }
 
         if (distanceSliderOfFilter.getValue()!= 0) {
 
@@ -47,8 +55,8 @@ public class DataToolBarController implements ScreenController {
         if (hasChargingCostCheckBox.isSelected()) {
             sql += "chargingCost = 1 AND ";
         }
-        if(sql == "SELECT * FROM Station WHERE ") {
-            sql = "SELECT * FROM Station";
+        if(sql == "SELECT * FROM Stations WHERE ") {
+            sql = "SELECT * FROM Stations;";
         } else {
             int num = sql.lastIndexOf("AND");
             sql = sql.substring(0,num ) + ";";
@@ -62,5 +70,17 @@ public class DataToolBarController implements ScreenController {
     public void filterStation(ActionEvent actionEvent) {
         String sql = createSqlQueryStringFromFilter();
         controller.getDataController().loadData( sql);
+    }
+
+    public void resetFilter(ActionEvent actionEvent) {
+        distanceSliderOfFilter.setValue(0);
+        timeLimitInFilter.setValue(0);
+        Is24HourCheckBox.setSelected(false);
+        hasChargingCostCheckBox.setSelected(false);
+        hasCarParkCostCheckBox.setSelected(false);
+        hasTouristAttractionCostCheckBox.setSelected(false);
+        inputStationName.setText(null);
+        filterStation(null);
+        controller.setTextAreaInMainScreen(null);
     }
 }
