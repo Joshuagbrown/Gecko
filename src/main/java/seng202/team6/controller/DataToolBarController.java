@@ -29,7 +29,9 @@ public class DataToolBarController implements ScreenController {
     public String createSqlQueryStringFromFilter() {
         String sql = "SELECT * FROM Stations WHERE ";
         if (inputStationName.getText()!=null) {
-            sql += "name LIKE '%"+inputStationName.getText()+"%' AND";
+            sql += "(name LIKE '%"+inputStationName.getText()+
+                    "%' OR address LIKE '%"
+                    +inputStationName.getText()+ "%') AND ";
 
         }
 
@@ -40,7 +42,7 @@ public class DataToolBarController implements ScreenController {
 
         }
         if (timeLimitInFilter.getValue() != 0) {
-            sql += "timeLimit >= "+timeLimitInFilter.getValue()+"AND ";
+            sql += "timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0 "+ "AND ";
         }
         if(Is24HourCheckBox.isSelected()) {
             sql += "is24Hours = 1 AND ";
@@ -70,6 +72,7 @@ public class DataToolBarController implements ScreenController {
     public void filterStation(ActionEvent actionEvent) {
         String sql = createSqlQueryStringFromFilter();
         controller.getDataController().loadData( sql);
+        controller.getMapController().addStationsToMap(sql);
     }
 
     public void resetFilter(ActionEvent actionEvent) {

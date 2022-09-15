@@ -102,7 +102,7 @@ public class MapController implements ScreenController {
 
                         javaScriptConnector.call("initMap");
 
-                        addStationsToMap();
+                        addStationsToMap(null);
 
                     }
                 });
@@ -124,13 +124,19 @@ public class MapController implements ScreenController {
         return javaScriptConnector;
     }
 
-    private void addStationsToMap() {
+    public void addStationsToMap(String sql) {
 
-        List<Station> stations = stationDao.getAll(null);
+        List<Station> stations = stationDao.getAll(sql);
+        javaScriptConnector.call(
+                "cleanUpMarkerLayer");
+
 
         for (Station station : stations) {
             addStation(station);
         }
+
+        javaScriptConnector.call(
+                "addMarkerLayerToMap");
     }
 
 
@@ -138,6 +144,11 @@ public class MapController implements ScreenController {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getFirst(),
                 station.getCoordinates().getSecond(), station.getObjectId());
+    }
+
+
+    public void deleteStation(Station station) {
+
     }
 
     /**

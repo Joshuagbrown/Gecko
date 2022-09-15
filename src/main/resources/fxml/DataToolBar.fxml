@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="255.0" prefWidth="201.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
+<BorderPane prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
    <center>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="278.0" prefWidth="228.0" BorderPane.alignment="CENTER">
          <center>
             <GridPane prefHeight="147.2" prefWidth="200.8">
               <columnConstraints>
@@ -37,7 +37,7 @@
                   <Slider fx:id="distanceSliderOfFilter" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="1" showTickLabels="true" GridPane.rowIndex="3" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance (Kilometer) :" wrappingWidth="118.7949104309082" GridPane.rowIndex="2" />
                   <Button mnemonicParsing="false" onAction="#resetFilter" text="Reset Filter" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
-                  <Label text="Search with station name :" />
+                  <Label text="Search with station name or address :" />
                   <TextField fx:id="inputStationName" GridPane.rowIndex="1" />
                </children>
                <BorderPane.margin>
