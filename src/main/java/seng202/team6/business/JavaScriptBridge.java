@@ -14,20 +14,25 @@ public class JavaScriptBridge {
     private static final Logger log = LogManager.getLogger();
     private GetStationInterface getStationInterface;
     private GetLocationInterface getLocationInterface;
+    private GetAddressInterface getAddressInterface;
 
-    public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface getLocationLambda) {
+    public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface getLocationLambda, GetAddressInterface
+                            getAddressLambda) {
         getStationInterface = getStationLambda;
         getLocationInterface = getLocationLambda;
+        getAddressInterface = getAddressLambda;
     }
 
     public void getStationFromClick(int id) {
         getStationInterface.operation(id);
     }
 
-    public void getClickLocation(float lat, float lng) {
+    public void setClickLocation(float lat, float lng) {
         getLocationInterface.operation(lat, lng);
     }
-    public void getAddress() {
+
+    public void setAddress(String address) {
+        getAddressInterface.operation(address);
     }
 }
 

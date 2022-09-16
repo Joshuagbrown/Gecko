@@ -59,6 +59,7 @@ public class MapController implements ScreenController {
     private MainScreenController controller;
     private float locationLat;
     private float locationLng;
+    private String currentAddress;
 
     /**
      * Initialises the map view.
@@ -67,8 +68,13 @@ public class MapController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
-        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked, this::getClickLocation);
+        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked, this::setClickLocation, this::setAddress);
         initMap();
+    }
+
+    public void setAddress(String address) {
+        System.out.println(address);
+        currentAddress = address;
     }
 
     public void onStationClicked(int id) {
@@ -76,14 +82,9 @@ public class MapController implements ScreenController {
         controller.setTextAreaInMainScreen(station.toString());
     }
 
-    public void getClickLocation(float lat, float lng) {
-
+    public void setClickLocation(float lat, float lng) {
         locationLat = lat;
         locationLng = lng;
-        String loca = "Latitude: " + lat + "\n Longitude: " + lng;
-        controller.setTextAreaInMainScreen(null);
-        controller.setTextAreaInMainScreen(loca);
-
 
     }
 
@@ -165,6 +166,10 @@ public class MapController implements ScreenController {
 
     }
 
+    public JavaScriptBridge getJavaScriptBridge() {
+        return javaScriptBridge;
+    }
+
     /**
      * Action handler method for add new station to map button.
      *
@@ -185,6 +190,10 @@ public class MapController implements ScreenController {
         String firstLocation = startLocation.getText();
         String secondLocation = endLocation.getText();
         javaScriptConnector.call("addRoute", firstLocation, secondLocation);
+    }
+
+    public String getAddress() {
+        return currentAddress;
     }
 
 

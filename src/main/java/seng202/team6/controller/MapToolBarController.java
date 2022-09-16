@@ -30,8 +30,6 @@ import java.time.Duration;
 public class MapToolBarController implements ScreenController {
 
 
-
-
     public BorderPane filterSectionOnMapToolBar;
     private Stage stage;
     private MainScreenController controller;
@@ -163,9 +161,10 @@ public class MapToolBarController implements ScreenController {
     }
 
     public void eHStartAutoFill(ActionEvent actionEvent) {
-
+        startLocation.setText(controller.getMapController().getAddress());
     }
 
     public void eHEndAutoFill(ActionEvent actionEvent) {
+        endLocation.setText(controller.getMapController().getAddress());
     }
 }

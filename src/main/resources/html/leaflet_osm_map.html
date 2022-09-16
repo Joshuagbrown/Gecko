@@ -24,7 +24,6 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
@@ -47,7 +46,6 @@
         initMap: initMap,
         cleanUpMarkerLayer :cleanUpMarkerLayer,
         clickMap : clickMap,
-
     };
 
 
@@ -63,9 +61,7 @@
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map);
 
-
         clickMap();
-
     }
 
     /**
@@ -81,11 +77,10 @@
                 map.removeLayer(marker)
             }
             marker = new L.Marker(e.latlng, {draggable:true});
-            fetchAddress(e.latlng);
-
 
             //m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
-            javaScriptBridge.getClickLocation(e.latlng.lat, e.latlng.lng);
+            javaScriptBridge.setClickLocation(e.latlng.lat, e.latlng.lng);
+            fetchAddress(e.latlng)
 
             map.addLayer(marker);
             //marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
@@ -100,11 +95,11 @@
                     if (result.features.length) {
                         const address = result.features[0].properties.formatted;
                         L.popup().setLatLng(latlng).setContent(address).openOn(map);
+                        javaScriptBridge.setAddress(address);
                     } else {
                         L.popup().setLatLng(latlng).setContent("No address found").openOn(map);
                     }
                 });
-
     }
 
     /**
@@ -128,11 +123,6 @@
         }
     }
 
-    function moreInfo() {
-
-
-
-    }
 
     function addMarker(title, lat, lng, stationId) {
         var m = new L.Marker([lat, lng])
@@ -140,6 +130,8 @@
         m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
         markers.push(m)
     }
+
+
     function cleanUpMarkerLayer() {
         while (markers.length > 0) {
             let m = markers.pop();
