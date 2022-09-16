@@ -48,14 +48,14 @@ public class DataToolBarController implements ScreenController {
             sql += "is24Hours = 1 AND ";
         }
         if(hasCarParkCostCheckBox.isSelected()) {
-            sql += "carparkCost = 1 AND ";
+            sql += "carparkCost = 0 AND ";
         }
         if (hasTouristAttractionCostCheckBox.isSelected()) {
             sql += "hasTouristAttraction = 1 AND ";
 
         }
         if (hasChargingCostCheckBox.isSelected()) {
-            sql += "chargingCost = 1 AND ";
+            sql += "chargingCost = 0 AND ";
         }
         if(sql == "SELECT * FROM Stations WHERE ") {
             sql = "SELECT * FROM Stations;";

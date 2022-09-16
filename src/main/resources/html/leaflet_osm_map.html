@@ -35,21 +35,17 @@
     // console.log("Leaflet OSM map")
     let map;
     let markers = [];
-    let route;
-    let javaScriptBridge;
-    let markerLayer;
+    var route;
+    var javaScriptBridge;
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside of it
      */
     let jsConnector = {
-        initMap: initMap,
         addMarker: addMarker,
         addRoute: addRoute,
-        deleteMarker: deleteMarker,
-        addMarkerLayerToMap:addMarkerLayerToMap,
+        initMap: initMap,
         cleanUpMarkerLayer :cleanUpMarkerLayer,
-
 
     };
 
@@ -60,7 +56,6 @@
             zoom: 13
         }
         map = new L.map('map', mapOptions);
-        markerLayer = L.markerClusterGroup();
 
 
         new L.TileLayer('https://tile.csse.canterbury.ac.nz/hot/{z}/{x}/{y}.png', { // UCs tilemap server
@@ -119,31 +114,19 @@
     }
 
     function addMarker(title, lat, lng, stationId) {
-
         var m = new L.Marker([lat, lng])
         m.bindPopup(title).openPopup();
-        m.on('click', e => javaScriptBridge.getStationFromClick(stationId));
-        markerLayer.addLayer(m);
+        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
         markers.push(m)
     }
-
-    function deleteMarker(title, lat, lng, stationId) {
-        // var m = new L.Marker([lat, lng])
-        // m.bindPopup(title).openPopup();
-        // m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
-        // markers(m)
-    }
-
-    function addMarkerLayerToMap() {
-        this.map.addLayer(markerLayer);
-    }
-
     function cleanUpMarkerLayer() {
-        markerLayer.clearLayers();
-        map.removeLayer(markerLayer);
+        while (markers.length > 0) {
+            let m = markers.pop();
+            if (map.hasLayer(m)) {
+                map.removeLayer(m);
+            }
+        }
     }
-
-
 
 
 

@@ -30,8 +30,8 @@
                   <Slider fx:id="timeLimitInFilter" blockIncrement="60.0" majorTickUnit="60.0" max="360.0" minorTickCount="4" nodeOrientation="LEFT_TO_RIGHT" showTickLabels="true" snapToTicks="true" GridPane.rowIndex="5" />
                   <CheckBox fx:id="Is24HourCheckBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="119.0" text="Is 24 Hour" GridPane.rowIndex="6" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" TIme Limit (Minutes) : " wrappingWidth="147.931640625" GridPane.rowIndex="4" />
-                  <CheckBox fx:id="hasCarParkCostCheckBox" mnemonicParsing="false" text="Has Carpark Cost" GridPane.rowIndex="7" />
-                  <CheckBox fx:id="hasChargingCostCheckBox" mnemonicParsing="false" text="Has Charging Cost" GridPane.rowIndex="8" />
+                  <CheckBox fx:id="hasCarParkCostCheckBox" mnemonicParsing="false" text="No Carpark Cost" GridPane.rowIndex="7" />
+                  <CheckBox fx:id="hasChargingCostCheckBox" mnemonicParsing="false" text="No Charging Cost" GridPane.rowIndex="8" />
                   <CheckBox fx:id="hasTouristAttractionCostCheckBox" mnemonicParsing="false" text="Has Tourist Attraction" GridPane.rowIndex="9" />
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#filterStation" prefHeight="25.0" prefWidth="56.0" text="FIlter" GridPane.halignment="LEFT" GridPane.rowIndex="10" GridPane.valignment="BOTTOM" />
                   <Slider fx:id="distanceSliderOfFilter" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="1" showTickLabels="true" GridPane.rowIndex="3" />

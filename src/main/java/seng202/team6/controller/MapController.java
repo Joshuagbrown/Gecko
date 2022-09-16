@@ -127,6 +127,7 @@ public class MapController implements ScreenController {
     public void addStationsToMap(String sql) {
 
         List<Station> stations = stationDao.getAll(sql);
+
         javaScriptConnector.call(
                 "cleanUpMarkerLayer");
 
@@ -135,8 +136,6 @@ public class MapController implements ScreenController {
             addStation(station);
         }
 
-        javaScriptConnector.call(
-                "addMarkerLayerToMap");
     }
 
 
