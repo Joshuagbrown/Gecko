@@ -36,7 +36,15 @@ public class DataToolBarController implements ScreenController {
         }
 
         if (distanceSliderOfFilter.getValue()!= 0) {
+            float[] latlng = controller.getMapController().getLatLng();
+            float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
+            controller.setTextAreaInMainScreen(String.valueOf(distance));
 
+            sql += "LAT < "+ (latlng[0] + distance)+" AND lat > "+(latlng[0] - distance)+" AND long  < "+(latlng[1] + distance)+" AND long > "+(latlng[1] - distance)+" AND ";
+
+//            sql += "lat <= " + latlng[0] + distance + " AND lat >= " + (latlng[0] - distance) +
+//                    " AND long <= " + latlng[1] + distance + " AND long >= " + (latlng[1] - distance)
+//            + " AND ";
 
         } else {
 

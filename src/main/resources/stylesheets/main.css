@@ -35,7 +35,10 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
 }
-
+.button:default:hover:pressed,
+.button:focused {
+    -fx-background-color: #c0f3db;
+}
 .accordion {
     -fx-background-color:
             linear-gradient(#8fc0a9, #8fc0a9, #8fc0a9);

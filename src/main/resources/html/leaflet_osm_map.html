@@ -46,6 +46,7 @@
         addRoute: addRoute,
         initMap: initMap,
         cleanUpMarkerLayer :cleanUpMarkerLayer,
+        clickMap : clickMap,
 
     };
 
@@ -80,6 +81,8 @@
                 map.removeLayer(marker)
             }
             marker = new L.Marker(e.latlng, {draggable:true});
+            //m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+            javaScriptBridge.getClickLocation(e.latlng.lat, e.latlng.lng);
             map.addLayer(marker);
             marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
         }
