@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import seng202.team6.repository.StationDao;
 
 import java.io.IOException;
 
@@ -12,6 +13,9 @@ public class HelpToolBarController implements ScreenController {
 
     private Stage stage;
     private MainScreenController controller;
+
+    private HelpController helpController = new HelpController();
+
     LoadScreen screen = new LoadScreen();
 
     @Override
@@ -21,26 +25,34 @@ public class HelpToolBarController implements ScreenController {
     }
 
     /**
-     * Loads the frequently asked questions.
+     * Loads the Map help text file.
      * @param actionEvent Button clicked.
-     * @throws IOException if there is an issue loading fxml file
      */
-    public void loadFAQ(ActionEvent actionEvent) throws IOException {
-
-        Pair p = screen.LoadBigScreen(this.stage, "/fxml/FAQ.fxml",controller);
-
-        controller.getMainBorderPane().setCenter((Parent)p.getKey());
-
+    public void loadMapHelp(ActionEvent actionEvent) {
+        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\MapHelp.txt");
     }
 
     /**
-     * Loads the map help screen.
+     * Loads the Data help text file.
      * @param actionEvent Button pressed.
-     * @throws IOException if there is an issue loading fxml file
      */
-    public void loadMapHelp(ActionEvent actionEvent) throws IOException {
-        Pair p = screen.LoadBigScreen(stage, "/fxml/MapHelpScreen.fxml",controller);
+    public void loadDataHelp(ActionEvent actionEvent) {
+        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\DataHelp.txt");
+    }
 
-        controller.getMainBorderPane().setCenter((Parent)p.getKey());
+    /**
+     * Loads the My Details help text file.
+     * @param actionEvent Button pressed.
+     */
+    public void loadMyDetailsHelp(ActionEvent actionEvent) {
+        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\MyDetailsHelp.txt");
+    }
+
+    /**
+     * Loads the Settings help text file.
+     * @param actionEvent Button pressed.
+     */
+    public void loadSettingsHelp(ActionEvent actionEvent) {
+        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\SettingsHelp.txt");
     }
 }
