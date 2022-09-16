@@ -81,13 +81,31 @@
                 map.removeLayer(marker)
             }
             marker = new L.Marker(e.latlng, {draggable:true});
+            fetchAddress(e.latlng);
+
+
             //m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
             javaScriptBridge.getClickLocation(e.latlng.lat, e.latlng.lng);
+
             map.addLayer(marker);
-            marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
+            //marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
         }
     }
 
+    function fetchAddress(latlng) {
+        fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latlng.lat}&lon=${latlng.lng}&apiKey=
+8df6478512f9435785f55fe7b64385ed`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.features.length) {
+                        const address = result.features[0].properties.formatted;
+                        L.popup().setLatLng(latlng).setContent(address).openOn(map);
+                    } else {
+                        L.popup().setLatLng(latlng).setContent("No address found").openOn(map);
+                    }
+                });
+
+    }
 
     /**
      * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)

@@ -161,4 +161,11 @@ public class MapToolBarController implements ScreenController {
 
     public void showTable(ActionEvent actionEvent) {
     }
+
+    public void eHStartAutoFill(ActionEvent actionEvent) {
+
+    }
+
+    public void eHEndAutoFill(ActionEvent actionEvent) {
+    }
 }

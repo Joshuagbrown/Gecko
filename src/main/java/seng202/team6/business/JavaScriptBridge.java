@@ -27,6 +27,8 @@ public class JavaScriptBridge {
     public void getClickLocation(float lat, float lng) {
         getLocationInterface.operation(lat, lng);
     }
+    public void getAddress() {
+    }
 }
 
 
