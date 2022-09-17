@@ -138,6 +138,7 @@
         if (route) {
             route.remove()
         }
+        removeAddressMarkers();
         let locationsArray = JSON.parse(locationsString);
         let locations = []
         locationsArray.forEach(location => locations.push(new L.latLng(location.lat, location.lng)))
