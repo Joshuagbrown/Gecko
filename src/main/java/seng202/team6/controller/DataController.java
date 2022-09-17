@@ -71,18 +71,12 @@ public class DataController implements ScreenController {
         carParkCost.setCellValueFactory(new PropertyValueFactory<>("carparkCost"));
         tourstAttraction.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
 
-
-
-
         try {
             List<Station> stations = controller.getDataService().fetchAllData(sql);
             table.getItems().addAll(stations);
         } catch (Exception e) {
             log.error(e);
         }
-
-
-
     }
 
     public void clickItem(MouseEvent mouseEvent) {

@@ -4,16 +4,24 @@
 
 package seng202.team6.controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.services.DataService;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainScreenController {
@@ -223,5 +231,29 @@ public class MainScreenController {
         mainBorderPane.setCenter(settingScreen);
         toolBarPane.setCenter(settingToolBarScreen);
 
+    }
+
+    public void importData() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import Data from CSV file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    dataService.loadDataFromCsv(selectedFile);
+                    return null;
+                }
+            };
+            ProgressDialog dialog = new ProgressDialog(task);
+            dialog.setContentText("Loading data from CSV file...");
+            dialog.setTitle("Loading data");
+            new Thread(task).start();
+            dialog.showAndWait();
+            mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
+            mapController.addStationsToMap(null);
+            dataController.loadData(null);
+        }
     }
 }
