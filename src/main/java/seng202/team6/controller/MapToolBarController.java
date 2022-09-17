@@ -2,11 +2,14 @@ package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -24,6 +27,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 
 /**
  * Controller for the map toolbar.
@@ -33,8 +37,16 @@ public class MapToolBarController implements ScreenController {
 
     public BorderPane filterSectionOnMapToolBar;
     public TitledPane addStationSection;
-    public Button endAutoFill;
+    public GridPane planTripGridPane;
+    public Button addStopButton;
     public Button startAutoFill;
+    public Button endAutoFill;
+    public Button findRouteButton;
+    public Text endLabel;
+
+    @FXML
+    private Button[] addButton = new Button[15];
+
     private Stage stage;
     private MainScreenController controller;
 
@@ -54,13 +66,18 @@ public class MapToolBarController implements ScreenController {
     private TextField newStationLongitude;
 
     @FXML
-    private TextField startLocation;
+    public TextField startLocation;
 
     @FXML
-    private TextField endLocation;
+    public TextField endLocation;
 
     @FXML
     private Button newStationButton;
+
+    private ArrayList<Button> addAddressButton = new ArrayList<Button> ();
+
+    private ArrayList<TextField>  arrayOfTextFields = new ArrayList<TextField>();
+
 
     /**
      * Initializes the controller.
@@ -72,9 +89,13 @@ public class MapToolBarController implements ScreenController {
         this.stage = stage;
         this.controller = controller;
         addStationSection.setVisible(false);
-        startAutoFill.setOnAction(e -> eHAutoFill(startLocation));
-        endAutoFill.setOnAction(e -> eHAutoFill(endLocation));
-
+        arrayOfTextFields.add(startLocation);
+        arrayOfTextFields.add(endLocation);
+        addAddressButton.add(addStopButton);
+        addStopButton.setOnAction(event -> insertAddressFieldAndButton(addStopButton));
+        startAutoFill.setOnAction(event -> eHAutoFill(startLocation));
+        endAutoFill.setOnAction(event -> eHAutoFill(endLocation));
+        System.out.println(planTripGridPane.getRowIndex(startAutoFill));
     }
 
     public void addNewStation(ActionEvent actionEvent) {
@@ -138,23 +159,70 @@ public class MapToolBarController implements ScreenController {
 
     public void findRoute(ActionEvent actionEvent) {
         javaScriptConnector = controller.getMapController().getJavaScriptConnector();
-        String firstLocation = startLocation.getText();
-        String secondLocation = endLocation.getText();
+        int i = 1;
+        for (TextField textField : arrayOfTextFields){
+            if(i < arrayOfTextFields.size())
+            {
+                String firstLocation = textField.getText();
+                String secondLocation = arrayOfTextFields.get(i).getText();
 
-        try {
-            Position firstCoords = geoCode(firstLocation);
-            Double firstLocationLat = firstCoords.getFirst();
-            Double firstLocationLong = firstCoords.getSecond();
-            Position secondCoords = geoCode(secondLocation);
-            Double secondLocationLat = secondCoords.getFirst();
-            Double secondLocationLong = secondCoords.getSecond();
+
+                try {
+                    Position firstCoords = geoCode(firstLocation);
+                    Double firstLocationLat = firstCoords.getFirst();
+                    Double firstLocationLong = firstCoords.getSecond();
+                    Position secondCoords = geoCode(secondLocation);
+                    Double secondLocationLat = secondCoords.getFirst();
+                    Double secondLocationLong = secondCoords.getSecond();
 //            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
 //            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
-            javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                    javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                i +=1;
+
+
+
+
+
+
+
+
+
+            }
+
+        }
+
+
+    }
+
+
+
+
+    public void findRouteEH() {
+        {
+            javaScriptConnector = controller.getMapController().getJavaScriptConnector();
+            String firstLocation = startLocation.getText();
+            String secondLocation = endLocation.getText();
+
+            try {
+                Position firstCoords = geoCode(firstLocation);
+                Double firstLocationLat = firstCoords.getFirst();
+                Double firstLocationLong = firstCoords.getSecond();
+                Position secondCoords = geoCode(secondLocation);
+                Double secondLocationLat = secondCoords.getFirst();
+                Double secondLocationLong = secondCoords.getSecond();
+//            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
+//            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
+                javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -170,6 +238,51 @@ public class MapToolBarController implements ScreenController {
 
         controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", controller.getMapController().getAddress(), controller.getMapController().getLatLng()[0],
                 controller.getMapController().getLatLng()[1]);
+    }
+
+//
+//
+//    public void put_stone(Button button){
+//        int row = GridPane.getRowIndex(button);
+//        int column = GridPane.getColumnIndex(button);
+//    }
+
+    public void insertAddressFieldAndButton(Button button){
+
+        int row = planTripGridPane.getRowIndex(button);
+        planTripGridPane.getChildren().remove(endLabel);
+        planTripGridPane.getChildren().remove(findRouteButton);
+        planTripGridPane.getChildren().remove(addStopButton);
+
+
+
+        TextField addOneTextField = new TextField();
+        addOneTextField.setVisible(true);
+        arrayOfTextFields.add(addOneTextField);
+
+
+        //Button addOneButton = new Button("+");
+        //addAddressButton.add((row+1) / 2 ,addOneButton);
+        //addOneButton.setOnAction(event ->insertAddressFieldAndButton(addOneButton) );
+        //addOneButton.setVisible(true);
+
+        Button autoFillButton = new Button("Auto-Fill");
+        GridPane.setHalignment(autoFillButton, HPos.RIGHT);
+        autoFillButton.setVisible(true);
+        //autoFillButton.
+        autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
+
+
+
+        planTripGridPane.add(addOneTextField, 0 ,row+2);
+//        planTripGridPane.add(addOneButton,1,row+2);
+        planTripGridPane.add(autoFillButton, 0, row+1);
+        planTripGridPane.add(endLabel, 0, row+1);
+        planTripGridPane.add(findRouteButton, 0 ,row+3);
+        planTripGridPane.add(addStopButton, 1 ,row+3);
+//        Button goButton = new Button("GO!");
+//        goButton.setOnAction(e -> findRoute(null));
+
     }
 
 }
