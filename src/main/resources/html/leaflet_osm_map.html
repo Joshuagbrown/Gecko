@@ -145,14 +145,14 @@
         console.log("Adding route")
         route = L.Routing.control({
             waypoints: locations,
-            routeWhileDragging: true
+            routeWhileDragging: true,
         }).addTo(map);
 
     }
 
 
     function addMarker(title, lat, lng, stationId) {
-        var m = new L.Marker([lat, lng])
+        var m = new L.Marker([lat, lng], {icon:greenIcon})
         m.bindPopup(title).openPopup();
         m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
         markers.push(m)

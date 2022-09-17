@@ -117,6 +117,10 @@ public class MapToolBarController implements ScreenController {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void addNewStation(ActionEvent actionEvent) {
         String stationTitle = newStationTitle.getText();
         Double latitude = Double.parseDouble(newStationLatitude.getText());
@@ -170,9 +174,6 @@ public class MapToolBarController implements ScreenController {
         JSONArray items = (JSONArray) jsonResponse.get("items");
         JSONObject bestResult = (JSONObject) items.get(0);
         JSONObject bestPosition = (JSONObject) bestResult.get("position");
-//        Double lat = (Double) bestPosition.get("lat");
-//        Double lng = (Double) bestPosition.get("lng");
-//        Position coords = new Position(lat, lng);
         return bestPosition;
     }
 
@@ -224,12 +225,6 @@ public class MapToolBarController implements ScreenController {
 
     }
 
-//
-//
-//    public void put_stone(Button button){
-//        int row = GridPane.getRowIndex(button);
-//        int column = GridPane.getColumnIndex(button);
-//    }
 
     public void insertAddressFieldAndButton(Button button){
 
@@ -248,11 +243,6 @@ public class MapToolBarController implements ScreenController {
         current.add(null);
         addressMarkerLatLng.add(current);
         addressMarkerTitles.add(null);
-
-        //Button addOneButton = new Button("+");
-        //addAddressButton.add((row+1) / 2 ,addOneButton);
-        //addOneButton.setOnAction(event ->insertAddressFieldAndButton(addOneButton) );
-        //addOneButton.setVisible(true);
 
         Button autoFillButton = new Button("Auto-Fill");
         GridPane.setHalignment(autoFillButton, HPos.RIGHT);
