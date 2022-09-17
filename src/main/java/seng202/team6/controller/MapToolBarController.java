@@ -79,6 +79,10 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<Button> addAddressButton = new ArrayList<Button> ();
 
     private ArrayList<TextField>  arrayOfTextFields = new ArrayList<TextField>();
+    private ArrayList<String> addressMarkerTitles = new ArrayList<String>();
+    private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<ArrayList<Float>>();
+
+    private int numAddresses;
 
 
     /**
@@ -91,13 +95,26 @@ public class MapToolBarController implements ScreenController {
         this.stage = stage;
         this.controller = controller;
         addStationSection.setVisible(false);
+
         arrayOfTextFields.add(startLocation);
+        addressMarkerTitles.add(null);
+        ArrayList<Float> start = new ArrayList<Float>();
+        start.add(null);
+        start.add(null);
+        addressMarkerLatLng.add(start);
+
         arrayOfTextFields.add(endLocation);
+        addressMarkerTitles.add(null);
+        ArrayList<Float> end = new ArrayList<Float>();
+        end.add(null);
+        end.add(null);
+        addressMarkerLatLng.add(end);
+
         addAddressButton.add(addStopButton);
         addStopButton.setOnAction(event -> insertAddressFieldAndButton(addStopButton));
         startAutoFill.setOnAction(event -> eHAutoFill(startLocation));
         endAutoFill.setOnAction(event -> eHAutoFill(endLocation));
-        System.out.println(planTripGridPane.getRowIndex(startAutoFill));
+
     }
 
     public void addNewStation(ActionEvent actionEvent) {
@@ -176,33 +193,6 @@ public class MapToolBarController implements ScreenController {
         javaScriptConnector.call("addRoute", json);
     }
 
-
-
-
-//    public void findRouteEH() {
-//        {
-//            javaScriptConnector = controller.getMapController().getJavaScriptConnector();
-//            String firstLocation = startLocation.getText();
-//            String secondLocation = endLocation.getText();
-//
-//            try {
-//                Position firstCoords = geoCode(firstLocation);
-//                Double firstLocationLat = firstCoords.getFirst();
-//                Double firstLocationLong = firstCoords.getSecond();
-//                Position secondCoords = geoCode(secondLocation);
-//                Double secondLocationLat = secondCoords.getFirst();
-//                Double secondLocationLong = secondCoords.getSecond();
-////            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
-////            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
-//                javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
     public void setFilterSectionOnMapToolBar(Parent screen) {
         this.filterSectionOnMapToolBar.setCenter(screen);
     }
@@ -211,10 +201,27 @@ public class MapToolBarController implements ScreenController {
     }
 
     public void eHAutoFill(TextField field) {
-        field.setText(controller.getMapController().getAddress());
 
-        controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", controller.getMapController().getAddress(), controller.getMapController().getLatLng()[0],
-                controller.getMapController().getLatLng()[1]);
+        field.setText(controller.getMapController().getAddress());
+        int fieldIndex = arrayOfTextFields.indexOf(field);
+
+        addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
+        ArrayList<Float> current = new ArrayList<Float>();
+        current.add(controller.getMapController().getLatLng()[0]);
+        current.add(controller.getMapController().getLatLng()[1]);
+        addressMarkerLatLng.set(fieldIndex, current);
+
+        controller.getMapController().getJavaScriptConnector().call("removeAddressMarkers");
+
+        int i = 0;
+        for (String address : addressMarkerTitles) {
+            if (address != null) {
+                controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", addressMarkerTitles.get(i),
+                        addressMarkerLatLng.get(i).get(0), addressMarkerLatLng.get(i).get(1));
+            }
+            i ++;
+        }
+
     }
 
 //
@@ -231,12 +238,16 @@ public class MapToolBarController implements ScreenController {
         planTripGridPane.getChildren().remove(findRouteButton);
         planTripGridPane.getChildren().remove(addStopButton);
 
-
-
         TextField addOneTextField = new TextField();
         addOneTextField.setVisible(true);
         arrayOfTextFields.add(addOneTextField);
 
+        //Adds the lat and long of the corresponding text field to null because it has not yet been autofilled
+        ArrayList<Float> current = new ArrayList<Float>();
+        current.add(null);
+        current.add(null);
+        addressMarkerLatLng.add(current);
+        addressMarkerTitles.add(null);
 
         //Button addOneButton = new Button("+");
         //addAddressButton.add((row+1) / 2 ,addOneButton);
@@ -248,8 +259,6 @@ public class MapToolBarController implements ScreenController {
         autoFillButton.setVisible(true);
         //autoFillButton.
         autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
-
-
 
         planTripGridPane.add(addOneTextField, 0 ,row+2);
 //        planTripGridPane.add(addOneButton,1,row+2);

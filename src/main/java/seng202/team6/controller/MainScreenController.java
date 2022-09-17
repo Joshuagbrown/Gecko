@@ -52,8 +52,6 @@ public class MainScreenController {
 
     private Parent settingToolBarScreen;
 
-
-
     private LoadScreen screen = new LoadScreen();
 
     private MapController mapController;
