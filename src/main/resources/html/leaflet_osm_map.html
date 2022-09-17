@@ -132,28 +132,18 @@
      * @param lat latitude to place marker at
      * @param lng longitude to place marker at
      */
-    function addRoute(firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong) {
+    function addRoute(locationsString) {
         if (route) {
             route.remove()
         }
+        let locationsArray = JSON.parse(locationsString);
+        let locations = []
+        locationsArray.forEach(location => locations.push(new L.latLng(location.lat, location.lng)))
         console.log("Adding route")
         route = L.Routing.control({
-            waypoints: [
-                new L.latLng(firstLocationLat, firstLocationLong),
-                new L.latLng(secondLocationLat, secondLocationLong)
-            ],
+            waypoints: locations,
             routeWhileDragging: true
         }).addTo(map);
-
-        // let m = markers.pop();
-        // if (map.hasLayer(m)) {
-        //     map.removeLayer(m);
-        // }
-        //
-        // let n = markers.pop();
-        // if (map.hasLayer(n)) {
-        //     map.removeLayer(n);
-        // }
 
     }
 

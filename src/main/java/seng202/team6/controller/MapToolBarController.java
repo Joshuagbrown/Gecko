@@ -1,5 +1,7 @@
 package seng202.team6.controller;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -127,7 +129,7 @@ public class MapToolBarController implements ScreenController {
         return result;
     }
 
-    private Position geoCode(String query) throws IOException, InterruptedException {
+    private JSONObject geoCode(String query) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
@@ -151,80 +153,55 @@ public class MapToolBarController implements ScreenController {
         JSONArray items = (JSONArray) jsonResponse.get("items");
         JSONObject bestResult = (JSONObject) items.get(0);
         JSONObject bestPosition = (JSONObject) bestResult.get("position");
-        Double lat = (Double) bestPosition.get("lat");
-        Double lng = (Double) bestPosition.get("lng");
-        Position coords = new Position(lat, lng);
-        return coords;
+//        Double lat = (Double) bestPosition.get("lat");
+//        Double lng = (Double) bestPosition.get("lng");
+//        Position coords = new Position(lat, lng);
+        return bestPosition;
     }
 
     public void findRoute(ActionEvent actionEvent) {
         javaScriptConnector = controller.getMapController().getJavaScriptConnector();
-        int i = 1;
-        for (TextField textField : arrayOfTextFields){
-            if(i < arrayOfTextFields.size())
-            {
-                String firstLocation = textField.getText();
-                String secondLocation = arrayOfTextFields.get(i).getText();
-
-
-                try {
-                    Position firstCoords = geoCode(firstLocation);
-                    Double firstLocationLat = firstCoords.getFirst();
-                    Double firstLocationLong = firstCoords.getSecond();
-                    Position secondCoords = geoCode(secondLocation);
-                    Double secondLocationLat = secondCoords.getFirst();
-                    Double secondLocationLong = secondCoords.getSecond();
-//            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
-//            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
-                    javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                i +=1;
-
-
-
-
-
-
-
-
-
-            }
-
-        }
-
-
-    }
-
-
-
-
-    public void findRouteEH() {
-        {
-            javaScriptConnector = controller.getMapController().getJavaScriptConnector();
-            String firstLocation = startLocation.getText();
-            String secondLocation = endLocation.getText();
-
+        ArrayList<JSONObject>  posArray = new ArrayList<JSONObject>();
+        for (TextField textField : arrayOfTextFields) {
             try {
-                Position firstCoords = geoCode(firstLocation);
-                Double firstLocationLat = firstCoords.getFirst();
-                Double firstLocationLong = firstCoords.getSecond();
-                Position secondCoords = geoCode(secondLocation);
-                Double secondLocationLat = secondCoords.getFirst();
-                Double secondLocationLong = secondCoords.getSecond();
-//            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
-//            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
-                javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
+                JSONObject location = geoCode(textField.getText());
+                posArray.add(location);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        String json = new Gson().toJson(posArray);
+        javaScriptConnector.call("addRoute", json);
     }
+
+
+
+
+//    public void findRouteEH() {
+//        {
+//            javaScriptConnector = controller.getMapController().getJavaScriptConnector();
+//            String firstLocation = startLocation.getText();
+//            String secondLocation = endLocation.getText();
+//
+//            try {
+//                Position firstCoords = geoCode(firstLocation);
+//                Double firstLocationLat = firstCoords.getFirst();
+//                Double firstLocationLong = firstCoords.getSecond();
+//                Position secondCoords = geoCode(secondLocation);
+//                Double secondLocationLat = secondCoords.getFirst();
+//                Double secondLocationLong = secondCoords.getSecond();
+////            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
+////            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
+//                javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public void setFilterSectionOnMapToolBar(Parent screen) {
         this.filterSectionOnMapToolBar.setCenter(screen);
