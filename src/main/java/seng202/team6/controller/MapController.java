@@ -102,9 +102,6 @@ public class MapController implements ScreenController {
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml());
         // Forwards console.log() output from any javascript to info log
-        WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
-                log.info(String.format(
-                        "Map WebView console log line: %d, message : %s", lineNumber, message)));
 
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
