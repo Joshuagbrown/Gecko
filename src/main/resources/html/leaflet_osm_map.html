@@ -36,6 +36,30 @@
     let markers = [];
     var route;
     var javaScriptBridge;
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    var yellowIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    var redIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside of it
@@ -46,6 +70,7 @@
         initMap: initMap,
         cleanUpMarkerLayer :cleanUpMarkerLayer,
         clickMap : clickMap,
+        addRoutingMarker : addRoutingMarker,
     };
 
 
@@ -70,31 +95,30 @@
     function clickMap() {
         var marker;
 
-
         map.on('click', onMapClick);
         function onMapClick(e) {
             if (marker != null) {
                 map.removeLayer(marker)
             }
-            marker = new L.Marker(e.latlng, {draggable:true});
+            marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
 
             //m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
             javaScriptBridge.setClickLocation(e.latlng.lat, e.latlng.lng);
-            fetchAddress(e.latlng)
+            fetchAddress(e.latlng, marker)
 
             map.addLayer(marker);
             //marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
         }
     }
 
-    function fetchAddress(latlng) {
+    function fetchAddress(latlng, marker) {
         fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latlng.lat}&lon=${latlng.lng}&apiKey=
 8df6478512f9435785f55fe7b64385ed`)
                 .then(response => response.json())
                 .then(result => {
                     if (result.features.length) {
                         const address = result.features[0].properties.formatted;
-                        L.popup().setLatLng(latlng).setContent(address).openOn(map);
+                        L.popup({offset:[0, -33]}).setLatLng(latlng).setContent(address).openOn(map);
                         javaScriptBridge.setAddress(address);
                     } else {
                         L.popup().setLatLng(latlng).setContent("No address found").openOn(map);
@@ -109,18 +133,32 @@
      * @param lng longitude to place marker at
      */
     function addRoute(firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong) {
-        if(route){
-            route.addTo(map)
-        } else {
-            console.log("Adding route")
-            route = L.Routing.control({
-                waypoints: [
-                    new L.latLng(firstLocationLat, firstLocationLong),
-                    new L.latLng(secondLocationLat, secondLocationLong)
-                ],
-                routeWhileDragging: true
-            }).addTo(map);
+        if (route) {
+            route.remove()
         }
+        console.log("Adding route")
+        route = L.Routing.control({
+            waypoints: [
+                new L.latLng(firstLocationLat, firstLocationLong),
+                new L.latLng(secondLocationLat, secondLocationLong)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+
+        // let m = markers.pop();
+        // if (map.hasLayer(m)) {
+        //     map.removeLayer(m);
+        // }
+        //
+        // let n = markers.pop();
+        // if (map.hasLayer(n)) {
+        //     map.removeLayer(n);
+        // }
+
+    }
+
+    function removeMarker(index) {
+
     }
 
 
@@ -139,6 +177,13 @@
                 map.removeLayer(m);
             }
         }
+    }
+
+    function addRoutingMarker(title, lat, lng) {
+        var m = new L.Marker([lat, lng], {icon:yellowIcon})
+        m.bindPopup(title).openPopup()
+        m.addTo(map).on('click', e => m.bindPopup(title).openPopup());
+        markers.push(m);
     }
 
 

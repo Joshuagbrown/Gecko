@@ -15,9 +15,9 @@
                 <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="59.2" prefWidth="114.0">
                      <children>
                         <ImageView layoutX="-57.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text layoutX="18.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gecko" wrappingWidth="81.21484756469727">
+                        <Text fx:id="geckoTitle" boundsType="VISUAL" layoutX="6.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gecko" textAlignment="CENTER" textOrigin="CENTER">
                            <font>
-                              <Font name="Arial Bold Italic" size="18.0" />
+                              <Font size="38.0" />
                            </font>
                         </Text>
                         <ImageView fitHeight="60.0" fitWidth="62.0" layoutX="85.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
@@ -89,16 +89,25 @@
                            <GridPane.margin>
                               <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
                         </Button>
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadDataViewAndToolBars" text="Data" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
                         </Button>
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMyDetail" text="My Details" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
                         </Button>
                      </children>
                   </GridPane>

@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
@@ -32,6 +33,7 @@ public class MainScreenController {
     public BorderPane toolBarPane;
     public BorderPane mainBorderPane;
     public TextArea textAreaInMainScreen;
+    public Text geckoTitle;
 
     private String currentStage = null;
 
@@ -122,6 +124,7 @@ public class MainScreenController {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
+
 
 
     }

@@ -73,7 +73,6 @@ public class MapController implements ScreenController {
     }
 
     public void setAddress(String address) {
-        System.out.println(address);
         currentAddress = address;
     }
 
@@ -146,7 +145,6 @@ public class MapController implements ScreenController {
 
         javaScriptConnector.call(
                 "cleanUpMarkerLayer");
-
 
         for (Station station : stations) {
             addStation(station);

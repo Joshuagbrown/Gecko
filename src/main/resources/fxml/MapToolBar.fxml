@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
    <center>
       <Accordion fx:id="AccordionForFilter" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="213.0" minWidth="112.8" prefHeight="213.0" prefWidth="202.0" BorderPane.alignment="TOP_LEFT">
         <panes>
@@ -29,20 +29,26 @@
                               <Button fx:id="findRouteButton" mnemonicParsing="false" onAction="#findRoute" text="GO! " GridPane.rowIndex="4" />
                               <TextField fx:id="startLocation" onAction="#showTable" GridPane.rowIndex="1" />
                               <TextField fx:id="endLocation" GridPane.rowIndex="3" />
-                              <Button fx:id="startAutoFill" mnemonicParsing="false" onAction="#eHStartAutoFill" text="Auto-Fill" GridPane.halignment="RIGHT" />
-                              <Button fx:id="endAutoFill" mnemonicParsing="false" onAction="#eHEndAutoFill" text="Auto-Fill" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Button fx:id="startAutoFill" mnemonicParsing="false" text="Auto-Fill" GridPane.halignment="RIGHT" />
+                              <Button fx:id="endAutoFill" mnemonicParsing="false" text="Auto-Fill" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>
                   </AnchorPane>
             </content>
+               <font>
+                  <Font size="17.0" />
+               </font>
           </TitledPane>
           <TitledPane animated="false" prefHeight="552.0" prefWidth="202.0" text="Filter Station">
             <content>
                   <BorderPane fx:id="filterSectionOnMapToolBar" />
             </content>
+               <font>
+                  <Font size="17.0" />
+               </font>
           </TitledPane>
-            <TitledPane animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Add Station">
+            <TitledPane fx:id="addStationSection" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Add Station">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -72,6 +78,9 @@
                      </children>
                   </AnchorPane>
               </content>
+               <font>
+                  <Font size="17.0" />
+               </font>
             </TitledPane>
         </panes>
       </Accordion>

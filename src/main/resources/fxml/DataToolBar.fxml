@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
+<BorderPane prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
    <center>
       <BorderPane prefHeight="278.0" prefWidth="228.0" BorderPane.alignment="CENTER">
          <center>
@@ -28,17 +28,45 @@
               </rowConstraints>
                <children>
                   <Slider fx:id="timeLimitInFilter" blockIncrement="60.0" majorTickUnit="60.0" max="360.0" minorTickCount="4" nodeOrientation="LEFT_TO_RIGHT" showTickLabels="true" snapToTicks="true" GridPane.rowIndex="5" />
-                  <CheckBox fx:id="Is24HourCheckBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="119.0" text="Is 24 Hour" GridPane.rowIndex="6" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" TIme Limit (Minutes) : " wrappingWidth="147.931640625" GridPane.rowIndex="4" />
-                  <CheckBox fx:id="hasCarParkCostCheckBox" mnemonicParsing="false" text="No Carpark Cost" GridPane.rowIndex="7" />
-                  <CheckBox fx:id="hasChargingCostCheckBox" mnemonicParsing="false" text="No Charging Cost" GridPane.rowIndex="8" />
-                  <CheckBox fx:id="hasTouristAttractionCostCheckBox" mnemonicParsing="false" text="Has Tourist Attraction" GridPane.rowIndex="9" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#filterStation" prefHeight="25.0" prefWidth="56.0" text="FIlter" GridPane.halignment="LEFT" GridPane.rowIndex="10" GridPane.valignment="BOTTOM" />
-                  <Slider fx:id="distanceSliderOfFilter" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="1" showTickLabels="true" GridPane.rowIndex="3" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance (Kilometer) :" wrappingWidth="118.7949104309082" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#resetFilter" text="Reset Filter" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
-                  <Label text="Search with station name or address :" />
+                  <CheckBox fx:id="Is24HourCheckBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="119.0" text="Is 24 Hour" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="15.0" />
+                     </font></CheckBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" TIme Limit (Minutes) : " wrappingWidth="199.931640625" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Text>
+                  <CheckBox fx:id="hasCarParkCostCheckBox" mnemonicParsing="false" text="No Carpark Cost" GridPane.rowIndex="7">
+                     <font>
+                        <Font size="15.0" />
+                     </font></CheckBox>
+                  <CheckBox fx:id="hasChargingCostCheckBox" mnemonicParsing="false" text="No Charging Cost" GridPane.rowIndex="8">
+                     <font>
+                        <Font size="15.0" />
+                     </font></CheckBox>
+                  <CheckBox fx:id="hasTouristAttractionCostCheckBox" mnemonicParsing="false" text="Has Tourist Attraction" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="15.0" />
+                     </font></CheckBox>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#filterStation" prefHeight="29.0" prefWidth="79.0" text="FIlter" GridPane.halignment="LEFT" GridPane.rowIndex="10" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+                  <Slider fx:id="distanceSliderOfFilter" blockIncrement="5.0" majorTickUnit="5.0" max="25.0" minorTickCount="5" showTickLabels="true" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance (Kilometers) :" wrappingWidth="188.7949104309082" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Text>
+                  <Button mnemonicParsing="false" onAction="#resetFilter" text="Reset Filter" GridPane.halignment="RIGHT" GridPane.rowIndex="10">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
                   <TextField fx:id="inputStationName" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station name or address:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -46,7 +74,7 @@
             </GridPane>
          </center>
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </BorderPane>
    </center>

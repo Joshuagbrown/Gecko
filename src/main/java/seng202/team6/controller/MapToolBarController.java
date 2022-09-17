@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -31,6 +32,9 @@ public class MapToolBarController implements ScreenController {
 
 
     public BorderPane filterSectionOnMapToolBar;
+    public TitledPane addStationSection;
+    public Button endAutoFill;
+    public Button startAutoFill;
     private Stage stage;
     private MainScreenController controller;
 
@@ -67,6 +71,9 @@ public class MapToolBarController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
+        addStationSection.setVisible(false);
+        startAutoFill.setOnAction(e -> eHAutoFill(startLocation));
+        endAutoFill.setOnAction(e -> eHAutoFill(endLocation));
 
     }
 
@@ -76,7 +83,6 @@ public class MapToolBarController implements ScreenController {
         Double longitude = Double.parseDouble(newStationLongitude.getText());
 
         Position pos = new Position(latitude, longitude);
-
 
     }
 
@@ -126,7 +132,6 @@ public class MapToolBarController implements ScreenController {
         JSONObject bestPosition = (JSONObject) bestResult.get("position");
         Double lat = (Double) bestPosition.get("lat");
         Double lng = (Double) bestPosition.get("lng");
-        System.out.println(lat);
         Position coords = new Position(lat, lng);
         return coords;
     }
@@ -160,11 +165,11 @@ public class MapToolBarController implements ScreenController {
     public void showTable(ActionEvent actionEvent) {
     }
 
-    public void eHStartAutoFill(ActionEvent actionEvent) {
-        startLocation.setText(controller.getMapController().getAddress());
+    public void eHAutoFill(TextField field) {
+        field.setText(controller.getMapController().getAddress());
+
+        controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", controller.getMapController().getAddress(), controller.getMapController().getLatLng()[0],
+                controller.getMapController().getLatLng()[1]);
     }
 
-    public void eHEndAutoFill(ActionEvent actionEvent) {
-        endLocation.setText(controller.getMapController().getAddress());
-    }
 }
