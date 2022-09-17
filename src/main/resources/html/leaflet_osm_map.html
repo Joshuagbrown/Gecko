@@ -34,6 +34,7 @@
     // console.log("Leaflet OSM map")
     let map;
     let markers = [];
+    let routingMarkers = [];
     var route;
     var javaScriptBridge;
     var greenIcon = new L.Icon({
@@ -71,6 +72,7 @@
         cleanUpMarkerLayer :cleanUpMarkerLayer,
         clickMap : clickMap,
         addRoutingMarker : addRoutingMarker,
+        removeAddressMarkers : removeAddressMarkers,
     };
 
 
@@ -157,10 +159,6 @@
 
     }
 
-    function removeMarker(index) {
-
-    }
-
 
     function addMarker(title, lat, lng, stationId) {
         var m = new L.Marker([lat, lng])
@@ -183,7 +181,16 @@
         var m = new L.Marker([lat, lng], {icon:yellowIcon})
         m.bindPopup(title).openPopup()
         m.addTo(map).on('click', e => m.bindPopup(title).openPopup());
-        markers.push(m);
+        routingMarkers.push(m);
+    }
+
+    function removeAddressMarkers() {
+        while (routingMarkers.length > 0) {
+            let mark = routingMarkers.pop();
+            if (map.hasLayer(mark)) {
+                map.removeLayer(mark);
+            }
+        }
     }
 
 

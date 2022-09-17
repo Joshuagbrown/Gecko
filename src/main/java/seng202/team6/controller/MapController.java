@@ -194,5 +194,4 @@ public class MapController implements ScreenController {
         return currentAddress;
     }
 
-
 }
