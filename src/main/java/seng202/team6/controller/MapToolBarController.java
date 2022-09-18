@@ -44,7 +44,10 @@ public class MapToolBarController implements ScreenController {
     public Button startAutoFill;
     public Button endAutoFill;
     public Button findRouteButton;
+
+    public Text startLabel;
     public Text endLabel;
+    public Button removeRouteButton;
 
     @FXML
     private Button[] addButton = new Button[15];
@@ -69,6 +72,7 @@ public class MapToolBarController implements ScreenController {
 
     @FXML
     public TextField startLocation;
+
 
     @FXML
     public TextField endLocation;
@@ -232,6 +236,7 @@ public class MapToolBarController implements ScreenController {
         planTripGridPane.getChildren().remove(endLabel);
         planTripGridPane.getChildren().remove(findRouteButton);
         planTripGridPane.getChildren().remove(addStopButton);
+        planTripGridPane.getChildren().remove(removeRouteButton);
 
         TextField addOneTextField = new TextField();
         addOneTextField.setVisible(true);
@@ -251,17 +256,38 @@ public class MapToolBarController implements ScreenController {
         autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
 
         planTripGridPane.add(addOneTextField, 0 ,row+2);
-//        planTripGridPane.add(addOneButton,1,row+2);
         planTripGridPane.add(autoFillButton, 0, row+1);
         planTripGridPane.add(endLabel, 0, row+1);
-        planTripGridPane.add(findRouteButton, 0 ,row+3);
-        planTripGridPane.add(addStopButton, 1 ,row+3);
-//        Button goButton = new Button("GO!");
-//        goButton.setOnAction(e -> findRoute(null));
+        planTripGridPane.add(findRouteButton, 0,row+3);
+        planTripGridPane.add(addStopButton, 0,row+3);
+        planTripGridPane.add(removeRouteButton, 0, row+3);
 
     }
 
     public void removeRoute(ActionEvent actionEvent) {
         controller.getMapController().getJavaScriptConnector().call("removeRoute");
+        planTripGridPane.getChildren().removeAll(planTripGridPane.getChildren().stream().toList());
+
+        planTripGridPane.add(startLabel, 0, 0);
+        planTripGridPane.add(startAutoFill, 0, 0);
+        planTripGridPane.add(startLocation, 0, 1);
+        planTripGridPane.add(endAutoFill, 0, 2);
+        planTripGridPane.add(endLabel, 0, 2);
+        planTripGridPane.add(endLocation, 0, 3);
+        planTripGridPane.add(findRouteButton, 0,4);
+        planTripGridPane.add(addStopButton, 0,4);
+        planTripGridPane.add(removeRouteButton, 0, 4);
+
+        while (arrayOfTextFields.size() > 2) {
+            arrayOfTextFields.remove(2);
+            addressMarkerTitles.remove(0);
+        }
+        addressMarkerTitles.set(0, null);
+        addressMarkerTitles.set(1, null);
+
+
+        for (TextField textField : arrayOfTextFields) {
+            textField.setText("");
+        }
     }
 }

@@ -73,7 +73,7 @@
         clickMap : clickMap,
         addRoutingMarker : addRoutingMarker,
         removeAddressMarkers : removeAddressMarkers,
-        removeRoute : removeRoute(),
+        removeRoute : removeRoute,
     };
 
 
@@ -146,12 +146,16 @@
         route = L.Routing.control({
             waypoints: locations,
             routeWhileDragging: true,
+            serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
         }).addTo(map);
 
     }
     function removeRoute() {
         if (route) {
             route.remove()
+        }
+        while (routingMarkers.length > 0) {
+            routingMarkers.pop()
         }
     }
 

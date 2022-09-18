@@ -102,6 +102,8 @@ public class MapController implements ScreenController {
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml());
         // Forwards console.log() output from any javascript to info log
+        WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
+                log.info(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)));
 
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
@@ -183,12 +185,6 @@ public class MapController implements ScreenController {
 //
 //        addStation(newStation);
 //    }
-
-    public void findRoute(ActionEvent actionEvent) {
-        String firstLocation = startLocation.getText();
-        String secondLocation = endLocation.getText();
-        javaScriptConnector.call("addRoute", firstLocation, secondLocation);
-    }
 
     public String getAddress() {
         return currentAddress;
