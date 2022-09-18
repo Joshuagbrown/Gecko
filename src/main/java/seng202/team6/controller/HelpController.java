@@ -1,8 +1,7 @@
 package seng202.team6.controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,16 +20,17 @@ public class HelpController implements ScreenController {
     @Override
     public void init(Stage stage,MainScreenController controller) {
         this.stage = stage;
-        showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\MainHelpPage.txt");
+        showFileLines(getClass().getResourceAsStream("/TextFiles/MainHelpPage.txt"));
+        System.out.print("we init");
     }
 
-    public void showFileLines(String file) {
-        linesTextArea.clear();
+    public void showFileLines(InputStream file) {
+        this.linesTextArea.clear();
 
         List<String> lines = new ArrayList<String>();
         String line;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            BufferedReader br = new BufferedReader(new InputStreamReader(file));
 
             while ((line = br.readLine()) != null) {
                 lines.add(line);
@@ -40,7 +40,7 @@ public class HelpController implements ScreenController {
             ex.printStackTrace();
         }
         for (String eachLine : lines ) {
-            linesTextArea.appendText(eachLine + "\n");
+            this.linesTextArea.appendText(eachLine + "\n");
         }
     }
 }

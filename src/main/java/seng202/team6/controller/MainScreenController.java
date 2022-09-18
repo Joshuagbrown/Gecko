@@ -257,4 +257,8 @@ public class MainScreenController {
             dataController.loadData(null);
         }
     }
+
+    public HelpController getHelpController() {
+        return this.helpController;
+    }
 }

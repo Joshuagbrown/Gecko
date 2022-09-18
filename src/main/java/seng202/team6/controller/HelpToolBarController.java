@@ -14,8 +14,6 @@ public class HelpToolBarController implements ScreenController {
     private Stage stage;
     private MainScreenController controller;
 
-    private HelpController helpController = new HelpController();
-
     LoadScreen screen = new LoadScreen();
 
     @Override
@@ -29,7 +27,7 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Button clicked.
      */
     public void loadMapHelp(ActionEvent actionEvent) {
-        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\MapHelp.txt");
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MapHelp.txt"));
     }
 
     /**
@@ -37,7 +35,7 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Button pressed.
      */
     public void loadDataHelp(ActionEvent actionEvent) {
-        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\DataHelp.txt");
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/DataHelp.txt"));
     }
 
     /**
@@ -45,7 +43,8 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Button pressed.
      */
     public void loadMyDetailsHelp(ActionEvent actionEvent) {
-        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\MyDetailsHelp.txt");
+        System.out.println("my details");
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MyDetailsHelp.txt"));
     }
 
     /**
@@ -53,6 +52,6 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Button pressed.
      */
     public void loadSettingsHelp(ActionEvent actionEvent) {
-        helpController.showFileLines("C:\\Users\\64211\\Desktop\\Team_6 project\\team-6\\src\\main\\java\\seng202\\team6\\TextFiles\\SettingsHelp.txt");
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/SettingsHelp.txt"));
     }
 }
