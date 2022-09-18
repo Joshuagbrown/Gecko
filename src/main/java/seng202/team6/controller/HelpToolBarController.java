@@ -43,7 +43,6 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Button pressed.
      */
     public void loadMyDetailsHelp(ActionEvent actionEvent) {
-        System.out.println("my details");
         controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MyDetailsHelp.txt"));
     }
 

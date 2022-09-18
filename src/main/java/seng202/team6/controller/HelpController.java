@@ -21,7 +21,6 @@ public class HelpController implements ScreenController {
     public void init(Stage stage,MainScreenController controller) {
         this.stage = stage;
         showFileLines(getClass().getResourceAsStream("/TextFiles/MainHelpPage.txt"));
-        System.out.print("we init");
     }
 
     public void showFileLines(InputStream file) {
