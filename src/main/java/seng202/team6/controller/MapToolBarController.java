@@ -1,11 +1,17 @@
 package seng202.team6.controller;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -23,6 +29,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 
 /**
  * Controller for the map toolbar.
@@ -30,9 +37,21 @@ import java.time.Duration;
 public class MapToolBarController implements ScreenController {
 
 
-
-
     public BorderPane filterSectionOnMapToolBar;
+    public TitledPane addStationSection;
+    public GridPane planTripGridPane;
+    public Button addStopButton;
+    public Button startAutoFill;
+    public Button endAutoFill;
+    public Button findRouteButton;
+
+    public Text startLabel;
+    public Text endLabel;
+    public Button removeRouteButton;
+
+    @FXML
+    private Button[] addButton = new Button[15];
+
     private Stage stage;
     private MainScreenController controller;
 
@@ -52,13 +71,23 @@ public class MapToolBarController implements ScreenController {
     private TextField newStationLongitude;
 
     @FXML
-    private TextField startLocation;
+    public TextField startLocation;
+
 
     @FXML
-    private TextField endLocation;
+    public TextField endLocation;
 
     @FXML
     private Button newStationButton;
+
+    private ArrayList<Button> addAddressButton = new ArrayList<Button> ();
+
+    private ArrayList<TextField>  arrayOfTextFields = new ArrayList<TextField>();
+    private ArrayList<String> addressMarkerTitles = new ArrayList<String>();
+    private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<ArrayList<Float>>();
+
+    private int numAddresses;
+
 
     /**
      * Initializes the controller.
@@ -69,16 +98,39 @@ public class MapToolBarController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
+        addStationSection.setVisible(false);
+
+        arrayOfTextFields.add(startLocation);
+        addressMarkerTitles.add(null);
+        ArrayList<Float> start = new ArrayList<Float>();
+        start.add(null);
+        start.add(null);
+        addressMarkerLatLng.add(start);
+
+        arrayOfTextFields.add(endLocation);
+        addressMarkerTitles.add(null);
+        ArrayList<Float> end = new ArrayList<Float>();
+        end.add(null);
+        end.add(null);
+        addressMarkerLatLng.add(end);
+
+        addAddressButton.add(addStopButton);
+        addStopButton.setOnAction(event -> insertAddressFieldAndButton(addStopButton));
+        startAutoFill.setOnAction(event -> eHAutoFill(startLocation));
+        endAutoFill.setOnAction(event -> eHAutoFill(endLocation));
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void addNewStation(ActionEvent actionEvent) {
         String stationTitle = newStationTitle.getText();
         Double latitude = Double.parseDouble(newStationLatitude.getText());
         Double longitude = Double.parseDouble(newStationLongitude.getText());
 
         Position pos = new Position(latitude, longitude);
-
 
     }
 
@@ -102,7 +154,7 @@ public class MapToolBarController implements ScreenController {
         return result;
     }
 
-    private Position geoCode(String query) throws IOException, InterruptedException {
+    private JSONObject geoCode(String query) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
@@ -126,33 +178,24 @@ public class MapToolBarController implements ScreenController {
         JSONArray items = (JSONArray) jsonResponse.get("items");
         JSONObject bestResult = (JSONObject) items.get(0);
         JSONObject bestPosition = (JSONObject) bestResult.get("position");
-        Double lat = (Double) bestPosition.get("lat");
-        Double lng = (Double) bestPosition.get("lng");
-        System.out.println(lat);
-        Position coords = new Position(lat, lng);
-        return coords;
+        return bestPosition;
     }
 
     public void findRoute(ActionEvent actionEvent) {
         javaScriptConnector = controller.getMapController().getJavaScriptConnector();
-        String firstLocation = startLocation.getText();
-        String secondLocation = endLocation.getText();
-
-        try {
-            Position firstCoords = geoCode(firstLocation);
-            Double firstLocationLat = firstCoords.getFirst();
-            Double firstLocationLong = firstCoords.getSecond();
-            Position secondCoords = geoCode(secondLocation);
-            Double secondLocationLat = secondCoords.getFirst();
-            Double secondLocationLong = secondCoords.getSecond();
-//            javaScriptConnector.call("addMarker", firstLocation, firstLocationLat, firstLocationLong);
-//            javaScriptConnector.call("addMarker", secondLocation, secondLocationLat, secondLocationLong);
-            javaScriptConnector.call("addRoute", firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        ArrayList<JSONObject>  posArray = new ArrayList<JSONObject>();
+        for (TextField textField : arrayOfTextFields) {
+            try {
+                JSONObject location = geoCode(textField.getText());
+                posArray.add(location);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        String json = new Gson().toJson(posArray);
+        controller.getMapController().getJavaScriptConnector().call("addRoute", json);
     }
 
     public void setFilterSectionOnMapToolBar(Parent screen) {
@@ -160,5 +203,91 @@ public class MapToolBarController implements ScreenController {
     }
 
     public void showTable(ActionEvent actionEvent) {
+    }
+
+    public void eHAutoFill(TextField field) {
+
+        field.setText(controller.getMapController().getAddress());
+        int fieldIndex = arrayOfTextFields.indexOf(field);
+
+        addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
+        ArrayList<Float> current = new ArrayList<Float>();
+        current.add(controller.getMapController().getLatLng()[0]);
+        current.add(controller.getMapController().getLatLng()[1]);
+        addressMarkerLatLng.set(fieldIndex, current);
+
+        controller.getMapController().getJavaScriptConnector().call("removeAddressMarkers");
+
+        int i = 0;
+        for (String address : addressMarkerTitles) {
+            if (address != null) {
+                controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", addressMarkerTitles.get(i),
+                        addressMarkerLatLng.get(i).get(0), addressMarkerLatLng.get(i).get(1));
+            }
+            i ++;
+        }
+
+    }
+
+
+    public void insertAddressFieldAndButton(Button button){
+
+        int row = planTripGridPane.getRowIndex(button);
+        planTripGridPane.getChildren().remove(endLabel);
+        planTripGridPane.getChildren().remove(findRouteButton);
+        planTripGridPane.getChildren().remove(addStopButton);
+        planTripGridPane.getChildren().remove(removeRouteButton);
+
+        TextField addOneTextField = new TextField();
+        addOneTextField.setVisible(true);
+        arrayOfTextFields.add(addOneTextField);
+
+        //Adds the lat and long of the corresponding text field to null because it has not yet been autofilled
+        ArrayList<Float> current = new ArrayList<Float>();
+        current.add(null);
+        current.add(null);
+        addressMarkerLatLng.add(current);
+        addressMarkerTitles.add(null);
+
+        Button autoFillButton = new Button("Auto-Fill");
+        GridPane.setHalignment(autoFillButton, HPos.RIGHT);
+        autoFillButton.setVisible(true);
+        //autoFillButton.
+        autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
+
+        planTripGridPane.add(addOneTextField, 0 ,row+2);
+        planTripGridPane.add(autoFillButton, 0, row+1);
+        planTripGridPane.add(endLabel, 0, row+1);
+        planTripGridPane.add(findRouteButton, 0,row+3);
+        planTripGridPane.add(addStopButton, 0,row+3);
+        planTripGridPane.add(removeRouteButton, 0, row+3);
+
+    }
+
+    public void removeRoute(ActionEvent actionEvent) {
+        controller.getMapController().getJavaScriptConnector().call("removeRoute");
+        planTripGridPane.getChildren().removeAll(planTripGridPane.getChildren().stream().toList());
+
+        planTripGridPane.add(startLabel, 0, 0);
+        planTripGridPane.add(startAutoFill, 0, 0);
+        planTripGridPane.add(startLocation, 0, 1);
+        planTripGridPane.add(endAutoFill, 0, 2);
+        planTripGridPane.add(endLabel, 0, 2);
+        planTripGridPane.add(endLocation, 0, 3);
+        planTripGridPane.add(findRouteButton, 0,4);
+        planTripGridPane.add(addStopButton, 0,4);
+        planTripGridPane.add(removeRouteButton, 0, 4);
+
+        while (arrayOfTextFields.size() > 2) {
+            arrayOfTextFields.remove(2);
+            addressMarkerTitles.remove(0);
+        }
+        addressMarkerTitles.set(0, null);
+        addressMarkerTitles.set(1, null);
+
+
+        for (TextField textField : arrayOfTextFields) {
+            textField.setText("");
+        }
     }
 }

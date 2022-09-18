@@ -20,7 +20,7 @@ public class MainApplication extends Application {
 
         @Override
         public void start(Stage primaryStage) throws IOException, URISyntaxException {
-            dataService.loadDataFromCsv(new File(getClass().getResource("/full.csv").toURI()));
+            dataService.createTables();
             FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
             Parent root = baseLoader.load();
             MainScreenController baseController = baseLoader.getController();

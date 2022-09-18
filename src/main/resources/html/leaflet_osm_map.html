@@ -24,7 +24,6 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
@@ -35,8 +34,33 @@
     // console.log("Leaflet OSM map")
     let map;
     let markers = [];
+    let routingMarkers = [];
     var route;
     var javaScriptBridge;
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    var yellowIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    var redIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
     /**
      * This object can be returned to our java code, where we can call the functions we define inside of it
@@ -44,7 +68,12 @@
     let jsConnector = {
         addMarker: addMarker,
         addRoute: addRoute,
-        initMap: initMap
+        initMap: initMap,
+        cleanUpMarkerLayer :cleanUpMarkerLayer,
+        clickMap : clickMap,
+        addRoutingMarker : addRoutingMarker,
+        removeAddressMarkers : removeAddressMarkers,
+        removeRoute : removeRoute,
     };
 
 
@@ -60,9 +89,7 @@
             attribution: '© OpenStreetMap contributors<br>Served by University of Canterbury'
         }).addTo(map);
 
-
         clickMap();
-
     }
 
     /**
@@ -71,18 +98,36 @@
     function clickMap() {
         var marker;
 
-
         map.on('click', onMapClick);
         function onMapClick(e) {
             if (marker != null) {
                 map.removeLayer(marker)
             }
-            marker = new L.Marker(e.latlng, {draggable:true});
+            marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
+
+            //m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+            javaScriptBridge.setClickLocation(e.latlng.lat, e.latlng.lng);
+            fetchAddress(e.latlng, marker)
+
             map.addLayer(marker);
-            marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
+            //marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
         }
     }
 
+    function fetchAddress(latlng, marker) {
+        fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latlng.lat}&lon=${latlng.lng}&apiKey=
+8df6478512f9435785f55fe7b64385ed`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.features.length) {
+                        const address = result.features[0].properties.formatted;
+                        L.popup({offset:[0, -33]}).setLatLng(latlng).setContent(address).openOn(map);
+                        javaScriptBridge.setAddress(address);
+                    } else {
+                        L.popup().setLatLng(latlng).setContent("No address found").openOn(map);
+                    }
+                });
+    }
 
     /**
      * Adds a marker to the map and stores it in the markers array for later use (e.g. removal)
@@ -90,32 +135,62 @@
      * @param lat latitude to place marker at
      * @param lng longitude to place marker at
      */
-    function addRoute(firstLocationLat, firstLocationLong, secondLocationLat, secondLocationLong) {
-        if(route){
-            route.addTo(map)
-        } else {
-            console.log("Adding route")
-            route = L.Routing.control({
-                waypoints: [
-                    new L.latLng(firstLocationLat, firstLocationLong),
-                    new L.latLng(secondLocationLat, secondLocationLong)
-                ],
-                routeWhileDragging: true
-            }).addTo(map);
+    function addRoute(locationsString) {
+        if (route) {
+            route.remove()
+        }
+        removeAddressMarkers();
+        let locationsArray = JSON.parse(locationsString);
+        let locations = []
+        locationsArray.forEach(location => locations.push(new L.latLng(location.lat, location.lng)))
+        route = L.Routing.control({
+            waypoints: locations,
+            routeWhileDragging: true,
+            serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
+        }).addTo(map);
+
+    }
+    function removeRoute() {
+        if (route) {
+            route.remove()
+        }
+        while (routingMarkers.length > 0) {
+            routingMarkers.pop()
         }
     }
 
-    function moreInfo() {
-
-
-
-    }
 
     function addMarker(title, lat, lng, stationId) {
-        var m = new L.Marker([lat, lng])
+        var m = new L.Marker([lat, lng], {icon:greenIcon})
         m.bindPopup(title).openPopup();
         m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
         markers.push(m)
+    }
+
+
+    function cleanUpMarkerLayer() {
+        while (markers.length > 0) {
+            let m = markers.pop();
+            if (map.hasLayer(m)) {
+                map.removeLayer(m);
+            }
+        }
+    }
+
+    function addRoutingMarker(title, lat, lng) {
+        var m = new L.Marker([lat, lng], {icon:yellowIcon})
+        m.bindPopup(title).openPopup()
+        m.addTo(map).on('click', e => m.bindPopup(title).openPopup());
+        routingMarkers.push(m);
+    }
+
+    function removeAddressMarkers() {
+        while (routingMarkers.length > 0) {
+            let mark = routingMarkers.pop();
+            if (map.hasLayer(mark)) {
+                map.removeLayer(mark);
+            }
+        }
     }
 
 

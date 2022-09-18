@@ -1,19 +1,7 @@
 package seng202.team6.business;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
-import seng202.team6.controller.MapController;
-
-
-import java.io.IOException;
 
 
 /**
@@ -25,13 +13,26 @@ public class JavaScriptBridge {
 
     private static final Logger log = LogManager.getLogger();
     private GetStationInterface getStationInterface;
+    private GetLocationInterface getLocationInterface;
+    private GetAddressInterface getAddressInterface;
 
-    public JavaScriptBridge(GetStationInterface getStationLambda) {
+    public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface getLocationLambda, GetAddressInterface
+                            getAddressLambda) {
         getStationInterface = getStationLambda;
+        getLocationInterface = getLocationLambda;
+        getAddressInterface = getAddressLambda;
     }
 
     public void getStationFromClick(int id) {
         getStationInterface.operation(id);
+    }
+
+    public void setClickLocation(float lat, float lng) {
+        getLocationInterface.operation(lat, lng);
+    }
+
+    public void setAddress(String address) {
+        getAddressInterface.operation(address);
     }
 }
 

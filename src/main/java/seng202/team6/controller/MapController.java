@@ -57,6 +57,9 @@ public class MapController implements ScreenController {
     @FXML
     private Button newStationButton;
     private MainScreenController controller;
+    private float locationLat;
+    private float locationLng;
+    private String currentAddress;
 
     /**
      * Initialises the map view.
@@ -65,13 +68,28 @@ public class MapController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
-        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked);
+        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked, this::setClickLocation, this::setAddress);
         initMap();
+    }
+
+    public void setAddress(String address) {
+        currentAddress = address;
     }
 
     public void onStationClicked(int id) {
         Station station = controller.getDataService().getStationById(id);
         controller.setTextAreaInMainScreen(station.toString());
+    }
+
+    public void setClickLocation(float lat, float lng) {
+        locationLat = lat;
+        locationLng = lng;
+
+    }
+
+    public float[] getLatLng() {
+        float[] latLng = new float[]{locationLat, locationLng};
+        return latLng;
     }
 
 
@@ -85,8 +103,7 @@ public class MapController implements ScreenController {
         webEngine.loadContent(getHtml());
         // Forwards console.log() output from any javascript to info log
         WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
-                log.info(String.format(
-                        "Map WebView console log line: %d, message : %s", lineNumber, message)));
+                log.info(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)));
 
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
@@ -102,7 +119,7 @@ public class MapController implements ScreenController {
 
                         javaScriptConnector.call("initMap");
 
-                        addStationsToMap();
+                        addStationsToMap(null);
 
                     }
                 });
@@ -124,13 +141,17 @@ public class MapController implements ScreenController {
         return javaScriptConnector;
     }
 
-    private void addStationsToMap() {
+    public void addStationsToMap(String sql) {
 
-        List<Station> stations = stationDao.getAll(null);
+        List<Station> stations = stationDao.getAll(sql);
+
+        javaScriptConnector.call(
+                "cleanUpMarkerLayer");
 
         for (Station station : stations) {
             addStation(station);
         }
+
     }
 
 
@@ -138,6 +159,15 @@ public class MapController implements ScreenController {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getFirst(),
                 station.getCoordinates().getSecond(), station.getObjectId());
+    }
+
+
+    public void deleteStation(Station station) {
+
+    }
+
+    public JavaScriptBridge getJavaScriptBridge() {
+        return javaScriptBridge;
     }
 
     /**
@@ -156,11 +186,8 @@ public class MapController implements ScreenController {
 //        addStation(newStation);
 //    }
 
-    public void findRoute(ActionEvent actionEvent) {
-        String firstLocation = startLocation.getText();
-        String secondLocation = endLocation.getText();
-        javaScriptConnector.call("addRoute", firstLocation, secondLocation);
+    public String getAddress() {
+        return currentAddress;
     }
-
 
 }

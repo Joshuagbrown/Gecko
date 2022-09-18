@@ -29,31 +29,41 @@ public class DataToolBarController implements ScreenController {
     public String createSqlQueryStringFromFilter() {
         String sql = "SELECT * FROM Stations WHERE ";
         if (inputStationName.getText()!=null) {
-            sql += "name LIKE '%"+inputStationName.getText()+"%' AND";
+            sql += "(name LIKE '%"+inputStationName.getText()+
+                    "%' OR address LIKE '%"
+                    +inputStationName.getText()+ "%') AND ";
 
         }
 
         if (distanceSliderOfFilter.getValue()!= 0) {
+            float[] latlng = controller.getMapController().getLatLng();
+            float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
+            controller.setTextAreaInMainScreen(String.valueOf(distance));
 
+            sql += "LAT < "+ (latlng[0] + distance)+" AND lat > "+(latlng[0] - distance)+" AND long  < "+(latlng[1] + distance)+" AND long > "+(latlng[1] - distance)+" AND ";
+
+//            sql += "lat <= " + latlng[0] + distance + " AND lat >= " + (latlng[0] - distance) +
+//                    " AND long <= " + latlng[1] + distance + " AND long >= " + (latlng[1] - distance)
+//            + " AND ";
 
         } else {
 
         }
         if (timeLimitInFilter.getValue() != 0) {
-            sql += "timeLimit >= "+timeLimitInFilter.getValue()+"AND ";
+            sql += "timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0 "+ "AND ";
         }
         if(Is24HourCheckBox.isSelected()) {
             sql += "is24Hours = 1 AND ";
         }
         if(hasCarParkCostCheckBox.isSelected()) {
-            sql += "carparkCost = 1 AND ";
+            sql += "carparkCost = 0 AND ";
         }
         if (hasTouristAttractionCostCheckBox.isSelected()) {
             sql += "hasTouristAttraction = 1 AND ";
 
         }
         if (hasChargingCostCheckBox.isSelected()) {
-            sql += "chargingCost = 1 AND ";
+            sql += "chargingCost = 0 AND ";
         }
         if(sql == "SELECT * FROM Stations WHERE ") {
             sql = "SELECT * FROM Stations;";
@@ -70,6 +80,7 @@ public class DataToolBarController implements ScreenController {
     public void filterStation(ActionEvent actionEvent) {
         String sql = createSqlQueryStringFromFilter();
         controller.getDataController().loadData( sql);
+        controller.getMapController().addStationsToMap(sql);
     }
 
     public void resetFilter(ActionEvent actionEvent) {
