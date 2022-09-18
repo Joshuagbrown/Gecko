@@ -191,7 +191,7 @@ public class MapToolBarController implements ScreenController {
             }
         }
         String json = new Gson().toJson(posArray);
-        javaScriptConnector.call("addRoute", json);
+        controller.getMapController().getJavaScriptConnector().call("addRoute", json);
     }
 
     public void setFilterSectionOnMapToolBar(Parent screen) {
@@ -261,4 +261,7 @@ public class MapToolBarController implements ScreenController {
 
     }
 
+    public void removeRoute(ActionEvent actionEvent) {
+        controller.getMapController().getJavaScriptConnector().call("removeRoute");
+    }
 }

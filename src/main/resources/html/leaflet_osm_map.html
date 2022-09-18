@@ -73,6 +73,7 @@
         clickMap : clickMap,
         addRoutingMarker : addRoutingMarker,
         removeAddressMarkers : removeAddressMarkers,
+        removeRoute : removeRoute(),
     };
 
 
@@ -142,12 +143,16 @@
         let locationsArray = JSON.parse(locationsString);
         let locations = []
         locationsArray.forEach(location => locations.push(new L.latLng(location.lat, location.lng)))
-        console.log("Adding route")
         route = L.Routing.control({
             waypoints: locations,
             routeWhileDragging: true,
         }).addTo(map);
 
+    }
+    function removeRoute() {
+        if (route) {
+            route.remove()
+        }
     }
 
 
