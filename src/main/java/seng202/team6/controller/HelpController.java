@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelpController implements ScreenController {
+    public TextArea linesTextArea;
     private Stage stage;
-    @FXML
-    private TextArea linesTextArea;
+   
+    
 
 
     @Override
