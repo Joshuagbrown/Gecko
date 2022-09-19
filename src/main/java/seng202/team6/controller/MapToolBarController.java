@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -241,7 +242,9 @@ public class MapToolBarController implements ScreenController {
         planTripGridPane.getChildren().remove(removeRouteButton);
 
         TextField addOneTextField = new TextField();
+        addOneTextField.setFont(Font.font(13));
         addOneTextField.setVisible(true);
+
         arrayOfTextFields.add(addOneTextField);
 
         //Adds the lat and long of the corresponding text field to null because it has not yet been autofilled
@@ -252,6 +255,7 @@ public class MapToolBarController implements ScreenController {
         addressMarkerTitles.add(null);
 
         Button autoFillButton = new Button("Auto-Fill");
+        autoFillButton.setFont(Font.font(15));
         GridPane.setHalignment(autoFillButton, HPos.RIGHT);
         autoFillButton.setVisible(true);
         //autoFillButton.
