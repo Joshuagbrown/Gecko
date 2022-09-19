@@ -95,7 +95,6 @@ public class MapToolBarController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
-        addStationSection.setVisible(false);
 
         arrayOfTextFields.add(startLocation);
         addressMarkerTitles.add(null);
