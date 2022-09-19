@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelpController implements ScreenController {
+    @FXML
     public TextArea linesTextArea;
     private Stage stage;
    
@@ -43,7 +44,7 @@ public class HelpController implements ScreenController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        for (String eachLine : lines ) {
+        for (String eachLine : lines) {
             this.linesTextArea.appendText(eachLine + "\n");
         }
     }

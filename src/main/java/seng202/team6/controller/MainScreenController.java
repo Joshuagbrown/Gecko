@@ -199,12 +199,8 @@ public class MainScreenController {
      * @param actionEvent Top level container for this window
      */
     public void loadHelpScreenAndToolBar(ActionEvent actionEvent) throws IOException {
-
-
         mainBorderPane.setCenter(helpScreen);
         toolBarPane.setCenter(helpToolBarScreen);
-
-
     }
 
     public void loadMyDetail(ActionEvent actionEvent) {
