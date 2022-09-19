@@ -14,6 +14,7 @@ public class DataToolBarController implements ScreenController {
     public Slider distanceSliderOfFilter;
     public CheckBox hasChargingCostCheckBox;
     public Slider timeLimitInFilter;
+
     public Button resetFilter;
     public TextField inputStationName;
     private Stage stage;
@@ -45,10 +46,6 @@ public class DataToolBarController implements ScreenController {
 
             sql += "LAT < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance) + " AND long  < "+(latlng[1] + distance) + " AND long > " + (latlng[1] - distance) + " AND ";
 
-//            sql += "lat <= " + latlng[0] + distance + " AND lat >= " + (latlng[0] - distance) +
-//                    " AND long <= " + latlng[1] + distance + " AND long >= " + (latlng[1] - distance)
-//            + " AND ";
-
         }
         if (timeLimitInFilter.getValue() != 0) {
             sql += "timeLimit >= " + timeLimitInFilter.getValue() + " OR timeLimit ==0 " + "AND ";
@@ -73,7 +70,6 @@ public class DataToolBarController implements ScreenController {
             sql = sql.substring(0,num) + ";";
 
         }
-
 
         return sql;
     }

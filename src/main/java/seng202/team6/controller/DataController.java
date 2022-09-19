@@ -35,6 +35,7 @@ public class DataController implements ScreenController {
     public TableColumn operator;
     public TableColumn is24Hour;
     public TableColumn timeLimit;
+
     public TableColumn address;
     public TableColumn owner;
     public TableColumn noOfCarPark;
