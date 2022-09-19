@@ -2,7 +2,6 @@ package seng202.team6.controller;
 
 import com.sun.javafx.webkit.WebConsoleListener;
 import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -57,8 +56,8 @@ public class MapController implements ScreenController {
     @FXML
     private Button newStationButton;
     private MainScreenController controller;
-    private float locationLat;
-    private float locationLng;
+    private float locationLat = 0;
+    private float locationLng = 0;
     private String currentAddress;
 
     /**

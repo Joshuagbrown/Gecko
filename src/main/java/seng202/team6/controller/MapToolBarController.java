@@ -1,14 +1,11 @@
 package seng202.team6.controller;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -186,16 +183,25 @@ public class MapToolBarController implements ScreenController {
         ArrayList<JSONObject>  posArray = new ArrayList<JSONObject>();
         for (TextField textField : arrayOfTextFields) {
             try {
-                JSONObject location = geoCode(textField.getText());
-                posArray.add(location);
+                if (textField.getText() !="") {
+                    JSONObject location = geoCode(textField.getText());
+                    posArray.add(location);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        String json = new Gson().toJson(posArray);
-        controller.getMapController().getJavaScriptConnector().call("addRoute", json);
+        if (posArray.size()>=2) {
+
+
+            String json = new Gson().toJson(posArray);
+            controller.getMapController().getJavaScriptConnector().call("addRoute", json);
+        } else {
+            AlertMessage.createMessage("Incorrect number of addresses.", "Please input at least two destinations.");
+
+        }
     }
 
     public void setFilterSectionOnMapToolBar(Parent screen) {
@@ -265,6 +271,7 @@ public class MapToolBarController implements ScreenController {
     }
 
     public void removeRoute(ActionEvent actionEvent) {
+
         controller.getMapController().getJavaScriptConnector().call("removeRoute");
         planTripGridPane.getChildren().removeAll(planTripGridPane.getChildren().stream().toList());
 
@@ -289,5 +296,6 @@ public class MapToolBarController implements ScreenController {
         for (TextField textField : arrayOfTextFields) {
             textField.setText("");
         }
+
     }
 }

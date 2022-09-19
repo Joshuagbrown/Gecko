@@ -1,10 +1,7 @@
 package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class DataToolBarController implements ScreenController {
@@ -37,20 +34,27 @@ public class DataToolBarController implements ScreenController {
 
         if (distanceSliderOfFilter.getValue()!= 0) {
             float[] latlng = controller.getMapController().getLatLng();
-            float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
-            controller.setTextAreaInMainScreen(String.valueOf(distance));
+            if (latlng[0] == 0) {
 
-            sql += "LAT < "+ (latlng[0] + distance)+" AND lat > "+(latlng[0] - distance)+" AND long  < "+(latlng[1] + distance)+" AND long > "+(latlng[1] - distance)+" AND ";
+                AlertMessage.createMessage("Current Location has not been selected.","Please select a location on the map.");
 
-//            sql += "lat <= " + latlng[0] + distance + " AND lat >= " + (latlng[0] - distance) +
-//                    " AND long <= " + latlng[1] + distance + " AND long >= " + (latlng[1] - distance)
-//            + " AND ";
+            } else {
+                float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
+//            controller.setTextAreaInMainScreen(String.valueOf(distance));
+
+                sql += "LAT < "+ (latlng[0] + distance)+" AND lat > "+(latlng[0] - distance)+" AND long  < "+(latlng[1] + distance)+" AND long > "+(latlng[1] - distance)+" AND ";
+
+            }
+//            float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
+//            controller.setTextAreaInMainScreen(String.valueOf(distance));
+//
+//            sql += "LAT < "+ (latlng[0] + distance)+" AND lat > "+(latlng[0] - distance)+" AND long  < "+(latlng[1] + distance)+" AND long > "+(latlng[1] - distance)+" AND ";
 
         } else {
 
         }
         if (timeLimitInFilter.getValue() != 0) {
-            sql += "timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0 "+ "AND ";
+            sql += "(timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0) "+ "AND ";
         }
         if(Is24HourCheckBox.isSelected()) {
             sql += "is24Hours = 1 AND ";
