@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 /**
  * Map Controller Class.
  * Based off LeafletOSMViewController from seng202-advanced-fx-public by Morgan English
@@ -80,15 +81,18 @@ public class MapController implements ScreenController {
         controller.setTextAreaInMainScreen(station.toString());
     }
 
+    /**
+     * When a place on the map is clicked this sets the latitude and longitude.
+     * @param lat latitude.
+     * @param lng longitude
+     */
     public void setClickLocation(float lat, float lng) {
         locationLat = lat;
         locationLng = lng;
-
     }
 
     public float[] getLatLng() {
-        float[] latLng = new float[]{locationLat, locationLng};
-        return latLng;
+        return new float[]{locationLat, locationLng};
     }
 
 
@@ -140,6 +144,10 @@ public class MapController implements ScreenController {
         return javaScriptConnector;
     }
 
+    /**
+     * This calls this add station function, for all the stations that fit the sql query.
+     * @param sql Takes a sql query as input.
+     */
     public void addStationsToMap(String sql) {
 
         List<Station> stations = stationDao.getAll(sql);
@@ -154,6 +162,10 @@ public class MapController implements ScreenController {
     }
 
 
+    /**
+     * Adds a single station to the map.
+     * @param station A station.
+     */
     public void addStation(Station station) {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getFirst(),
@@ -169,24 +181,7 @@ public class MapController implements ScreenController {
         return javaScriptBridge;
     }
 
-    /**
-     * Action handler method for add new station to map button.
-     *
-     * @param actionEvent button pressed event
-     */
-//    public void addNewStation(Station actionEvent) {
-//        String stationTitle = newStationTitle.getText();
-//        Double latitude = Double.parseDouble(newStationLatitude.getText());
-//        Double longitude = Double.parseDouble(newStationLongitude.getText());
-//
-//        Position pos = new Position(latitude, longitude);
-//        Station newStation = new Station(pos, stationTitle);
-//
-//        addStation(newStation);
-//    }
-
     public String getAddress() {
         return currentAddress;
     }
-
 }

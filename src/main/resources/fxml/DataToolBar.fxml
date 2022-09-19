@@ -28,7 +28,7 @@
               </rowConstraints>
                <children>
                   <Slider fx:id="timeLimitInFilter" blockIncrement="60.0" majorTickUnit="60.0" max="360.0" minorTickCount="4" nodeOrientation="LEFT_TO_RIGHT" showTickLabels="true" snapToTicks="true" GridPane.rowIndex="5" />
-                  <CheckBox fx:id="Is24HourCheckBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="119.0" text="Is 24 Hour" GridPane.rowIndex="6">
+                  <CheckBox fx:id="is24HourCheckBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="119.0" text="Is 24 Hour" GridPane.rowIndex="6">
                      <font>
                         <Font size="15.0" />
                      </font></CheckBox>

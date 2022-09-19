@@ -1,22 +1,14 @@
-
-
-
-
 package seng202.team6.controller;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
@@ -24,6 +16,8 @@ import seng202.team6.services.DataService;
 
 import java.io.File;
 import java.io.IOException;
+
+
 
 public class MainScreenController {
 
@@ -71,7 +65,6 @@ public class MainScreenController {
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen
      *
-     *
      * @param stage Top level container for this window
      */
     void init(Stage stage, DataService dataService) {
@@ -80,42 +73,40 @@ public class MainScreenController {
         this.dataService = dataService;
         try {
 
-            p = screen.LoadBigScreen(stage, "/fxml/Help.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/Help.fxml", this);
             helpScreen = (Parent) p.getKey();
-            helpController= (HelpController) p.getValue();
+            helpController = (HelpController) p.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/Map.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
             mapScreen = (Parent) p.getKey();
-            mapController= (MapController) p.getValue();
+            mapController = (MapController) p.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/Data.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/Data.fxml", this);
             dataScreen = (Parent) p.getKey();
-            dataController= (DataController) p.getValue();
+            dataController = (DataController) p.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/MapToolBar.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/MapToolBar.fxml", this);
             mapToolBarScreen = (Parent) p.getKey();
-            mapToolBarController= (MapToolBarController) p.getValue();
+            mapToolBarController = (MapToolBarController) p.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/DataToolBar.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/DataToolBar.fxml", this);
             dataToolBarScreen = (Parent) p.getKey();
-            dataToolBarController= (DataToolBarController) p.getValue();
+            dataToolBarController = (DataToolBarController) p.getValue();
             mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
 
-            p = screen.LoadBigScreen(stage, "/fxml/HelpToolBar.fxml",this);
+            p = screen.LoadBigScreen(stage, "/fxml/HelpToolBar.fxml", this);
             helpToolBarScreen = (Parent) p.getKey();
-            helpToolBarController= (HelpToolBarController) p.getValue();
+            helpToolBarController = (HelpToolBarController) p.getValue();
 
             p = screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this);
             settingScreen = (Parent) p.getKey();
-            settingController= (SettingController) p.getValue();
+            settingController = (SettingController) p.getValue();
 
             p = screen.LoadBigScreen(stage, "/fxml/SettingToolBar.fxml", this);
             settingToolBarScreen = (Parent) p.getKey();
-            settingToolBarController= (SettingToolBarController) p.getValue();
-
+            settingToolBarController = (SettingToolBarController) p.getValue();
 
             loadFilterSectionOnMapToolBar();
-
 
             loadMapViewAndToolBars();
         } catch (IOException e) {
@@ -124,15 +115,15 @@ public class MainScreenController {
         stage.sizeToScene();
 
 
-
     }
 
     private void loadFilterSectionOnMapToolBar() {
     }
 
 
-    public MapController getMapController() { return mapController;}
-
+    public MapController getMapController() {
+        return mapController;
+    }
 
     public Stage getStage() {
         return this.stage;
@@ -154,7 +145,13 @@ public class MainScreenController {
         return dataService;
     }
 
+    public HelpController getHelpController() {
+        return this.helpController;
+    }
 
+    public DataController getDataController() {
+        return dataController;
+    }
 
     /**
      * The action handler that linked to the map button on main screen.
@@ -174,16 +171,13 @@ public class MainScreenController {
 
 
     }
-    public void setTextAreaInMainScreen(String info){
-        textAreaInMainScreen.setText(info);
-    }
 
-
-
+    /**
+     * This loads the map view and toolbars.
+     * @throws IOException
+     */
     public void loadMapViewAndToolBars() throws IOException {
-
         loadMapViewAndToolBars(null);
-
     }
 
     /**
@@ -212,10 +206,6 @@ public class MainScreenController {
 
 
     }
-    public DataController getDataController() {
-        return dataController;
-    }
-
 
     public void loadMyDetail(ActionEvent actionEvent) {
         currentStage = "Detail";
@@ -234,6 +224,13 @@ public class MainScreenController {
 
     }
 
+    public void setTextAreaInMainScreen(String info) {
+        textAreaInMainScreen.setText(info);
+    }
+
+    /**
+     * This function imports the data from a selected file.
+     */
     public void importData() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");

@@ -1,17 +1,14 @@
 package seng202.team6.controller;
 
-
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
-import java.io.IOException;
 
 public class HelpToolBarController implements ScreenController {
 
     private Stage stage;
     private MainScreenController controller;
+
     LoadScreen screen = new LoadScreen();
 
     @Override
@@ -21,26 +18,34 @@ public class HelpToolBarController implements ScreenController {
     }
 
     /**
-     * Loads the frequently asked questions.
-     * @param actionEvent Button clicked.
-     * @throws IOException if there is an issue loading fxml file
+     * Calls the showFileLines function with the Map Help text file as input.
+     * @param actionEvent Load Map Help button clicked.
      */
-    public void loadFAQ(ActionEvent actionEvent) throws IOException {
-
-        Pair p = screen.LoadBigScreen(this.stage, "/fxml/FAQ.fxml",controller);
-
-        controller.getMainBorderPane().setCenter((Parent)p.getKey());
-
+    public void loadMapHelp(ActionEvent actionEvent) {
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MapHelp.txt"));
     }
 
     /**
-     * Loads the map help screen.
-     * @param actionEvent Button pressed.
-     * @throws IOException if there is an issue loading fxml file
+     * Calls the showFileLines function with the Data Help text file as input.
+     * @param actionEvent Load Data Help button clicked.
      */
-    public void loadMapHelp(ActionEvent actionEvent) throws IOException {
-        Pair p = screen.LoadBigScreen(stage, "/fxml/MapHelpScreen.fxml",controller);
+    public void loadDataHelp(ActionEvent actionEvent) {
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/DataHelp.txt"));
+    }
 
-        controller.getMainBorderPane().setCenter((Parent)p.getKey());
+    /**
+     * Calls the showFileLines function with the My Details Help text file as input.
+     * @param actionEvent Load My Details Help button clicked.
+     */
+    public void loadMyDetailsHelp(ActionEvent actionEvent) {
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MyDetailsHelp.txt"));
+    }
+
+    /**
+     * Calls the showFileLines function with the Settings Help text file as input.
+     * @param actionEvent Load Settings Help button clicked.
+     */
+    public void loadSettingsHelp(ActionEvent actionEvent) {
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/SettingsHelp.txt"));
     }
 }

@@ -1,0 +1,34 @@
+Welcome to the Data Help Page!
+
+This page displays info about the Data page and all the functionality:
+The Data page displays the raw data about the charging stations in a table. 
+Clicking on the attributes at the top of table will sort the data according to the attribute clicked.
+Clicking on a station in the table will display the full information about that station in the textbox in the toolbar.
+
+The Filter Station function:
+This function will hide the stations in the table that don't fit the filters given.
+To filter the stations in the table (this will also apply to the map page) the options are:
+
+Search with station name:
+This will hide every station other than the one being searched for.
+
+Distance (Kilometer):
+This will hide all the stations that are outside the distance given from the slider from the centre of the map.
+
+Time Limit (Minutes):
+This will hide all the stations that have a time limit a below the value given from the slider.
+
+Is 24 Hour:
+This will hide all the stations that aren't avaliable 24 hours.
+
+Has Carpark Cost:
+This will hide all the stations that don't have a carpark cost.
+
+Has Charging Cost:
+This will hide all the stations that don't have a charging cost.
+
+Has Tourist Attraction:
+This will hide all the stations that don't have a tourist attraction.
+
+Once selected, clicking the 'Filter' button will apply those filters.
+To reset back to all the stations just click the 'Reset Filter' button.

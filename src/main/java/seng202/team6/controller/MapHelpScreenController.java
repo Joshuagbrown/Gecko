@@ -10,7 +10,7 @@ public class MapHelpScreenController implements ScreenController {
     @Override
     public void init(Stage stage,MainScreenController controller) {
         this.stage = stage;
-        this.controller= controller;
+        this.controller = controller;
     }
 
     public void exitScreen(ActionEvent actionEvent) {

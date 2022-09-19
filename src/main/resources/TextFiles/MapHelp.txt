@@ -1,0 +1,48 @@
+Welcome to the Map Help Page!
+
+This page displays info about the Map page and all the functionality:
+
+The map page displays a map and a toolbar with functions and a textbox.
+On the map all the chargings station in the database will be shown.
+Clicking a station on the Map will display the full information about that station in the textbox in the toolbar.
+In the toolbar there a 3 main functions; Plan a trip, Filter Stations and Add station. These are described in more detail below.
+
+Plan a Trip:
+This function will show a route on the map with instructions from the start location to the end location given.
+To plan a trip enter in the start location and end location in the format:
+Number Street, Suburb, City
+
+Once done click the 'Go!' button and the map will display the route from the start location to the end location.
+These markers at the start and end locations are also draggable so feel free to move it around and the route and instructions will change accordingly.
+
+Filter Station:
+This function will hide the stations on the map that don't fit the filters given.
+To filter the stations on the map (this will also apply to the data page) the options are:
+
+Search with station name:
+This will hide every station other than the one being searched for.
+
+Distance (Kilometer):
+This will hide all the stations that are outside the distance given from the slider from the centre of the map.
+
+Time Limit (Minutes):
+This will hide all the stations that have a time limit a below the value given from the slider.
+
+Is 24 Hour:
+This will hide all the stations that aren't avaliable 24 hours.
+
+Has Carpark Cost:
+This will hide all the stations that don't have a carpark cost.
+
+Has Charging Cost:
+This will hide all the stations that don't have a charging cost.
+
+Has Tourist Attraction:
+This will hide all the stations that don't have a tourist attraction.
+
+Once selected, clicking the 'Filter' button will apply those filters.
+To reset back to all the stations just click the 'Reset Filter' button.
+
+Add Station:
+This function will add a new station to the map and database.
+To do this just enter all the fields required and click the 'Add Station!' button and it will be added.
