@@ -1,7 +1,6 @@
 package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -14,7 +13,6 @@ public class DataToolBarController implements ScreenController {
     public Slider distanceSliderOfFilter;
     public CheckBox hasChargingCostCheckBox;
     public Slider timeLimitInFilter;
-    public Button resetFilter;
     public TextField inputStationName;
     private Stage stage;
     private MainScreenController controller;
@@ -42,18 +40,18 @@ public class DataToolBarController implements ScreenController {
             float[] latlng = controller.getMapController().getLatLng();
             if (latlng[0] == 0) {
 
-                AlertMessage.createMessage("Current Location has not been selected.","Please select a location on the map.");
+                AlertMessage.createMessage("Current Location has not been selected.", "Please select a location on the map.");
 
             } else {
                 float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
 //            controller.setTextAreaInMainScreen(String.valueOf(distance));
 
-            sql += "LAT < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance) + " AND long  < "+(latlng[1] + distance) + " AND long > " + (latlng[1] - distance) + " AND ";
+                sql += "LAT < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance) + " AND long  < " + (latlng[1] + distance) + " AND long > " + (latlng[1] - distance) + " AND ";
 
+            }
         }
         if (timeLimitInFilter.getValue() != 0) {
-            sql += "timeLimit >= " + timeLimitInFilter.getValue() + " OR timeLimit ==0 " + "AND ";
-            sql += "(timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0) "+ "AND ";
+            sql += "(timeLimit >= " + timeLimitInFilter.getValue() + " OR timeLimit ==0) " + "AND ";
         }
         if (is24HourCheckBox.isSelected()) {
             sql += "is24Hours = 1 AND ";
@@ -72,7 +70,7 @@ public class DataToolBarController implements ScreenController {
             sql = "SELECT * FROM Stations;";
         } else {
             int num = sql.lastIndexOf("AND");
-            sql = sql.substring(0,num) + ";";
+            sql = sql.substring(0, num) + ";";
 
         }
 
@@ -94,7 +92,7 @@ public class DataToolBarController implements ScreenController {
      * This function resets the values of the filters.
      * @param actionEvent When reset button is clicked.
      */
-    public void resetFilter(ActionEvent actionEvent) {
+    public void resetFilter(ActionEvent actionEvent){
         distanceSliderOfFilter.setValue(0);
         timeLimitInFilter.setValue(0);
         is24HourCheckBox.setSelected(false);
@@ -105,4 +103,6 @@ public class DataToolBarController implements ScreenController {
         filterStation(null);
         controller.setTextAreaInMainScreen(null);
     }
+
+
 }
