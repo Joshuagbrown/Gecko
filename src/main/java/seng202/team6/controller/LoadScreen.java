@@ -9,7 +9,14 @@ import java.io.IOException;
 
 public class LoadScreen<ScrollPaneMainScreen> {
 
-
+    /**
+     *
+     * @param stage
+     * @param screen
+     * @param controller
+     * @return
+     * @throws IOException
+     */
     public Pair<Parent, ScreenController> LoadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
         //Parent dataViewParent = null;
         //Parent dataViewParent = null;

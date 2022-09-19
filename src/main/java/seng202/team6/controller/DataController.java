@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Station;
 
-import java.util.List;
 
 public class DataController implements ScreenController {
 
@@ -50,11 +50,13 @@ public class DataController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         loadData(null);
-
-
     }
 
-        public void loadData(String sql) {
+    /**
+     * Loads the data into the table
+     * @param sql
+     */
+    public void loadData(String sql) {
         table.getItems().clear();
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -79,9 +81,13 @@ public class DataController implements ScreenController {
         }
     }
 
+    /**
+     * This sets the selected station to what station has been clicked on.
+     * @param mouseEvent Station is clicked.
+     */
     public void clickItem(MouseEvent mouseEvent) {
-        Station selected =table.getSelectionModel().getSelectedItem();
-        if(selected != null){
+        Station selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
             controller.setTextAreaInMainScreen(selected.toString());
         }
     }

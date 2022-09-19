@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
 import javafx.stage.Stage;
 
 public class HelpController implements ScreenController {
@@ -23,6 +22,10 @@ public class HelpController implements ScreenController {
         showFileLines(getClass().getResourceAsStream("/TextFiles/MainHelpPage.txt"));
     }
 
+    /**
+     * This function takes a text file, reads it, and displays it in the text area.
+     * @param file This takes a text file.
+     */
     public void showFileLines(InputStream file) {
         this.linesTextArea.clear();
 

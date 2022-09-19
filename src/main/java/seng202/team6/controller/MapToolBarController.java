@@ -2,6 +2,14 @@ package seng202.team6.controller;
 
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -21,15 +29,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import seng202.team6.models.Position;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
-import java.util.ArrayList;
 
 /**
  * Controller for the map toolbar.
@@ -80,7 +79,7 @@ public class MapToolBarController implements ScreenController {
     @FXML
     private Button newStationButton;
 
-    private ArrayList<Button> addAddressButton = new ArrayList<Button> ();
+    private ArrayList<Button> addAddressButton = new ArrayList<Button>();
 
     private ArrayList<TextField>  arrayOfTextFields = new ArrayList<TextField>();
     private ArrayList<String> addressMarkerTitles = new ArrayList<String>();
@@ -122,8 +121,8 @@ public class MapToolBarController implements ScreenController {
     }
 
     /**
-     *
-     * @param actionEvent
+     * Not implemented yet need to delete or comment out.
+     * @param actionEvent When add new station button is clicked.
      */
     public void addNewStation(ActionEvent actionEvent) {
         String stationTitle = newStationTitle.getText();
@@ -131,7 +130,6 @@ public class MapToolBarController implements ScreenController {
         Double longitude = Double.parseDouble(newStationLongitude.getText());
 
         Position pos = new Position(latitude, longitude);
-
     }
 
     /**
@@ -181,6 +179,12 @@ public class MapToolBarController implements ScreenController {
         return bestPosition;
     }
 
+    /**
+     * This function goes through the text fields of locations,
+     * calls geocode to get the longitude and latitude,
+     * calls add route function with the list of longitude and latitudes.
+     * @param actionEvent When find route button is clicked
+     */
     public void findRoute(ActionEvent actionEvent) {
         javaScriptConnector = controller.getMapController().getJavaScriptConnector();
         ArrayList<JSONObject>  posArray = new ArrayList<JSONObject>();
@@ -188,9 +192,7 @@ public class MapToolBarController implements ScreenController {
             try {
                 JSONObject location = geoCode(textField.getText());
                 posArray.add(location);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -205,6 +207,11 @@ public class MapToolBarController implements ScreenController {
     public void showTable(ActionEvent actionEvent) {
     }
 
+    /**
+     * ??
+     *
+     * @param field
+     */
     public void eHAutoFill(TextField field) {
 
         field.setText(controller.getMapController().getAddress());
@@ -224,15 +231,17 @@ public class MapToolBarController implements ScreenController {
                 controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", addressMarkerTitles.get(i),
                         addressMarkerLatLng.get(i).get(0), addressMarkerLatLng.get(i).get(1));
             }
-            i ++;
+            i++;
         }
 
     }
 
-
-    public void insertAddressFieldAndButton(Button button){
-
-        int row = planTripGridPane.getRowIndex(button);
+    /**
+     * This function adds another text field for a stop,
+     * and add another autofill button for that text field.
+     * @param button When add stop button is clicked.
+     */
+    public void insertAddressFieldAndButton(Button button) {
         planTripGridPane.getChildren().remove(endLabel);
         planTripGridPane.getChildren().remove(findRouteButton);
         planTripGridPane.getChildren().remove(addStopButton);
@@ -255,15 +264,23 @@ public class MapToolBarController implements ScreenController {
         //autoFillButton.
         autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
 
-        planTripGridPane.add(addOneTextField, 0 ,row+2);
-        planTripGridPane.add(autoFillButton, 0, row+1);
-        planTripGridPane.add(endLabel, 0, row+1);
-        planTripGridPane.add(findRouteButton, 0,row+3);
-        planTripGridPane.add(addStopButton, 0,row+3);
-        planTripGridPane.add(removeRouteButton, 0, row+3);
+        int row = planTripGridPane.getRowIndex(button);
+        planTripGridPane.add(addOneTextField, 0,row + 2);
+        planTripGridPane.add(autoFillButton, 0, row + 1);
+        planTripGridPane.add(endLabel, 0, row + 1);
+        planTripGridPane.add(findRouteButton, 0,row + 3);
+        planTripGridPane.add(addStopButton, 0,row + 3);
+        planTripGridPane.add(removeRouteButton, 0, row + 3);
 
     }
 
+    /**
+     * This function removes the route from the map,
+     * also resets the amount of text fields back to a start and end,
+     * also resets the texts fields back to empty,
+     * also removes the markers from the list of markers.
+     * @param actionEvent When remove route button is clicked.
+     */
     public void removeRoute(ActionEvent actionEvent) {
         controller.getMapController().getJavaScriptConnector().call("removeRoute");
         planTripGridPane.getChildren().removeAll(planTripGridPane.getChildren().stream().toList());
