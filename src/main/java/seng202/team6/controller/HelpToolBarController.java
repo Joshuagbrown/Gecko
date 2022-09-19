@@ -33,19 +33,5 @@ public class HelpToolBarController implements ScreenController {
         controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/DataHelp.txt"));
     }
 
-    /**
-     * Calls the showFileLines function with the My Details Help text file as input.
-     * @param actionEvent Load My Details Help button clicked.
-     */
-    public void loadMyDetailsHelp(ActionEvent actionEvent) {
-        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MyDetailsHelp.txt"));
-    }
 
-    /**
-     * Calls the showFileLines function with the Settings Help text file as input.
-     * @param actionEvent Load Settings Help button clicked.
-     */
-    public void loadSettingsHelp(ActionEvent actionEvent) {
-        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/SettingsHelp.txt"));
-    }
 }
