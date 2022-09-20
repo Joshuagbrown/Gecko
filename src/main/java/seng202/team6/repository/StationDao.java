@@ -135,12 +135,13 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public void delete(int id) {
+        //delete station is not implemented yet
 
     }
 
     @Override
     public void update(Station toUpdate) {
-
+        //update station is not implemented yet
     }
 
     @Override

@@ -23,21 +23,22 @@ public class MainScreenController {
     public TextArea textAreaInMainScreen;
     public Text geckoTitle;
     private Stage stage;
-    private DataService dataService;
-    private Parent mapScreen;
-    private Parent dataScreen;
-    private Parent helpScreen;
-    private Parent mapToolBarScreen;
-    private Parent dataToolBarScreen;
-    private Parent helpToolBarScreen;
+    public DataService dataService;
+    public Parent mapScreen;
+    public Parent dataScreen;
+    public Parent helpScreen;
+    public Parent mapToolBarScreen;
+    public Parent dataToolBarScreen;
+    public Parent helpToolBarScreen;
     private LoadScreen screen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
     private DataToolBarController dataToolBarController;
+
     private HelpToolBarController helpToolBarController;
-    private Pair pair;
+
 
     /**
      * Initialize the window by loading necessary screen and
@@ -48,6 +49,7 @@ public class MainScreenController {
      *
      */
     void init(Stage stage, DataService dataService) {
+        Pair pair;
 
         screen = new LoadScreen();
         this.stage = stage;

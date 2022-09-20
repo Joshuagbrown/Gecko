@@ -33,7 +33,7 @@
                                  <font>
                                     <Font size="15.0" />
                                  </font></Text>
-                              <TextField fx:id="startLocation" onAction="#showTable" GridPane.rowIndex="1" />
+                              <TextField fx:id="startLocation" GridPane.rowIndex="1" />
                               <TextField fx:id="endLocation" GridPane.rowIndex="3" />
                               <Button fx:id="findRouteButton" mnemonicParsing="false" onAction="#findRoute" text="GO! " GridPane.rowIndex="4">
                                  <font>

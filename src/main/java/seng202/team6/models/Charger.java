@@ -6,7 +6,6 @@ import java.util.Objects;
  * Represents a charger at a charging station.
  */
 public class Charger {
-    /* TODO: make into an enum */
     String plugType;
     String operative;
     int wattage;
