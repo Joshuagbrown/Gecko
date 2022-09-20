@@ -5,16 +5,10 @@
 <TableView fx:id="table" minHeight="0.0" minWidth="0.0" onMouseClicked="#clickItem" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataController">
   <columns>
     <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Name" />
-    <TableColumn prefWidth="75.0" text="Latitude" fx:id="xcolumn" />
+    <TableColumn fx:id="address" prefWidth="75.0" text="Address" />
+    <TableColumn fx:id="noOfCarPark" prefWidth="75.0" text="No. of Car Park" />
+    <TableColumn fx:id="xcolumn" prefWidth="75.0" text="Latitude"  />
     <TableColumn fx:id="ycolumn" prefWidth="75.0" text="Longitude" />
-      <TableColumn fx:id="objectId" prefWidth="75.0" text="ObjectId" />
-      <TableColumn fx:id="operator" prefWidth="75.0" text="Operator" />
-      <TableColumn fx:id="owner" prefWidth="75.0" text="Owner" />
-      <TableColumn fx:id="address" prefWidth="75.0" text="Address" />
-      <TableColumn fx:id="timeLimit" prefWidth="75.0" text="TIme Lmit" />
-      <TableColumn fx:id="noOfCarPark" prefWidth="75.0" text="No. of Car Park" />
-      <TableColumn fx:id="carParkCost" prefWidth="75.0" text="Car Park Cost" />
-      <TableColumn fx:id="tourstAttraction" prefWidth="75.0" text="Has Tourist Attraction" />
   </columns>
   <columnResizePolicy>
     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -31,17 +31,9 @@ public class DataController implements ScreenController {
 
     private MainScreenController controller;
 
-    public TableColumn<Object, Object> objectId;
-    public TableColumn<Object, Object> operator;
-    public TableColumn<Object, Object> is24Hour;
-    public TableColumn<Object, Object> timeLimit;
+    public TableColumn<Station, String> address;
+    public TableColumn<Station, Integer> noOfCarPark;
 
-    public TableColumn<Object, Object> address;
-    public TableColumn<Object, Object> owner;
-    public TableColumn<Object, Object> noOfCarPark;
-    public TableColumn<Object, Object> carParkCost;
-    public TableColumn<Object, Object> chargingCost;
-    public TableColumn<Object, Object> tourstAttraction;
 
     /**
      * Initialize the window.
@@ -59,20 +51,13 @@ public class DataController implements ScreenController {
      */
     public void loadData(String sql) {
         table.getItems().clear();
-
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLatitude()));
         ycolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLongitude()));
-        objectId.setCellValueFactory(new PropertyValueFactory<>("objectId"));
-        operator.setCellValueFactory(new PropertyValueFactory<>("operator"));
-        owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
-        timeLimit.setCellValueFactory(new PropertyValueFactory<>("timeLimit"));
         noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarParks"));
-        carParkCost.setCellValueFactory(new PropertyValueFactory<>("carparkCost"));
-        tourstAttraction.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
 
         try {
             List<Station> stations = controller.getDataService().fetchAllData(sql);
