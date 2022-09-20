@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class HelpController implements ScreenController {
     /**
-     * the text Area to load the information
+     * the text Area to load the information.
      */
     @FXML
     public TextArea linesTextArea;

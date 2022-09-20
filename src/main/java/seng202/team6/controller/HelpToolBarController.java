@@ -22,7 +22,8 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Load Map Help button clicked.
      */
     public void loadMapHelp(ActionEvent actionEvent) {
-        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/MapHelp.txt"));
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream(
+                "/TextFiles/MapHelp.txt"));
     }
 
     /**
@@ -30,8 +31,8 @@ public class HelpToolBarController implements ScreenController {
      * @param actionEvent Load Data Help button clicked.
      */
     public void loadDataHelp(ActionEvent actionEvent) {
-        controller.getHelpController().showFileLines(getClass().getResourceAsStream("/TextFiles/DataHelp.txt"));
+        controller.getHelpController().showFileLines(getClass().getResourceAsStream(
+                "/TextFiles/DataHelp.txt"));
     }
-
 
 }

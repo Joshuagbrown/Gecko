@@ -26,7 +26,8 @@ public class MainApplication extends Application {
 
         primaryStage.setTitle("Gecko");
         Scene scene = new Scene(root, 1200, 800);
-        scene.getStylesheets().add(getClass().getResource("/stylesheets/main.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(
+                "/stylesheets/main.css").toExternalForm());
 
         // Add a custom application icon
 

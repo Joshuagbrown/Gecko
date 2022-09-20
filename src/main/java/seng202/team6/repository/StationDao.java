@@ -50,8 +50,7 @@ public class StationDao implements DaoInterface<Station> {
     @Override
     public List<Station> getAll(String sql) {
         List<Station> stations = new ArrayList<>();
-        if (sql == null)
-        {
+        if (sql == null) {
             sql = "SELECT * FROM stations";
         }
         //String
@@ -84,17 +83,17 @@ public class StationDao implements DaoInterface<Station> {
 
     /**
      * Adds a station to the database.
-     * @param toAdd object of type T to add
-     * @return The id of the station in the db, or -1 if there was an error
+     * @param toAdd object of type T to add.
+     * @return The id of the station in the db, or -1 if there was an error.
      */
     @Override
     public int add(Station toAdd) {
-        String stationSql = "INSERT INTO stations (objectId, name, operator, owner," +
-                "address, timeLimit, is24Hours, numberOfCarparks, carparkCost," +
-                "chargingCost, hasTouristAttraction, lat, long)" +
-                "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)" +
-                "values (?,?,?,?)";
+        String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
+                + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
+                + "chargingCost, hasTouristAttraction, lat, long)"
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
+                + "values (?,?,?,?)";
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, toAdd.getObjectId());

@@ -48,8 +48,8 @@ public class DataController implements ScreenController {
 
     /**
      * Initialize the window.
-     * @param controller the main screen controller
-     * @param stage Top level container for this window
+     * @param controller the main screen controller.
+     * @param stage Top level container for this window.
      */
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
@@ -57,7 +57,7 @@ public class DataController implements ScreenController {
     }
 
     /**
-     * Loads the data into the table
+     * Loads the data into the table.
      * @param sql A sql query from the filters.
      */
     public void loadData(String sql) {

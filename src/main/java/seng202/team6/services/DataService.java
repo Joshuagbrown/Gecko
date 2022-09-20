@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Service class to handle accessing and storing the necessary information.
- * @author Philip Dolbel
+ * @author Philip Dolbel.
  */
 public class DataService {
     private static final Logger log = LogManager.getLogger();
@@ -26,7 +26,7 @@ public class DataService {
      * Loads required data from the provided CSV file. Implements the CsvImporter class to
      * read the file and then adds the station information to the station dao.
      *
-     * @param file file to retrieve necessary data from
+     * @param file file to retrieve necessary data from.
      */
     public void loadDataFromCsv(File file) {
         try {

@@ -94,7 +94,7 @@ public class MapToolBarController implements ScreenController {
     private int numAddresses = 2;
     /**
      * Initializes the controller.
-     * @param stage Primary Stage of the application
+     * @param stage Primary Stage of the application.
      * @param controller The Controller class for the main screen.
      */
 
@@ -154,7 +154,7 @@ public class MapToolBarController implements ScreenController {
      * This function goes through the text fields of locations,
      * calls geocode to get the longitude and latitude,
      * calls add route function with the list of longitude and latitudes.
-     * @param actionEvent When find route button is clicked
+     * @param actionEvent When find route button is clicked.
      */
     public void findRoute(ActionEvent actionEvent) {
         javaScriptConnector = controller.getMapController().getJavaScriptConnector();
@@ -194,7 +194,7 @@ public class MapToolBarController implements ScreenController {
      * javascriptconnecter to replace all current address markers on the map with
      * the updated one.
      *
-     * @param field The text field being filled
+     * @param field The text field being filled.
      */
     public void autoFillEventHandler(TextField field) {
 

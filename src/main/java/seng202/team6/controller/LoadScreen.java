@@ -4,12 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
 import java.io.IOException;
 
 /**
  * The class is to help loading different screen and assign the related controller.
- * @author  Phyu Wai Lwin
+ * @author  Phyu Wai Lwin.
  */
 public class LoadScreen {
 
@@ -20,10 +19,11 @@ public class LoadScreen {
      * @param screen the string location of the screen that need to load.
      * @param controller the main controller class.
      * @return the parent and screen controller pair that the parent can display on the screen and
-     * controller can save for futher use.
+     *     controller can save for further use.
      * @throws IOException may throw the io exception.
      */
-    public Pair<Parent, ScreenController> loadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
+    public Pair<Parent, ScreenController> loadBigScreen(Stage stage, String screen,
+                        MainScreenController controller) throws IOException {
 
         // Load our sales_table.fxml file
         FXMLLoader viewLoader = new FXMLLoader(getClass().getResource(screen));
