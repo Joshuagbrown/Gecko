@@ -14,7 +14,7 @@
       <TableColumn fx:id="timeLimit" prefWidth="75.0" text="TIme Lmit" />
       <TableColumn fx:id="noOfCarPark" prefWidth="75.0" text="No. of Car Park" />
       <TableColumn fx:id="carParkCost" prefWidth="75.0" text="Car Park Cost" />
-      <TableColumn fx:id="tourstAttraction" prefWidth="75.0" text="Has Tourist Attraction" />
+      <TableColumn fx:id="touristAttraction" prefWidth="75.0" text="Has Tourist Attraction" />
   </columns>
   <columnResizePolicy>
     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
