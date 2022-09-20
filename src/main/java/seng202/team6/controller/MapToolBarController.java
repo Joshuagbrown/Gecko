@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -91,7 +92,7 @@ public class MapToolBarController implements ScreenController {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
-        encodedQuery = URLEncoder.encode(query,"UTF-8");
+        encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String apiKey = "NdSNzsRJvYIyENlbzYj4XzOfYj0iK2Tv0lh0hLxky0w";
 
         String requestUri = "https://geocode.search.hereapi.com/v1/geocode" + "?apiKey=" + apiKey + "&q=" + encodedQuery;
@@ -173,7 +174,6 @@ public class MapToolBarController implements ScreenController {
             }
             i++;
         }
-
     }
 
     /**
@@ -185,7 +185,7 @@ public class MapToolBarController implements ScreenController {
         if (numAddresses == 5) {
             AlertMessage.createMessage("Maximum number of stops reached.", "Unable to add more stops.");
         } else {
-            numAddresses ++;
+            numAddresses++;
 
             planTripGridPane.getChildren().remove(endLabel);
             planTripGridPane.getChildren().remove(findRouteButton);
@@ -212,7 +212,6 @@ public class MapToolBarController implements ScreenController {
             autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
 
             int row = planTripGridPane.getRowIndex(button);
-
             RowConstraints firstRow = new RowConstraints();
             firstRow.fillHeightProperty();
             firstRow.setVgrow(Priority.SOMETIMES);
