@@ -1,21 +1,28 @@
 package seng202.team6.controller;
 
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.json.simple.JSONArray;
@@ -23,73 +30,31 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
-import java.util.ArrayList;
-
 /**
  * Controller for the map toolbar.
  */
 public class MapToolBarController implements ScreenController {
-
-
     public BorderPane filterSectionOnMapToolBar;
-    public TitledPane addStationSection;
     public GridPane planTripGridPane;
     public Button addStopButton;
     public Button startAutoFill;
     public Button endAutoFill;
     public Button findRouteButton;
-
     public Text startLabel;
     public Text endLabel;
     public Button removeRouteButton;
-
-    @FXML
-    private Button[] addButton = new Button[15];
-
     private Stage stage;
     private MainScreenController controller;
-
     private JSObject javaScriptConnector;
-
-    @FXML
-    private WebView webView;
-    private WebEngine webEngine;
-
-    @FXML
-    private TextField newStationTitle;
-
-    @FXML
-    private TextField newStationLatitude;
-
-    @FXML
-    private TextField newStationLongitude;
-
     @FXML
     public TextField startLocation;
-
-
     @FXML
     public TextField endLocation;
-
-    @FXML
-    private Button newStationButton;
-
     private ArrayList<Button> addAddressButton = new ArrayList<Button>();
-
     private ArrayList<TextField>  arrayOfTextFields = new ArrayList<TextField>();
     private ArrayList<String> addressMarkerTitles = new ArrayList<String>();
     private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<ArrayList<Float>>();
-
     private int numAddresses = 2;
-
-
     /**
      * Initializes the controller.
      * @param stage Primary Stage of the application
@@ -121,32 +86,11 @@ public class MapToolBarController implements ScreenController {
 
     }
 
-
-    /**
-     * Encodes the passed String as UTF-8 using an algorithm that's compatible
-     * with JavaScript's encodeURIComponent function.
-     * @param s The String to be encoded
-     * @return the encoded String
-     */
-    public static String encodeURI(String s) {
-        String result;
-        try {
-            result = URLEncoder.encode(s, "UTF-8").replaceAll("\\+", "%20").replaceAll("\\%21", "!")
-                    .replaceAll("\\%27", "'").replaceAll("\\%28", "(").replaceAll("\\%29", ")")
-                    .replaceAll("\\%7E", "~");
-        } // This exception should never occur.
-        catch (Exception e) {
-            result = s;
-        }
-
-        return result;
-    }
-
     private JSONObject geoCode(String query) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
-        encodedQuery = URLEncoder.encode(query,"UTF-8");
+        encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String apiKey = "NdSNzsRJvYIyENlbzYj4XzOfYj0iK2Tv0lh0hLxky0w";
 
         String requestUri = "https://geocode.search.hereapi.com/v1/geocode" + "?apiKey=" + apiKey + "&q=" + encodedQuery;
@@ -154,8 +98,8 @@ public class MapToolBarController implements ScreenController {
         HttpRequest geocodingRequest = HttpRequest.newBuilder().GET().uri(URI.create(requestUri))
                 .timeout(Duration.ofMillis(2000)).build();
 
-        HttpResponse geocodingResponse = httpClient.send(geocodingRequest, HttpResponse.BodyHandlers.ofString());
-        String jsonString = (String) geocodingResponse.body();
+        HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest, HttpResponse.BodyHandlers.ofString());
+        String jsonString =  geocodingResponse.body();
         JSONParser parser = new JSONParser();
         JSONObject jsonResponse = null;
         try {
@@ -165,8 +109,7 @@ public class MapToolBarController implements ScreenController {
         }
         JSONArray items = (JSONArray) jsonResponse.get("items");
         JSONObject bestResult = (JSONObject) items.get(0);
-        JSONObject bestPosition = (JSONObject) bestResult.get("position");
-        return bestPosition;
+        return (JSONObject) bestResult.get("position");
     }
 
     /**
@@ -180,7 +123,7 @@ public class MapToolBarController implements ScreenController {
         ArrayList<JSONObject>  posArray = new ArrayList<JSONObject>();
         for (TextField textField : arrayOfTextFields) {
             try {
-                if (textField.getText() !="") {
+                if (!Objects.equals(textField.getText(), "")) {
                     JSONObject location = geoCode(textField.getText());
                     posArray.add(location);
                 }
@@ -188,7 +131,7 @@ public class MapToolBarController implements ScreenController {
                 e.printStackTrace();
             }
         }
-        if (posArray.size()>=2) {
+        if (posArray.size() >= 2) {
             String json = new Gson().toJson(posArray);
             controller.getMapController().getJavaScriptConnector().call("addRoute", json);
         } else {
@@ -229,7 +172,6 @@ public class MapToolBarController implements ScreenController {
             }
             i++;
         }
-
     }
 
     /**
@@ -241,7 +183,7 @@ public class MapToolBarController implements ScreenController {
         if (numAddresses == 5) {
             AlertMessage.createMessage("Maximum number of stops reached.", "Unable to add more stops.");
         } else {
-            numAddresses ++;
+            numAddresses++;
 
             planTripGridPane.getChildren().remove(endLabel);
             planTripGridPane.getChildren().remove(findRouteButton);
@@ -268,7 +210,6 @@ public class MapToolBarController implements ScreenController {
             autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
 
             int row = planTripGridPane.getRowIndex(button);
-
             RowConstraints firstRow = new RowConstraints();
             firstRow.fillHeightProperty();
             firstRow.setVgrow(Priority.SOMETIMES);
@@ -334,6 +275,5 @@ public class MapToolBarController implements ScreenController {
         for (TextField textField : arrayOfTextFields) {
             textField.setText("");
         }
-
     }
 }

@@ -4,8 +4,12 @@ import javafx.scene.control.Alert;
 
 public class AlertMessage {
 
-    public static void createMessage(String header, String body)
-    {
+    /**
+     * Creates a pop up message and displays the error.
+     * @param header The header message.
+     * @param body The error message
+     */
+    public static void createMessage(String header, String body) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error Message:");
         alert.setHeaderText(header);

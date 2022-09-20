@@ -1,26 +1,21 @@
 package seng202.team6.controller;
 
-import com.sun.javafx.webkit.WebConsoleListener;
-import javafx.concurrent.Worker;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-import netscape.javascript.JSObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import seng202.team6.business.JavaScriptBridge;
-import seng202.team6.models.Station;
-import seng202.team6.repository.StationDao;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
+import javafx.concurrent.Worker;
+import javafx.fxml.FXML;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import netscape.javascript.JSObject;
+import seng202.team6.business.JavaScriptBridge;
+import seng202.team6.models.Station;
+import seng202.team6.repository.StationDao;
+
 
 
 /**
@@ -29,8 +24,6 @@ import java.util.stream.Collectors;
  * @author Tara Lipscombe and Lucas Redding
  */
 public class MapController implements ScreenController {
-
-    private static final Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
     private JavaScriptBridge javaScriptBridge;
     @FXML
@@ -38,24 +31,6 @@ public class MapController implements ScreenController {
     private WebEngine webEngine;
     private StationDao stationDao = new StationDao();
     private Stage stage;
-
-    @FXML
-    private TextField newStationTitle;
-
-    @FXML
-    private TextField newStationLatitude;
-
-    @FXML
-    private TextField newStationLongitude;
-
-    @FXML
-    private TextField startLocation;
-
-    @FXML
-    private TextField endLocation;
-
-    @FXML
-    private Button newStationButton;
     private MainScreenController controller;
     private float locationLat = 0;
     private float locationLng = 0;
@@ -68,7 +43,8 @@ public class MapController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
         this.controller = controller;
-        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked, this::setClickLocation, this::setAddress);
+        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked,
+                this::setClickLocation, this::setAddress);
         initMap();
     }
 
@@ -131,6 +107,7 @@ public class MapController implements ScreenController {
      */
     private String getHtml() {
         InputStream is = getClass().getResourceAsStream("/html/leaflet_osm_map.html");
+        assert is != null;
         return new BufferedReader(
                 new InputStreamReader(is, StandardCharsets.UTF_8))
                 .lines()
@@ -158,7 +135,6 @@ public class MapController implements ScreenController {
 
     }
 
-
     /**
      * Adds a single station to the map.
      * @param station A station.
@@ -167,15 +143,6 @@ public class MapController implements ScreenController {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getFirst(),
                 station.getCoordinates().getSecond(), station.getObjectId());
-    }
-
-
-    public void deleteStation(Station station) {
-
-    }
-
-    public JavaScriptBridge getJavaScriptBridge() {
-        return javaScriptBridge;
     }
 
     public String getAddress() {

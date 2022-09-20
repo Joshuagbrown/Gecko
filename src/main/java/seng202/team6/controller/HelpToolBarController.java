@@ -9,8 +9,6 @@ public class HelpToolBarController implements ScreenController {
     private Stage stage;
     private MainScreenController controller;
 
-    LoadScreen screen = new LoadScreen();
-
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;

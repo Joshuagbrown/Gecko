@@ -1,23 +1,19 @@
 package seng202.team6.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 public class HelpController implements ScreenController {
     @FXML
     public TextArea linesTextArea;
     private Stage stage;
-   
-    
-
 
     @Override
     public void init(Stage stage,MainScreenController controller) {
