@@ -32,8 +32,8 @@ public class Station {
      * @param timeLimit the timeLimit of the station.
      * @param is24Hours the is24Hours of the station.
      * @param chargers the chargers of the station.
-     * @param numberOfCarparks the numberOfCarparks of the station.
-     * @param carparkCost the carparkCost of the station.
+     * @param numberOfCarparks the number of car-parks of the station.
+     * @param carparkCost the car-park Cost of the station.
      * @param chargingCost the chargingCost of the station.
      * @param hasTouristAttraction the hasTouristAttraction of the station.
      */
@@ -80,6 +80,7 @@ public class Station {
     public int getObjectId() {
         return objectId;
     }
+
     /**
      * Function call to get the operator of the station.
      * @return the operator of the station.
@@ -121,16 +122,16 @@ public class Station {
     }
 
     /**
-     * Function call to get the list of charger of the station
-     * @return the list of charger of the station
+     * Function call to get the list of charger of the station.
+     * @return the list of charger of the station.
      */
     public List<Charger> getChargers() {
         return chargers;
     }
 
     /**
-     * Function call to get the number of car-park of the station
-     * @return the car-park of the station
+     * Function call to get the number of car-park of the station.
+     * @return the car-park of the station.
      */
     public int getNumberOfCarParks() {
         return numberOfCarParks;

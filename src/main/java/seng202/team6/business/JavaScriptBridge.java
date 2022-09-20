@@ -13,18 +13,18 @@ public class JavaScriptBridge {
 
     /**
      * Constructor for the javascript bridge.
-     * @param getStationLambda is a function in the Map Controller class which allows for the map controller
-     *                         class to communicate with the leaflet HTML in javascript to get the currently
-     *                         selected station.
-     * @param getLocationLambda is a function in the Map Controller class which allows for the map controller
-     *                          class to communicate with the leaflet HTML in javascript to get the location
-     *                          of the click.
-     * @param getAddressLambda is a function in the Map Controller class which allows for the map controller
-     *                         class to communicate with the leaflet HTML in javascript to get the address of
-     *                         the current clicked location.
+     * @param getStationLambda is a function in the Map Controller class which allows for the
+     *                         map controller class to communicate with the leaflet HTML in
+     *                         javascript to get the currently selected station.
+     * @param getLocationLambda is a function in the Map Controller class which allows for
+     *                         the map controller class to communicate with the leaflet HTML
+     *                         in javascript to get the location of the click.
+     * @param getAddressLambda is a function in the Map Controller class which allows for the
+     *                        map controller class to communicate with the leaflet HTML in
+     *                        javascript to get the address of the current clicked location.
      */
-    public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface getLocationLambda, GetAddressInterface
-                            getAddressLambda) {
+    public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface
+            getLocationLambda, GetAddressInterface getAddressLambda) {
         getStationInterface = getStationLambda;
         getLocationInterface = getLocationLambda;
         getAddressInterface = getAddressLambda;

@@ -21,23 +21,23 @@ import java.util.List;
  * Station importer from CSV files.
  * Based off SaleCSVImporter from seng202-advanced-fx-public by Morgan English.
  *
- * @author Philip Dolbel
+ * @author Philip Dolbel.
  *
  * @version 1.0
  */
 public class CsvImporter implements Importable<Station> {
 
     /**
-     * A Logger object is used to log messages for a specific system
+     * A Logger object is used to log messages for a specific system.
      */
     public static final Logger log = LogManager.getLogger();
 
     /**
      * Read Stations from csv file.
      *
-     * @param file File to read from
-     * @return List of stations from csv file
-     * @throws CsvFileException if there was an error in reading the file
+     * @param file File to read from.
+     * @return List of stations from csv file.
+     * @throws CsvFileException if there was an error in reading the file.
      */
     @Override
     public List<Station> readFromFile(File file) throws CsvFileException {
@@ -53,7 +53,7 @@ public class CsvImporter implements Importable<Station> {
                     Station station = readStationFromLine(line);
                     stations.add(station);
                 } catch (CsvLineException e) {
-                    log.warn(String.format("Skipping invalid line: " , i , ": " , e));
+                    log.warn(String.format("Skipping invalid line: ", i, ": ", e));
                 }
             }
         } catch (IOException | CsvValidationException e) {
@@ -65,9 +65,9 @@ public class CsvImporter implements Importable<Station> {
     /**
      * Helper method to read a single station from a line.
      *
-     * @param line Current line of csv file to read
-     * @return Station parsed from the line
-     * @throws CsvLineException if there was an error with an individual data point
+     * @param line Current line of csv file to read.
+     * @return Station parsed from the line.
+     * @throws CsvLineException if there was an error with an individual data point.
      */
     private Station readStationFromLine(String[] line) throws CsvLineException {
         try {

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 /**
  * Map Controller Class.
- * Based off LeafletOSMViewController from seng202-advanced-fx-public by Morgan English
+ * Based off LeafletOSMViewController from seng202-advanced-fx-public by Morgan English.
  * @author Tara Lipscombe and Lucas Redding
  */
 public class MapController implements ScreenController {
@@ -39,7 +39,7 @@ public class MapController implements ScreenController {
 
     /**
      * Initialises the map view.
-     * @param stage current stage
+     * @param stage current stage.
      */
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
@@ -86,8 +86,8 @@ public class MapController implements ScreenController {
 
 
     /**
-     * Initialises the map by loading the html into the webengine
-     * Also sets up a logger to log all console.logs from js at info level
+     * Initialises the map by loading the html into the webengine.
+     * Also sets up a logger to log all console.logs from js at info level.
      */
     private void initMap() {
         WebEngine webEngine;
@@ -117,7 +117,7 @@ public class MapController implements ScreenController {
 
     /**
      * Function to load map html file into string.
-     * @return String of html file
+     * @return String of html file.
      */
     private String getHtml() {
         InputStream is = getClass().getResourceAsStream("/html/leaflet_osm_map.html");
