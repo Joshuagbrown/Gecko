@@ -35,19 +35,16 @@ public class DataToolBarController implements ScreenController {
                     + inputStationName.getText()
                     + "%') AND ";
         }
-
         if (distanceSliderOfFilter.getValue() != 0) {
             float[] latlng = controller.getMapController().getLatLng();
             if (latlng[0] == 0) {
-
-                AlertMessage.createMessage("Current Location has not been selected.", "Please select a location on the map.");
-
+                AlertMessage.createMessage("Current Location has not been selected.",
+                        "Please select a location on the map.");
             } else {
                 float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
-//            controller.setTextAreaInMainScreen(String.valueOf(distance));
-
-                sql += "LAT < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance) + " AND long  < " + (latlng[1] + distance) + " AND long > " + (latlng[1] - distance) + " AND ";
-
+                sql += "LAT < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance)
+                        + " AND long  < " + (latlng[1] + distance) + " AND long > "
+                        + (latlng[1] - distance) + " AND ";
             }
         }
         if (timeLimitInFilter.getValue() != 0) {
@@ -73,7 +70,6 @@ public class DataToolBarController implements ScreenController {
             sql = sql.substring(0, num) + ";";
 
         }
-
         return sql;
     }
 
@@ -92,7 +88,7 @@ public class DataToolBarController implements ScreenController {
      * This function resets the values of the filters.
      * @param actionEvent When reset button is clicked.
      */
-    public void resetFilter(ActionEvent actionEvent){
+    public void resetFilter(ActionEvent actionEvent) {
         distanceSliderOfFilter.setValue(0);
         timeLimitInFilter.setValue(0);
         is24HourCheckBox.setSelected(false);
@@ -103,6 +99,4 @@ public class DataToolBarController implements ScreenController {
         filterStation(null);
         controller.setTextAreaInMainScreen(null);
     }
-
-
 }
