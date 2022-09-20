@@ -3,7 +3,9 @@ package seng202.team6.controller;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-
+/**
+ * Controller class for help toolbar screen fxml.
+ */
 public class HelpToolBarController implements ScreenController {
 
     private Stage stage;

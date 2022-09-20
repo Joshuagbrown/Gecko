@@ -15,12 +15,31 @@ import seng202.team6.services.DataService;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Controller of the main screen fxml.
+ * @author  Phyu Wai Lwin.
+ */
 public class MainScreenController {
 
+    /**
+     * The toolbar pane of the main screen to display related toolbar screen.
+     */
     @FXML
     public BorderPane toolBarPane;
+    /**
+     * The toolbar pane of the border screen to display related screen.
+     */
+    @FXML
     public BorderPane mainBorderPane;
+    /**
+     * the text area in the main screen t display the information.
+     */
+    @FXML
     public TextArea textAreaInMainScreen;
+    /**
+     * The text to for the project.
+     */
+    @FXML
     public Text geckoTitle;
     private Stage stage;
     public DataService dataService;

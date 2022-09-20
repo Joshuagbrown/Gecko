@@ -10,6 +10,9 @@ import seng202.team6.services.DataService;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+/**
+ * Main application class that initialize and run the project.
+ */
 public class MainApplication extends Application {
     private DataService dataService = new DataService();
 
@@ -31,6 +34,10 @@ public class MainApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * The function that call to launch the project.
+     * @param args the args.
+     */
     public static void main(String[] args) {
         launch(args);
     }

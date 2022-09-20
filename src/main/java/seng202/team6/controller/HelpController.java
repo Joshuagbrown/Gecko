@@ -11,7 +11,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for help screen fxml.
+ */
 public class HelpController implements ScreenController {
+    /**
+     * the text Area to load the information
+     */
     @FXML
     public TextArea linesTextArea;
     private Stage stage;

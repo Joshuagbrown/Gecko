@@ -7,15 +7,21 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 
+/**
+ * The class is to help loading different screen and assign the related controller.
+ * @author  Phyu Wai Lwin
+ */
 public class LoadScreen {
 
     /**
+     * Funtion is used to load the related screen to the main border pane of the main screen.
      *
-     * @param stage
-     * @param screen
-     * @param controller
-     * @return
-     * @throws IOException
+     * @param stage the stage .
+     * @param screen the string location of the screen that need to load.
+     * @param controller the main controller class.
+     * @return the parent and screen controller pair that the parent can display on the screen and
+     * controller can save for futher use.
+     * @throws IOException may throw the io exception.
      */
     public Pair<Parent, ScreenController> loadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
 
