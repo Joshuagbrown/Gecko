@@ -7,7 +7,7 @@ public class AlertMessage {
     /**
      * Creates a pop up message and displays the error.
      * @param header The header message.
-     * @param body The error message
+     * @param body The error messages.
      */
     public static void createMessage(String header, String body) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -15,5 +15,8 @@ public class AlertMessage {
         alert.setHeaderText(header);
         alert.setContentText(body);
         alert.showAndWait();
+    }
+    private AlertMessage() throws IllegalAccessException {
+        throw new IllegalAccessException();
     }
 }

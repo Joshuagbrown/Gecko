@@ -13,9 +13,9 @@
             <content>
                   <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                      <content>
-                        <GridPane fx:id="planTripGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="202.0">
+                        <GridPane fx:id="planTripGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="202.0" style="-fx-background-color: white;">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="40.0" prefWidth="137.6" />
+                            <ColumnConstraints fx:id="planTripBar" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="40.0" prefWidth="137.6" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="40.0" vgrow="SOMETIMES" />

@@ -15,7 +15,7 @@
                 <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="59.2" prefWidth="114.0">
                      <children>
                         <ImageView layoutX="-57.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fx:id="geckoTitle" boundsType="VISUAL" layoutX="6.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gecko" textAlignment="CENTER" textOrigin="CENTER">
+                        <Text fx:id="geckoTitle" boundsType="VISUAL" fill="WHITE" layoutX="6.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GECKO" textAlignment="CENTER" textOrigin="CENTER">
                            <font>
                               <Font size="38.0" />
                            </font>
@@ -51,11 +51,17 @@
                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#importData" text="Import Data" GridPane.rowIndex="0">
                                                <GridPane.margin>
                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                               </GridPane.margin></Button>
+                                               </GridPane.margin>
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font></Button>
                                           <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadHelpScreenAndToolBar" text="Help" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </GridPane.margin></Button>
+                                             </GridPane.margin>
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font></Button>
                                        </children>
                                     </GridPane>
                                  </children>
@@ -79,7 +85,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMapViewAndToolBars" text="Map">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMapViewAndToolBars" prefHeight="33.0" prefWidth="136.0" text="Map">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                            </GridPane.margin>
