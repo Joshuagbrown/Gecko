@@ -141,8 +141,8 @@ public class MapController implements ScreenController {
      */
     public void addStation(Station station) {
         javaScriptConnector.call(
-                "addMarker", station.getName(), station.getCoordinates().getFirst(),
-                station.getCoordinates().getSecond(), station.getObjectId());
+                "addMarker", station.getName(), station.getCoordinates().getLatitude(),
+                station.getCoordinates().getLongitude(), station.getObjectId());
     }
 
     public String getAddress() {
