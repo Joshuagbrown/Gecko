@@ -104,7 +104,7 @@ public class StationDao implements DaoInterface<Station> {
             ps.setString(5, toAdd.getAddress());
             ps.setInt(6, toAdd.getTimeLimit());
             ps.setBoolean(7, toAdd.is24Hours());
-            ps.setInt(8, toAdd.getNumberOfCarparks());
+            ps.setInt(8, toAdd.getNumberOfCarParks());
             ps.setBoolean(9, toAdd.isCarparkCost());
             ps.setBoolean(10, toAdd.isChargingCost());
             ps.setBoolean(11, toAdd.isHasTouristAttraction());
