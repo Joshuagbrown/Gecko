@@ -1,7 +1,7 @@
 package seng202.team6.controller;
 
 import javafx.scene.control.Alert;
-A
+
 /**
  * Alert class to pop up a message box and display the message.
  * database access.
