@@ -1,9 +1,9 @@
 .root {
     -fx-font: 12px Tahoma;
-    -fx-background: rgb(103, 159, 136);
+    -fx-background: rgb(163, 197, 133);
 }
 .border-pane {
-    -fx-text-fill: #FFFFFF;
+    -fx-text-fill: #000000;
     -fx-font: 10px Tahoma;
     -fx-background-color: #1f2833;
 
@@ -28,33 +28,33 @@
 
 .button {
     -fx-background-color:
-            linear-gradient(#8fc0a9, #8fc0a9),
-            radial-gradient(center 50% -40%, radius 200%, #8fc0a9 45%, #8fc0a9 50%);
+            linear-gradient(#a3c585, #a3c585),
+            radial-gradient(center 50% -40%, radius 200%, #a3c585 45%, #a3c585 50%);
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
 }
 .button:default:hover:pressed,
 .button:focused {
-    -fx-background-color: #c0f3db;
+    -fx-background-color: #c7ddb5;
 }
 .accordion {
     -fx-background-color:
-            linear-gradient(#8fc0a9, #8fc0a9, #8fc0a9);
+            linear-gradient(#c7ddb5, #c7ddb5, #c7ddb5);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
 }
 
 .titled-pane {
-    -fx-background-color: linear-gradient(#bfde66, #13dea0);
+    -fx-background-color: linear-gradient(#a3c585, #a3c585);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #a5c16f;
+    -fx-text-fill: #000000;
 }
 
 .titled-pane > *.content
 {
-    -fx-background-color: linear-gradient(#8fc0a9, #8fc0a9);
+    -fx-background-color: linear-gradient(#a3c585, #a3c585);
 }
 
 .table-view {
@@ -62,12 +62,12 @@
 }
 
 #toolBarPane {
-    -fx-background-color: #8fc0a9;
+    -fx-background-color: #c7ddb5;
 }
 
 #mainBorderPane {
     -fx-background-color: #b8ecf8;
-    -fx-base: #5DA23B;
+    -fx-base: #87ab69;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
