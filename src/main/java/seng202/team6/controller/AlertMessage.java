@@ -23,7 +23,4 @@ public class AlertMessage {
         alert.setContentText(body);
         alert.showAndWait();
     }
-    private AlertMessage() throws IllegalAccessException {
-        throw new IllegalAccessException();
-    }
 }
