@@ -14,8 +14,9 @@ public interface Importable<T> {
 
     /**
      * read the file and return a list of importable object.
-     * @param file the name of file to be read.
      * @return list of type T that read.
+     * @param  file the file that want to read.
+     * @throws  CsvException the error.
      */
     List<T> readFromFile(File file) throws CsvException;
 }
