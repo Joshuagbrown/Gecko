@@ -42,12 +42,30 @@ public class MainScreenController {
     @FXML
     public Text geckoTitle;
     private Stage stage;
-    public DataService dataService;
+    private DataService dataService;
+    /**
+     * parent class for map screen to display map.
+     */
     public Parent mapScreen;
+    /**
+     * parent class for data screen to display data.
+     */
     public Parent dataScreen;
+    /**
+     * parent class for help screen to display help page.
+     */
     public Parent helpScreen;
+    /**
+     * parent class for map toolbar screen to display map toolbar.
+     */
     public Parent mapToolBarScreen;
+    /**
+     * parent class for data toolbar screen to display data toolbar.
+     */
     public Parent dataToolBarScreen;
+    /**
+     * parent class for help toolbar screen to display help toolbar.
+     */
     public Parent helpToolBarScreen;
     private LoadScreen screen;
     private MapController mapController;
@@ -124,14 +142,26 @@ public class MainScreenController {
         return this.stage;
     }
 
+    /**
+     * Funtion to return the data service.
+     * @return data service. of main screen controller.
+     */
     public DataService getDataService() {
         return dataService;
     }
 
+    /**
+     * Funtion to return the help controller.
+     * @return help controller.
+     */
     public HelpController getHelpController() {
         return this.helpController;
     }
 
+    /**
+     * Funtion to return the data controller.
+     * @return data controller.
+     */
     public DataController getDataController() {
         return dataController;
     }
@@ -179,6 +209,10 @@ public class MainScreenController {
         toolBarPane.setCenter(helpToolBarScreen);
     }
 
+    /**
+     * Display string information on the text area.
+     * @param info the string information.
+     */
     public void setTextAreaInMainScreen(String info) {
         textAreaInMainScreen.setText(info);
     }

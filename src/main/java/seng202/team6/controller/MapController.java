@@ -57,6 +57,10 @@ public class MapController implements ScreenController {
         currentAddress = address;
     }
 
+    /**
+     * Function that cll to display the station information when the station marker is clicked.
+     * @param id the id of the station.
+     */
     public void onStationClicked(int id) {
         Station station = controller.getDataService().getStationById(id);
         controller.setTextAreaInMainScreen(station.toString());

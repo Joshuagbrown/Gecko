@@ -35,22 +35,49 @@ import java.util.Objects;
  * Controller for the map toolbar.
  */
 public class MapToolBarController implements ScreenController {
+    /**
+     * Border pane that hold the filter section on map toolbar.
+     */
     @FXML
     public BorderPane filterSectionOnMapToolBar;
+    /**
+     * The grid pane that hold the find routes texts.
+     */
     @FXML
     public GridPane planTripGridPane;
+    /**
+     * Button that click to load the text box.
+     */
     @FXML
     public Button addStopButton;
+    /**
+     * Button that click to autofill the start location on text.
+     */
     @FXML
     public Button startAutoFill;
+    /**
+     * Button that click to autofill the end location on text.
+     */
     @FXML
     public Button endAutoFill;
+    /**
+     * Button that click to find the route.
+     */
     @FXML
     public Button findRouteButton;
+    /**
+     * the text for the start location.
+     */
     @FXML
     public Text startLabel;
+    /**
+     * the text for the end location.
+     */
     @FXML
     public Text endLabel;
+    /**
+     * Button is clicked to remove the route from the map.
+     */
     @FXML
     public Button removeRouteButton;
     private Stage stage;
@@ -151,6 +178,10 @@ public class MapToolBarController implements ScreenController {
         }
     }
 
+    /**
+     * Display filter screen on the map toolbar.
+     * @param screen the screen that want to display.
+     */
     public void setFilterSectionOnMapToolBar(Parent screen) {
         this.filterSectionOnMapToolBar.setCenter(screen);
     }
