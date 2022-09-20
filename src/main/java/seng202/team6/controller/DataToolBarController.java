@@ -1,6 +1,7 @@
 package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -11,12 +12,19 @@ import javafx.stage.Stage;
  * @author  Phyu Wai Lwin
  */
 public class DataToolBarController implements ScreenController {
+    @FXML
     private CheckBox is24HourCheckBox;
+    @FXML
     private CheckBox hasCarParkCostCheckBox;
+    @FXML
     private CheckBox hasTouristAttractionCostCheckBox;
+    @FXML
     private Slider distanceSliderOfFilter;
+    @FXML
     private CheckBox hasChargingCostCheckBox;
+    @FXML
     private Slider timeLimitInFilter;
+    @FXML
     private TextField inputStationName;
     private Stage stage;
     private MainScreenController controller;
@@ -33,7 +41,7 @@ public class DataToolBarController implements ScreenController {
      */
     public String createSqlQueryStringFromFilter() {
         String sql = "SELECT * FROM Stations WHERE ";
-        if (inputStationName.getText() != null) {
+        if (inputStationName.getText().length() != 0) {
             sql += "(name LIKE '%" + inputStationName.getText()
                     + "%' OR address LIKE '%"
                     + inputStationName.getText()
