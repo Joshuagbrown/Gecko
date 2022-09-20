@@ -62,9 +62,9 @@ public class DataController implements ScreenController {
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
+                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLatitude()));
         ycolumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getSecond()));
+                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLongitude()));
         objectId.setCellValueFactory(new PropertyValueFactory<>("objectId"));
         operator.setCellValueFactory(new PropertyValueFactory<>("operator"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
