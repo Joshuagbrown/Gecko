@@ -75,7 +75,11 @@ public class DataService {
         return dao.getAll(sql);
     }
 
-
+    /**
+     * Get the station with the id provide.
+     * @param id the id of the station.
+     * @return station.
+     */
     public Station getStationById(int id) {
         return dao.getOne(id);
     }

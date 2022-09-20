@@ -1,6 +1,5 @@
 package seng202.team6.controller;
 
-import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -35,9 +34,14 @@ public class DataController implements ScreenController {
     private TableColumn<Station, Double> ycolumn;
 
     private MainScreenController controller;
-
+    /**
+     * the address column of the table.
+     */
     @FXML
     public TableColumn<Object, Object> address;
+    /**
+     * the number of car-park data column of the table.
+     */
     @FXML
     public TableColumn<Object, Object> noOfCarPark;
 
