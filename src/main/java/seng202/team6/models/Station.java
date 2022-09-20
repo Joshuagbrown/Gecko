@@ -100,31 +100,41 @@ public class Station {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
         Station station = (Station) o;
-        return objectId == station.objectId && timeLimit == station.timeLimit && is24Hours == station.is24Hours && numberOfCarParks == station.numberOfCarParks && carParkCost == station.carParkCost && chargingCost == station.chargingCost && hasTouristAttraction == station.hasTouristAttraction && Objects.equals(coordinates, station.coordinates) && Objects.equals(name, station.name) && Objects.equals(operator, station.operator) && Objects.equals(owner, station.owner) && Objects.equals(address, station.address) && Objects.equals(chargers, station.chargers);
+        return objectId == station.objectId && timeLimit == station.timeLimit && is24Hours == station.is24Hours
+                && numberOfCarParks == station.numberOfCarParks && carParkCost == station.carParkCost &&
+                chargingCost == station.chargingCost && hasTouristAttraction == station.hasTouristAttraction &&
+                Objects.equals(coordinates, station.coordinates) && Objects.equals(name, station.name) &&
+                Objects.equals(operator, station.operator) && Objects.equals(owner, station.owner) &&
+                Objects.equals(address, station.address) && Objects.equals(chargers, station.chargers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinates, objectId, name, operator, owner, address, timeLimit, is24Hours, chargers, numberOfCarParks, carParkCost, chargingCost, hasTouristAttraction);
+        return Objects.hash(coordinates, objectId, name, operator, owner, address, timeLimit, is24Hours, chargers,
+                numberOfCarParks, carParkCost, chargingCost, hasTouristAttraction);
     }
 
+    /**
+     * Funtion which give a string explanation of station
+     * @return station information in string
+     */
     public String toString(){
 
-        return "Station Name : " + name + "\n"+
-                "Coordinate : " + coordinates.getFirst() + "," + coordinates.getSecond() + "\n"+
-                "ObjectId : " + objectId + "\r\n" +
+        return "Station Name : " + name + "\n" +
+                "Coordinate : " + coordinates.getFirst() + "," + coordinates.getSecond() + "\n" +
+                "ObjectId : " + objectId + "\n" +
                 "Operator : " + operator + "\n" +
-                "Owner : " + owner + "\n"+
+                "Owner : " + owner + "\n" +
                 "Address : " + address + "\n" +
-                "Time Limit : " + timeLimit + "\n"+
-                "Is 24 Hour : " + is24Hours + "\n"+
+                "Time Limit : " + timeLimit + "\n" +
+                "Is 24 Hour : " + is24Hours + "\n" +
                 "Charger : " + "\n" +
-                "Number Of Carpark : " + numberOfCarParks + "\n"+
-                "Carpark Cost : " + carParkCost + "\n" +
-                "Charging Cost : " + chargingCost +"\n"+
+                "Number Of CarPark : " + numberOfCarParks + "\n" +
+                "CarPark Cost : " + carParkCost + "\n" +
+                "Charging Cost : " + chargingCost + "\n" +
                 "Has Tourist Attraction : " + hasTouristAttraction;
     }
 }
