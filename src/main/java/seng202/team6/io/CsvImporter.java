@@ -10,7 +10,6 @@ import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -111,7 +110,7 @@ public class CsvImporter implements Importable<Station> {
             }
             try {
                 String[] chargerInfo;
-                    chargerInfo = field.substring(index + 1, closingBracket).trim().split(",");
+                chargerInfo = field.substring(index + 1, closingBracket).trim().split(",");
                 String plugType = chargerInfo[2];
                 String operative = chargerInfo[3].trim().split(" ")[1];
                 int wattage = Integer.parseInt(chargerInfo[1].trim().split(" ")[0]);
