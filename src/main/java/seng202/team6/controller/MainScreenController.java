@@ -38,13 +38,9 @@ public class MainScreenController {
     private Parent mapScreen;
     private Parent dataScreen;
     private Parent helpScreen;
-
-    private Parent settingScreen;
     private Parent mapToolBarScreen;
     private Parent dataToolBarScreen;
     private Parent helpToolBarScreen;
-
-    private Parent settingToolBarScreen;
 
     private LoadScreen screen = new LoadScreen();
 
@@ -55,8 +51,6 @@ public class MainScreenController {
     private MapToolBarController mapToolBarController;
     private DataToolBarController dataToolBarController;
     private HelpToolBarController helpToolBarController;
-    private SettingController settingController;
-    private SettingToolBarController settingToolBarController;
 
     private Pair p;
 
@@ -98,13 +92,6 @@ public class MainScreenController {
             helpToolBarScreen = (Parent) p.getKey();
             helpToolBarController = (HelpToolBarController) p.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this);
-            settingScreen = (Parent) p.getKey();
-            settingController = (SettingController) p.getValue();
-
-            p = screen.LoadBigScreen(stage, "/fxml/SettingToolBar.fxml", this);
-            settingToolBarScreen = (Parent) p.getKey();
-            settingToolBarController = (SettingToolBarController) p.getValue();
 
             loadFilterSectionOnMapToolBar();
 
@@ -201,23 +188,6 @@ public class MainScreenController {
     public void loadHelpScreenAndToolBar(ActionEvent actionEvent) throws IOException {
         mainBorderPane.setCenter(helpScreen);
         toolBarPane.setCenter(helpToolBarScreen);
-    }
-
-    public void loadMyDetail(ActionEvent actionEvent) {
-        currentStage = "Detail";
-        mainBorderPane.setRight(null);
-    }
-
-    /**
-     * The action handler that linked to the settings button on toolbar.
-     *
-     * @param actionEvent Top level container for this window
-     */
-    public void loadSetting(ActionEvent actionEvent) throws IOException {
-
-        mainBorderPane.setCenter(settingScreen);
-        toolBarPane.setCenter(settingToolBarScreen);
-
     }
 
     public void setTextAreaInMainScreen(String info) {
