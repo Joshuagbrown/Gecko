@@ -146,8 +146,12 @@ public class MapToolBarController implements ScreenController {
             throw new RuntimeException(e);
         }
         JSONArray items = (JSONArray) jsonResponse.get("items");
-        JSONObject bestResult = (JSONObject) items.get(0);
-        return (JSONObject) bestResult.get("position");
+        if (items.size() == 0) {
+            return null;
+        } else {
+            JSONObject bestResult = (JSONObject) items.get(0);
+            return (JSONObject) bestResult.get("position");
+        }
     }
 
     /**
@@ -169,9 +173,16 @@ public class MapToolBarController implements ScreenController {
                 e.printStackTrace();
             }
         }
-        if (posArray.size() >= 2) {
+        boolean validAddresses = true;
+        if (posArray.contains(null)) {
+            validAddresses = false;
+        }
+        if (posArray.size() >= 2 && validAddresses) {
             String json = new Gson().toJson(posArray);
             controller.getMapController().getJavaScriptConnector().call("addRoute", json);
+        } else if (!validAddresses) {
+            AlertMessage.createMessage("Invalid Address Entered.",
+                    "Please input at least two valid destinations.");
         } else {
             AlertMessage.createMessage("Incorrect number of addresses.",
                     "Please input at least two destinations.");
