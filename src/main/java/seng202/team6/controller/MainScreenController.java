@@ -4,6 +4,8 @@
 
 package seng202.team6.controller;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import seng202.team6.services.DataService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainScreenController {
 
@@ -75,7 +78,6 @@ public class MainScreenController {
      * @param stage Top level container for this window
      */
     void init(Stage stage, DataService dataService) {
-
         this.stage = stage;
         this.dataService = dataService;
         try {

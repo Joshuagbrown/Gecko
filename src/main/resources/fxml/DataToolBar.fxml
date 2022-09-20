@@ -35,7 +35,7 @@
                   <CheckBox fx:id="hasTouristAttractionCostCheckBox" mnemonicParsing="false" text="Has Tourist Attraction" GridPane.rowIndex="9" />
                   <Button alignment="CENTER" mnemonicParsing="false" onAction="#filterStation" prefHeight="25.0" prefWidth="56.0" text="FIlter" GridPane.halignment="LEFT" GridPane.rowIndex="10" GridPane.valignment="BOTTOM" />
                   <Slider fx:id="distanceSliderOfFilter" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="1" showTickLabels="true" GridPane.rowIndex="3" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance (Kilometer) :" wrappingWidth="118.7949104309082" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance from selected point (Kilometer) :" GridPane.rowIndex="2" />
                   <Button mnemonicParsing="false" onAction="#resetFilter" text="Reset Filter" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
                   <Label text="Search with station name or address :" />
                   <TextField fx:id="inputStationName" GridPane.rowIndex="1" />

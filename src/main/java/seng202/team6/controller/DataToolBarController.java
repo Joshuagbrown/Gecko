@@ -27,8 +27,8 @@ public class DataToolBarController implements ScreenController {
 
 
     public String createSqlQueryStringFromFilter() {
-        String sql = "SELECT * FROM Stations WHERE ";
-        if (inputStationName.getText()!=null) {
+        String sql = "SELECT * FROM Stations INNER JOIN chargers c ON stations.stationId = c.stationId WHERE ";
+        if (!inputStationName.getText().equals("")) {
             sql += "(name LIKE '%"+inputStationName.getText()+
                     "%' OR address LIKE '%"
                     +inputStationName.getText()+ "%') AND ";
@@ -40,17 +40,14 @@ public class DataToolBarController implements ScreenController {
             float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
             controller.setTextAreaInMainScreen(String.valueOf(distance));
 
-            sql += "LAT < "+ (latlng[0] + distance)+" AND lat > "+(latlng[0] - distance)+" AND long  < "+(latlng[1] + distance)+" AND long > "+(latlng[1] - distance)+" AND ";
+            sql += "lat < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance) + " AND long  < " + (latlng[1] + distance) + " AND long > " + (latlng[1] - distance) + " AND ";
 
 //            sql += "lat <= " + latlng[0] + distance + " AND lat >= " + (latlng[0] - distance) +
 //                    " AND long <= " + latlng[1] + distance + " AND long >= " + (latlng[1] - distance)
 //            + " AND ";
-
-        } else {
-
         }
         if (timeLimitInFilter.getValue() != 0) {
-            sql += "timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0 "+ "AND ";
+            sql += "(timeLimit >= "+timeLimitInFilter.getValue()+ " OR timeLimit ==0) "+ "AND ";
         }
         if(Is24HourCheckBox.isSelected()) {
             sql += "is24Hours = 1 AND ";
@@ -65,14 +62,15 @@ public class DataToolBarController implements ScreenController {
         if (hasChargingCostCheckBox.isSelected()) {
             sql += "chargingCost = 0 AND ";
         }
-        if(sql == "SELECT * FROM Stations WHERE ") {
-            sql = "SELECT * FROM Stations;";
+        if(sql.endsWith("WHERE ")) {
+            sql = sql.substring(0, sql.lastIndexOf("WHERE "));
         } else {
             int num = sql.lastIndexOf("AND");
-            sql = sql.substring(0,num ) + ";";
-
+            sql = sql.substring(0,num );
         }
+        sql += "; ORDER BY stations.stationId";
 
+        System.out.println(sql);
 
         return sql;
     }

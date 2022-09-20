@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class StationDao implements DaoInterface<Station> {
     private final DatabaseManager databaseManager;
+//    private final ChargerDao chargerDao;
     private static final Logger log = LogManager.getLogger();
 
     /**
@@ -24,9 +25,10 @@ public class StationDao implements DaoInterface<Station> {
      */
     public StationDao() {
         databaseManager = DatabaseManager.getInstance();
+//        chargerDao = new ChargerDao();
     }
 
-    private Station stationFromResultSet(ResultSet rs) throws SQLException {
+    private Station stationFromResultSet(ResultSet rs, ArrayList<Charger> chargers) throws SQLException {
         return new Station(
                 new Position(
                         rs.getDouble("lat"),
@@ -39,7 +41,7 @@ public class StationDao implements DaoInterface<Station> {
                 rs.getString("address"),
                 rs.getInt("timeLimit"),
                 rs.getBoolean("is24Hours"),
-                null,
+                chargers,
                 rs.getInt("numberOfCarparks"),
                 rs.getBoolean("carparkCost"),
                 rs.getBoolean("chargingCost"),
@@ -52,19 +54,26 @@ public class StationDao implements DaoInterface<Station> {
         List<Station> stations = new ArrayList<>();
         if (sql == null)
         {
-            sql = "SELECT * FROM stations";
+            sql = "SELECT * FROM stations INNER JOIN chargers c ON stations.stationId = c.stationId";
         }
         //String
         try (Connection conn = databaseManager.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
+            Station station = null;
+            ArrayList<Charger> chargers = new ArrayList<>();
             while (rs.next()) {
-                stations.add(stationFromResultSet(rs));
-            }
+                chargers.add(chargerFromResultSet(rs));
+                station = stationFromResultSet(rs);
+            }x
             return stations;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Charger chargerFromResultSet(ResultSet rs) {
+        return null;
     }
 
     @Override
@@ -93,8 +102,6 @@ public class StationDao implements DaoInterface<Station> {
                 "address, timeLimit, is24Hours, numberOfCarparks, carparkCost," +
                 "chargingCost, hasTouristAttraction, lat, long)" +
                 "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)" +
-                "values (?,?,?,?)";
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, toAdd.getObjectId());
@@ -119,12 +126,19 @@ public class StationDao implements DaoInterface<Station> {
             }
 
             for (Charger charger : toAdd.getChargers()) {
-                PreparedStatement ps2 = conn.prepareStatement(chargerSql);
-                ps2.setInt(1, insertId);
-                ps2.setString(2, charger.getPlugType());
-                ps2.setInt(3, charger.getWattage());
-                ps2.setString(4, charger.getOperative());
-                ps2.executeUpdate();
+                String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)" +
+                        "values (?,?,?,?)";
+                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
+                    ps2.setInt(1, insertId);
+                    ps2.setString(2, charger.getPlugType());
+                    ps2.setInt(3, charger.getWattage());
+                    ps2.setString(4, charger.getOperative());
+
+                    ps2.executeUpdate();
+                } catch (SQLException sqlException) {
+                    log.error(sqlException);
+                    return -1;
+                }
             }
             return insertId;
         } catch (SQLException sqlException) {
