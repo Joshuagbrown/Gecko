@@ -28,30 +28,22 @@ public class MainScreenController {
     public BorderPane mainBorderPane;
     public TextArea textAreaInMainScreen;
     public Text geckoTitle;
-
     private String currentStage = null;
-
     private Stage stage;
-
     private DataService dataService;
-
     private Parent mapScreen;
     private Parent dataScreen;
     private Parent helpScreen;
     private Parent mapToolBarScreen;
     private Parent dataToolBarScreen;
     private Parent helpToolBarScreen;
-
-    private LoadScreen screen = new LoadScreen();
-
+    private LoadScreen screen;
     private MapController mapController;
-
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
     private DataToolBarController dataToolBarController;
     private HelpToolBarController helpToolBarController;
-
     private Pair p;
 
 
@@ -60,13 +52,15 @@ public class MainScreenController {
      * initialize the parent of different screen
      *
      * @param stage Top level container for this window
+     * @param dataService Service class to handle accessing and storing the necessary information.
      */
     void init(Stage stage, DataService dataService) {
 
+        screen = new LoadScreen();
         this.stage = stage;
         this.dataService = dataService;
-        try {
 
+        try {
             p = screen.LoadBigScreen(stage, "/fxml/Help.fxml", this);
             helpScreen = (Parent) p.getKey();
             helpController = (HelpController) p.getValue();
@@ -92,40 +86,28 @@ public class MainScreenController {
             helpToolBarScreen = (Parent) p.getKey();
             helpToolBarController = (HelpToolBarController) p.getValue();
 
-
-            loadFilterSectionOnMapToolBar();
-
             loadMapViewAndToolBars();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
-
-
     }
 
-    private void loadFilterSectionOnMapToolBar() {
-    }
-
-
+    /**
+     * Function to return the map controller
+     * @return mapController
+     */
     public MapController getMapController() {
         return mapController;
     }
 
+    /**
+     * Funtion to return the stage
+     * @return stage of main screen controller
+     */
     public Stage getStage() {
         return this.stage;
-    }
-
-    public ScrollPane getScrollPane() {
-        return this.scrollPaneMainScreen;
-    }
-
-    public BorderPane getToolBarPane() {
-        return this.toolBarPane;
-    }
-
-    public BorderPane getMainBorderPane() {
-        return mainBorderPane;
     }
 
     public DataService getDataService() {
