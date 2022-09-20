@@ -2,10 +2,6 @@
     -fx-font: 12px Tahoma;
     -fx-background: #93c14e;
 }
-.white-background {
-    -fx-background-color: white;
-
-}
 
 .border-pane {
     -fx-background-insets: 0, 0 0 1 0;
@@ -13,7 +9,7 @@
 
 .menu-bar {
     -fx-background-color: #ffffff;
-    -fx-base: #1f2883;
+    -fx-base: #90d765;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
@@ -30,10 +26,10 @@
     -fx-text-fill: #ffffff;
     -fx-border-radius: 12px;
 }
-.button:default:hover:pressed,
-.button:focused {
-    -fx-background-color: #91d966;
+.button:hover {
+    -fx-background-color: #89a84f;
 }
+
 .accordion {
     -fx-background-color:
             linear-gradient(#ffffff, #ffffff);
