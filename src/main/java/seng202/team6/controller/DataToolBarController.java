@@ -6,6 +6,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The controller class of the data toolbar fxml
+ * @author  Phyu Wai Lwin
+ */
 public class DataToolBarController implements ScreenController {
     private CheckBox is24HourCheckBox;
     private CheckBox hasCarParkCostCheckBox;

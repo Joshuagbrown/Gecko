@@ -1,11 +1,5 @@
 package seng202.team6.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
@@ -15,6 +9,13 @@ import netscape.javascript.JSObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 
@@ -48,6 +49,10 @@ public class MapController implements ScreenController {
         initMap();
     }
 
+    /**
+     * Function to set the current address.
+     * @param address the new address to set.
+     */
     public void setAddress(String address) {
         currentAddress = address;
     }
@@ -67,6 +72,10 @@ public class MapController implements ScreenController {
         locationLng = lng;
     }
 
+    /**
+     * Function call to get two float value of the latitude and longitude.
+     * @return a list with two float value of the latitude and longitude.
+     */
     public float[] getLatLng() {
         return new float[]{locationLat, locationLng};
     }
@@ -115,6 +124,10 @@ public class MapController implements ScreenController {
                 .collect(Collectors.joining("\n"));
     }
 
+    /**
+     * Function call to get the javascript connector.
+     * @return javascript connector.
+     */
     public JSObject getJavaScriptConnector() {
         return javaScriptConnector;
     }
@@ -146,6 +159,10 @@ public class MapController implements ScreenController {
                 station.getCoordinates().getLongitude(), station.getObjectId());
     }
 
+    /**
+     * Function to get the current address.
+     * @return string of the current address.
+     */
     public String getAddress() {
         return currentAddress;
     }

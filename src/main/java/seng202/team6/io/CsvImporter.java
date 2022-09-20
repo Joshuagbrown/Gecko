@@ -27,7 +27,9 @@ import java.util.List;
  */
 public class CsvImporter implements Importable<Station> {
 
-    //A Logger object is used to log messages for a specific system
+    /**
+     * A Logger object is used to log messages for a specific system
+     */
     public static final Logger log = LogManager.getLogger();
 
     /**

@@ -28,7 +28,7 @@ public interface DaoInterface<T> {
     /**
      * Adds a single object of type T to database.
      * @param toAdd object of type T to add.
-     * @throws throw the duplicate entry exception from sql query.
+     * @throws  throw the duplicate entry exception from sql query.
      * @return true if no error, false if sql error.
      */
     int add(T toAdd) throws DuplicateEntryException;

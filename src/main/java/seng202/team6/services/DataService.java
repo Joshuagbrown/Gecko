@@ -41,6 +41,9 @@ public class DataService {
         }
     }
 
+    /**
+     * Create the table of in the database.
+     */
     public void createTables() {
         try {
             InputStream in = getClass().getResourceAsStream("/sql/create.sql");
@@ -63,6 +66,11 @@ public class DataService {
 
     }
 
+    /**
+     * Update all the with the sql query.
+     * @param sql the sql query.
+     * @return list of the stations that match the sql query.
+     */
     public List<Station> fetchAllData(String sql) {
         return dao.getAll(sql);
     }
