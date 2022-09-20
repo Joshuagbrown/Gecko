@@ -33,11 +33,11 @@
                                  <font>
                                     <Font size="15.0" />
                                  </font></Text>
-                              <TextField fx:id="startLocation" onAction="#showTable" prefHeight="26.0" prefWidth="124.0" GridPane.rowIndex="1" />
+                              <TextField fx:id="startLocation" onAction="#showTable" GridPane.rowIndex="1" />
                               <TextField fx:id="endLocation" GridPane.rowIndex="3" />
                               <Button fx:id="findRouteButton" mnemonicParsing="false" onAction="#findRoute" text="GO! " GridPane.rowIndex="4">
                                  <font>
-                                    <Font size="15.0" />
+                                    <Font size="14.0" />
                                  </font></Button>
                               <Button fx:id="startAutoFill" mnemonicParsing="false" text="Auto-Fill" GridPane.halignment="RIGHT">
                                  <font>
@@ -47,10 +47,13 @@
                                  <font>
                                     <Font size="15.0" />
                                  </font></Button>
-                              <Button fx:id="addStopButton" mnemonicParsing="false" text="Add Stop" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                              <Button fx:id="addStopButton" mnemonicParsing="false" text="Add Stop" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font></Button>
                               <Button fx:id="removeRouteButton" mnemonicParsing="false" onAction="#removeRoute" text="Remove Route" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                                  <font>
-                                    <Font size="15.0" />
+                                    <Font size="14.0" />
                                  </font></Button>
                            </children>
                            <padding>

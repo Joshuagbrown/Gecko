@@ -262,12 +262,12 @@ public class MapToolBarController implements ScreenController {
         autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
 
         int row = planTripGridPane.getRowIndex(button);
-        planTripGridPane.add(addOneTextField, 0,row + 2);
-        planTripGridPane.add(autoFillButton, 0, row + 1);
-        planTripGridPane.add(endLabel, 0, row + 1);
-        planTripGridPane.add(findRouteButton, 0,row + 3);
-        planTripGridPane.add(addStopButton, 0,row + 3);
-        planTripGridPane.add(removeRouteButton, 0, row + 3);
+        planTripGridPane.add(addOneTextField, 0,row + 1);
+        planTripGridPane.add(autoFillButton, 0, row);
+        planTripGridPane.add(endLabel, 0, row);
+        planTripGridPane.add(findRouteButton, 0,row + 2);
+        planTripGridPane.add(addStopButton, 0,row + 2);
+        planTripGridPane.add(removeRouteButton, 0, row + 2);
 
     }
 
