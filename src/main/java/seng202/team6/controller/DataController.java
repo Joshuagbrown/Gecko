@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Station;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class DataController implements ScreenController {
@@ -72,8 +73,8 @@ public class DataController implements ScreenController {
         tourstAttraction.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
 
         try {
-            List<Station> stations = controller.getDataService().fetchAllData(sql);
-            table.getItems().addAll(stations);
+            HashMap<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
+            table.getItems().addAll(stations.values());
         } catch (Exception e) {
             log.error(e);
         }

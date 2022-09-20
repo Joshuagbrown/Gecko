@@ -1,7 +1,9 @@
 package seng202.team6.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Represents a charging station.
@@ -112,6 +114,11 @@ public class Station {
     }
 
     public String toString(){
+        ArrayList<String> chargerStrings = new ArrayList<>();
+        for (Charger charger : chargers) {
+            chargerStrings.add(charger.getWattage() + "kW " + charger.getPlugType() + ", Status: " + charger.getOperative());
+        }
+        System.out.println(chargerStrings);
         String stationInfo = "Station Name : " + name + "\n"+
                 "Coordinate : " + coordinates.getFirst() + "," + coordinates.getSecond() + "\n"+
                 "ObjectId : " + objectId + "\r\n" +
@@ -120,7 +127,7 @@ public class Station {
                 "Address : " + address + "\n" +
                 "Time Limit : " + timeLimit + "\n"+
                 "Is 24 Hour : " + is24Hours + "\n"+
-                "Charger : " + "\n" +
+                "Chargers : \n" + String.join(";\n", chargerStrings) + "\n" +
                 "Number Of Carpark : " + numberOfCarparks + "\n"+
                 "Carpark Cost : " + carparkCost + "\n" +
                 "Charging Cost : " + chargingCost +"\n"+

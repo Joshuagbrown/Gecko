@@ -11,6 +11,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,12 +64,8 @@ public class DataService {
 
     }
 
-    public List<Station> fetchAllData(String sql) {
+    public HashMap<Integer, Station> fetchAllData(String sql) {
+
         return dao.getAll(sql);
-    }
-
-
-    public Station getStationById(int id) {
-        return dao.getOne(id);
     }
 }

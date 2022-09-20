@@ -7,9 +7,9 @@ import java.util.Objects;
  */
 public class Charger {
     /* TODO: make into an enum */
-    String plugType;
-    String operative;
-    int wattage;
+    private String plugType;
+    private String operative;
+    private int wattage;
 
     public Charger(String plugType, String operative, int wattage) {
         this.plugType = plugType;

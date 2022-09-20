@@ -110,7 +110,7 @@ public class CsvImporter implements Importable<Station> {
             try {
                 String[] chargerInfo;
                     chargerInfo = field.substring(index + 1, closingBracket).trim().split(",");
-                String plugType = chargerInfo[2];
+                String plugType = chargerInfo[2].trim();
                 String operative = chargerInfo[3].trim().split(" ")[1];
                 int wattage = Integer.parseInt(chargerInfo[1].trim().split(" ")[0]);
                 chargers.add(new Charger(plugType, operative, wattage));

@@ -13,6 +13,7 @@ import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.business.JavaScriptBridge;
+import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
 
@@ -20,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,7 @@ public class MapController implements ScreenController {
     private MainScreenController controller;
     private float locationLat;
     private float locationLng;
+    private HashMap<Integer, Station> stations;
 
     /**
      * Initialises the map view.
@@ -72,7 +75,7 @@ public class MapController implements ScreenController {
     }
 
     public void onStationClicked(int id) {
-        Station station = controller.getDataService().getStationById(id);
+        Station station = stations.get(id);
         controller.setTextAreaInMainScreen(station.toString());
     }
 
@@ -141,13 +144,14 @@ public class MapController implements ScreenController {
 
     public void addStationsToMap(String sql) {
 
-        List<Station> stations = stationDao.getAll(sql);
+        stations = stationDao.getAll(sql);
 
         javaScriptConnector.call(
                 "cleanUpMarkerLayer");
 
 
-        for (Station station : stations) {
+        for (Station station : stations.values()) {
+            System.out.println(station.getChargers().size());
             addStation(station);
         }
 

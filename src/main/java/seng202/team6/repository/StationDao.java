@@ -1,5 +1,6 @@
 package seng202.team6.repository;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Charger;
@@ -8,6 +9,7 @@ import seng202.team6.models.Station;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,45 +52,53 @@ public class StationDao implements DaoInterface<Station> {
     }
 
     @Override
-    public List<Station> getAll(String sql) {
-        List<Station> stations = new ArrayList<>();
-        if (sql == null)
-        {
-            sql = "SELECT * FROM stations INNER JOIN chargers c ON stations.stationId = c.stationId";
+    public HashMap<Integer, Station> getAll(String sql) {
+        HashMap<Integer, Station> stations = new HashMap<>();
+        if (sql == null) {
+            sql = "SELECT * FROM stations"
+                    + "INNER JOIN chargers c ON stations.stationId = c.stationId";
         }
         //String
         try (Connection conn = databaseManager.connect();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            Station station = null;
+             Statement stmt2 = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql);
+             ResultSet rs2 = stmt2.executeQuery(sql)) {
             ArrayList<Charger> chargers = new ArrayList<>();
-            while (rs.next()) {
+            boolean stillGoing = rs.next();
+            while (stillGoing) {
+                if (rs.getInt("stationId") != rs2.getInt("stationId")) {
+                    Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
+                    stations.put(station.getObjectId(), station);
+                    chargers.clear();
+                }
                 chargers.add(chargerFromResultSet(rs));
-                station = stationFromResultSet(rs);
-            }x
+                stillGoing = rs.next();
+                if (stillGoing) {
+                    rs2.next();
+                }
+            }
+            if (chargers.size() > 0) {
+                Station station = stationFromResultSet(rs2, chargers);
+                stations.put(station.getObjectId(), station);
+            }
             return stations;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Charger chargerFromResultSet(ResultSet rs) {
-        return null;
+    private Charger chargerFromResultSet(ResultSet rs) throws SQLException {
+        return new Charger(
+                rs.getString("plugType") + " " + rs.getInt("objectId"),
+                rs.getString("operative"),
+                rs.getInt("wattage")
+        );
     }
 
     @Override
     public Station getOne(int id) {
-        String sql = "SELECT * FROM stations WHERE stationId == (?)";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            rs.next();
-            return stationFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        throw new NotImplementedException();
     }
 
     /**
