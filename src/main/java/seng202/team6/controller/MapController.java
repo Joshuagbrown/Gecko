@@ -1,16 +1,7 @@
 package seng202.team6.controller;
 
 import com.sun.javafx.webkit.WebConsoleListener;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.concurrent.Worker;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -20,9 +11,17 @@ import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.models.Position;
+import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * Map Controller Class.
@@ -33,6 +32,7 @@ public class MapController implements ScreenController {
 
     private static final Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
+    private JavaScriptBridge javaScriptBridge;
     @FXML
     private WebView webView;
     private WebEngine webEngine;
@@ -56,6 +56,10 @@ public class MapController implements ScreenController {
 
     @FXML
     private Button newStationButton;
+    private MainScreenController controller;
+    private float locationLat = 0;
+    private float locationLng = 0;
+    private String currentAddress;
 
     /**
      * Initialises the map view.
@@ -63,7 +67,32 @@ public class MapController implements ScreenController {
      */
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
+        this.controller = controller;
+        this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked, this::setClickLocation, this::setAddress);
         initMap();
+    }
+
+    public void setAddress(String address) {
+        currentAddress = address;
+    }
+
+    public void onStationClicked(int id) {
+        Station station = controller.getDataService().getStationById(id);
+        controller.setTextAreaInMainScreen(station.toString());
+    }
+
+    /**
+     * When a place on the map is clicked this sets the latitude and longitude.
+     * @param lat latitude.
+     * @param lng longitude
+     */
+    public void setClickLocation(float lat, float lng) {
+        locationLat = lat;
+        locationLng = lng;
+    }
+
+    public float[] getLatLng() {
+        return new float[]{locationLat, locationLng};
     }
 
 
@@ -77,8 +106,7 @@ public class MapController implements ScreenController {
         webEngine.loadContent(getHtml());
         // Forwards console.log() output from any javascript to info log
         WebConsoleListener.setDefaultListener((view, message, lineNumber, sourceId) ->
-                log.info(String.format(
-                        "Map WebView console log line: %d, message : %s", lineNumber, message)));
+                log.info(String.format("Map WebView console log line: %d, message : %s", lineNumber, message)));
 
         webEngine.getLoadWorker().stateProperty().addListener(
                 (ov, oldState, newState) -> {
@@ -86,14 +114,15 @@ public class MapController implements ScreenController {
                     if (newState == Worker.State.SUCCEEDED) {
                         // set our bridge object
                         JSObject window = (JSObject) webEngine.executeScript("window");
-                        //window.setMember("javaScriptBridge", javaScriptBridge);
+
+                        window.setMember("javaScriptBridge", javaScriptBridge);
                         // get a reference to the js object that has a reference
                         // to the js methods we need to use in java
                         javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
 
                         javaScriptConnector.call("initMap");
 
-                        addStationsToMap();
+                        addStationsToMap(null);
 
                     }
                 });
@@ -111,60 +140,48 @@ public class MapController implements ScreenController {
                 .collect(Collectors.joining("\n"));
     }
 
+    public JSObject getJavaScriptConnector() {
+        return javaScriptConnector;
+    }
 
-    private void addStationsToMap() {
-//        Position firstPos = new Position(-43.557139, 172.680089);
-//        Station firstStation = new Station(firstPos, "The Tannery");
-//
-//        Position secondPos = new Position(-43.539238, 172.607516);
-//        Station secondStation = new Station(secondPos, "Tower Junction");
-//
-//        Position thirdPos = new Position(-43.5531026851514, 172.556282579727);
-//        Station thirdStation = new Station(thirdPos, "SILKY OTTER CINEMA");
-//
-//        Position fourthPos = new Position(-43.53300448, 172.6418037);
-//        Station fourthStation = new Station(fourthPos, "LES MILLS CHRISTCHURCH");
-//
-//        List<Station> stations = new ArrayList<Station>();
-//        stations.add(firstStation);
-//        stations.add(secondStation);
-//        stations.add(thirdStation);
-//        stations.add(fourthStation);
+    /**
+     * This calls this add station function, for all the stations that fit the sql query.
+     * @param sql Takes a sql query as input.
+     */
+    public void addStationsToMap(String sql) {
 
-        List<Station> stations = stationDao.getAll();
+        List<Station> stations = stationDao.getAll(sql);
+
+        javaScriptConnector.call(
+                "cleanUpMarkerLayer");
 
         for (Station station : stations) {
             addStation(station);
         }
+
     }
 
-
-    private void addStation(Station station) {
-        javaScriptConnector.call(
-                "addMarker", station.getName(), station.getCoordinates().getFirst(),
-                station.getCoordinates().getSecond());
-    }
 
     /**
-     * Action handler method for add new station to map button.
-     *
-     * @param actionEvent button pressed event
+     * Adds a single station to the map.
+     * @param station A station.
      */
-    public void addNewStation(ActionEvent actionEvent) {
-        String stationTitle = newStationTitle.getText();
-        Double latitude = Double.parseDouble(newStationLatitude.getText());
-        Double longitude = Double.parseDouble(newStationLongitude.getText());
-
-        Position pos = new Position(latitude, longitude);
-        Station newStation = new Station(pos, stationTitle);
-
-        addStation(newStation);
+    public void addStation(Station station) {
+        javaScriptConnector.call(
+                "addMarker", station.getName(), station.getCoordinates().getFirst(),
+                station.getCoordinates().getSecond(), station.getObjectId());
     }
 
-    public void findRoute(ActionEvent actionEvent) {
-        String firstLocation = startLocation.getText();
-        String secondLocation = endLocation.getText();
-        javaScriptConnector.call("addRoute", firstLocation, secondLocation);
+
+    public void deleteStation(Station station) {
+
     }
 
+    public JavaScriptBridge getJavaScriptBridge() {
+        return javaScriptBridge;
+    }
+
+    public String getAddress() {
+        return currentAddress;
+    }
 }

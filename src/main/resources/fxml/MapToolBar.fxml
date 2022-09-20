@@ -1,81 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
    <center>
-      <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" BorderPane.alignment="TOP_LEFT">
+      <Accordion fx:id="AccordionForFilter" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="213.0" minWidth="112.8" prefHeight="213.0" prefWidth="202.0" BorderPane.alignment="TOP_LEFT">
         <panes>
-          <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Plan Trip">
+          <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="202.0" text="Plan Trip">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <GridPane layoutX="58.0" layoutY="71.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+                     <content>
+                        <GridPane fx:id="planTripGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="202.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="40.0" prefWidth="137.6" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="56.4" minHeight="10.0" prefHeight="35.4" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="87.4" minHeight="10.0" prefHeight="43.599999999999994" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="100.39998474121094" minHeight="10.0" prefHeight="27.99999237060547" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="121.39999999999998" minHeight="10.0" prefHeight="45.20000762939452" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="56.4" minHeight="40.0" prefHeight="35.4" vgrow="ALWAYS" />
+                              <RowConstraints maxHeight="87.4" minHeight="40.0" prefHeight="43.599999999999994" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="100.39998474121094" minHeight="40.0" prefHeight="27.99999237060547" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="121.39999999999998" minHeight="40.0" prefHeight="45.20000762939452" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start: " />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End: " GridPane.rowIndex="2" />
-                              <Button fx:id="findRouteButton" mnemonicParsing="false" onAction="#findRoute" text="GO! " GridPane.rowIndex="4" />
-                              <TextField fx:id="startLocation" GridPane.rowIndex="1" />
+                              <Text fx:id="startLabel" strokeWidth="0.0" text="Start: " />
+                              <Text fx:id="endLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="End: " GridPane.rowIndex="2" />
+                              <TextField fx:id="startLocation" onAction="#showTable" prefHeight="26.0" prefWidth="124.0" GridPane.rowIndex="1" />
                               <TextField fx:id="endLocation" GridPane.rowIndex="3" />
+                              <Button fx:id="findRouteButton" mnemonicParsing="false" onAction="#findRoute" text="GO! " GridPane.rowIndex="4" />
+                              <Button fx:id="startAutoFill" mnemonicParsing="false" text="Auto-Fill" GridPane.halignment="RIGHT" />
+                              <Button fx:id="endAutoFill" mnemonicParsing="false" text="Auto-Fill" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Button fx:id="addStopButton" mnemonicParsing="false" text="Add Stop" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                              <Button fx:id="removeRouteButton" mnemonicParsing="false" onAction="#removeRoute" text="Remove Route" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                            </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </GridPane>
-                     </children>
-                  </AnchorPane>
+                     </content>
+                  </ScrollPane>
             </content>
-          </TitledPane>
-          <TitledPane animated="false" text="Add Stops">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+               <font>
+                  <Font size="17.0" />
+               </font>
           </TitledPane>
           <TitledPane animated="false" prefHeight="552.0" prefWidth="202.0" text="Filter Station">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <BorderPane fx:id="filterSectionOnMapToolBar" />
             </content>
+               <font>
+                  <Font size="17.0" />
+               </font>
           </TitledPane>
-            <TitledPane animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Add Station">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="247.2" minWidth="112.8" prefHeight="180.8" prefWidth="200.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
-                              <Button fx:id="newStationButton" onAction="#addNewStation" text="Add Station!" GridPane.rowIndex="6" />
-                              <TextField fx:id="newStationTitle" GridPane.rowIndex="1" />
-                              <TextField fx:id="newStationLatitude" GridPane.rowIndex="3" />
-                              <TextField fx:id="newStationLongitude" GridPane.rowIndex="5" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Latitude" GridPane.rowIndex="2" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Longitude" GridPane.rowIndex="4" />
-                           </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </TitledPane>
         </panes>
       </Accordion>
    </center>

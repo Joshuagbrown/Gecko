@@ -2,6 +2,7 @@ package seng202.team6;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.controller.MainApplication;
 import seng202.team6.gui.MainWindow;
 
 /**
@@ -15,6 +16,6 @@ public class App {
      * @param args program arguments from command line
      */
     public static void main(String[] args) {
-        MainWindow.main(args);
+        MainApplication.main(args);
     }
 }

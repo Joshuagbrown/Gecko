@@ -8,8 +8,26 @@ import java.util.Objects;
 public class Charger {
     /* TODO: make into an enum */
     String plugType;
-    boolean operative;
+    String operative;
     int wattage;
+
+    public Charger(String plugType, String operative, int wattage) {
+        this.plugType = plugType;
+        this.operative = operative;
+        this.wattage = wattage;
+    }
+
+    public String getPlugType() {
+        return plugType;
+    }
+
+    public String getOperative() {
+        return operative;
+    }
+
+    public int getWattage() {
+        return wattage;
+    }
 
     @Override
     public boolean equals(Object o) {
