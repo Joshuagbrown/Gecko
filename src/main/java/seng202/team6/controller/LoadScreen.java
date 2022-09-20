@@ -7,7 +7,7 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 
-public class LoadScreen<ScrollPaneMainScreen> {
+public class LoadScreen {
 
     /**
      *
@@ -17,9 +17,7 @@ public class LoadScreen<ScrollPaneMainScreen> {
      * @return
      * @throws IOException
      */
-    public Pair<Parent, ScreenController> LoadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
-        //Parent dataViewParent = null;
-        //Parent dataViewParent = null;
+    public Pair<Parent, ScreenController> loadBigScreen(Stage stage, String screen, MainScreenController controller) throws IOException {
 
         // Load our sales_table.fxml file
         FXMLLoader viewLoader = new FXMLLoader(getClass().getResource(screen));

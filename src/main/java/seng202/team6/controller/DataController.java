@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Station;
 
-import java.util.List;
 
 public class DataController implements ScreenController {
 
@@ -31,16 +31,17 @@ public class DataController implements ScreenController {
 
     public MainScreenController controller;
 
-    public TableColumn objectId;
-    public TableColumn operator;
-    public TableColumn is24Hour;
-    public TableColumn timeLimit;
-    public TableColumn address;
-    public TableColumn owner;
-    public TableColumn noOfCarPark;
-    public TableColumn carParkCost;
-    public TableColumn chargingCost;
-    public TableColumn tourstAttraction;
+    public TableColumn<Object, Object> objectId;
+    public TableColumn<Object, Object> operator;
+    public TableColumn<Object, Object> is24Hour;
+    public TableColumn<Object, Object> timeLimit;
+
+    public TableColumn<Object, Object> address;
+    public TableColumn<Object, Object> owner;
+    public TableColumn<Object, Object> noOfCarPark;
+    public TableColumn<Object, Object> carParkCost;
+    public TableColumn<Object, Object> chargingCost;
+    public TableColumn<Object, Object> tourstAttraction;
 
     /**
      * Initialize the window.
@@ -54,7 +55,7 @@ public class DataController implements ScreenController {
 
     /**
      * Loads the data into the table
-     * @param sql
+     * @param sql A sql query from the filters.
      */
     public void loadData(String sql) {
         table.getItems().clear();
