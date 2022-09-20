@@ -107,7 +107,7 @@ public class DataToolBarController implements ScreenController {
         hasChargingCostCheckBox.setSelected(false);
         hasCarParkCostCheckBox.setSelected(false);
         hasTouristAttractionCostCheckBox.setSelected(false);
-        inputStationName.setText(null);
+        inputStationName.setText("");
         filterStation(null);
         controller.setTextAreaInMainScreen(null);
     }
