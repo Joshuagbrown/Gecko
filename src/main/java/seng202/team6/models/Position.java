@@ -54,7 +54,7 @@ public class Position {
     }
 
     /**
-     * Get the hash code
+     * Get the hash code.
      * @return hash code of the location.
      */
     @Override

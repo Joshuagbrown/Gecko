@@ -1,6 +1,7 @@
 package seng202.team6.controller;
 
 import javafx.scene.control.Alert;
+A
 /**
  * Alert class to pop up a message box and display the message.
  * database access.
@@ -9,7 +10,7 @@ import javafx.scene.control.Alert;
 public class AlertMessage {
 
     /**
-     * Alert Message class constructor that
+     * Alert Message class constructor that.
      */
     private AlertMessage() {
         throw new IllegalStateException("Alert Message Class");
