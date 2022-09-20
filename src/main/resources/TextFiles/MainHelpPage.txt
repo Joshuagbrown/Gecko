@@ -1,6 +1,7 @@
 Welcome to the Help Page!
-This page describes what is on each page and all the functionality avaliable.
 
-In this application there are 5 Main Pages; Map Page, Data Page, My Details, Settings, and Help.
+This page describes what is on each page and all the functionality available.
+
+In this application there are 3 Main Pages; Map Page, Data Page and Help Page.
 
 Click on the button of the page you want more info about on the left.
