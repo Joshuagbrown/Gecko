@@ -6,22 +6,40 @@ import java.util.Objects;
  * Represents a 2D position vector.
  */
 public class Position {
-    private double first;
-    private double second;
+    private double latitude;
+    private double longitude;
 
+    /**
+     * The constructor class of the position.
+     * @param first the longitude of a location.
+     * @param second the latitude of the location.
+     */
     public Position(double first, double second) {
-        this.first = first;
-        this.second = second;
+        this.latitude = first;
+        this.longitude = second;
     }
 
-    public double getFirst() {
-        return first;
+    /**
+     * Function to get the latitude of the location.
+     * @return the latitude of the location.
+     */
+    public double getLatitude() {
+        return latitude;
     }
 
-    public double getSecond() {
-        return second;
+    /**
+     * Function to get the longitude of the location.
+     * @return longitude of the location.
+     */
+    public double getLongitude() {
+        return longitude;
     }
 
+    /**
+     * The override method of equal method.
+     * @param o object that want to compare.
+     * @return boolean of the result.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -31,12 +49,17 @@ public class Position {
             return false;
         }
         Position position = (Position) o;
-        return Double.compare(position.first, first) == 0 && Double.compare(position.second, second) == 0;
+        return Double.compare(position.latitude, latitude) == 0
+                && Double.compare(position.longitude, longitude) == 0;
     }
 
+    /**
+     * Get the hash code
+     * @return hash code of the location.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(first, first);
+        return Objects.hash(latitude, latitude);
     }
 
 

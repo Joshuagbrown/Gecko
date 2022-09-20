@@ -108,8 +108,8 @@ public class StationDao implements DaoInterface<Station> {
             ps.setBoolean(9, toAdd.isCarparkCost());
             ps.setBoolean(10, toAdd.isChargingCost());
             ps.setBoolean(11, toAdd.isHasTouristAttraction());
-            ps.setDouble(12, toAdd.getCoordinates().getFirst());
-            ps.setDouble(13, toAdd.getCoordinates().getSecond());
+            ps.setDouble(12, toAdd.getCoordinates().getLatitude());
+            ps.setDouble(13, toAdd.getCoordinates().getLongitude());
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
