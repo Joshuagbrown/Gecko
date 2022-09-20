@@ -70,7 +70,7 @@ public class DataController implements ScreenController {
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
         timeLimit.setCellValueFactory(new PropertyValueFactory<>("timeLimit"));
-        noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarparks"));
+        noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarParks"));
         carParkCost.setCellValueFactory(new PropertyValueFactory<>("carparkCost"));
         tourstAttraction.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
 
