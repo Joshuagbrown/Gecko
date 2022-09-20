@@ -60,6 +60,7 @@ public class MapToolBarController implements ScreenController {
      * @param stage Primary Stage of the application
      * @param controller The Controller class for the main screen.
      */
+
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
@@ -81,8 +82,8 @@ public class MapToolBarController implements ScreenController {
 
         addAddressButton.add(addStopButton);
         addStopButton.setOnAction(event -> insertAddressFieldAndButton(addStopButton));
-        startAutoFill.setOnAction(event -> eHAutoFill(startLocation));
-        endAutoFill.setOnAction(event -> eHAutoFill(endLocation));
+        startAutoFill.setOnAction(event -> autoFillEventHandler(startLocation));
+        endAutoFill.setOnAction(event -> autoFillEventHandler(endLocation));
 
     }
 
@@ -97,8 +98,8 @@ public class MapToolBarController implements ScreenController {
 
         HttpRequest geocodingRequest = HttpRequest.newBuilder().GET().uri(URI.create(requestUri))
                 .timeout(Duration.ofMillis(2000)).build();
-
-        HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest,
+                HttpResponse.BodyHandlers.ofString());
         String jsonString =  geocodingResponse.body();
         JSONParser parser = new JSONParser();
         JSONObject jsonResponse = null;
@@ -135,7 +136,8 @@ public class MapToolBarController implements ScreenController {
             String json = new Gson().toJson(posArray);
             controller.getMapController().getJavaScriptConnector().call("addRoute", json);
         } else {
-            AlertMessage.createMessage("Incorrect number of addresses.", "Please input at least two destinations.");
+            AlertMessage.createMessage("Incorrect number of addresses.",
+                    "Please input at least two destinations.");
         }
     }
 
@@ -147,11 +149,16 @@ public class MapToolBarController implements ScreenController {
     }
 
     /**
-     * ??
+     * Sets text field to selected marker on the map as well as adding a routing marker
+     * at that point. Method called when user selects auto-fill button. Takes the
+     * address, latitude, and longitude from the current location of the marker, sets
+     * the associated text-feild to contain the given address. Calls the
+     * javascriptconnecter to replace all current address markers on the map with
+     * the updated one.
      *
-     * @param field
+     * @param field The text field being filled
      */
-    public void eHAutoFill(TextField field) {
+    public void autoFillEventHandler(TextField field) {
 
         field.setText(controller.getMapController().getAddress());
         int fieldIndex = arrayOfTextFields.indexOf(field);
@@ -167,7 +174,8 @@ public class MapToolBarController implements ScreenController {
         int i = 0;
         for (String address : addressMarkerTitles) {
             if (address != null) {
-                controller.getMapController().getJavaScriptConnector().call("addRoutingMarker", addressMarkerTitles.get(i),
+                controller.getMapController().getJavaScriptConnector().call(
+                        "addRoutingMarker", addressMarkerTitles.get(i),
                         addressMarkerLatLng.get(i).get(0), addressMarkerLatLng.get(i).get(1));
             }
             i++;
@@ -181,7 +189,8 @@ public class MapToolBarController implements ScreenController {
      */
     public void insertAddressFieldAndButton(Button button) {
         if (numAddresses == 5) {
-            AlertMessage.createMessage("Maximum number of stops reached.", "Unable to add more stops.");
+            AlertMessage.createMessage("Maximum number of stops reached.",
+                    "Unable to add more stops.");
         } else {
             numAddresses++;
 
@@ -196,7 +205,8 @@ public class MapToolBarController implements ScreenController {
 
             arrayOfTextFields.add(addOneTextField);
 
-            //Adds the lat and long of the corresponding text field to null because it has not yet been autofilled
+            //Adds the lat and long of the corresponding text field to
+            // null because it has not yet been autofilled
             ArrayList<Float> current = new ArrayList<Float>();
             current.add(null);
             current.add(null);
@@ -207,9 +217,8 @@ public class MapToolBarController implements ScreenController {
             autoFillButton.setFont(Font.font(15));
             GridPane.setHalignment(autoFillButton, HPos.RIGHT);
             autoFillButton.setVisible(true);
-            autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
+            autoFillButton.setOnAction(e -> autoFillEventHandler(addOneTextField));
 
-            int row = planTripGridPane.getRowIndex(button);
             RowConstraints firstRow = new RowConstraints();
             firstRow.fillHeightProperty();
             firstRow.setVgrow(Priority.SOMETIMES);
@@ -226,6 +235,7 @@ public class MapToolBarController implements ScreenController {
             secondRow.setMaxHeight(40);
             planTripGridPane.getRowConstraints().add(secondRow);
 
+            int row = planTripGridPane.getRowIndex(button);
             planTripGridPane.add(addOneTextField, 0,row + 1);
             planTripGridPane.add(autoFillButton, 0, row);
             planTripGridPane.add(endLabel, 0, row);
