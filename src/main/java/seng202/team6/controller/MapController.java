@@ -29,7 +29,7 @@ public class MapController implements ScreenController {
     @FXML
     private WebView webView;
     private WebEngine webEngine;
-    private final StationDao stationDao = new StationDao();
+    private StationDao stationDao = new StationDao();
     private Stage stage;
     private MainScreenController controller;
     private float locationLat = 0;

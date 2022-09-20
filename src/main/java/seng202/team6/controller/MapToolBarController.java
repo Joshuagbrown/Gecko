@@ -34,8 +34,6 @@ import org.json.simple.parser.ParseException;
  * Controller for the map toolbar.
  */
 public class MapToolBarController implements ScreenController {
-
-
     public BorderPane filterSectionOnMapToolBar;
     public GridPane planTripGridPane;
     public Button addStopButton;
