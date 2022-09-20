@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
@@ -85,7 +87,7 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<String> addressMarkerTitles = new ArrayList<String>();
     private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<ArrayList<Float>>();
 
-    private int numAddresses;
+    private int numAddresses = 2;
 
 
     /**
@@ -236,38 +238,60 @@ public class MapToolBarController implements ScreenController {
      * @param button When add stop button is clicked.
      */
     public void insertAddressFieldAndButton(Button button) {
-        planTripGridPane.getChildren().remove(endLabel);
-        planTripGridPane.getChildren().remove(findRouteButton);
-        planTripGridPane.getChildren().remove(addStopButton);
-        planTripGridPane.getChildren().remove(removeRouteButton);
+        if (numAddresses == 5) {
+            AlertMessage.createMessage("Maximum number of stops reached.", "Unable to add more stops.");
+        } else {
+            numAddresses ++;
 
-        TextField addOneTextField = new TextField();
-        addOneTextField.setFont(Font.font(13));
-        addOneTextField.setVisible(true);
+            planTripGridPane.getChildren().remove(endLabel);
+            planTripGridPane.getChildren().remove(findRouteButton);
+            planTripGridPane.getChildren().remove(addStopButton);
+            planTripGridPane.getChildren().remove(removeRouteButton);
 
-        arrayOfTextFields.add(addOneTextField);
+            TextField addOneTextField = new TextField();
+            addOneTextField.setFont(Font.font(13));
+            addOneTextField.setVisible(true);
 
-        //Adds the lat and long of the corresponding text field to null because it has not yet been autofilled
-        ArrayList<Float> current = new ArrayList<Float>();
-        current.add(null);
-        current.add(null);
-        addressMarkerLatLng.add(current);
-        addressMarkerTitles.add(null);
+            arrayOfTextFields.add(addOneTextField);
 
-        Button autoFillButton = new Button("Auto-Fill");
-        autoFillButton.setFont(Font.font(15));
-        GridPane.setHalignment(autoFillButton, HPos.RIGHT);
-        autoFillButton.setVisible(true);
-        //autoFillButton.
-        autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
+            //Adds the lat and long of the corresponding text field to null because it has not yet been autofilled
+            ArrayList<Float> current = new ArrayList<Float>();
+            current.add(null);
+            current.add(null);
+            addressMarkerLatLng.add(current);
+            addressMarkerTitles.add(null);
 
-        int row = planTripGridPane.getRowIndex(button);
-        planTripGridPane.add(addOneTextField, 0,row + 1);
-        planTripGridPane.add(autoFillButton, 0, row);
-        planTripGridPane.add(endLabel, 0, row);
-        planTripGridPane.add(findRouteButton, 0,row + 2);
-        planTripGridPane.add(addStopButton, 0,row + 2);
-        planTripGridPane.add(removeRouteButton, 0, row + 2);
+            Button autoFillButton = new Button("Auto-Fill");
+            autoFillButton.setFont(Font.font(15));
+            GridPane.setHalignment(autoFillButton, HPos.RIGHT);
+            autoFillButton.setVisible(true);
+            autoFillButton.setOnAction(e -> eHAutoFill(addOneTextField));
+
+            int row = planTripGridPane.getRowIndex(button);
+
+            RowConstraints firstRow = new RowConstraints();
+            firstRow.fillHeightProperty();
+            firstRow.setVgrow(Priority.SOMETIMES);
+            firstRow.setMinHeight(40);
+            firstRow.setPrefHeight(40);
+            firstRow.setMaxHeight(40);
+            planTripGridPane.getRowConstraints().add(firstRow);
+
+            RowConstraints secondRow = new RowConstraints();
+            secondRow.fillHeightProperty();
+            secondRow.setVgrow(Priority.SOMETIMES);
+            secondRow.setMinHeight(40);
+            secondRow.setPrefHeight(40);
+            secondRow.setMaxHeight(40);
+            planTripGridPane.getRowConstraints().add(secondRow);
+
+            planTripGridPane.add(addOneTextField, 0,row + 1);
+            planTripGridPane.add(autoFillButton, 0, row);
+            planTripGridPane.add(endLabel, 0, row);
+            planTripGridPane.add(findRouteButton, 0,row + 2);
+            planTripGridPane.add(addStopButton, 0,row + 2);
+            planTripGridPane.add(removeRouteButton, 0, row + 2);
+        }
 
     }
 
@@ -280,7 +304,14 @@ public class MapToolBarController implements ScreenController {
      */
     public void removeRoute(ActionEvent actionEvent) {
         controller.getMapController().getJavaScriptConnector().call("removeRoute");
-        planTripGridPane.getChildren().removeAll(planTripGridPane.getChildren().stream().toList());
+        planTripGridPane.getChildren().clear();
+
+        while (numAddresses > 2) {
+            int num = planTripGridPane.getRowConstraints().size();
+            planTripGridPane.getRowConstraints().remove(num - 1);
+            planTripGridPane.getRowConstraints().remove(num - 2);
+            numAddresses--;
+        }
 
         planTripGridPane.add(startLabel, 0, 0);
         planTripGridPane.add(startAutoFill, 0, 0);
@@ -303,5 +334,6 @@ public class MapToolBarController implements ScreenController {
         for (TextField textField : arrayOfTextFields) {
             textField.setText("");
         }
+
     }
 }
