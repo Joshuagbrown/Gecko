@@ -5,7 +5,14 @@ import javafx.scene.control.Alert;
 public class AlertMessage {
 
     /**
-     * Creates a pop up message and displays the error.
+     * Alert Message class constructor that
+     */
+    private AlertMessage() {
+        throw new IllegalStateException("Alert Message Class");
+    }
+
+    /**
+     * Creates a pop-up message and displays the error.
      * @param header The header message.
      * @param body The error message
      */
