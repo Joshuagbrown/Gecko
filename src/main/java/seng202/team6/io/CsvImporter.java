@@ -27,6 +27,7 @@ import java.util.List;
  * @version 1.0
  */
 public class CsvImporter implements Importable<Station> {
+
     public static final Logger log = LogManager.getLogger();
 
     /**
@@ -50,7 +51,7 @@ public class CsvImporter implements Importable<Station> {
                     Station station = readStationFromLine(line);
                     stations.add(station);
                 } catch (CsvLineException e) {
-                    log.warn("Skipping invalid line: " + i + ": " + e);
+                    log.warn(String.format("Skipping invalid line: " , i , ": " , e));
                 }
             }
         } catch (IOException | CsvValidationException e) {

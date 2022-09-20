@@ -35,7 +35,7 @@ import org.json.simple.parser.ParseException;
  */
 public class MapToolBarController implements ScreenController {
     public BorderPane filterSectionOnMapToolBar;
-    public GridPane planTripGridPane;
+    private GridPane planTripGridPane;
     public Button addStopButton;
     public Button startAutoFill;
     public Button endAutoFill;
@@ -47,13 +47,13 @@ public class MapToolBarController implements ScreenController {
     private MainScreenController controller;
     private JSObject javaScriptConnector;
     @FXML
-    public TextField startLocation;
+    private TextField startLocation;
     @FXML
-    public TextField endLocation;
-    private ArrayList<Button> addAddressButton = new ArrayList<Button>();
-    private ArrayList<TextField>  arrayOfTextFields = new ArrayList<TextField>();
-    private ArrayList<String> addressMarkerTitles = new ArrayList<String>();
-    private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<ArrayList<Float>>();
+    private TextField endLocation;
+    private ArrayList<Button> addAddressButton = new ArrayList<>();
+    private ArrayList<TextField>  arrayOfTextFields = new ArrayList<>();
+    private ArrayList<String> addressMarkerTitles = new ArrayList<>();
+    private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<>();
     private int numAddresses = 2;
     /**
      * Initializes the controller.
@@ -68,14 +68,14 @@ public class MapToolBarController implements ScreenController {
 
         arrayOfTextFields.add(startLocation);
         addressMarkerTitles.add(null);
-        ArrayList<Float> start = new ArrayList<Float>();
+        ArrayList<Float> start = new ArrayList<>();
         start.add(null);
         start.add(null);
         addressMarkerLatLng.add(start);
 
         arrayOfTextFields.add(endLocation);
         addressMarkerTitles.add(null);
-        ArrayList<Float> end = new ArrayList<Float>();
+        ArrayList<Float> end = new ArrayList<>();
         end.add(null);
         end.add(null);
         addressMarkerLatLng.add(end);
@@ -121,7 +121,7 @@ public class MapToolBarController implements ScreenController {
      */
     public void findRoute(ActionEvent actionEvent) {
         javaScriptConnector = controller.getMapController().getJavaScriptConnector();
-        ArrayList<JSONObject>  posArray = new ArrayList<JSONObject>();
+        ArrayList<JSONObject>  posArray = new ArrayList<>();
         for (TextField textField : arrayOfTextFields) {
             try {
                 if (!Objects.equals(textField.getText(), "")) {
@@ -145,9 +145,6 @@ public class MapToolBarController implements ScreenController {
         this.filterSectionOnMapToolBar.setCenter(screen);
     }
 
-    public void showTable(ActionEvent actionEvent) {
-    }
-
     /**
      * Sets text field to selected marker on the map as well as adding a routing marker
      * at that point. Method called when user selects auto-fill button. Takes the
@@ -164,7 +161,7 @@ public class MapToolBarController implements ScreenController {
         int fieldIndex = arrayOfTextFields.indexOf(field);
 
         addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
-        ArrayList<Float> current = new ArrayList<Float>();
+        ArrayList<Float> current = new ArrayList<>();
         current.add(controller.getMapController().getLatLng()[0]);
         current.add(controller.getMapController().getLatLng()[1]);
         addressMarkerLatLng.set(fieldIndex, current);
@@ -207,7 +204,7 @@ public class MapToolBarController implements ScreenController {
 
             //Adds the lat and long of the corresponding text field to
             // null because it has not yet been autofilled
-            ArrayList<Float> current = new ArrayList<Float>();
+            ArrayList<Float> current = new ArrayList<>();
             current.add(null);
             current.add(null);
             addressMarkerLatLng.add(current);

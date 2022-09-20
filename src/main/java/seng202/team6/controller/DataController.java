@@ -18,18 +18,18 @@ public class DataController implements ScreenController {
     private static final Logger log = LogManager.getLogger();
 
     @FXML
-    public TableView<Station> table;
+    private TableView<Station> table;
 
     @FXML
-    public TableColumn<Station, String> nameColumn;
+    private TableColumn<Station, String> nameColumn;
 
     @FXML
-    public TableColumn<Station, Double> xcolumn;
+    private TableColumn<Station, Double> xcolumn;
 
     @FXML
-    public TableColumn<Station, Double> ycolumn;
+    private TableColumn<Station, Double> ycolumn;
 
-    public MainScreenController controller;
+    private MainScreenController controller;
 
     public TableColumn<Object, Object> objectId;
     public TableColumn<Object, Object> operator;

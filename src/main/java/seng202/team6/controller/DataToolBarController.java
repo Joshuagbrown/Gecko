@@ -7,13 +7,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class DataToolBarController implements ScreenController {
-    public CheckBox is24HourCheckBox;
-    public CheckBox hasCarParkCostCheckBox;
-    public CheckBox hasTouristAttractionCostCheckBox;
-    public Slider distanceSliderOfFilter;
-    public CheckBox hasChargingCostCheckBox;
-    public Slider timeLimitInFilter;
-    public TextField inputStationName;
+    private CheckBox is24HourCheckBox;
+    private CheckBox hasCarParkCostCheckBox;
+    private CheckBox hasTouristAttractionCostCheckBox;
+    private Slider distanceSliderOfFilter;
+    private CheckBox hasChargingCostCheckBox;
+    private Slider timeLimitInFilter;
+    private TextField inputStationName;
     private Stage stage;
     private MainScreenController controller;
 

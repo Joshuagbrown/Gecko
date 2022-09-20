@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class JavaScriptBridge {
 
-    private static final Logger log = LogManager.getLogger();
     private GetStationInterface getStationInterface;
     private GetLocationInterface getLocationInterface;
     private GetAddressInterface getAddressInterface;

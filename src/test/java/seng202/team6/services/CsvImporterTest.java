@@ -46,9 +46,8 @@ public class CsvImporterTest {
         CsvImporter csvImporter = new CsvImporter();
         List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
         assertEquals(stations.get(0).getCoordinates(), new Position(-43.73745, 170.100913));
-        assertEquals(stations.get(0).getName(), "YHA MT COOK");
+        assertEquals("YHA MT COOK", stations.get(0).getName() );
         assertEquals(stations.get(1).getCoordinates(), new Position(-43.59049, 172.630201));
-        assertEquals(stations.get(1).getName(), "CHRISTCHURCH ADVENTURE PARK");
+        assertEquals("CHRISTCHURCH ADVENTURE PARK", stations.get(1).getName());
     }
-
 }

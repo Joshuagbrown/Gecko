@@ -28,7 +28,7 @@ public class MapController implements ScreenController {
     private JavaScriptBridge javaScriptBridge;
     @FXML
     private WebView webView;
-    private WebEngine webEngine;
+
     private StationDao stationDao = new StationDao();
     private Stage stage;
     private MainScreenController controller;
@@ -77,6 +77,7 @@ public class MapController implements ScreenController {
      * Also sets up a logger to log all console.logs from js at info level
      */
     private void initMap() {
+        WebEngine webEngine;
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml());
