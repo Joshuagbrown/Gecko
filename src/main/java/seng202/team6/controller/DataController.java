@@ -12,9 +12,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Station;
 
+import java.util.List;
 
+/**
+ * The controller class for the data fxml.
+ * @author Phyu Wai Lwin.
+ */
 public class DataController implements ScreenController {
-
+    //A Logger object is used to log messages for  system
     private static final Logger log = LogManager.getLogger();
 
     @FXML
@@ -31,13 +36,15 @@ public class DataController implements ScreenController {
 
     private MainScreenController controller;
 
-    public TableColumn<Station, String> address;
-    public TableColumn<Station, Integer> noOfCarPark;
+    @FXML
+    public TableColumn<Object, Object> address;
+    @FXML
+    public TableColumn<Object, Object> noOfCarPark;
 
 
     /**
      * Initialize the window.
-     *
+     * @param controller the main screen controller
      * @param stage Top level container for this window
      */
     public void init(Stage stage, MainScreenController controller) {

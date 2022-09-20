@@ -1,20 +1,12 @@
 package seng202.team6.repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.sql.*;
 
 /**
  * Singleton class responsible for interaction with SQLite database.
@@ -28,6 +20,7 @@ public class DatabaseManager {
     /**
      * Private constructor for singleton purposes.
      * Creates database if it does not already exist in specified location
+     * @param urlIn the url link
      */
     private DatabaseManager(String urlIn) {
         if (urlIn == null || urlIn.isEmpty()) {
