@@ -1,7 +1,5 @@
 package seng202.team6.models;
 
-import java.util.Objects;
-
 /**
  * Represents a charger at a charging station.
  */
@@ -52,4 +50,7 @@ public class Charger {
         return wattage;
     }
 
+    public String toString() {
+        return this.wattage + " kW " + plugType + ", Status: " + operative;
+    }
 }
