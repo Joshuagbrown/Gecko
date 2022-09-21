@@ -32,8 +32,8 @@ public class MapController implements ScreenController {
     private StationDao stationDao = new StationDao();
     private Stage stage;
     private MainScreenController controller;
-    private float locationLat = 0;
-    private float locationLng = 0;
+    private double locationLat = 0;
+    private double locationLng = 0;
     private String currentAddress;
     private HashMap<Integer, Station> stations;
 
@@ -63,6 +63,9 @@ public class MapController implements ScreenController {
      */
     public void onStationClicked(int id) {
         Station station = stations.get(id);
+        setClickLocation(station.getCoordinates().getLatitude(),
+                        station.getCoordinates().getLongitude());
+        setAddress(station.getAddress());
         controller.setTextAreaInMainScreen(station.toString());
     }
 
@@ -71,7 +74,7 @@ public class MapController implements ScreenController {
      * @param lat latitude.
      * @param lng longitude
      */
-    public void setClickLocation(float lat, float lng) {
+    public void setClickLocation(double lat, double lng) {
         locationLat = lat;
         locationLng = lng;
     }
@@ -80,8 +83,8 @@ public class MapController implements ScreenController {
      * Function call to get two float value of the latitude and longitude.
      * @return a list with two float value of the latitude and longitude.
      */
-    public float[] getLatLng() {
-        return new float[]{locationLat, locationLng};
+    public double[] getLatLng() {
+        return new double[]{locationLat, locationLng};
     }
 
 

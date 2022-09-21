@@ -51,7 +51,7 @@ public class DataToolBarController implements ScreenController {
                     + "%') AND ";
         }
         if (distanceSliderOfFilter.getValue() != 0) {
-            float[] latlng = controller.getMapController().getLatLng();
+            double[] latlng = controller.getMapController().getLatLng();
             if (latlng[0] == 0) {
                 AlertMessage.createMessage("Current Location has not been selected.",
                         "Please select a location on the map.");

@@ -89,7 +89,7 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<Button> addAddressButton = new ArrayList<>();
     private ArrayList<TextField>  arrayOfTextFields = new ArrayList<>();
     private ArrayList<String> addressMarkerTitles = new ArrayList<>();
-    private ArrayList<ArrayList<Float>> addressMarkerLatLng = new ArrayList<>();
+    private ArrayList<ArrayList<Double>> addressMarkerLatLng = new ArrayList<>();
     private int numAddresses = 2;
     /**
      * Initializes the controller.
@@ -104,14 +104,14 @@ public class MapToolBarController implements ScreenController {
 
         arrayOfTextFields.add(startLocation);
         addressMarkerTitles.add(null);
-        ArrayList<Float> start = new ArrayList<>();
+        ArrayList<Double> start = new ArrayList<>();
         start.add(null);
         start.add(null);
         addressMarkerLatLng.add(start);
 
         arrayOfTextFields.add(endLocation);
         addressMarkerTitles.add(null);
-        ArrayList<Float> end = new ArrayList<>();
+        ArrayList<Double> end = new ArrayList<>();
         end.add(null);
         end.add(null);
         addressMarkerLatLng.add(end);
@@ -212,7 +212,7 @@ public class MapToolBarController implements ScreenController {
         int fieldIndex = arrayOfTextFields.indexOf(field);
 
         addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
-        ArrayList<Float> current = new ArrayList<>();
+        ArrayList<Double> current = new ArrayList<>();
         current.add(controller.getMapController().getLatLng()[0]);
         current.add(controller.getMapController().getLatLng()[1]);
         addressMarkerLatLng.set(fieldIndex, current);
@@ -255,7 +255,7 @@ public class MapToolBarController implements ScreenController {
 
             //Adds the lat and long of the corresponding text field to
             // null because it has not yet been autofilled
-            ArrayList<Float> current = new ArrayList<>();
+            ArrayList<Double> current = new ArrayList<>();
             current.add(null);
             current.add(null);
             addressMarkerLatLng.add(current);
