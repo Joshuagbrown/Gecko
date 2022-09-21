@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -9,43 +10,53 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * The controller class for the data fxml.
+ * @author Phyu Wai Lwin.
+ */
 public class DataController implements ScreenController {
-
+    //A Logger object is used to log messages for  system
     private static final Logger log = LogManager.getLogger();
 
     @FXML
-    public TableView<Station> table;
+    private TableView<Station> table;
 
     @FXML
-    public TableColumn<Station, String> nameColumn;
+    private TableColumn<Station, String> nameColumn;
 
     @FXML
-    public TableColumn<Station, Double> xcolumn;
+    private TableColumn<Station, Double> xcolumn;
 
     @FXML
-    public TableColumn<Station, Double> ycolumn;
+    private TableColumn<Station, Double> ycolumn;
 
-    public MainScreenController controller;
+    private MainScreenController controller;
+    /**
+     * the address column of the table.
+     */
+    @FXML
+    public TableColumn<Station, String> address;
+    /**
+     * the number of car-park data column of the table.
+     */
+    @FXML
+    public TableColumn<Station, Integer> noOfCarPark;
 
-    public TableColumn objectId;
-    public TableColumn operator;
-    public TableColumn is24Hour;
-    public TableColumn timeLimit;
-    public TableColumn address;
-    public TableColumn owner;
-    public TableColumn noOfCarPark;
-    public TableColumn carParkCost;
-    public TableColumn chargingCost;
-    public TableColumn tourstAttraction;
+    @FXML
+    public TableColumn<Station, String>  chargers;
+
 
     /**
      * Initialize the window.
-     *
-     * @param stage Top level container for this window
+     * @param controller the main screen controller.
+     * @param stage Top level container for this window.
      */
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
@@ -53,29 +64,24 @@ public class DataController implements ScreenController {
     }
 
     /**
-     * Loads the data into the table
-     * @param sql
+     * Loads the data into the table.
+     * @param sql A sql query from the filters.
      */
     public void loadData(String sql) {
         table.getItems().clear();
-
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getFirst()));
+                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLatitude()));
         ycolumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getSecond()));
-        objectId.setCellValueFactory(new PropertyValueFactory<>("objectId"));
-        operator.setCellValueFactory(new PropertyValueFactory<>("operator"));
-        owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
+                new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLongitude()));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
-        timeLimit.setCellValueFactory(new PropertyValueFactory<>("timeLimit"));
-        noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarparks"));
-        carParkCost.setCellValueFactory(new PropertyValueFactory<>("carparkCost"));
-        tourstAttraction.setCellValueFactory(new PropertyValueFactory<>("hasTouristAttraction"));
+        noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarParks"));
+        chargers.setCellValueFactory(cellData ->
+                new SimpleObjectProperty<>(cellData.getValue().getChargers().stream().map(Charger::getPlugType).collect(Collectors.joining(","))));
 
         try {
-            List<Station> stations = controller.getDataService().fetchAllData(sql);
-            table.getItems().addAll(stations);
+            HashMap<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
+            table.getItems().addAll(stations.values());
         } catch (Exception e) {
             log.error(e);
         }

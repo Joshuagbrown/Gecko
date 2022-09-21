@@ -11,11 +11,12 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Service class to handle accessing and storing the necessary information.
- * @author Philip Dolbel
+ * @author Philip Dolbel.
  */
 public class DataService {
     private static final Logger log = LogManager.getLogger();
@@ -26,7 +27,7 @@ public class DataService {
      * Loads required data from the provided CSV file. Implements the CsvImporter class to
      * read the file and then adds the station information to the station dao.
      *
-     * @param file file to retrieve necessary data from
+     * @param file file to retrieve necessary data from.
      */
     public void loadDataFromCsv(File file) {
         try {
@@ -41,6 +42,9 @@ public class DataService {
         }
     }
 
+    /**
+     * Create the table of in the database.
+     */
     public void createTables() {
         try {
             InputStream in = getClass().getResourceAsStream("/sql/create.sql");
@@ -63,12 +67,8 @@ public class DataService {
 
     }
 
-    public List<Station> fetchAllData(String sql) {
+
+    public HashMap<Integer, Station> fetchAllData(String sql) {
         return dao.getAll(sql);
-    }
-
-
-    public Station getStationById(int id) {
-        return dao.getOne(id);
     }
 }

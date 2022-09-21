@@ -10,22 +10,22 @@ This function will hide the stations in the table that don't fit the filters giv
 To filter the stations in the table (this will also apply to the map page) the options are:
 
 Search with station name:
-This will hide every station other than the one being searched for.
+This will hide all the stations that don't have the input as either the address or name.
 
 Distance (Kilometer):
-This will hide all the stations that are outside the distance given from the slider from the centre of the map.
+This will hide all the stations that are outside the distance given from the slider from a point selected on the map.
 
 Time Limit (Minutes):
 This will hide all the stations that have a time limit a below the value given from the slider.
 
 Is 24 Hour:
-This will hide all the stations that aren't avaliable 24 hours.
+This will hide all the stations that aren't available 24 hours.
 
-Has Carpark Cost:
-This will hide all the stations that don't have a carpark cost.
+No Carpark Cost:
+This will hide all the stations that have a carpark cost.
 
-Has Charging Cost:
-This will hide all the stations that don't have a charging cost.
+No Charging Cost:
+This will hide all the stations that have a charging cost.
 
 Has Tourist Attraction:
 This will hide all the stations that don't have a tourist attraction.

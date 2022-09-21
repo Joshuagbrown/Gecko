@@ -1,24 +1,16 @@
 package seng202.team6.repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.sql.*;
+
 /**
  * Singleton class responsible for interaction with SQLite database.
- * @author Morgan English
+ * @author Morgan English.
  */
 public class DatabaseManager {
     private static DatabaseManager instance = null;
@@ -27,7 +19,8 @@ public class DatabaseManager {
 
     /**
      * Private constructor for singleton purposes.
-     * Creates database if it does not already exist in specified location
+     * Creates database if it does not already exist in specified location.
+     * @param urlIn the url link.
      */
     private DatabaseManager(String urlIn) {
         if (urlIn == null || urlIn.isEmpty()) {
@@ -44,13 +37,10 @@ public class DatabaseManager {
     /**
      * Singleton method to get current Instance if exists otherwise create it.
      *
-     * @return the single instance DatabaseSingleton
+     * @return the single instance DatabaseSingleton.
      */
     public static DatabaseManager getInstance() {
         if (instance == null) {
-            // The following line can be used to reach a db file within the jar, however this will
-            // not be modifiable
-            // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
             instance = new DatabaseManager(null);
         }
 
@@ -60,7 +50,7 @@ public class DatabaseManager {
     /**
      * Connect to the database.
      *
-     * @return database connection
+     * @return database connection.
      */
     public Connection connect() {
         Connection conn = null;
@@ -89,7 +79,7 @@ public class DatabaseManager {
     /**
      * Gets path to the database relative to the jar file.
      *
-     * @return jdbc encoded url location of database
+     * @return jdbc encoded url location of database.
      */
     private String getDatabasePath() {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource()
@@ -102,8 +92,8 @@ public class DatabaseManager {
     /**
      * Check that a database exists in the expected location.
      *
-     * @param url expected location to check for database
-     * @return True if database exists else false
+     * @param url expected location to check for database.
+     * @return True if database exists else false.
      */
     private boolean checkDatabaseExists(String url) {
         File f = new File(url.substring(12));
@@ -113,7 +103,7 @@ public class DatabaseManager {
     /**
      * Creates a database file at the location specified by the url.
      *
-     * @param url url to creat database at
+     * @param url url to creat database.
      */
     private void createDatabaseFile(String url) {
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -135,7 +125,7 @@ public class DatabaseManager {
      * allows for a much wider range of statement types.
      *
      * @param sqlFile input stream of file containing sql statements for execution
-     *                (separated by --SPLIT)
+     *                (separated by --SPLIT).
      */
     private void executeSqlScript(InputStream sqlFile) {
         String s;

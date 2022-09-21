@@ -1,18 +1,6 @@
 .root {
     -fx-font: 12px Tahoma;
-    -fx-background: rgb(103, 159, 136);
-}
-.border-pane {
-    -fx-text-fill: #FFFFFF;
-    -fx-font: 10px Tahoma;
-    -fx-background-color: #1f2833;
-
-    -fx-border-style: none;
-    -fx-border-color: blue;
-    -fx-border-width: 25;
-
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
+    -fx-background: #93c14e;
 }
 
 .border-pane {
@@ -20,41 +8,44 @@
 }
 
 .menu-bar {
-    -fx-background-color: #1f2833;
-    -fx-base: #1f2883;
+    -fx-background-color: #ffffff;
+    -fx-base: #90d765;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
 
 .button {
     -fx-background-color:
-            linear-gradient(#8fc0a9, #8fc0a9),
-            radial-gradient(center 50% -40%, radius 200%, #8fc0a9 45%, #8fc0a9 50%);
-    -fx-background-radius: 6, 5;
+            linear-gradient(#93c14e, #93c14e),
+            radial-gradient(center 50% -40%, radius 200%, #93c14e 45%, #93c14e 50%);
+    -fx-background-radius: 12px;
     -fx-background-insets: 0, 1;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 3 3 3 3;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
+    -fx-border-radius: 12px;
 }
-.button:default:hover:pressed,
-.button:focused {
-    -fx-background-color: #c0f3db;
+.button:hover {
+    -fx-background-color: #89a84f;
 }
+
 .accordion {
     -fx-background-color:
-            linear-gradient(#8fc0a9, #8fc0a9, #8fc0a9);
+            linear-gradient(#ffffff, #ffffff);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
 }
 
 .titled-pane {
-    -fx-background-color: linear-gradient(#bfde66, #13dea0);
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #a5c16f;
+    -fx-background-color: linear-gradient(#ffffff, #ffffff);
+    -fx-effect: dropshadow( three-pass-box , rgb(0, 0, 0), 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #93c14e;
 }
 
 .titled-pane > *.content
 {
-    -fx-background-color: linear-gradient(#8fc0a9, #8fc0a9);
+    -fx-background-color: linear-gradient(#ffffff, #ffffff);
 }
 
 .table-view {
@@ -62,14 +53,19 @@
 }
 
 #toolBarPane {
-    -fx-background-color: #8fc0a9;
+    -fx-background-color: #ffffff;
 }
 
 #mainBorderPane {
-    -fx-background-color: #b8ecf8;
-    -fx-base: #5DA23B;
+    -fx-background-color: #EAEFBD;
+    -fx-base: #EAEFBD;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+}
+
+#planTripBar {
+    -fx-background-color: #ffffff;
+    -fx-base: #ffffff;
 }
 
 #scrollPaneMainScreen {

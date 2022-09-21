@@ -1,10 +1,11 @@
 package seng202.team6.controller;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -13,142 +14,157 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.services.DataService;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
-
-
+/**
+ * Controller of the main screen fxml.
+ * @author  Phyu Wai Lwin.
+ */
 public class MainScreenController {
 
-    @FXML
-    public ScrollPane scrollPaneMainScreen;
+    /**
+     * The toolbar pane of the main screen to display related toolbar screen.
+     */
     @FXML
     public BorderPane toolBarPane;
+    /**
+     * The toolbar pane of the border screen to display related screen.
+     */
+    @FXML
     public BorderPane mainBorderPane;
+    /**
+     * the text area in the main screen t display the information.
+     */
+    @FXML
     public TextArea textAreaInMainScreen;
+    /**
+     * The text to for the project.
+     */
+    @FXML
     public Text geckoTitle;
-
-    private String currentStage = null;
-
     private Stage stage;
-
     private DataService dataService;
-
-    private Parent mapScreen;
-    private Parent dataScreen;
-    private Parent helpScreen;
-
-    private Parent settingScreen;
-    private Parent mapToolBarScreen;
-    private Parent dataToolBarScreen;
-    private Parent helpToolBarScreen;
-
-    private Parent settingToolBarScreen;
-
-    private LoadScreen screen = new LoadScreen();
-
+    /**
+     * parent class for map screen to display map.
+     */
+    public Parent mapScreen;
+    /**
+     * parent class for data screen to display data.
+     */
+    public Parent dataScreen;
+    /**
+     * parent class for help screen to display help page.
+     */
+    public Parent helpScreen;
+    /**
+     * parent class for map toolbar screen to display map toolbar.
+     */
+    public Parent mapToolBarScreen;
+    /**
+     * parent class for data toolbar screen to display data toolbar.
+     */
+    public Parent dataToolBarScreen;
+    /**
+     * parent class for help toolbar screen to display help toolbar.
+     */
+    public Parent helpToolBarScreen;
+    private LoadScreen screen;
     private MapController mapController;
-
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
     private DataToolBarController dataToolBarController;
-    private HelpToolBarController helpToolBarController;
-    private SettingController settingController;
-    private SettingToolBarController settingToolBarController;
 
-    private Pair p;
+    private HelpToolBarController helpToolBarController;
 
 
     /**
      * Initialize the window by loading necessary screen and
-     * initialize the parent of different screen
+     * initialize the parent of different screen.
      *
-     * @param stage Top level container for this window
+     * @param stage Top level container for this window.
+     * @param dataService Service class to handle accessing and storing the necessary information.
+     *
      */
     void init(Stage stage, DataService dataService) {
+        Pair pair;
 
+        screen = new LoadScreen();
         this.stage = stage;
         this.dataService = dataService;
+
         try {
+            pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
+            helpScreen = (Parent) pair.getKey();
+            helpController = (HelpController) pair.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/Help.fxml", this);
-            helpScreen = (Parent) p.getKey();
-            helpController = (HelpController) p.getValue();
+            pair = screen.loadBigScreen(stage, "/fxml/Map.fxml", this);
+            mapScreen = (Parent) pair.getKey();
+            mapController = (MapController) pair.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/Map.fxml", this);
-            mapScreen = (Parent) p.getKey();
-            mapController = (MapController) p.getValue();
+            pair = screen.loadBigScreen(stage, "/fxml/Data.fxml", this);
+            dataScreen = (Parent) pair.getKey();
+            dataController = (DataController) pair.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/Data.fxml", this);
-            dataScreen = (Parent) p.getKey();
-            dataController = (DataController) p.getValue();
+            pair = screen.loadBigScreen(stage, "/fxml/MapToolBar.fxml", this);
+            mapToolBarScreen = (Parent) pair.getKey();
+            mapToolBarController = (MapToolBarController) pair.getValue();
 
-            p = screen.LoadBigScreen(stage, "/fxml/MapToolBar.fxml", this);
-            mapToolBarScreen = (Parent) p.getKey();
-            mapToolBarController = (MapToolBarController) p.getValue();
-
-            p = screen.LoadBigScreen(stage, "/fxml/DataToolBar.fxml", this);
-            dataToolBarScreen = (Parent) p.getKey();
-            dataToolBarController = (DataToolBarController) p.getValue();
+            pair = screen.loadBigScreen(stage, "/fxml/DataToolBar.fxml", this);
+            dataToolBarScreen = (Parent) pair.getKey();
+            dataToolBarController = (DataToolBarController) pair.getValue();
             mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
 
-            p = screen.LoadBigScreen(stage, "/fxml/HelpToolBar.fxml", this);
-            helpToolBarScreen = (Parent) p.getKey();
-            helpToolBarController = (HelpToolBarController) p.getValue();
-
-            p = screen.LoadBigScreen(stage, "/fxml/Setting.fxml", this);
-            settingScreen = (Parent) p.getKey();
-            settingController = (SettingController) p.getValue();
-
-            p = screen.LoadBigScreen(stage, "/fxml/SettingToolBar.fxml", this);
-            settingToolBarScreen = (Parent) p.getKey();
-            settingToolBarController = (SettingToolBarController) p.getValue();
-
-            loadFilterSectionOnMapToolBar();
+            pair = screen.loadBigScreen(stage, "/fxml/HelpToolBar.fxml", this);
+            helpToolBarScreen = (Parent) pair.getKey();
+            helpToolBarController = (HelpToolBarController) pair.getValue();
 
             loadMapViewAndToolBars();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
-
-
     }
 
-    private void loadFilterSectionOnMapToolBar() {
-    }
-
-
+    /**
+     * Function to return the map controller.
+     * @return mapController.
+     */
     public MapController getMapController() {
         return mapController;
     }
 
+    /**
+     * Funtion to return the stage.
+     * @return stage of main screen controller.
+     */
     public Stage getStage() {
         return this.stage;
     }
 
-    public ScrollPane getScrollPane() {
-        return this.scrollPaneMainScreen;
-    }
-
-    public BorderPane getToolBarPane() {
-        return this.toolBarPane;
-    }
-
-    public BorderPane getMainBorderPane() {
-        return mainBorderPane;
-    }
-
+    /**
+     * Funtion to return the data service.
+     * @return data service. of main screen controller.
+     */
     public DataService getDataService() {
         return dataService;
     }
 
+    /**
+     * Funtion to return the help controller.
+     * @return help controller.
+     */
     public HelpController getHelpController() {
         return this.helpController;
     }
 
+    /**
+     * Funtion to return the data controller.
+     * @return data controller.
+     */
     public DataController getDataController() {
         return dataController;
     }
@@ -156,40 +172,33 @@ public class MainScreenController {
     /**
      * The action handler that linked to the map button on main screen.
      *
-     * @param actionEvent Top level container for this window
+     * @param actionEvent Top level container for this window.
      */
-    public void loadMapViewAndToolBars(ActionEvent actionEvent) throws IOException {
-
+    public void loadMapViewAndToolBars(ActionEvent actionEvent) {
 
         textAreaInMainScreen.setText("");
-
         mainBorderPane.setCenter(mapScreen);
         toolBarPane.setCenter(mapToolBarScreen);
-        currentStage = "Map";
         mainBorderPane.setRight(null);
         mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
-
-
     }
 
     /**
      * This loads the map view and toolbars.
-     * @throws IOException
      */
-    public void loadMapViewAndToolBars() throws IOException {
+    public void loadMapViewAndToolBars() {
         loadMapViewAndToolBars(null);
     }
 
     /**
      * The action handler that linked to the map button on main screen.
      *
-     * @param actionEvent Top level container for this window
+     * @param actionEvent Top level container for this window.
      */
-    public void loadDataViewAndToolBars(ActionEvent actionEvent) throws IOException {
+    public void loadDataViewAndToolBars(ActionEvent actionEvent) {
 
         mainBorderPane.setCenter(dataScreen);
         toolBarPane.setCenter(dataToolBarScreen);
-        currentStage = "Data";
         mainBorderPane.setRight(null);
     }
 
@@ -198,32 +207,15 @@ public class MainScreenController {
      *
      * @param actionEvent Top level container for this window
      */
-    public void loadHelpScreenAndToolBar(ActionEvent actionEvent) throws IOException {
-
-
+    public void loadHelpScreenAndToolBar(ActionEvent actionEvent) {
         mainBorderPane.setCenter(helpScreen);
         toolBarPane.setCenter(helpToolBarScreen);
-
-
-    }
-
-    public void loadMyDetail(ActionEvent actionEvent) {
-        currentStage = "Detail";
-        mainBorderPane.setRight(null);
     }
 
     /**
-     * The action handler that linked to the settings button on toolbar.
-     *
-     * @param actionEvent Top level container for this window
+     * Display string information on the text area.
+     * @param info the string information.
      */
-    public void loadSetting(ActionEvent actionEvent) throws IOException {
-
-        mainBorderPane.setCenter(settingScreen);
-        toolBarPane.setCenter(settingToolBarScreen);
-
-    }
-
     public void setTextAreaInMainScreen(String info) {
         textAreaInMainScreen.setText(info);
     }
@@ -234,12 +226,13 @@ public class MainScreenController {
     public void importData() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser.getExtensionFilters()
+                .add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
             Task<Void> task = new Task<>() {
                 @Override
-                protected Void call() throws Exception {
+                protected Void call()  {
                     dataService.loadDataFromCsv(selectedFile);
                     return null;
                 }

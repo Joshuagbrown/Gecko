@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
+<BorderPane prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
    <center>
       <BorderPane prefHeight="278.0" prefWidth="228.0" BorderPane.alignment="CENTER">
          <center>
@@ -62,7 +62,7 @@
                         <Font size="15.0" />
                      </font></Button>
                   <TextField fx:id="inputStationName" GridPane.rowIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station name or address:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station name, operator or address:">
                      <font>
                         <Font size="15.0" />
                      </font>

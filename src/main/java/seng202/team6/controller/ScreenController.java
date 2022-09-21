@@ -9,7 +9,7 @@ public interface ScreenController {
     /**
      * Initializes the Controller.
      *
-     * @param stage Primary Stage of the application
+     * @param stage Primary Stage of the application.
      * @param controller The Controller class for the main screen.
      */
     void init(Stage stage, MainScreenController controller);
