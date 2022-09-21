@@ -45,6 +45,8 @@ public class DataToolBarController implements ScreenController {
             sql += "(name LIKE '%" + inputStationName.getText()
                     + "%' OR address LIKE '%"
                     + inputStationName.getText()
+                    + "%' OR operator LIKE '%"
+                    + inputStationName.getText()
                     + "%') AND ";
         }
         if (distanceSliderOfFilter.getValue() != 0) {
