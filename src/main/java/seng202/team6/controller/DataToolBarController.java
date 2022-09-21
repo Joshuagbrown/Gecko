@@ -78,14 +78,14 @@ public class DataToolBarController implements ScreenController {
         if (hasChargingCostCheckBox.isSelected()) {
             sql += "chargingCost = 0 AND ";
         }
-        if (sql.equals("SELECT * FROM Stations"
-                + " JOIN chargers c ON stations.stationId = c.stationId WHERE ")) {
-            sql = "SELECT * FROM Stations;";
+        if (sql.equals("SELECT * FROM Stations "
+                + "JOIN chargers c ON stations.stationId = c.stationId WHERE ")) {
+            sql = "SELECT * FROM Stations JOIN chargers c ON stations.stationId = c.stationId";
         } else {
             int num = sql.lastIndexOf("AND");
-            sql = sql.substring(0, num) + ";";
-            sql += "; ORDER BY stations.stationId";
+            sql = sql.substring(0, num);
         }
+        sql += "; ORDER BY stations.stationId";
         return sql;
     }
 
