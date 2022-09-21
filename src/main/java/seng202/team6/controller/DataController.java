@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -9,9 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The controller class for the data fxml.
@@ -38,12 +42,15 @@ public class DataController implements ScreenController {
      * the address column of the table.
      */
     @FXML
-    public TableColumn<Object, Object> address;
+    public TableColumn<Station, String> address;
     /**
      * the number of car-park data column of the table.
      */
     @FXML
-    public TableColumn<Object, Object> noOfCarPark;
+    public TableColumn<Station, Integer> noOfCarPark;
+
+    @FXML
+    public TableColumn<Station, String>  chargers;
 
 
     /**
@@ -69,10 +76,12 @@ public class DataController implements ScreenController {
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLongitude()));
         address.setCellValueFactory(new PropertyValueFactory<>("address"));
         noOfCarPark.setCellValueFactory(new PropertyValueFactory<>("numberOfCarParks"));
+        chargers.setCellValueFactory(cellData ->
+                new SimpleObjectProperty<>(cellData.getValue().getChargers().stream().map(Charger::getPlugType).collect(Collectors.joining(","))));
 
         try {
-            List<Station> stations = controller.getDataService().fetchAllData(sql);
-            table.getItems().addAll(stations);
+            HashMap<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
+            table.getItems().addAll(stations.values());
         } catch (Exception e) {
             log.error(e);
         }

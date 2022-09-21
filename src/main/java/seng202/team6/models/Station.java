@@ -1,7 +1,9 @@
 package seng202.team6.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Represents a charging station.
@@ -203,7 +205,7 @@ public class Station {
      * @return station information in string.
      */
     public String toString() {
-
+        ArrayList<String> chargerStrings = new ArrayList<>();
         return "Station Name : " + name + "\n"
                 + "Coordinate : " + coordinates.getLatitude() + ","
                 + coordinates.getLongitude() + "\n"
@@ -213,7 +215,7 @@ public class Station {
                 + "Address : " + address + "\n"
                 + "Time Limit : " + timeLimit + "\n"
                 + "Is 24 Hour : " + is24Hours + "\n"
-                + "Charger : " + "\n"
+                + "Chargers : " + "\n" + chargers.stream().map(Charger::toString).collect(Collectors.joining(";\n")) + "\n"
                 + "Number Of CarPark : " + numberOfCarParks + "\n"
                 + "CarPark Cost : " + carParkCost + "\n"
                 + "Charging Cost : " + chargingCost + "\n"

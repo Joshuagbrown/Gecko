@@ -3,6 +3,7 @@ package seng202.team6.repository;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Station;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public interface DaoInterface<T> {
      * @param sql string sql that want to excute.
      * @return List of all objects type T from the database.
      */
-    List<T> getAll(String sql);
+    HashMap<Integer, T> getAll(String sql);
 
     /**
      * Gets a single object of type T from the database by id.

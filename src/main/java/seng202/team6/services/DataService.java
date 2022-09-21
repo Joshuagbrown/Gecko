@@ -11,6 +11,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -66,21 +67,8 @@ public class DataService {
 
     }
 
-    /**
-     * Update all the with the sql query.
-     * @param sql the sql query.
-     * @return list of the stations that match the sql query.
-     */
-    public List<Station> fetchAllData(String sql) {
-        return dao.getAll(sql);
-    }
 
-    /**
-     * Get the station with the id provide.
-     * @param id the id of the station.
-     * @return station.
-     */
-    public Station getStationById(int id) {
-        return dao.getOne(id);
+    public HashMap<Integer, Station> fetchAllData(String sql) {
+        return dao.getAll(sql);
     }
 }

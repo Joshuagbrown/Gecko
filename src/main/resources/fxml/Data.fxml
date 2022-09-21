@@ -6,6 +6,7 @@
   <columns>
     <TableColumn fx:id="nameColumn" prefWidth="71.0" text="Name" />
     <TableColumn fx:id="address" prefWidth="75.0" text="Address" />
+    <TableColumn fx:id="chargers" prefWidth="75.0" text="Chargers" />
     <TableColumn fx:id="noOfCarPark" prefWidth="75.0" text="No. of Car Park" />
     <TableColumn fx:id="xcolumn" prefWidth="75.0" text="Latitude"  />
     <TableColumn fx:id="ycolumn" prefWidth="75.0" text="Longitude" />

@@ -1,5 +1,6 @@
 package seng202.team6.repository;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Charger;
@@ -8,6 +9,7 @@ import seng202.team6.models.Station;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ import java.util.List;
  */
 public class StationDao implements DaoInterface<Station> {
     private final DatabaseManager databaseManager;
+//    private final ChargerDao chargerDao;
     private static final Logger log = LogManager.getLogger();
 
     /**
@@ -24,9 +27,10 @@ public class StationDao implements DaoInterface<Station> {
      */
     public StationDao() {
         databaseManager = DatabaseManager.getInstance();
+//        chargerDao = new ChargerDao();
     }
 
-    private Station stationFromResultSet(ResultSet rs) throws SQLException {
+    private Station stationFromResultSet(ResultSet rs, ArrayList<Charger> chargers) throws SQLException {
         return new Station(
                 new Position(
                         rs.getDouble("lat"),
@@ -39,7 +43,7 @@ public class StationDao implements DaoInterface<Station> {
                 rs.getString("address"),
                 rs.getInt("timeLimit"),
                 rs.getBoolean("is24Hours"),
-                null,
+                chargers,
                 rs.getInt("numberOfCarparks"),
                 rs.getBoolean("carparkCost"),
                 rs.getBoolean("chargingCost"),
@@ -48,17 +52,35 @@ public class StationDao implements DaoInterface<Station> {
     }
 
     @Override
-    public List<Station> getAll(String sql) {
-        List<Station> stations = new ArrayList<>();
+    public HashMap<Integer, Station> getAll(String sql) {
+        HashMap<Integer, Station> stations = new HashMap<>();
         if (sql == null) {
-            sql = "SELECT * FROM stations";
+            sql = "SELECT * FROM stations "
+                    + "INNER JOIN chargers c ON stations.stationId = c.stationId";
         }
         //String
         try (Connection conn = databaseManager.connect();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                stations.add(stationFromResultSet(rs));
+             Statement stmt2 = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql);
+             ResultSet rs2 = stmt2.executeQuery(sql)) {
+            ArrayList<Charger> chargers = new ArrayList<>();
+            boolean stillGoing = rs.next();
+            while (stillGoing) {
+                if (rs.getInt("stationId") != rs2.getInt("stationId")) {
+                    Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
+                    stations.put(station.getObjectId(), station);
+                    chargers.clear();
+                }
+                chargers.add(chargerFromResultSet(rs));
+                stillGoing = rs.next();
+                if (stillGoing) {
+                    rs2.next();
+                }
+            }
+            if (chargers.size() > 0) {
+                Station station = stationFromResultSet(rs2, chargers);
+                stations.put(station.getObjectId(), station);
             }
             return stations;
         } catch (SQLException e) {
@@ -66,19 +88,17 @@ public class StationDao implements DaoInterface<Station> {
         }
     }
 
+    private Charger chargerFromResultSet(ResultSet rs) throws SQLException {
+        return new Charger(
+                rs.getString("plugType"),
+                rs.getString("operative"),
+                rs.getInt("wattage")
+        );
+    }
+
     @Override
     public Station getOne(int id) {
-        String sql = "SELECT * FROM stations WHERE stationId == (?)";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            rs.next();
-            return stationFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        throw new NotImplementedException();
     }
 
     /**
@@ -118,12 +138,17 @@ public class StationDao implements DaoInterface<Station> {
             }
 
             for (Charger charger : toAdd.getChargers()) {
-                PreparedStatement ps2 = conn.prepareStatement(chargerSql);
-                ps2.setInt(1, insertId);
-                ps2.setString(2, charger.getPlugType());
-                ps2.setInt(3, charger.getWattage());
-                ps2.setString(4, charger.getOperative());
-                ps2.executeUpdate();
+                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
+                    ps2.setInt(1, insertId);
+                    ps2.setString(2, charger.getPlugType());
+                    ps2.setInt(3, charger.getWattage());
+                    ps2.setString(4, charger.getOperative());
+
+                    ps2.executeUpdate();
+                } catch (SQLException sqlException) {
+                    log.error(sqlException);
+                    return -1;
+                }
             }
             return insertId;
         } catch (SQLException sqlException) {

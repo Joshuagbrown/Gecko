@@ -6,9 +6,11 @@ import java.util.Objects;
  * Represents a charger at a charging station.
  */
 public class Charger {
-    String plugType;
-    String operative;
-    int wattage;
+
+    /* TODO: make into an enum */
+    private String plugType;
+    private String operative;
+    private int wattage;
 
     /**
      * Constructor of the charger class.
@@ -71,5 +73,9 @@ public class Charger {
     @Override
     public int hashCode() {
         return Objects.hash(plugType, operative, wattage);
+    }
+
+    public String toString() {
+        return getWattage() + "kW " + getPlugType() + ", Status: " + getOperative();
     }
 }

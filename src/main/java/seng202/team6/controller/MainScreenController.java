@@ -1,5 +1,7 @@
 package seng202.team6.controller;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.services.DataService;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Controller of the main screen fxml.
