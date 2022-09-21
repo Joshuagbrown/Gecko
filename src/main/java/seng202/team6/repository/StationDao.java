@@ -2,6 +2,7 @@ package seng202.team6.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -87,7 +88,7 @@ public class StationDao implements DaoInterface<Station> {
      * @return The id of the station in the db, or -1 if there was an error.
      */
     @Override
-    public int add(Station toAdd) {
+    public int add(Station toAdd) throws DuplicateEntryException {
         String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
                 + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
                 + "chargingCost, hasTouristAttraction, lat, long)"
@@ -127,7 +128,10 @@ public class StationDao implements DaoInterface<Station> {
             }
             return insertId;
         } catch (SQLException sqlException) {
-            log.error(sqlException);
+            if (sqlException.getErrorCode() == 19) {
+                throw new DuplicateEntryException("Duplicate Entry");
+            }
+            log.error(sqlException.getMessage());
             return -1;
         }
     }
