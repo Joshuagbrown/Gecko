@@ -26,12 +26,10 @@ public class DataToolBarController implements ScreenController {
     private Slider timeLimitInFilter;
     @FXML
     private TextField inputStationName;
-    private Stage stage;
     private MainScreenController controller;
 
     @Override
     public void init(Stage stage, MainScreenController controller) {
-        this.stage = stage;
         this.controller = controller;
     }
 

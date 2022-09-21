@@ -46,35 +46,31 @@ public class MainScreenController {
     /**
      * parent class for map screen to display map.
      */
-    public Parent mapScreen;
+    private Parent mapScreen;
     /**
      * parent class for data screen to display data.
      */
-    public Parent dataScreen;
+    private Parent dataScreen;
     /**
      * parent class for help screen to display help page.
      */
-    public Parent helpScreen;
+    private Parent helpScreen;
     /**
      * parent class for map toolbar screen to display map toolbar.
      */
-    public Parent mapToolBarScreen;
+    private Parent mapToolBarScreen;
     /**
      * parent class for data toolbar screen to display data toolbar.
      */
-    public Parent dataToolBarScreen;
+    private Parent dataToolBarScreen;
     /**
      * parent class for help toolbar screen to display help toolbar.
      */
-    public Parent helpToolBarScreen;
-    private LoadScreen screen;
+    private Parent helpToolBarScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
-    private DataToolBarController dataToolBarController;
-
-    private HelpToolBarController helpToolBarController;
 
 
     /**
@@ -86,37 +82,35 @@ public class MainScreenController {
      *
      */
     void init(Stage stage, DataService dataService) {
-        Pair pair;
+        Pair<Parent, ScreenController> pair;
 
-        screen = new LoadScreen();
+        LoadScreen screen = new LoadScreen();
         this.stage = stage;
         this.dataService = dataService;
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
-            helpScreen = (Parent) pair.getKey();
+            helpScreen = pair.getKey();
             helpController = (HelpController) pair.getValue();
 
             pair = screen.loadBigScreen(stage, "/fxml/Map.fxml", this);
-            mapScreen = (Parent) pair.getKey();
+            mapScreen = pair.getKey();
             mapController = (MapController) pair.getValue();
 
             pair = screen.loadBigScreen(stage, "/fxml/Data.fxml", this);
-            dataScreen = (Parent) pair.getKey();
+            dataScreen = pair.getKey();
             dataController = (DataController) pair.getValue();
 
             pair = screen.loadBigScreen(stage, "/fxml/MapToolBar.fxml", this);
-            mapToolBarScreen = (Parent) pair.getKey();
+            mapToolBarScreen = pair.getKey();
             mapToolBarController = (MapToolBarController) pair.getValue();
 
             pair = screen.loadBigScreen(stage, "/fxml/DataToolBar.fxml", this);
-            dataToolBarScreen = (Parent) pair.getKey();
-            dataToolBarController = (DataToolBarController) pair.getValue();
+            dataToolBarScreen = pair.getKey();
             mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
 
             pair = screen.loadBigScreen(stage, "/fxml/HelpToolBar.fxml", this);
-            helpToolBarScreen = (Parent) pair.getKey();
-            helpToolBarController = (HelpToolBarController) pair.getValue();
+            helpToolBarScreen = pair.getKey();
 
             loadMapViewAndToolBars();
 

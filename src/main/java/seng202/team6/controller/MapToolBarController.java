@@ -24,7 +24,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -79,9 +78,7 @@ public class MapToolBarController implements ScreenController {
      */
     @FXML
     public Button removeRouteButton;
-    private Stage stage;
     private MainScreenController controller;
-    private JSObject javaScriptConnector;
     @FXML
     private TextField startLocation;
     @FXML
@@ -99,7 +96,6 @@ public class MapToolBarController implements ScreenController {
 
     @Override
     public void init(Stage stage, MainScreenController controller) {
-        this.stage = stage;
         this.controller = controller;
 
         arrayOfTextFields.add(startLocation);
@@ -145,7 +141,7 @@ public class MapToolBarController implements ScreenController {
             throw new RuntimeException(e);
         }
         JSONArray items = (JSONArray) jsonResponse.get("items");
-        if (items.size() == 0) {
+        if (items.isEmpty()) {
             return null;
         } else {
             JSONObject bestResult = (JSONObject) items.get(0);
@@ -160,7 +156,6 @@ public class MapToolBarController implements ScreenController {
      * @param actionEvent When find route button is clicked.
      */
     public void findRoute(ActionEvent actionEvent) {
-        javaScriptConnector = controller.getMapController().getJavaScriptConnector();
         ArrayList<JSONObject>  posArray = new ArrayList<>();
         for (TextField textField : arrayOfTextFields) {
             try {
@@ -283,7 +278,7 @@ public class MapToolBarController implements ScreenController {
             secondRow.setMaxHeight(40);
             planTripGridPane.getRowConstraints().add(secondRow);
 
-            int row = planTripGridPane.getRowIndex(button);
+            int row = GridPane.getRowIndex(button);
             planTripGridPane.add(addOneTextField, 0,row + 1);
             planTripGridPane.add(autoFillButton, 0, row);
             planTripGridPane.add(endLabel, 0, row);

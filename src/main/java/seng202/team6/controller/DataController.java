@@ -1,6 +1,7 @@
 package seng202.team6.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -84,7 +85,7 @@ public class DataController implements ScreenController {
                         .collect(Collectors.joining(","))));
 
         try {
-            HashMap<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
+            Map<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
             table.getItems().addAll(stations.values());
         } catch (Exception e) {
             log.error(e);

@@ -30,7 +30,6 @@ public class MapController implements ScreenController {
     private WebView webView;
 
     private StationDao stationDao = new StationDao();
-    private Stage stage;
     private MainScreenController controller;
     private double locationLat = 0;
     private double locationLng = 0;
@@ -42,7 +41,6 @@ public class MapController implements ScreenController {
      * @param stage current stage.
      */
     public void init(Stage stage, MainScreenController controller) {
-        this.stage = stage;
         this.controller = controller;
         this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked,
                 this::setClickLocation, this::setAddress);

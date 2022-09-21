@@ -19,11 +19,9 @@ public class HelpController implements ScreenController {
      */
     @FXML
     public TextArea linesTextArea;
-    private Stage stage;
 
     @Override
     public void init(Stage stage,MainScreenController controller) {
-        this.stage = stage;
         showFileLines(getClass().getResourceAsStream("/TextFiles/MainHelpPage.txt"));
     }
 
@@ -34,7 +32,7 @@ public class HelpController implements ScreenController {
     public void showFileLines(InputStream file) {
         this.linesTextArea.clear();
 
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         String line;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file));

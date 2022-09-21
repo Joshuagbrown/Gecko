@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.io.CsvImporter;
@@ -75,7 +77,7 @@ public class DataService {
      * @param sql The sql query to run if exists
      * @return A hashmap of the data returned
      */
-    public HashMap<Integer, Station> fetchAllData(String sql) {
+    public Map<Integer, Station> fetchAllData(String sql) {
         return dao.getAll(sql);
     }
 }

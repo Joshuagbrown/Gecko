@@ -205,7 +205,6 @@ public class Station {
      * @return station information in string.
      */
     public String toString() {
-        ArrayList<String> chargerStrings = new ArrayList<>();
         return "Station Name : " + name + "\n"
                 + "Coordinate : " + coordinates.getLatitude() + ","
                 + coordinates.getLongitude() + "\n"

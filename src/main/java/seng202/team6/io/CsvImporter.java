@@ -49,17 +49,21 @@ public class CsvImporter implements Importable<Station> {
             String[] line;
             while ((line = reader.readNext()) != null) {
                 i++;
-                try {
-                    Station station = readStationFromLine(line);
-                    stations.add(station);
-                } catch (CsvLineException e) {
-                    log.warn(String.format("Skipping invalid line: ", i, ": ", e));
-                }
+                readLine(stations, line, i);
             }
         } catch (IOException | CsvValidationException e) {
             throw new CsvFileException(e);
         }
         return stations;
+    }
+
+    private void readLine(ArrayList<Station> stations, String[] line, int i) {
+        try {
+            Station station = readStationFromLine(line);
+            stations.add(station);
+        } catch (CsvLineException e) {
+            log.warn(String.format("Skipping invalid line: %s: %s", i, e));
+        }
     }
 
     /**
@@ -79,12 +83,7 @@ public class CsvImporter implements Importable<Station> {
             boolean is24Hours = Boolean.parseBoolean(line[7]);
             int carparkCount = Integer.parseInt(line[8]);
             boolean carparkCost = Boolean.parseBoolean(line[9]);
-            int maxTimeLimit;
-            try {
-                maxTimeLimit = Integer.parseInt(line[10]);
-            } catch (NumberFormatException e) {
-                maxTimeLimit = 0;
-            }
+            int maxTimeLimit = parseIntOrZero(line[10]);
             boolean hasTouristAttraction = Boolean.parseBoolean(line[11]);
 
             double latitude = Double.parseDouble(line[12]);
@@ -102,9 +101,19 @@ public class CsvImporter implements Importable<Station> {
         }
     }
 
+    private int parseIntOrZero(String toParse) {
+        int value;
+        try {
+            value = Integer.parseInt(toParse);
+        } catch (NumberFormatException e) {
+            value = 0;
+        }
+        return value;
+    }
+
     static List<Charger> parseConnectorsList(String field) throws CsvLineException {
         int index = 0;
-        List<Charger> chargers = new ArrayList<Charger>();
+        List<Charger> chargers = new ArrayList<>();
         while ((index = field.indexOf('{', index)) != -1) {
             int closingBracket = field.indexOf('}', index);
             if (closingBracket == -1) {

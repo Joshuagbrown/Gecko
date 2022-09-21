@@ -36,7 +36,7 @@ public class LoadScreen {
         screenController.init(stage, controller);
 
         // Set the root of our new component to the center of the borderpane
-        return new Pair<Parent, ScreenController>(dataViewParent, screenController);
+        return new Pair<>(dataViewParent, screenController);
 
 
     }
