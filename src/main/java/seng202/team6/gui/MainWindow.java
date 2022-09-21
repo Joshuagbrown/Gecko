@@ -1,13 +1,12 @@
 package seng202.team6.gui;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import seng202.team6.controller.MapController;
-
-import java.io.IOException;
 
 /**
  * Class starts the javaFX application window.

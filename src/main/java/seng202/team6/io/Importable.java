@@ -1,9 +1,8 @@
 package seng202.team6.io;
 
-import seng202.team6.exceptions.CsvException;
-
 import java.io.File;
 import java.util.List;
+import seng202.team6.exceptions.CsvException;
 
 
 /**

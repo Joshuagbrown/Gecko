@@ -215,7 +215,10 @@ public class Station {
                 + "Address : " + address + "\n"
                 + "Time Limit : " + timeLimit + "\n"
                 + "Is 24 Hour : " + is24Hours + "\n"
-                + "Chargers : " + "\n" + chargers.stream().map(Charger::toString).collect(Collectors.joining(";\n")) + "\n"
+                + "Chargers : " + "\n"
+                + chargers.stream()
+                        .map(Charger::toString)
+                        .collect(Collectors.joining(";\n")) + "\n"
                 + "Number Of CarPark : " + numberOfCarParks + "\n"
                 + "CarPark Cost : " + carParkCost + "\n"
                 + "Charging Cost : " + chargingCost + "\n"

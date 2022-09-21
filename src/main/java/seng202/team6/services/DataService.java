@@ -1,18 +1,21 @@
 package seng202.team6.services;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.io.CsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.StationDao;
-
-import java.io.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Service class to handle accessing and storing the necessary information.
@@ -53,7 +56,7 @@ public class DataService {
 
             String line;
             while ((line = br.readLine()) != null) {
-                sb.append(line + System.lineSeparator());
+                sb.append(line).append(System.lineSeparator());
             }
             String sql = sb.toString();
             try (Connection conn = DatabaseManager.getInstance().connect();
@@ -67,7 +70,11 @@ public class DataService {
 
     }
 
-
+    /**
+     * Fetch data from the database, either all, or from the sql query.
+     * @param sql The sql query to run if exists
+     * @return A hashmap of the data returned
+     */
     public HashMap<Integer, Station> fetchAllData(String sql) {
         return dao.getAll(sql);
     }

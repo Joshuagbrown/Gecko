@@ -1,5 +1,11 @@
 package seng202.team6.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
@@ -7,17 +13,8 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 import seng202.team6.business.JavaScriptBridge;
-import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 

@@ -1,10 +1,8 @@
 package seng202.team6.repository;
 
+import java.util.HashMap;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Station;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for

@@ -3,6 +3,11 @@ package seng202.team6.io;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.CsvFileException;
@@ -10,11 +15,6 @@ import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

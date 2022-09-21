@@ -1,14 +1,13 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import seng202.team6.services.DataService;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 /**
  * Main application class that initialize and run the project.

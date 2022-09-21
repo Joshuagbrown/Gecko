@@ -1,10 +1,10 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import java.io.IOException;
 
 /**
  * The class is to help loading different screen and assign the related controller.

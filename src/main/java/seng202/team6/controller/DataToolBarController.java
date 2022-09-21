@@ -40,7 +40,8 @@ public class DataToolBarController implements ScreenController {
      * @return a string that is the sql query.
      */
     public String createSqlQueryStringFromFilter() {
-        String sql = "SELECT * FROM Stations JOIN chargers c ON stations.stationId = c.stationId WHERE ";
+        String sql = "SELECT * FROM Stations "
+                + "JOIN chargers c ON stations.stationId = c.stationId WHERE ";
         if (inputStationName.getText().length() != 0) {
             sql += "(name LIKE '%" + inputStationName.getText()
                     + "%' OR address LIKE '%"
@@ -77,7 +78,8 @@ public class DataToolBarController implements ScreenController {
         if (hasChargingCostCheckBox.isSelected()) {
             sql += "chargingCost = 0 AND ";
         }
-        if (sql.equals("SELECT * FROM Stations JOIN chargers c ON stations.stationId = c.stationId WHERE ")) {
+        if (sql.equals("SELECT * FROM Stations"
+                + " JOIN chargers c ON stations.stationId = c.stationId WHERE ")) {
             sql = "SELECT * FROM Stations;";
         } else {
             int num = sql.lastIndexOf("AND");

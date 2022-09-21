@@ -1,5 +1,13 @@
 package seng202.team6.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,11 +16,6 @@ import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Station class which implements the DaoInterface, provides common functionality for
  * database access.
@@ -20,7 +23,6 @@ import java.util.List;
  */
 public class StationDao implements DaoInterface<Station> {
     private final DatabaseManager databaseManager;
-//    private final ChargerDao chargerDao;
     private static final Logger log = LogManager.getLogger();
 
     /**
@@ -28,10 +30,9 @@ public class StationDao implements DaoInterface<Station> {
      */
     public StationDao() {
         databaseManager = DatabaseManager.getInstance();
-//        chargerDao = new ChargerDao();
     }
 
-    private Station stationFromResultSet(ResultSet rs, ArrayList<Charger> chargers) throws SQLException {
+    private Station stationFromResultSet(ResultSet rs, List<Charger> chargers) throws SQLException {
         return new Station(
                 new Position(
                         rs.getDouble("lat"),
