@@ -34,12 +34,12 @@ you’ll need to re-enable it). To import your project:
 **Note:** *If you run into dependency issues when running the app or the Maven pop up doesn't appear then open the Maven sidebar and click the Refresh icon labeled 'Reimport All Maven Projects'.*
 
 ## Build Project
-1. Open a command line interface inside the project directory and run `mvn clean package` to build a .jar file. The file is located at target/revolt-1.0-SNAPSHOT.jar
+1. Open a command line interface inside the project directory and run `mvn clean package` to build a .jar file. The file is located at `target/revolt-1.0.jar`
 
 ## Run App
 - If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar revolt-1.0.jar` 
+- Run the command `java -jar revolt-1.0.jar`
 - On the first run, you will need to import data from a csv file. An example has been provided.
 
 ## Finally...
