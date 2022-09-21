@@ -1,6 +1,7 @@
 # Gecko
 
-Short description of gecko
+Gecko is a user friendly applications for EV owners to help them consistently
+create trips and plan these around charging stations.
 
 ## Authors
 - Philip Dolbel
