@@ -39,7 +39,8 @@ you’ll need to re-enable it). To import your project:
 ## Run App
 - If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar revolt-1.0-SNAPSHOT.jar` 
+- Run the command `java -jar revolt-1.0.jar` 
+- On the first run, you will need to import data from a csv file. An example has been provided.
 
 ## Finally...
 
