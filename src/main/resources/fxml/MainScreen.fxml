@@ -6,16 +6,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.25100267379679136" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MainScreenController">
+<SplitPane dividerPositions="0.21758021390374327" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MainScreenController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <SplitPane dividerPositions="0.15675403225806453" layoutX="-29.0" layoutY="72.0" orientation="VERTICAL" prefHeight="398.4" prefWidth="116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.15725806451612906" layoutX="-29.0" layoutY="72.0" orientation="VERTICAL" prefHeight="398.4" prefWidth="116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="59.2" prefWidth="114.0">
                      <children>
                         <ImageView layoutX="-57.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fx:id="geckoTitle" boundsType="VISUAL" layoutX="6.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gecko" textAlignment="CENTER" textOrigin="CENTER">
+                        <Text fx:id="geckoTitle" boundsType="VISUAL" fill="WHITE" layoutX="6.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GECKO" textAlignment="CENTER" textOrigin="CENTER">
                            <font>
                               <Font size="38.0" />
                            </font>
@@ -32,9 +32,9 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="176.0" prefWidth="113.0">
                                  <children>
-                                    <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="247.2" prefWidth="112.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="132.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <bottom>
-                                          <TextArea fx:id="textAreaInMainScreen" editable="false" minHeight="150.0" prefHeight="225.0" prefWidth="144.0" BorderPane.alignment="CENTER" />
+                                          <TextArea fx:id="textAreaInMainScreen" editable="false" minHeight="140.0" prefHeight="216.0" prefWidth="132.0" BorderPane.alignment="CENTER" />
                                        </bottom></BorderPane>
                                  </children></AnchorPane>
                             <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="99.6" prefWidth="160.0">
@@ -45,22 +45,23 @@
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#importData" text="Import Data" GridPane.rowIndex="0">
                                                <GridPane.margin>
                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                               </GridPane.margin></Button>
-                                          <Button disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadSetting" text="Setting" GridPane.rowIndex="1">
+                                               </GridPane.margin>
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font></Button>
+                                          <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadHelpScreenAndToolBar" text="Help" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </GridPane.margin></Button>
-                                          <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadHelpScreenAndToolBar" text="Help" GridPane.rowIndex="2">
-                                             <GridPane.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </GridPane.margin></Button>
+                                             </GridPane.margin>
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font></Button>
                                        </children>
                                     </GridPane>
                                  </children>
@@ -71,7 +72,7 @@
               </items>
             </SplitPane>
          </children></AnchorPane>
-      <SplitPane dividerPositions="0.11596385542168676" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+      <SplitPane dividerPositions="0.11646586345381528" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
         <items>
           <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="43.2" prefWidth="160.0">
                <children>
@@ -79,13 +80,12 @@
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMapViewAndToolBars" text="Map">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMapViewAndToolBars" prefHeight="33.0" prefWidth="136.0" text="Map">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                            </GridPane.margin>
@@ -94,14 +94,6 @@
                            </font>
                         </Button>
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadDataViewAndToolBars" text="Data" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </GridPane.margin>
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Button>
-                        <Button disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMyDetail" text="My Details" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </GridPane.margin>

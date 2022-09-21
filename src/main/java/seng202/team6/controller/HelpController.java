@@ -1,25 +1,27 @@
 package seng202.team6.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
+/**
+ * Controller class for help screen fxml.
+ */
 public class HelpController implements ScreenController {
-    private Stage stage;
+    /**
+     * the text Area to load the information.
+     */
     @FXML
-    private TextArea linesTextArea;
-
+    public TextArea linesTextArea;
 
     @Override
     public void init(Stage stage,MainScreenController controller) {
-        this.stage = stage;
         showFileLines(getClass().getResourceAsStream("/TextFiles/MainHelpPage.txt"));
     }
 
@@ -30,7 +32,7 @@ public class HelpController implements ScreenController {
     public void showFileLines(InputStream file) {
         this.linesTextArea.clear();
 
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         String line;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file));
@@ -42,7 +44,7 @@ public class HelpController implements ScreenController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        for (String eachLine : lines ) {
+        for (String eachLine : lines) {
             this.linesTextArea.appendText(eachLine + "\n");
         }
     }

@@ -1,39 +1,41 @@
 package seng202.team6.repository;
 
+import java.util.HashMap;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Station;
-
-import java.util.List;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for
  * database access.
- * @author Morgan English
+ * @author Morgan English.
  */
 public interface DaoInterface<T> {
     /**
      * Gets all of T from the database.
-     * @return List of all objects type T from the database
+     * @param sql string sql that want to excute.
+     * @return List of all objects type T from the database.
      */
-    List<T> getAll(String sql);
+    HashMap<Integer, T> getAll(String sql);
 
     /**
      * Gets a single object of type T from the database by id.
-     * @param id id of object to get
-     * @return Object of type T that has id given
+     * @param id id of object to get.
+     * @return Object of type T that has id given.
      */
     T getOne(int id);
 
+
     /**
      * Adds a single object of type T to database.
-     * @param toAdd object of type T to add
-     * @return true if no error, false if sql error
+     * @param toAdd object of type T to add.
+     * @return true if no error, false if sql error.
+     * @throws DuplicateEntryException the error.
      */
     int add(T toAdd) throws DuplicateEntryException;
 
     /**
      * Deletes and object from database that matches id given.
-     * @param id id of object to delete
+     * @param id id of object to delete.
      *           *
      * */
     void delete(int id);
@@ -41,15 +43,15 @@ public interface DaoInterface<T> {
     /**
      * Updates an object in the database.
      * @param toUpdate Object that needs to be updated (this object must be able to
-     *                 identify itself and its previous self)
+     *                 identify itself and its previous self).
      *
      */
     void update(T toUpdate);
 
     /**
-     * Gets a station object from the database;
-     * @param stationId the ID of the Station that needs to be grabbed
-     * @return
+     * Gets a station object from the database.
+     * @param stationId the ID of the Station that needs to be grabbed.
+     * @return the station with the provide id number.
      */
     Station getStation(int stationId);
 }

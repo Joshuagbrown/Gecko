@@ -145,7 +145,7 @@
         locationsArray.forEach(location => locations.push(new L.latLng(location.lat, location.lng)))
         route = L.Routing.control({
             waypoints: locations,
-            routeWhileDragging: true,
+            routeWhileDragging: false,
             serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
         }).addTo(map);
 

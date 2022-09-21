@@ -1,5 +1,7 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,9 +9,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import seng202.team6.services.DataService;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
+/**
+ * Main application class that initialize and run the project.
+ */
 public class MainApplication extends Application {
     private DataService dataService = new DataService();
 
@@ -23,7 +25,8 @@ public class MainApplication extends Application {
 
         primaryStage.setTitle("Gecko");
         Scene scene = new Scene(root, 1200, 800);
-        scene.getStylesheets().add(getClass().getResource("/stylesheets/main.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(
+                "/stylesheets/main.css").toExternalForm());
 
         // Add a custom application icon
 
@@ -31,6 +34,10 @@ public class MainApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * The function that call to launch the project.
+     * @param args the args.
+     */
     public static void main(String[] args) {
         launch(args);
     }

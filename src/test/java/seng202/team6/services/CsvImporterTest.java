@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test CSVImporter implementation
  */
-public class CsvImporterTest {
+class CsvImporterTest {
     // TODO: Not sure how to make an invalid csv file
 //    @Test
 //    public void readFromInvalidCSVFileShouldThrow() {
@@ -28,27 +28,26 @@ public class CsvImporterTest {
 //    }
 
     @Test
-    public void readFromValidCSVReadsTheCorrectNumberOfStations() throws URISyntaxException, CsvException {
+    void readFromValidCSVReadsTheCorrectNumberOfStations() throws URISyntaxException, CsvException {
         CsvImporter csvImporter = new CsvImporter();
         List<Station> stations =  csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
         assertEquals(4, stations.size());
     }
 
     @Test
-    public void invalidCSVLinesShouldBeSkippedWhenReadingFile() throws URISyntaxException, CsvFileException {
+    void invalidCSVLinesShouldBeSkippedWhenReadingFile() throws URISyntaxException, CsvFileException {
         CsvImporter csvImporter = new CsvImporter();
         List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/invalidline.csv").toURI()));
         assertEquals(3, stations.size());
     }
 
     @Test
-    public void validCSVLinesShouldBeParsedProperly() throws URISyntaxException, CsvFileException {
+    void validCSVLinesShouldBeParsedProperly() throws URISyntaxException, CsvFileException {
         CsvImporter csvImporter = new CsvImporter();
         List<Station> stations = csvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()));
         assertEquals(stations.get(0).getCoordinates(), new Position(-43.73745, 170.100913));
-        assertEquals(stations.get(0).getName(), "YHA MT COOK");
+        assertEquals("YHA MT COOK", stations.get(0).getName() );
         assertEquals(stations.get(1).getCoordinates(), new Position(-43.59049, 172.630201));
-        assertEquals(stations.get(1).getName(), "CHRISTCHURCH ADVENTURE PARK");
+        assertEquals("CHRISTCHURCH ADVENTURE PARK", stations.get(1).getName());
     }
-
 }
