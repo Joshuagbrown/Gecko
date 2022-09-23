@@ -4,10 +4,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +22,18 @@ import seng202.team6.models.Station;
  * @author Phyu Wai Lwin.
  */
 public class DataController implements ScreenController {
+    private static class MultiLineCell<S> extends TableCell<S, String> {
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            Text text = new Text();
+            setGraphic(text);
+            text.wrappingWidthProperty().bind(widthProperty());
+            text.textProperty().bind(itemProperty());
+            text.setStyle("-fx-fill: -fx-text-background-color;");
+            text.setLineSpacing(5);
+        }
+    }
     //A Logger object is used to log messages for  system
     private static final Logger log = LogManager.getLogger();
 
@@ -70,6 +84,11 @@ public class DataController implements ScreenController {
      */
     public void loadData(String sql) {
         table.getItems().clear();
+
+        nameColumn.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
+        address.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
+        chargers.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getCoordinates().getLatitude()));
@@ -80,8 +99,8 @@ public class DataController implements ScreenController {
         chargers.setCellValueFactory(cellData ->
                 new SimpleObjectProperty<>(cellData.getValue().getChargers()
                         .stream()
-                        .map(Charger::getPlugType)
-                        .collect(Collectors.joining(","))));
+                        .map(value -> "• " + value.getPlugType())
+                        .collect(Collectors.joining("\n"))));
 
         try {
             Map<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
