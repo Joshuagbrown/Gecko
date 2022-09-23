@@ -7,40 +7,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StationTest {
-
+/**
+ * Test the Station class.
+ */
+public class StationTest {
+    /**
+     * Test the toString class.
+     */
     @Test
-    void testEquals() {
-        Position coordinates = new Position(-43, 171);
-        int objectId = 1;
-        String name = "testName";
-        String notName = "testNotName";
-        String operator = "testOperator";
-        String owner = "testOwner";
-        String address = "testAddress";
-        int timeLimit = 10;
-        boolean is24Hours = true;
-        Charger charger = new Charger("testPlug", "testOperative", 10);
-        List<Charger> chargers = new ArrayList<>();
-        chargers.add(charger);
-        int numberOfCarParks = 1;
-        boolean carParkCost = true;
-        boolean chargingCost = true;
-        boolean hasTouristAttraction = true;
-        Station station1 = new Station(coordinates, name, objectId, operator, owner,
-                address, timeLimit, is24Hours, chargers, numberOfCarParks, carParkCost, chargingCost, hasTouristAttraction);
-        Station station2 = new Station(coordinates, name, objectId, operator, owner,
-                address, timeLimit, is24Hours, chargers, numberOfCarParks, carParkCost, chargingCost, hasTouristAttraction);
-        boolean equal = station1.equals(station2);
-        Station station3 = new Station(coordinates, notName, objectId, operator, owner,
-                address, timeLimit, is24Hours, chargers, numberOfCarParks, carParkCost, chargingCost, hasTouristAttraction);
-        boolean equal2 = station1.equals(station3);
-        assertEquals(true, equal);
-        assertEquals(false, equal2);
-    }
-
-    @Test
-    void testToString() {
+    public void testToString() {
         Position coordinates = new Position(-43, 171);
         int objectId = 1;
         String name = "testName";

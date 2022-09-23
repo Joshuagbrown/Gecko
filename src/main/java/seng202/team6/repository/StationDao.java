@@ -80,7 +80,7 @@ public class StationDao implements DaoInterface<Station> {
                     rs2.next();
                 }
             }
-            if (chargers.size() > 0) {
+            if (!chargers.isEmpty()) {
                 Station station = stationFromResultSet(rs2, chargers);
                 stations.put(station.getObjectId(), station);
             }

@@ -1,6 +1,5 @@
 package seng202.team6.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test CSVImporter implementation
  */
-class CsvImporterTest {
+public class CsvImporterTest {
     // TODO: Not sure how to make an invalid csv file
 //    @Test
 //    public void readFromInvalidCSVFileShouldThrow() {
