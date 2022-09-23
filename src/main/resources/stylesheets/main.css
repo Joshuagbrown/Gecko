@@ -15,19 +15,20 @@
 }
 
 .button {
-    -fx-background-color:
-            linear-gradient(#93c14e, #93c14e),
-            radial-gradient(center 50% -40%, radius 200%, #93c14e 45%, #93c14e 50%);
+    -fx-background-color: #93c14e;
     -fx-background-radius: 12px;
     -fx-background-insets: 0, 1;
     -fx-border-color: #ffffff;
     -fx-border-width: 3 3 3 3;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.4) , 5, 0 , 2, 2 );
     -fx-text-fill: #ffffff;
     -fx-border-radius: 12px;
 }
+
 .button:hover {
-    -fx-background-color: #89a84f;
+    -fx-background-color: #93c14e;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 .accordion {
