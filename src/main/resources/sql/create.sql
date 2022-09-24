@@ -2,6 +2,7 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS stations (
     stationId INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER,
     lat REAL NOT NULL,
     long REAL NOT NULL,
     name TEXT NOT NULL,
@@ -14,21 +15,22 @@ CREATE TABLE IF NOT EXISTS stations (
     numberOfCarparks INTEGER NOT NULL,
     carparkCost INTEGER NOT NULL,
     chargingCost INTEGER NOT NULL,
-    hasTouristAttraction INTEGER NOT NULL
+    hasTouristAttraction INTEGER NOT NULL,
+    FOREIGN KEY(userId) REFERENCES users(userId)
 );
 
 CREATE TABLE IF NOT EXISTS chargers (
     chargerId INTEGER PRIMARY KEY AUTOINCREMENT,
-    stationId INTEGER NOT NULL UNIQUE,
+    stationId INTEGER NOT NULL,
     plugType TEXT NOT NULL,
     wattage INTEGER NOT NULL,
     operative INTEGER NOT NULL,
-    FOREIGN KEY(stationId) REFERENCES stations(stationId)
+    FOREIGN KEY(stationId) REFERENCES stations(stationId) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS vehicles (
     vehicleId INTEGER PRIMARY KEY AUTOINCREMENT,
-    userId INTEGER NOT NULL UNIQUE,
+    userId INTEGER NOT NULL,
     make TEXT NOT NULL,
     model TEXT NOT NULL,
     plugType TEXT NOT NULL,

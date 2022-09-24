@@ -80,7 +80,8 @@ public class UserDao implements DaoInterface<User> {
     @Override
     public void update(User toUpdate) {
         String userSql = "UPDATE users SET passwordHash=? , "
-                + "passwordSalt=? , address=? , name=?";
+                + "passwordSalt=? , address=? , name=?"
+                + "WHERE username=?";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(userSql)) {
@@ -89,16 +90,12 @@ public class UserDao implements DaoInterface<User> {
             ps.setBlob(3, new SerialBlob(toUpdate.getPasswordSalt()));
             ps.setString(4, toUpdate.getAddress());
             ps.setString(5, toUpdate.getName());
+            ps.setString(6, toUpdate.getName());
 
             ps.executeUpdate();
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
-    }
-
-    @Override
-    public void update(Vehicle toUpdate) {
-
     }
 
 }
