@@ -2,7 +2,7 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS stations (
     stationId INTEGER PRIMARY KEY AUTOINCREMENT,
-    userId INTEGER,
+    userId INTEGER DEFAULT -1 NOT NULl,
     lat REAL NOT NULL,
     long REAL NOT NULL,
     name TEXT NOT NULL,
