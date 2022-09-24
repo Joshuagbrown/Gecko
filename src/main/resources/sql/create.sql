@@ -19,9 +19,28 @@ CREATE TABLE IF NOT EXISTS stations (
 
 CREATE TABLE IF NOT EXISTS chargers (
     chargerId INTEGER PRIMARY KEY AUTOINCREMENT,
-    stationId INTEGER NOT NULL,
+    stationId INTEGER NOT NULL UNIQUE,
     plugType TEXT NOT NULL,
     wattage INTEGER NOT NULL,
     operative INTEGER NOT NULL,
     FOREIGN KEY(stationId) REFERENCES stations(stationId)
-)
+);
+
+CREATE TABLE IF NOT EXISTS vehicles (
+    vehicleId INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER NOT NULL UNIQUE,
+    make TEXT NOT NULL,
+    model TEXT NOT NULL,
+    plugType TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    FOREIGN KEY(userId) REFERENCES users(userId)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    userId INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    passwordHash BLOB NOT NULL,
+    passwordSalt BLOB NOT NULL,
+    address TEXT,
+    name TEXT
+);
