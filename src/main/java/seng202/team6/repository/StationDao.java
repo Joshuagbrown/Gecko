@@ -22,15 +22,8 @@ import seng202.team6.models.Station;
  * @author Philip Dolbel
  */
 public class StationDao implements DaoInterface<Station> {
-    private final DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
-
-    /**
-     * Creates new StationDAO object and gets reference to the database singleton.
-     */
-    public StationDao() {
-        databaseManager = DatabaseManager.getInstance();
-    }
 
     private Station stationFromResultSet(ResultSet rs, List<Charger> chargers) throws SQLException {
         return new Station(
@@ -86,7 +79,7 @@ public class StationDao implements DaoInterface<Station> {
             }
             return stations;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new   RuntimeException(e);
         }
     }
 
@@ -153,30 +146,27 @@ public class StationDao implements DaoInterface<Station> {
                 }
             }
             return insertId;
-        } catch (SQLException sqlException) {
-            if (sqlException.getErrorCode() == 19) {
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
                 throw new DuplicateEntryException("Duplicate Entry");
             }
-            log.error(sqlException.getMessage());
+            log.error(e.getMessage());
             return -1;
         }
     }
 
     @Override
     public void delete(int id) {
-        //delete station is not implemented yet
+        throw new NotImplementedException();
+
 
     }
 
     @Override
     public void update(Station toUpdate) {
-        //update station is not implemented yet
+        throw new NotImplementedException();
     }
 
-    @Override
-    public Station getStation(int stationId) {
-        return null;
-    }
 
 
 }

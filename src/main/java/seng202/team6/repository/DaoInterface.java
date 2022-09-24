@@ -47,11 +47,4 @@ public interface DaoInterface<T> {
      *
      */
     void update(T toUpdate);
-
-    /**
-     * Gets a station object from the database.
-     * @param stationId the ID of the Station that needs to be grabbed.
-     * @return the station with the provide id number.
-     */
-    Station getStation(int stationId);
 }
