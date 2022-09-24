@@ -43,9 +43,20 @@ public class MapController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked,
-                this::setClickLocation, this::setAddress);
+                this::setClickLocation, this::setAddress, this::editStation);
         initMap();
     }
+
+    /**
+     * Function to call the edit station pop-up.
+     * @param stationId
+     */
+    public void editStation(String stationId) {
+
+
+    }
+
+
 
     /**
      * Function to set the current address.

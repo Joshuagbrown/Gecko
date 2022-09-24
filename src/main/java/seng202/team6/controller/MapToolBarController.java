@@ -195,7 +195,7 @@ public class MapToolBarController implements ScreenController {
      * Sets text field to selected marker on the map as well as adding a routing marker
      * at that point. Method called when user selects auto-fill button. Takes the
      * address, latitude, and longitude from the current location of the marker, sets
-     * the associated text-feild to contain the given address. Calls the
+     * the associated text-field to contain the given address. Calls the
      * javascriptconnecter to replace all current address markers on the map with
      * the updated one.
      *

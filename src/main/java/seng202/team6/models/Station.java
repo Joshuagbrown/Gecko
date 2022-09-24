@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
  * Represents a charging station.
  */
 public class Station {
+
     private Position coordinates;
     private int objectId;
     private String name;
