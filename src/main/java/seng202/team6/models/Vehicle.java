@@ -9,6 +9,14 @@ public class Vehicle {
 
     int userId;
 
+    /**
+     * Constructor class for the vehicles.
+     * @param make the make of the vehicle
+     * @param model the model of the vehicle
+     * @param type the charger type of the vehicle
+     * @param year the year of the vehicle
+     * @param userId the user id of the user registering/owns the vehicle
+     */
     public Vehicle(String make, String model, String type, int year, int userId) {
         this.make = make;
         this.model = model;

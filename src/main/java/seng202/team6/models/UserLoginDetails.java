@@ -5,6 +5,12 @@ public class UserLoginDetails {
     byte[] passwordHash;
     byte[] passwordSalt;
 
+    /**
+     *
+     * @param userId
+     * @param passwordHash
+     * @param passwordSalt
+     */
     public UserLoginDetails(int userId, byte[] passwordHash, byte[] passwordSalt) {
         this.userId = userId;
         this.passwordHash = passwordHash;
