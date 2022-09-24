@@ -1,8 +1,9 @@
 package seng202.team6.repository;
 
-import java.util.HashMap;
 import seng202.team6.exceptions.DuplicateEntryException;
-import seng202.team6.models.Station;
+import seng202.team6.models.Vehicle;
+
+import java.util.HashMap;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for
@@ -47,4 +48,6 @@ public interface DaoInterface<T> {
      *
      */
     void update(T toUpdate);
+
+    void update(Vehicle toUpdate);
 }

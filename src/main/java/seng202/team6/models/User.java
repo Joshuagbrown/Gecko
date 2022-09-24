@@ -7,6 +7,7 @@ public class User {
     String address;
     String name;
 
+
     public User(String username, byte[] passwordHash, byte[] passwordSalt, String address, String name) {
         this.username = username;
         this.passwordHash = passwordHash;

@@ -1,13 +1,5 @@
 package seng202.team6.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +7,12 @@ import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.models.Vehicle;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Station class which implements the DaoInterface, provides common functionality for
@@ -156,6 +154,11 @@ public class StationDao implements DaoInterface<Station> {
     }
 
     @Override
+    public int add(Vehicle toAdd) throws DuplicateEntryException {
+        return 0;
+    }
+
+    @Override
     public void delete(int id) {
         throw new NotImplementedException();
 
@@ -167,6 +170,10 @@ public class StationDao implements DaoInterface<Station> {
         throw new NotImplementedException();
     }
 
+    @Override
+    public void update(Vehicle toUpdate) {
+
+    }
 
 
 }

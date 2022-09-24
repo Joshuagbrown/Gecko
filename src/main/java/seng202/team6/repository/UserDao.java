@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.User;
 import seng202.team6.models.UserLoginDetails;
+import seng202.team6.models.Vehicle;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
@@ -69,6 +70,8 @@ public class UserDao implements DaoInterface<User> {
         }
     }
 
+
+
     @Override
     public void delete(int id) {
         throw new NotImplementedException();
@@ -92,4 +95,10 @@ public class UserDao implements DaoInterface<User> {
             log.error(e.getMessage());
         }
     }
+
+    @Override
+    public void update(Vehicle toUpdate) {
+
+    }
+
 }
