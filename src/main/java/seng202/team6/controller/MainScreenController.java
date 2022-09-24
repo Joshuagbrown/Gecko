@@ -221,7 +221,7 @@ public class MainScreenController {
     /**
      * This function imports the data from a selected file.
      */
-    public void importData() throws IOException {
+    public void importData() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");
         fileChooser.getExtensionFilters()
@@ -236,7 +236,11 @@ public class MainScreenController {
                         updateProgress(newValue.getKey(), newValue.getValue());
                         updateMessage(newValue.getKey() + " / " + newValue.getValue());
                     });
-                    dataService.loadDataFromCsv(selectedFile, value);
+                    try {
+                        dataService.loadDataFromCsv(selectedFile, value);
+                    } catch (CsvFileException | DatabaseException e) {
+                        throw new RuntimeException(e);
+                    }
                     return null;
                 }
             };
@@ -245,6 +249,10 @@ public class MainScreenController {
             dialog.setTitle("Loading data");
             new Thread(task).start();
             dialog.showAndWait();
+            if (task.getState() == Worker.State.FAILED) {
+                AlertMessage.createMessage("An error occurred when importing data",
+                        task.getException().getCause().getMessage());
+            }
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
             mapController.addStationsToMap(null);
             dataController.loadData(null);
