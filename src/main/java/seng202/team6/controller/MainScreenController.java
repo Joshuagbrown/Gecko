@@ -5,10 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.stream.Stream;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.IntegerPropertyBase;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.WritableDoubleValue;
 import javafx.beans.value.WritableIntegerValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -229,15 +228,14 @@ public class MainScreenController {
                 .add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
-            long lineCount;
-            try (Stream<String> stream = Files.lines(selectedFile.toPath(), StandardCharsets.UTF_8)) {
-                lineCount = stream.count();
-            }
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call()  {
-                    IntegerProperty value = new SimpleIntegerProperty();
-                    value.addListener((observableValue, number, t1) -> updateProgress(number.intValue(),lineCount-1));
+                    ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
+                    value.addListener((observable, oldValue, newValue) -> {
+                        updateProgress(newValue.getKey(), newValue.getValue());
+                        updateMessage(newValue.getKey() + " / " + newValue.getValue());
+                    });
                     dataService.loadDataFromCsv(selectedFile, value);
                     return null;
                 }
