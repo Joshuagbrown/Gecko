@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.IntegerPropertyBase;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableIntegerValue;
 import javafx.beans.value.WritableIntegerValue;
 import javafx.concurrent.Task;
@@ -235,17 +236,7 @@ public class MainScreenController {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call()  {
-                    IntegerProperty value = new IntegerPropertyBase() {
-                        @Override
-                        public Object getBean() {
-                            return null;
-                        }
-
-                        @Override
-                        public String getName() {
-                            return null;
-                        }
-                    };
+                    IntegerProperty value = new SimpleIntegerProperty();
                     value.addListener((observableValue, number, t1) -> updateProgress(number.intValue(),lineCount-1));
                     dataService.loadDataFromCsv(selectedFile, value);
                     return null;
