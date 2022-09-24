@@ -10,9 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+
+import javafx.beans.property.IntegerPropertyBase;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.WritableIntegerValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.io.CsvImporter;
+import seng202.team6.io.StationCsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.StationDao;
@@ -32,12 +36,15 @@ public class DataService {
      *
      * @param file file to retrieve necessary data from.
      */
-    public void loadDataFromCsv(File file) {
+    public void loadDataFromCsv(File file, WritableIntegerValue value) {
+
+        value.set(0);
         try {
-            CsvImporter csvImporter = new CsvImporter();
-            List<Station> stations = csvImporter.readFromFile(file);
+            StationCsvImporter stationCsvImporter = new StationCsvImporter();
+            List<Station> stations = stationCsvImporter.readFromFile(file);
             for (Station station : stations) {
                 dao.add(station);
+                value.set(value.get()+1);
             }
 
         } catch (Exception e) {

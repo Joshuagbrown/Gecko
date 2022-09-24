@@ -1,7 +1,14 @@
 package seng202.team6.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.stream.Stream;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.IntegerPropertyBase;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.WritableIntegerValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -214,17 +221,33 @@ public class MainScreenController {
     /**
      * This function imports the data from a selected file.
      */
-    public void importData() {
+    public void importData() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");
         fileChooser.getExtensionFilters()
                 .add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
+            long lineCount;
+            try (Stream<String> stream = Files.lines(selectedFile.toPath(), StandardCharsets.UTF_8)) {
+                lineCount = stream.count();
+            }
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call()  {
-                    dataService.loadDataFromCsv(selectedFile);
+                    IntegerProperty value = new IntegerPropertyBase() {
+                        @Override
+                        public Object getBean() {
+                            return null;
+                        }
+
+                        @Override
+                        public String getName() {
+                            return null;
+                        }
+                    };
+                    value.addListener((observableValue, number, t1) -> updateProgress(number.intValue(),lineCount-1));
+                    dataService.loadDataFromCsv(selectedFile, value);
                     return null;
                 }
             };
