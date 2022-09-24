@@ -1,7 +1,6 @@
 package seng202.team6.repository;
 
 import seng202.team6.exceptions.DuplicateEntryException;
-import seng202.team6.models.Vehicle;
 
 import java.util.HashMap;
 
@@ -49,5 +48,4 @@ public interface DaoInterface<T> {
      */
     void update(T toUpdate);
 
-    void update(Vehicle toUpdate);
 }

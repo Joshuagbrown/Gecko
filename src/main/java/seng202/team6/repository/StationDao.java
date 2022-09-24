@@ -7,7 +7,6 @@ import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import seng202.team6.models.Vehicle;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -154,11 +153,6 @@ public class StationDao implements DaoInterface<Station> {
     }
 
     @Override
-    public int add(Vehicle toAdd) throws DuplicateEntryException {
-        return 0;
-    }
-
-    @Override
     public void delete(int id) {
         throw new NotImplementedException();
 
@@ -167,13 +161,50 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public void update(Station toUpdate) {
-        throw new NotImplementedException();
+        String stationSql = "UPDATE  stations SET name = ? , operator = ? , owner = ? ,"
+                + "address = ? , timeLimit = ? , is24Hours = ? , numberOfCarparks = ? , carparkCost = ? ,"
+                + "chargingCost = ? , hasTouristAttraction = ? , lat = ? , long = ? ";
+        String chargerSql = "UPDATE  chargers SET stationId = ? , plugType = ? , wattage = ? , operative = ? ";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(stationSql)) {
+            ps.setString(1, toUpdate.getName());
+            ps.setString(2, toUpdate.getOperator());
+            ps.setString(3, toUpdate.getOwner());
+            ps.setString(4, toUpdate.getAddress());
+            ps.setInt(5, toUpdate.getTimeLimit());
+            ps.setBoolean(6, toUpdate.is24Hours());
+            ps.setInt(7, toUpdate.getNumberOfCarParks());
+            ps.setBoolean(8, toUpdate.isCarparkCost());
+            ps.setBoolean(9, toUpdate.isChargingCost());
+            ps.setBoolean(10, toUpdate.isHasTouristAttraction());
+            ps.setDouble(11, toUpdate.getCoordinates().getLatitude());
+            ps.setDouble(12, toUpdate.getCoordinates().getLongitude());
+
+            ps.executeUpdate();
+
+            for (Charger charger : toUpdate.getChargers()) {
+                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
+                    ps2.setInt(1, insertId);
+                    ps2.setString(2, charger.getPlugType());
+                    ps2.setInt(3, charger.getWattage());
+                    ps2.setString(4, charger.getOperative());
+
+                    ps2.executeUpdate();
+                } catch (SQLException sqlException) {
+                    log.error(sqlException);
+                    return -1;
+                }
+            }
+            return insertId;
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
+                throw new DuplicateEntryException("Duplicate Entry");
+            }
+            log.error(e.getMessage());
+            return -1;
+        }
     }
 
-    @Override
-    public void update(Vehicle toUpdate) {
-
-    }
 
 
 }
