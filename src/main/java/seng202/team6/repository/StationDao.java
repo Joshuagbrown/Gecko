@@ -12,12 +12,6 @@ import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
-import javax.swing.text.html.HTMLDocument;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Station class which implements the DaoInterface, provides common functionality for
  * database access.
@@ -164,7 +158,7 @@ public class StationDao implements DaoInterface<Station> {
     public void delete(int id) {
         String stationSql = "DELETE FROM stations WHERE stationId=?";
 
-        try(Connection conn = databaseManager.connect();
+        try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, id);
             ps.executeQuery();
@@ -173,6 +167,10 @@ public class StationDao implements DaoInterface<Station> {
         }
     }
 
+    /**
+     * Delete a charger.
+     * @param id id of the charger to delete
+     */
     public void deleteCharger(int id) {
         String chargerSql = "DELETE FROM chargers WHERE chargerId=?";
         try (Connection conn = databaseManager.connect();

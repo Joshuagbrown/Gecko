@@ -60,7 +60,8 @@ public class LoginController implements ScreenController {
         String username = usernameLogin.getText();
         UserLoginDetails userDetails = userDao.getLoginDetails(username);
         if (userDetails != null) {
-            byte[] hashedPassword = hashPassword(passwordLogin.getText(), userDetails.getPasswordSalt());
+            byte[] hashedPassword = hashPassword(passwordLogin.getText(),
+                    userDetails.getPasswordSalt());
             if (Arrays.equals(hashedPassword,userDetails.getPasswordHash())) {
                 errorText.setText("");
                 controller.loginUser(userDao.getOne(userDetails.getUserId()));

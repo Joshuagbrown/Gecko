@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
@@ -22,10 +22,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
-import seng202.team6.models.Station;
-import seng202.team6.models.User;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Station;
+import seng202.team6.models.User;
 import seng202.team6.services.DataService;
 
 /**
@@ -125,7 +125,6 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
-//        this.stations.
         updateStationsFromDatabase(null);
 
         try {
@@ -182,8 +181,8 @@ public class MainScreenController {
     }
 
     /**
-     * Function to get the stations
-     * @return something???????????
+     * Function to get the stations.
+     * @return An observable map of stations.
      */
     public ObservableMap<Integer, Station> getStations() {
         return stations;
@@ -336,7 +335,7 @@ public class MainScreenController {
         }
         int min = 0;
         int max = 9;
-        int randomLine = (int) Math.floor(Math.random()*(max-min+1)+min);
+        int randomLine = (int) Math.floor(Math.random() * (max - min + 1) + min);
         String funFact = lines.get(randomLine);
         loginController.funFactBox.appendText(funFact);
         loginController.funFactBox.setFont(new Font("Courier", 16));
@@ -374,6 +373,10 @@ public class MainScreenController {
         mainBorderPane.setRight(null);
     }
 
+    /**
+     * Function to call when logging in a user.
+     * @param user The user to login
+     */
     public void loginUser(User user) {
         setCurrentUser(user);
         loadMyDetailsViewAndToolBars();

@@ -45,6 +45,6 @@ public interface DaoInterface<T> {
      *                 identify itself and its previous self).
      *
      */
-    void update(T toUpdate);
+    void update(T toUpdate) throws DatabaseException;
 
 }

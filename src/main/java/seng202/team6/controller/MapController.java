@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.stream.Collectors;
-
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
@@ -162,6 +160,10 @@ public class MapController implements ScreenController {
                 station.getCoordinates().getLongitude(), station.getObjectId());
     }
 
+    /**
+     * Remove a station from the map.
+     * @param objectId the objectId of the station
+     */
     public void removeStation(int objectId) {
         javaScriptConnector.call("removeMarker", objectId);
     }

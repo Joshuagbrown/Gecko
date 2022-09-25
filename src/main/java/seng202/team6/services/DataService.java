@@ -14,7 +14,6 @@ import javafx.beans.value.WritableObjectValue;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
@@ -86,15 +85,19 @@ public class DataService {
         return dao.getAll(sql);
     }
 
+    /**
+     * Add a user to the database..
+     * @param user the user to add
+     */
     public void addUser(User user) throws DatabaseException {
         userDao.add(user);
     }
 
-    public void updateUser(User user) {
+    /**
+     * Update a user in the database.
+     * @param user the user to update, must have userId != null
+     */
+    public void updateUser(User user) throws DatabaseException {
         userDao.update(user);
-    }
-
-    public UserDao getUserDao() {
-        return userDao;
     }
 }
