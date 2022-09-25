@@ -98,11 +98,6 @@ public class MainScreenController {
     private MyDetailsToolBarController myDetailsToolBarController;
     private User currentUser = null;
 
-    Pair<Parent, ScreenController> pair;
-
-    LoadScreen screen = new LoadScreen();
-
-
     /**
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen.
@@ -112,8 +107,8 @@ public class MainScreenController {
      *
      */
     void init(Stage stage, DataService dataService) {
-
-
+        Pair<Parent, ScreenController> pair;
+        LoadScreen screen = new LoadScreen();
 
         this.stage = stage;
         this.dataService = dataService;
@@ -153,6 +148,10 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/LoginToolBar.fxml", this);
             loginToolBarScreen = pair.getKey();
             loginToolBarController = (LoginToolBarController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/MyDetails.fxml", this);
+            myDetailsScreen = pair.getKey();
+            myDetailsController = (MyDetailsController) pair.getValue();
 
             pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBarController.fxml", this);
             myDetailsToolBarScreen = pair.getKey();
@@ -266,9 +265,9 @@ public class MainScreenController {
     }
 
     public void loadMyDetailsViewAndToolBars() {
-            pair = screen.loadBigScreen(stage, "/fxml/MyDetails.fxml", this);
-            myDetailsScreen = pair.getKey();
-            myDetailsController = (MyDetailsController) pair.getValue();
+        mainBorderPane.setCenter(myDetailsScreen);
+        toolBarPane.setCenter(myDetailsToolBarScreen);
+        mainBorderPane.setRight(null);
     }
 
     /**
