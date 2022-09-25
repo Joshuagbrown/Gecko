@@ -177,8 +177,8 @@ public class MainScreenController {
         return loginPageBtn;
     }
 
-    public void setLoginBtnText(String text) {
-        this.loginPageBtn.setText(text);
+    public void setLoginBtnText() {
+        this.loginPageBtn.setText("My Details");
     }
 
     /**
@@ -233,6 +233,10 @@ public class MainScreenController {
         return loginController;
     }
 
+    public MyDetailsController getMyDetailsController() {
+        return myDetailsController;
+    }
+
     /**
      * The action handler that linked to the map button on main screen.
      *
@@ -255,9 +259,13 @@ public class MainScreenController {
     }
 
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
-        mainBorderPane.setCenter(loginScreen);
-        toolBarPane.setCenter(loginToolBarScreen);
-        mainBorderPane.setRight(null);
+        if (currentUser == null) {
+            mainBorderPane.setCenter(loginScreen);
+            toolBarPane.setCenter(loginToolBarScreen);
+            mainBorderPane.setRight(null);
+        } else {
+            loadMyDetailsViewAndToolBars();
+        }
 
     }
     public void loadSignUpViewAndToolBars() {
@@ -268,6 +276,14 @@ public class MainScreenController {
         mainBorderPane.setCenter(myDetailsScreen);
         toolBarPane.setCenter(myDetailsToolBarScreen);
         mainBorderPane.setRight(null);
+    }
+
+    public void loginUser(User user) {
+        setCurrentUser(user);
+        loadMyDetailsViewAndToolBars();
+        getMyDetailsController().loadUserData();
+        loadMapViewAndToolBars();
+        setLoginBtnText();
     }
 
     /**

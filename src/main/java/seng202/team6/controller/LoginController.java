@@ -59,10 +59,7 @@ public class LoginController implements ScreenController {
             byte[] hashedPassword = hashPassword(passwordLogin.getText(), userDetails.getPasswordSalt());
             if (Arrays.equals(hashedPassword,userDetails.getPasswordHash())) {
                 errorText.setText("");
-                controller.setCurrentUser(userDao.getOne(userDetails.getUserId()));
-                controller.loadMapViewAndToolBars();
-                controller.setLoginBtnText("My Details");
-                controller.loadMyDetailsViewAndToolBars();
+                controller.loginUser(userDao.getOne(userDetails.getUserId()));
             } else {
                 passwordLogin.clear();
                 errorText.setText("You have entered an invalid username or password");

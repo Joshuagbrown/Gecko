@@ -102,18 +102,17 @@ public class UserDao implements DaoInterface<User> {
 
     @Override
     public void update(User toUpdate) {
-        String userSql = "UPDATE users SET passwordHash=? , "
-                + "passwordSalt=? , address=? , name=?"
-                + "WHERE username=?";
+        String userSql = "UPDATE users SET passwordHash=(?) , "
+                + "passwordSalt=(?) , address=(?) , name=(?)"
+                + "WHERE username=(?)";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(userSql)) {
-            ps.setString(1, toUpdate.getUsername());
-            ps.setBytes(2, toUpdate.getPasswordHash());
-            ps.setBytes(3, toUpdate.getPasswordSalt());
-            ps.setString(4, toUpdate.getAddress());
-            ps.setString(5, toUpdate.getName());
-            ps.setString(6, toUpdate.getName());
+            ps.setBytes(1, toUpdate.getPasswordHash());
+            ps.setBytes(2, toUpdate.getPasswordSalt());
+            ps.setString(3, toUpdate.getAddress());
+            ps.setString(4, toUpdate.getName());
+            ps.setString(5, toUpdate.getUsername());
 
             ps.executeUpdate();
         } catch (SQLException e) {

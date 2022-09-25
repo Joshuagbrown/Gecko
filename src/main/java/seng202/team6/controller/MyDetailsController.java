@@ -2,6 +2,7 @@ package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -31,7 +32,16 @@ public class MyDetailsController implements ScreenController {
     }
 
     /**
-     * Allows you to make changes to your details
+     * loads the users data into the fields.
+     */
+    public void loadUserData() {
+        usernameField.setText(controller.getCurrentUser().getUsername());
+        nameField.setText(controller.getCurrentUser().getName());
+        homeAddressField.setText(controller.getCurrentUser().getAddress());
+    }
+
+    /**
+     * Allows you to make changes to your details.
      * @param actionEvent When Edit details button is clicked
      */
     public void editDetails(ActionEvent actionEvent) {
@@ -71,6 +81,7 @@ public class MyDetailsController implements ScreenController {
             homeAddressField.setEditable(false);
             confirmEditButton.setVisible(false);
             cancelEditButton.setVisible(false);
+
         }
     }
 

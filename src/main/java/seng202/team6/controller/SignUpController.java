@@ -100,6 +100,7 @@ public class SignUpController implements ScreenController {
             User user = new User(username, hash, salt, address, name);
             try {
                 controller.getDataService().addUser(user);
+                controller.loginUser(user);
             } catch (DuplicateEntryException e) {
                 AlertMessage.createMessage("Invalid username", "Username already in use.\nPick a new username");
             }

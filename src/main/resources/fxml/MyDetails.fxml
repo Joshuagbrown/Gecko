@@ -7,104 +7,108 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
    <children>
-      <GridPane layoutX="112.0" layoutY="138.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="258.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="342.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="editDetailsButton" mnemonicParsing="false" onAction="#editDetails" text="Edit Details" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditButton" text="Confirm Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditButton" text="Cancel Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to My Details!" GridPane.valignment="TOP">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" top="20.0" />
-               </GridPane.margin>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
-            <TextField fx:id="nameField" editable="false" promptText="User's Name" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="20.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
-            <TextField fx:id="usernameField" editable="false" promptText="User's Username" GridPane.rowIndex="2" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="20.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Home Address:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Text>
-            <TextField fx:id="homeAddressField" editable="false" promptText="Home Address" GridPane.rowIndex="3" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="20.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicles:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Text>
-         </children>
-      </GridPane>
-      <TableView layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
+      <SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+           <GridPane layoutX="112.0" layoutY="138.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="258.0" />
+                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="342.0" />
+              </columnConstraints>
+              <rowConstraints>
+                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                 <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+              <children>
+                 <Button fx:id="editDetailsButton" mnemonicParsing="false" onAction="#editDetails" text="Edit Details" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                       <Insets right="20.0" />
+                    </GridPane.margin>
+                 </Button>
+                 <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditButton" text="Confirm Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <GridPane.margin>
+                       <Insets right="20.0" />
+                    </GridPane.margin>
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                 </Button>
+                 <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditButton" text="Cancel Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                    <GridPane.margin>
+                       <Insets right="20.0" />
+                    </GridPane.margin>
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                 </Button>
+                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to My Details!" GridPane.valignment="TOP">
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                       <Insets left="20.0" top="20.0" />
+                    </GridPane.margin>
+                 </Text>
+                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.valignment="BOTTOM">
+                    <GridPane.margin>
+                       <Insets left="20.0" />
+                    </GridPane.margin>
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                 </Text>
+                 <TextField fx:id="nameField" editable="false" promptText="User's Name" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                       <Insets left="20.0" right="10.0" top="10.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                    <GridPane.margin>
+                       <Insets left="20.0" />
+                    </GridPane.margin>
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                 </Text>
+                 <TextField fx:id="usernameField" editable="false" promptText="User's Username" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                       <Insets left="20.0" right="10.0" top="10.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Home Address:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                       <Insets left="20.0" />
+                    </GridPane.margin>
+                 </Text>
+                 <TextField fx:id="homeAddressField" editable="false" promptText="Home Address" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                       <Insets left="20.0" right="10.0" top="10.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicles:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                    <font>
+                       <Font size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                       <Insets left="20.0" />
+                    </GridPane.margin>
+                 </Text>
+              </children>
+           </GridPane>
+           <TableView layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
+              <columns>
+                 <TableColumn prefWidth="75.0" text="C1" />
+                 <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+           </TableView>
+        </items>
+      </SplitPane>
    </children>
 </AnchorPane>

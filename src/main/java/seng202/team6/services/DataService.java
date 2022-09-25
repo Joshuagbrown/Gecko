@@ -91,4 +91,8 @@ public class DataService {
     public void updateUser(User user) {
         userDao.update(user);
     }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
 }
