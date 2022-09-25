@@ -1,3 +1,11 @@
+site:
+  stage: build
+  script:
+    - mvn -B clean site
+  artifacts:
+    paths:
+      - target/site/
+
 checkstyle:
   stage: build
   script:
@@ -7,12 +15,7 @@ junit:
   stage: test
   script:
     - mvn -B clean test
-
-generate_doc:
-  stage: deploy
-  script:
-    - mvn -B clean javadoc:jar
-
+    -
 generate_artifacts:
   stage: deploy
   script:
