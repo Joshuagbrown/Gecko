@@ -1,8 +1,7 @@
 package seng202.team6.repository;
 
-import seng202.team6.exceptions.DuplicateEntryException;
-
-import java.util.HashMap;
+import java.util.Map;
+import seng202.team6.exceptions.DatabaseException;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for
@@ -15,7 +14,7 @@ public interface DaoInterface<T> {
      * @param sql string sql that want to excute.
      * @return List of all objects type T from the database.
      */
-    HashMap<Integer, T> getAll(String sql);
+    Map<Integer, T> getAll(String sql);
 
     /**
      * Gets a single object of type T from the database by id.
@@ -29,9 +28,9 @@ public interface DaoInterface<T> {
      * Adds a single object of type T to database.
      * @param toAdd object of type T to add.
      * @return true if no error, false if sql error.
-     * @throws DuplicateEntryException the error.
+     * @throws DatabaseException the error.
      */
-    int add(T toAdd) throws DuplicateEntryException;
+    int add(T toAdd) throws DatabaseException;
 
     /**
      * Deletes and object from database that matches id given.

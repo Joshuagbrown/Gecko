@@ -2,7 +2,13 @@ package seng202.team6.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -14,7 +20,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
+import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.services.DataService;
 
 /**
@@ -96,6 +105,8 @@ public class MainScreenController {
     private LoginToolBarController loginToolBarController;
     private MyDetailsController myDetailsController;
     private MyDetailsToolBarController myDetailsToolBarController;
+
+    private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private User currentUser = null;
 
     /**
@@ -112,6 +123,8 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
+//        this.stations.
+        updateStationsFromDatabase(null);
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
@@ -163,6 +176,11 @@ public class MainScreenController {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
+
+    }
+
+    public ObservableMap<Integer, Station> getStations() {
+        return stations;
     }
 
     public User getCurrentUser() {
@@ -171,6 +189,12 @@ public class MainScreenController {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public void updateStationsFromDatabase(String sql) {
+        Map<Integer, Station> stationMap = dataService.fetchAllData(sql);
+        getStations().clear();
+        getStations().putAll(stationMap);
     }
 
     public Button getLoginPageBtn() {
@@ -194,7 +218,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the stage.
+     * Function to return the stage.
      * @return stage of main screen controller.
      */
     public Stage getStage() {
@@ -329,7 +353,16 @@ public class MainScreenController {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call()  {
-                    dataService.loadDataFromCsv(selectedFile);
+                    ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
+                    value.addListener((observable, oldValue, newValue) -> {
+                        updateProgress(newValue.getKey(), newValue.getValue());
+                        updateMessage(newValue.getKey() + " / " + newValue.getValue());
+                    });
+                    try {
+                        dataService.loadDataFromCsv(selectedFile, value);
+                    } catch (CsvFileException | DatabaseException e) {
+                        throw new RuntimeException(e);
+                    }
                     return null;
                 }
             };
@@ -338,9 +371,12 @@ public class MainScreenController {
             dialog.setTitle("Loading data");
             new Thread(task).start();
             dialog.showAndWait();
+            if (task.getState() == Worker.State.FAILED) {
+                AlertMessage.createMessage("An error occurred when importing data",
+                        task.getException().getCause().getMessage());
+            }
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
-            mapController.addStationsToMap(null);
-            dataController.loadData(null);
+            updateStationsFromDatabase(null);
         }
     }
 }
