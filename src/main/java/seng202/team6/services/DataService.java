@@ -12,10 +12,13 @@ import java.util.List;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.io.CsvImporter;
 import seng202.team6.models.Station;
+import seng202.team6.models.User;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.StationDao;
+import seng202.team6.repository.UserDao;
 
 /**
  * Service class to handle accessing and storing the necessary information.
@@ -24,6 +27,8 @@ import seng202.team6.repository.StationDao;
 public class DataService {
     private static final Logger log = LogManager.getLogger();
     private final StationDao dao = new StationDao();
+
+    private final UserDao userDao = new UserDao();
 
 
     /**
@@ -77,5 +82,9 @@ public class DataService {
      */
     public Map<Integer, Station> fetchAllData(String sql) {
         return dao.getAll(sql);
+    }
+
+    public void addUser(User user) throws DuplicateEntryException {
+        userDao.add(user);
     }
 }

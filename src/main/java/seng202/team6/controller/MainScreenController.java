@@ -128,6 +128,10 @@ public class MainScreenController {
         return mapController;
     }
 
+    public MapToolBarController getMapToolBarController() {
+        return mapToolBarController;
+    }
+
     /**
      * Funtion to return the stage.
      * @return stage of main screen controller.
