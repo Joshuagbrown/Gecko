@@ -18,6 +18,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 import org.json.simple.JSONObject;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.User;
 import seng202.team6.services.Validity;
@@ -101,7 +102,7 @@ public class SignUpController implements ScreenController {
             try {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
-            } catch (DuplicateEntryException e) {
+            } catch (DatabaseException e) {
                 AlertMessage.createMessage("Invalid username", "Username already in use.\nPick a new username");
             }
 

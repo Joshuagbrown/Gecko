@@ -1,11 +1,3 @@
-site:
-  stage: build
-  script:
-    - mvn -B clean site
-  artifacts:
-    paths:
-      - target/site/
-
 checkstyle:
   stage: build
   script:

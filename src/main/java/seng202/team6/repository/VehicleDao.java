@@ -2,6 +2,7 @@ package seng202.team6.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.Vehicle;
 
@@ -28,7 +29,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
 
 
     @Override
-    public int add(Vehicle toAdd) throws DuplicateEntryException {
+    public int add(Vehicle toAdd) throws DatabaseException {
 
         String vehiclesql = "INSERT INTO vehicles (make, model, plugtype, year, userId)"
                 + "values(?,?,?,?,?)";
@@ -36,7 +37,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
              PreparedStatement ps = conn.prepareStatement(vehiclesql);) {
             ps.setString(1,toAdd.getMake());
             ps.setString(2,toAdd.getModel());
-            ps.setString(3,toAdd.getType());
+            ps.setString(3,toAdd.getPlugType());
             ps.setInt(4,toAdd.getYear());
             ps.setInt(5,toAdd.getUserId());
 
@@ -48,7 +49,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
             }
             return insertId;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException("An error occurred adding a vehicle", e);
         }
 
     }
@@ -66,7 +67,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
 
             ps.setString(1, todelete.getMake());
             ps.setString(2,todelete.getModel());
-            ps.setString(3,todelete.getType());
+            ps.setString(3,todelete.getPlugType());
             ps.setInt(4,todelete.getYear());
 
             ps.executeUpdate();
@@ -87,7 +88,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
 
             ps.setString(1, toUpdate.getMake());
             ps.setString(2,toUpdate.getModel());
-            ps.setString(3,toUpdate.getType());
+            ps.setString(3,toUpdate.getPlugType());
             ps.setInt(4,toUpdate.getYear());
 
             ps.executeUpdate();

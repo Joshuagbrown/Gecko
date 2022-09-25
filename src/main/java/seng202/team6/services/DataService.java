@@ -86,7 +86,7 @@ public class DataService {
         return dao.getAll(sql);
     }
 
-    public void addUser(User user) throws DuplicateEntryException {
+    public void addUser(User user) throws DatabaseException {
         userDao.add(user);
     }
 

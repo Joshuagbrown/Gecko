@@ -3,6 +3,7 @@ package seng202.team6.repository;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.User;
 import seng202.team6.models.UserLoginDetails;
@@ -65,7 +66,7 @@ public class UserDao implements DaoInterface<User> {
     }
 
     @Override
-    public int add(User toAdd) throws DuplicateEntryException {
+    public int add(User toAdd) throws DatabaseException {
         String userSql = "INSERT INTO users (username, passwordHash, passwordSalt, address, name)"
                 + "values (?,?,?,?,?)";
 
@@ -86,9 +87,8 @@ public class UserDao implements DaoInterface<User> {
             return insertId;
         } catch (SQLException e) {
             if (e.getErrorCode() == 19) {
-                throw new DuplicateEntryException("Duplicate Entry");
+                throw new DatabaseException("A duplicate entry was found", e);
             }
-            log.error(e.getMessage(), e.getSQLState(), e.getErrorCode(), e.getClass().getName());
             return -1;
         }
     }
