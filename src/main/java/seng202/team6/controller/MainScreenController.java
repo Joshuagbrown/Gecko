@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
+import seng202.team6.models.User;
 import seng202.team6.services.DataService;
 
 /**
@@ -68,7 +69,7 @@ public class MainScreenController {
      */
     private Parent helpToolBarScreen;
     /**
-     * parent class for login screen to display login page
+     * parent class for login screen to display login page.
      */
     private Parent loginScreen;
     private Parent signUpScreen;
@@ -80,6 +81,7 @@ public class MainScreenController {
     private LoginController loginController;
     private SignUpController signUpController;
     private LoginToolBarController loginToolBarController;
+    private User currentUser = null;
 
 
     /**
@@ -139,6 +141,14 @@ public class MainScreenController {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     /**

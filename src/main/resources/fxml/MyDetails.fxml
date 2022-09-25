@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.MyDetails">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
    <children>
       <GridPane layoutX="112.0" layoutY="138.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -19,7 +19,7 @@
             <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="editDetailsButton" mnemonicParsing="false" text="Edit Details" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+            <Button fx:id="editDetailsButton" mnemonicParsing="false" onAction="#editDetails" text="Edit Details" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font>
@@ -27,7 +27,7 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="confirmEditButton" mnemonicParsing="false" text="Confirm Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditButton" text="Confirm Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin>
@@ -35,7 +35,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" text="Cancel Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditButton" text="Cancel Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin>

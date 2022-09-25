@@ -20,6 +20,7 @@ import javax.crypto.spec.PBEKeySpec;
 import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.User;
+import seng202.team6.services.Validity;
 
 public class SignUpController implements ScreenController {
     private MainScreenController controller;
@@ -47,9 +48,11 @@ public class SignUpController implements ScreenController {
     private String name = null;
     private String password = null;
     private String address = null;
+    private Validity valid;
 
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
+        valid = new Validity(controller);
     }
 
     /**
@@ -59,29 +62,28 @@ public class SignUpController implements ScreenController {
      * @throws InvalidKeySpecException If the key is invalid.
      */
     public void signUp(ActionEvent actionEvent) throws NoSuchAlgorithmException, InvalidKeySpecException, DuplicateEntryException, IOException, InterruptedException {
-        if (usernameSignUp.getText().matches("[a-zA-Z0-9]+")
-                && !Objects.equals(usernameSignUp.getText(), "")) {
+        if (Validity.checkUserName(usernameSignUp.getText())) {
             username = usernameSignUp.getText();
             invalidUsername.setVisible(false);
         } else {
             usernameSignUp.setText("");
             invalidUsername.setVisible(true);
         }
-        if (nameSignUp.getText().matches("[a-zA-Z\\s]+")) {
+        if (Validity.checkName(nameSignUp.getText())) {
             name = nameSignUp.getText();
             invalidName.setVisible(false);
         } else {
             nameSignUp.setText("");
             invalidName.setVisible(true);
         }
-        if (passwordSignUp.getText().length() >= 8) {
+        if (Validity.checkPassword(passwordSignUp.getText())) {
             password = passwordSignUp.getText();
             invalidPassword.setVisible(false);
         } else {
             passwordSignUp.setText("");
             invalidPassword.setVisible(true);
         }
-        if ( controller.getMapToolBarController().geoCode(addressSignUp.getText()) != null) {
+        if (valid.checkAddress(addressSignUp.getText())) {
             address = addressSignUp.getText();
             invalidAddress.setVisible(false);
         } else {

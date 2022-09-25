@@ -87,4 +87,8 @@ public class DataService {
     public void addUser(User user) throws DuplicateEntryException {
         userDao.add(user);
     }
+
+    public void updateUser(User user) {
+        userDao.update(user);
+    }
 }
