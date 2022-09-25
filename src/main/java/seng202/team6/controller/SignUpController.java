@@ -94,7 +94,12 @@ public class SignUpController implements ScreenController {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] hash = factory.generateSecret(spec).getEncoded();
             User user = new User(username, hash, salt, address, name);
-            controller.getDataService().addUser(user);
+            try {
+                controller.getDataService().addUser(user);
+            } catch (DuplicateEntryException e) {
+                AlertMessage.createMessage("Invalid username", "Username already in use.\nPick a new username");
+            }
+
         }
     }
 }
