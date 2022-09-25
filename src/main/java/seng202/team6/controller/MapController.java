@@ -1,6 +1,7 @@
 package seng202.team6.controller;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -51,9 +52,16 @@ public class MapController implements ScreenController {
      * Function to call the edit station pop-up.
      * @param stationId
      */
-    public void editStation(String stationId) {
-
-
+    public void editStation(String stationId) throws IOException {
+        int id = Integer.parseInt(stationId);
+        String sql = "SELECT * FROM STATIONS WHERE stationId == " + stationId;
+        HashMap<Integer, Station> stationList = stationDao.getAll(sql);
+        System.out.println(stationList.isEmpty());
+        Station station = stationList.get(id);
+        System.out.println(station.getAddress());
+        StationController stationController = new StationController(id);
+        stationController.setFields(station);
+        stationController.loadWindow();
     }
 
 

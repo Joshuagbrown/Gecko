@@ -10,6 +10,9 @@ import javafx.scene.control.ToggleButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import seng202.team6.models.Position;
+import seng202.team6.models.Station;
+import seng202.team6.repository.StationDao;
 
 import java.io.IOException;
 
@@ -31,18 +34,36 @@ public class StationController {
     public Stage stage;
     @FXML
     public TextField nameField;
+    private int stationId;
+
+    public StationController(int id) {
+        stationId = id;
+    }
 
 
-    public void StationController(int id) {
+    public void setFields(Station station) {
+        nameField.setText(station.getName());
+        Position pos = station.getCoordinates();
+        xField.setText(String.valueOf(pos.getLatitude()));
+        yField.setText(String.valueOf(pos.getLongitude()));
+        addressField.setText(station.getAddress());
 
+        if (station.is24Hours()) {
+            hoursButton.setSelected(true);
+        } else {
+            hoursButton.setSelected(false);
+        }
 
+        if (station.isHasTouristAttraction()) {
+            touristButton.setSelected(true);
+        } else {
+            touristButton.setSelected(false);
+        }
 
     }
 
 
-
-    public void load() throws IOException {
-
+    public void loadWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         Parent root = (Parent) loader.load();
         Scene scene = new Scene(root);
@@ -54,9 +75,5 @@ public class StationController {
         stage.show();
 
     }
-
-
-
-
 
 }

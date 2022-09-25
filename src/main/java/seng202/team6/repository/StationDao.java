@@ -175,7 +175,9 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public Station getStation(int stationId) {
-        return null;
+        String sql = "SELECT * FROM STATIONS WHERE stationId = " + stationId;
+        HashMap<Integer, Station> stations = getAll(sql);
+        return stations.get(stationId);
     }
 
 

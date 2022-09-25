@@ -1,5 +1,7 @@
 package seng202.team6.business;
 
+import java.io.IOException;
+
 /**
  * A class created to provide the ability to "bridge" from javascript (used within the OSM html)
  * to java.
@@ -41,8 +43,7 @@ public class JavaScriptBridge {
      * function to get initiate the edit station pop-up.
      * @param id
      */
-    public void editStation(String id)
-    {
+    public void editStation(String id) throws IOException {
         editStationInterface.operation(id);
     }
 
