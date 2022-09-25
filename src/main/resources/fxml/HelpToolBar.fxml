@@ -4,7 +4,7 @@
 
 <ToolBar focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.HelpToolBarController">
   <items>
-    <Button fx:id="mapHelpButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loadMapHelp" text="Map Help Page" />
+    <Button fx:id="mapHelpButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loadMapHelp" text="Map Help Page"/>
     <Button fx:id="dataHelpButton" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loadDataHelp" text="Data Help Page" />
   </items>
 </ToolBar>

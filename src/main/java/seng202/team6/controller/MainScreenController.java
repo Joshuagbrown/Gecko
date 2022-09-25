@@ -1,7 +1,8 @@
 package seng202.team6.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -282,11 +284,35 @@ public class MainScreenController {
         loadMapViewAndToolBars(null);
     }
 
+    public void loadGeckoFact(InputStream file) {
+        loginController.funFactBox.clear();
+
+        List<String> lines = new ArrayList<>();
+        String line;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(file));
+
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        int min = 0;
+        int max = 9;
+        int randomLine = (int) Math.floor(Math.random()*(max-min+1)+min);
+        String funFact = lines.get(randomLine);
+        loginController.funFactBox.appendText(funFact);
+        loginController.funFactBox.setFont(new Font("Courier", 16));
+    }
+
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
         if (currentUser == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
             mainBorderPane.setRight(null);
+            loadGeckoFact(getClass().getResourceAsStream("/TextFiles/FunFacts.txt"));
         } else {
             loadMyDetailsViewAndToolBars();
         }

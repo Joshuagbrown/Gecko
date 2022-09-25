@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -62,7 +63,7 @@ public class SignUpController implements ScreenController {
      * @throws NoSuchAlgorithmException If the algorithm doesn't exist.
      * @throws InvalidKeySpecException If the key is invalid.
      */
-    public void signUp(ActionEvent actionEvent) throws NoSuchAlgorithmException, InvalidKeySpecException, DuplicateEntryException, IOException, InterruptedException {
+    public void signUp(ActionEvent actionEvent) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, InterruptedException {
         if (Validity.checkUserName(usernameSignUp.getText())) {
             username = usernameSignUp.getText();
             invalidUsername.setVisible(false);
