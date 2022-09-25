@@ -32,11 +32,14 @@ public class UserDao implements DaoInterface<User> {
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(userSql);
              ResultSet rs = ps.executeQuery()) {
-            return new UserLoginDetails(
-                    rs.getInt("userId"),
-                    rs.getBlob("passwordHash").getBytes(0, 20),
-                    rs.getBlob("passwordSalt").getBytes(0, 16)
-            );
+            if (rs.next()) {
+                return new UserLoginDetails(
+                        rs.getInt("userId"),
+                        rs.getBlob("passwordHash").getBytes(0, 20),
+                        rs.getBlob("passwordSalt").getBytes(0, 16)
+                );
+            }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

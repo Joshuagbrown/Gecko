@@ -209,7 +209,7 @@ public class MainScreenController {
     }
 
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
-        mainBorderPane.setCenter(signUpScreen);
+        mainBorderPane.setCenter(loginScreen);
         toolBarPane.setCenter(null);
         mainBorderPane.setRight(null);
     }
