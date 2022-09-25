@@ -4,6 +4,7 @@ package seng202.team6.models;
  * Represents a charger at a charging station.
  */
 public class Charger {
+    private int chargerId = -1;
     private String plugType;
     private String operative;
     private int wattage;
@@ -19,6 +20,11 @@ public class Charger {
         this.plugType = plugType;
         this.operative = operative;
         this.wattage = wattage;
+    }
+
+    public Charger(String plugType, String operative, int wattage, int chargerId) {
+        this(plugType, operative, wattage);
+        this.chargerId = chargerId;
     }
 
     /**
@@ -46,6 +52,10 @@ public class Charger {
      */
     public int getWattage() {
         return wattage;
+    }
+
+    public int getChargerId() {
+        return chargerId;
     }
 
     public String toString() {

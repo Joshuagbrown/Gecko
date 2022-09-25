@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -13,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
+import seng202.team6.models.User;
 import seng202.team6.services.DataService;
 
 /**
@@ -41,6 +43,7 @@ public class MainScreenController {
      */
     @FXML
     public Text geckoTitle;
+    public Button loginPageBtn;
     private Stage stage;
     private DataService dataService;
     /**
@@ -67,11 +70,33 @@ public class MainScreenController {
      * parent class for help toolbar screen to display help toolbar.
      */
     private Parent helpToolBarScreen;
+    /**
+     * parent class for login screen to display login page.
+     */
+    private Parent loginScreen;
+    /**
+     * parent class for sign up screen to display sign up page.
+     */
+    private Parent signUpScreen;
+    /**
+     * parent class for login toolbar screen to display login toolbar.
+     */
+    private Parent loginToolBarScreen;
+    private Parent myDetailsScreen;
+    /**
+     * parent class for the details toolbar screen to display the details toolbar.
+     */
+    private Parent myDetailsToolBarScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
-
+    private LoginController loginController;
+    private SignUpController signUpController;
+    private LoginToolBarController loginToolBarController;
+    private MyDetailsController myDetailsController;
+    private MyDetailsToolBarController myDetailsToolBarController;
+    private User currentUser = null;
 
     /**
      * Initialize the window by loading necessary screen and
@@ -83,8 +108,8 @@ public class MainScreenController {
      */
     void init(Stage stage, DataService dataService) {
         Pair<Parent, ScreenController> pair;
-
         LoadScreen screen = new LoadScreen();
+
         this.stage = stage;
         this.dataService = dataService;
 
@@ -112,6 +137,26 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/HelpToolBar.fxml", this);
             helpToolBarScreen = pair.getKey();
 
+            pair = screen.loadBigScreen(stage, "/fxml/LogIn.fxml", this);
+            loginScreen = pair.getKey();
+            loginController = (LoginController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/SignUp.fxml", this);
+            signUpScreen = pair.getKey();
+            signUpController = (SignUpController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/LoginToolBar.fxml", this);
+            loginToolBarScreen = pair.getKey();
+            loginToolBarController = (LoginToolBarController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/MyDetails.fxml", this);
+            myDetailsScreen = pair.getKey();
+            myDetailsController = (MyDetailsController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBar.fxml", this);
+            myDetailsToolBarScreen = pair.getKey();
+            myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
+
             loadMapViewAndToolBars();
 
         } catch (IOException e) {
@@ -120,12 +165,32 @@ public class MainScreenController {
         stage.sizeToScene();
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public Button getLoginPageBtn() {
+        return loginPageBtn;
+    }
+
+    public void setLoginBtnText() {
+        this.loginPageBtn.setText("My Details");
+    }
+
     /**
      * Function to return the map controller.
      * @return mapController.
      */
     public MapController getMapController() {
         return mapController;
+    }
+
+    public MapToolBarController getMapToolBarController() {
+        return mapToolBarController;
     }
 
     /**
@@ -161,6 +226,18 @@ public class MainScreenController {
     }
 
     /**
+     * Funtion to return the login controller.
+     * @return loginController the login controller.
+     */
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    public MyDetailsController getMyDetailsController() {
+        return myDetailsController;
+    }
+
+    /**
      * The action handler that linked to the map button on main screen.
      *
      * @param actionEvent Top level container for this window.
@@ -179,6 +256,34 @@ public class MainScreenController {
      */
     public void loadMapViewAndToolBars() {
         loadMapViewAndToolBars(null);
+    }
+
+    public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
+        if (currentUser == null) {
+            mainBorderPane.setCenter(loginScreen);
+            toolBarPane.setCenter(loginToolBarScreen);
+            mainBorderPane.setRight(null);
+        } else {
+            loadMyDetailsViewAndToolBars();
+        }
+
+    }
+    public void loadSignUpViewAndToolBars() {
+        mainBorderPane.setCenter(signUpScreen);
+    }
+
+    public void loadMyDetailsViewAndToolBars() {
+        mainBorderPane.setCenter(myDetailsScreen);
+        toolBarPane.setCenter(myDetailsToolBarScreen);
+        mainBorderPane.setRight(null);
+    }
+
+    public void loginUser(User user) {
+        setCurrentUser(user);
+        loadMyDetailsViewAndToolBars();
+        getMyDetailsController().loadUserData();
+        loadMapViewAndToolBars();
+        setLoginBtnText();
     }
 
     /**
