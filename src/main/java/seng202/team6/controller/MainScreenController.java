@@ -72,8 +72,18 @@ public class MainScreenController {
      * parent class for login screen to display login page.
      */
     private Parent loginScreen;
+    /**
+     * parent class for sign up screen to display sign up page.
+     */
     private Parent signUpScreen;
+    /**
+     * parent class for login toolbar screen to display login toolbar.
+     */
     private Parent loginToolBarScreen;
+    /**
+     * parent class for the details toolbar screen to display the details toolbar.
+     */
+    private Parent myDetailsToolBarScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
@@ -81,6 +91,7 @@ public class MainScreenController {
     private LoginController loginController;
     private SignUpController signUpController;
     private LoginToolBarController loginToolBarController;
+    private MyDetailsToolBarController myDetailsToolBarController;
     private User currentUser = null;
 
 
@@ -134,6 +145,10 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/LoginToolBar.fxml", this);
             loginToolBarScreen = pair.getKey();
             loginToolBarController = (LoginToolBarController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBarController.fxml", this);
+            myDetailsToolBarScreen = pair.getKey();
+            myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
             loadMapViewAndToolBars();
 
