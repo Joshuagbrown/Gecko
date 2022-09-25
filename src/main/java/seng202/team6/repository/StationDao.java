@@ -1,17 +1,13 @@
 package seng202.team6.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.exceptions.DuplicateEntryException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -103,19 +99,35 @@ public class StationDao implements DaoInterface<Station> {
         throw new NotImplementedException();
     }
 
+    private void addChargers(List<Charger> chargers, int stationId) throws SQLException {
+        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
+                + "values (?,?,?,?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
+            for (Charger charger : chargers) {
+                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
+                    ps.setInt(1, stationId);
+                    ps.setString(2, charger.getPlugType());
+                    ps.setInt(3, charger.getWattage());
+                    ps.setString(4, charger.getOperative());
+                    ps.executeUpdate();
+                }
+            }
+        }
+    }
+
     /**
      * Adds a station to the database.
      * @param toAdd object of type T to add.
      * @return The id of the station in the db, or -1 if there was an error.
      */
     @Override
-    public int add(Station toAdd) throws DuplicateEntryException {
+    public int add(Station toAdd) throws DatabaseException {
         String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
                 + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
                 + "chargingCost, hasTouristAttraction, lat, long)"
                 + "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
-                + "values (?,?,?,?)";
+
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, toAdd.getObjectId());
@@ -138,27 +150,13 @@ public class StationDao implements DaoInterface<Station> {
             if (rs.next()) {
                 insertId = rs.getInt(1);
             }
-
-            for (Charger charger : toAdd.getChargers()) {
-                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
-                    ps2.setInt(1, insertId);
-                    ps2.setString(2, charger.getPlugType());
-                    ps2.setInt(3, charger.getWattage());
-                    ps2.setString(4, charger.getOperative());
-
-                    ps2.executeUpdate();
-                } catch (SQLException sqlException) {
-                    log.error(sqlException);
-                    return -1;
-                }
-            }
+            addChargers(toAdd.getChargers(), insertId);
             return insertId;
-        } catch (SQLException sqlException) {
-            if (sqlException.getErrorCode() == 19) {
-                throw new DuplicateEntryException("Duplicate Entry");
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
+                throw new DatabaseException("A duplicate entry was provided", e);
             }
-            log.error(sqlException.getMessage());
-            return -1;
+            throw new DatabaseException("A database error occurred", e);
         }
     }
 
