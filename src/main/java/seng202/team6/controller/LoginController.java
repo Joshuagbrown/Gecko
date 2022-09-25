@@ -62,6 +62,7 @@ public class LoginController implements ScreenController {
                 controller.setCurrentUser(userDao.getOne(userDetails.getUserId()));
                 controller.loadMapViewAndToolBars();
                 controller.setLoginBtnText("My Details");
+                controller.loadMyDetailsViewAndToolBars();
             } else {
                 passwordLogin.clear();
                 errorText.setText("You have entered an invalid username or password");

@@ -265,10 +265,10 @@ public class MainScreenController {
         mainBorderPane.setCenter(signUpScreen);
     }
 
-    public void loadMyDetailsViewAndToolBars() throws IOException {
-        pair = screen.loadBigScreen(stage, "/fxml/MyDetails.fxml", this);
-        myDetailsScreen = pair.getKey();
-        myDetailsController = (MyDetailsController) pair.getValue();
+    public void loadMyDetailsViewAndToolBars() {
+            pair = screen.loadBigScreen(stage, "/fxml/MyDetails.fxml", this);
+            myDetailsScreen = pair.getKey();
+            myDetailsController = (MyDetailsController) pair.getValue();
     }
 
     /**
