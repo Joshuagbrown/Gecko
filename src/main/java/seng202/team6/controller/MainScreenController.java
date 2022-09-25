@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -42,6 +43,7 @@ public class MainScreenController {
      */
     @FXML
     public Text geckoTitle;
+    public Button loginPageBtn;
     private Stage stage;
     private DataService dataService;
     /**
@@ -74,6 +76,7 @@ public class MainScreenController {
     private Parent loginScreen;
     private Parent signUpScreen;
     private Parent loginToolBarScreen;
+    private Parent myDetailsScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
@@ -81,7 +84,12 @@ public class MainScreenController {
     private LoginController loginController;
     private SignUpController signUpController;
     private LoginToolBarController loginToolBarController;
+    private MyDetailsController myDetailsController;
     private User currentUser = null;
+
+    Pair<Parent, ScreenController> pair;
+
+    LoadScreen screen = new LoadScreen();
 
 
     /**
@@ -93,9 +101,9 @@ public class MainScreenController {
      *
      */
     void init(Stage stage, DataService dataService) {
-        Pair<Parent, ScreenController> pair;
 
-        LoadScreen screen = new LoadScreen();
+
+
         this.stage = stage;
         this.dataService = dataService;
 
@@ -135,6 +143,8 @@ public class MainScreenController {
             loginToolBarScreen = pair.getKey();
             loginToolBarController = (LoginToolBarController) pair.getValue();
 
+
+
             loadMapViewAndToolBars();
 
         } catch (IOException e) {
@@ -149,6 +159,14 @@ public class MainScreenController {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public Button getLoginPageBtn() {
+        return loginPageBtn;
+    }
+
+    public void setLoginBtnText(String text) {
+        this.loginPageBtn.setText(text);
     }
 
     /**
@@ -234,7 +252,11 @@ public class MainScreenController {
         mainBorderPane.setCenter(signUpScreen);
     }
 
-
+    public void loadMyDetailsViewAndToolBars() throws IOException {
+        pair = screen.loadBigScreen(stage, "/fxml/MyDetails.fxml", this);
+        myDetailsScreen = pair.getKey();
+        myDetailsController = (MyDetailsController) pair.getValue();
+    }
 
     /**
      * The action handler that linked to the map button on main screen.

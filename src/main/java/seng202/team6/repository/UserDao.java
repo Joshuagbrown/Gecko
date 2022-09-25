@@ -23,7 +23,25 @@ public class UserDao implements DaoInterface<User> {
 
     @Override
     public User getOne(int id) {
-        throw new NotImplementedException();
+        String userSql = "SELECT * FROM users WHERE userId = (?)";
+
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(userSql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getString("username"),
+                        rs.getBytes("passwordHash"),
+                        rs.getBytes("passwordSalt"),
+                        rs.getString("address"),
+                        rs.getString("name")
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public UserLoginDetails getLoginDetails(String username) {
@@ -91,8 +109,8 @@ public class UserDao implements DaoInterface<User> {
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(userSql)) {
             ps.setString(1, toUpdate.getUsername());
-            ps.setBlob(2, new SerialBlob(toUpdate.getPasswordHash()));
-            ps.setBlob(3, new SerialBlob(toUpdate.getPasswordSalt()));
+            ps.setBytes(2, toUpdate.getPasswordHash());
+            ps.setBytes(3, toUpdate.getPasswordSalt());
             ps.setString(4, toUpdate.getAddress());
             ps.setString(5, toUpdate.getName());
             ps.setString(6, toUpdate.getName());
