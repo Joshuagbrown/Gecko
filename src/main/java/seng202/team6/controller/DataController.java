@@ -3,6 +3,8 @@ package seng202.team6.controller;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -83,12 +85,14 @@ public class DataController implements ScreenController {
                         .map(Charger::getPlugType)
                         .collect(Collectors.joining(","))));
 
-        try {
-            Map<Integer, Station> stations = controller.getDataService().fetchAllData(sql);
-            table.getItems().addAll(stations.values());
-        } catch (Exception e) {
-            log.error(e);
-        }
+        controller.getStations().addListener((MapChangeListener<Integer, Station>) change -> {
+            if (change.wasAdded()) {
+                table.getItems().add(change.getValueAdded());
+            }
+            if (change.wasRemoved()) {
+                table.getItems().remove(change.getValueRemoved());
+            }
+        });
     }
 
     /**
