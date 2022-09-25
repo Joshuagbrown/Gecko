@@ -71,11 +71,13 @@ public class MainScreenController {
      * parent class for login screen to display login page
      */
     private Parent loginScreen;
+    private Parent signUpScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
     private LoginController loginController;
+    private SignUpController signUpController;
 
 
     /**
@@ -120,6 +122,10 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/LogIn.fxml", this);
             loginScreen = pair.getKey();
             loginController = (LoginController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/SignUp.fxml", this);
+            signUpScreen = pair.getKey();
+            signUpController = (SignUpController) pair.getValue();
 
             loadMapViewAndToolBars();
 
@@ -203,7 +209,7 @@ public class MainScreenController {
     }
 
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
-        mainBorderPane.setCenter(loginScreen);
+        mainBorderPane.setCenter(signUpScreen);
         toolBarPane.setCenter(null);
         mainBorderPane.setRight(null);
     }
