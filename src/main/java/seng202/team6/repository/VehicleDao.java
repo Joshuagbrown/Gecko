@@ -62,7 +62,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
      * Delete a vehicle from the database.
      * @param todelete the vehicle to delete
      */
-    public void deleteVehicle (Vehicle todelete) {
+    public void deleteVehicle(Vehicle todelete) {
         String vehicleSql = "DELETE FROM vehicles WHERE make = (?) AND "
                 + "model = ? AND plugtype = ? AND year = ?";
         try (Connection conn = databaseManager.connect();
