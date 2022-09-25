@@ -1,19 +1,18 @@
 package seng202.team6.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import seng202.team6.repository.UserDao;
-import seng202.team6.models.UserLoginDetails;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import seng202.team6.models.UserLoginDetails;
+import seng202.team6.repository.UserDao;
 
 public class LoginController implements ScreenController {
 
@@ -58,8 +57,8 @@ public class LoginController implements ScreenController {
         UserLoginDetails userDetails = userDao.getLoginDetails(username);
         if (userDetails != null) {
             byte[] hashedPassword = hashPassword(passwordLogin.getText(), userDetails.getPasswordSalt());
-            if (hashedPassword == userDetails.getPasswordHash()) {
-                System.out.println("Success");
+            if (Arrays.equals(hashedPassword,userDetails.getPasswordHash())) {
+                errorText.setText("");
             } else {
                 passwordLogin.clear();
                 errorText.setText("You have entered an invalid username or password");

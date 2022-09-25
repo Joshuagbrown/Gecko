@@ -30,13 +30,14 @@ public class UserDao implements DaoInterface<User> {
         String userSql = "SELECT userId, passwordHash, passwordSalt FROM users WHERE username = (?)";
 
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(userSql);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(userSql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new UserLoginDetails(
                         rs.getInt("userId"),
-                        rs.getBlob("passwordHash").getBytes(0, 20),
-                        rs.getBlob("passwordSalt").getBytes(0, 16)
+                        rs.getBytes("passwordHash"),
+                        rs.getBytes("passwordSalt")
                 );
             }
             return null;
