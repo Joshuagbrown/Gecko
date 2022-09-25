@@ -8,6 +8,11 @@ junit:
   script:
     - mvn -B clean test
 
+generate_doc:
+  stage: deploy
+  script:
+    - mvn -B clean javadoc:jar
+
 generate_artifacts:
   stage: deploy
   script:
