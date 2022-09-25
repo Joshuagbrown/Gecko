@@ -48,6 +48,10 @@ public class Charger {
         return wattage;
     }
 
+    /**
+     * Returns the string value of this charger.
+     * @return The string value of this charger
+     */
     public String toString() {
         return this.wattage + " kW " + plugType + ", Status: " + operative;
     }
