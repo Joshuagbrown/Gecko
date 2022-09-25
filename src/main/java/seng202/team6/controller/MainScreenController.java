@@ -72,12 +72,14 @@ public class MainScreenController {
      */
     private Parent loginScreen;
     private Parent signUpScreen;
+    private Parent loginToolBarScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
     private LoginController loginController;
     private SignUpController signUpController;
+    private LoginToolBarController loginToolBarController;
 
 
     /**
@@ -126,6 +128,10 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/SignUp.fxml", this);
             signUpScreen = pair.getKey();
             signUpController = (SignUpController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/LoginToolBar.fxml", this);
+            loginToolBarScreen = pair.getKey();
+            loginToolBarController = (LoginToolBarController) pair.getValue();
 
             loadMapViewAndToolBars();
 
@@ -209,10 +215,16 @@ public class MainScreenController {
     }
 
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
-        mainBorderPane.setCenter(signUpScreen);
-        toolBarPane.setCenter(null);
+        mainBorderPane.setCenter(loginScreen);
+        toolBarPane.setCenter(loginToolBarScreen);
         mainBorderPane.setRight(null);
+
     }
+    public void loadSignUpViewAndToolBars() {
+        mainBorderPane.setCenter(signUpScreen);
+    }
+
+
 
     /**
      * The action handler that linked to the map button on main screen.
