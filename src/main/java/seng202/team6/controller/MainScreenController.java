@@ -153,7 +153,7 @@ public class MainScreenController {
             myDetailsScreen = pair.getKey();
             myDetailsController = (MyDetailsController) pair.getValue();
 
-            pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBarController.fxml", this);
+            pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBar.fxml", this);
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
