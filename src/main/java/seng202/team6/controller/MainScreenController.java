@@ -1,15 +1,10 @@
 package seng202.team6.controller;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.stream.Stream;
-
-import javafx.beans.property.*;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.WritableDoubleValue;
-import javafx.beans.value.WritableIntegerValue;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -20,6 +15,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
+import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.services.DataService;
 
 /**
@@ -136,7 +133,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the stage.
+     * Function to return the stage.
      * @return stage of main screen controller.
      */
     public Stage getStage() {
