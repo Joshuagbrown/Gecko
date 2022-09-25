@@ -1,7 +1,21 @@
+site:
+  stage: build
+  script:
+    - mvn -B clean site
+  artifacts:
+    paths:
+      - target/site/
+
+checkstyle:
+  stage: build
+  script:
+    - mvn -B clean validate
+
 junit:
   stage: test
   script:
     - mvn -B clean test
+
 generate_artifacts:
   stage: deploy
   script:

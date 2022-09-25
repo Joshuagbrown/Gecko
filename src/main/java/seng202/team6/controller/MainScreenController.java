@@ -3,11 +3,12 @@ package seng202.team6.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -21,6 +22,8 @@ import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.services.DataService;
 
 /**
@@ -215,7 +218,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the stage.
+     * Function to return the stage.
      * @return stage of main screen controller.
      */
     public Stage getStage() {
@@ -350,7 +353,16 @@ public class MainScreenController {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call()  {
-                    dataService.loadDataFromCsv(selectedFile);
+                    ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
+                    value.addListener((observable, oldValue, newValue) -> {
+                        updateProgress(newValue.getKey(), newValue.getValue());
+                        updateMessage(newValue.getKey() + " / " + newValue.getValue());
+                    });
+                    try {
+                        dataService.loadDataFromCsv(selectedFile, value);
+                    } catch (CsvFileException | DatabaseException e) {
+                        throw new RuntimeException(e);
+                    }
                     return null;
                 }
             };
@@ -359,6 +371,11 @@ public class MainScreenController {
             dialog.setTitle("Loading data");
             new Thread(task).start();
             dialog.showAndWait();
+            if (task.getState() == Worker.State.FAILED) {
+                AlertMessage.createMessage("An error occurred when importing data",
+                        task.getException().getCause().getMessage());
+            }
+            mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
             updateStationsFromDatabase(null);
         }
     }
