@@ -49,11 +49,12 @@ public class UserDao implements DaoInterface<User> {
     public int add(User toAdd) throws DuplicateEntryException {
         String userSql = "INSERT INTO users (username, passwordHash, passwordSalt, address, name)"
                 + "values (?,?,?,?,?)";
+
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(userSql)) {
             ps.setString(1, toAdd.getUsername());
-            ps.setBlob(2, new SerialBlob(toAdd.getPasswordHash()));
-            ps.setBlob(3, new SerialBlob(toAdd.getPasswordSalt()));
+            ps.setBytes(2, toAdd.getPasswordHash());
+            ps.setBytes(3, toAdd.getPasswordSalt());
             ps.setString(4, toAdd.getAddress());
             ps.setString(5, toAdd.getName());
 
@@ -68,7 +69,7 @@ public class UserDao implements DaoInterface<User> {
             if (e.getErrorCode() == 19) {
                 throw new DuplicateEntryException("Duplicate Entry");
             }
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e.getSQLState(), e.getErrorCode(), e.getClass().getName());
             return -1;
         }
     }

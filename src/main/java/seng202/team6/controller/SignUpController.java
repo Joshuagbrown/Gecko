@@ -16,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+
+import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DuplicateEntryException;
 import seng202.team6.models.User;
 
@@ -79,7 +81,7 @@ public class SignUpController implements ScreenController {
             passwordSignUp.setText("");
             invalidPassword.setVisible(true);
         }
-        if (controller.getMapToolBarController().geoCode(addressSignUp.getText()) != null) {
+        if ( controller.getMapToolBarController().geoCode(addressSignUp.getText()) != null) {
             address = addressSignUp.getText();
             invalidAddress.setVisible(false);
         } else {
