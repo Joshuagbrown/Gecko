@@ -67,10 +67,15 @@ public class MainScreenController {
      * parent class for help toolbar screen to display help toolbar.
      */
     private Parent helpToolBarScreen;
+    /**
+     * parent class for login screen to display login page
+     */
+    private Parent loginScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
+    private LoginController loginController;
 
 
     /**
@@ -111,6 +116,10 @@ public class MainScreenController {
 
             pair = screen.loadBigScreen(stage, "/fxml/HelpToolBar.fxml", this);
             helpToolBarScreen = pair.getKey();
+
+            pair = screen.loadBigScreen(stage, "/fxml/LogIn.fxml", this);
+            loginScreen = pair.getKey();
+            loginController = (LoginController) pair.getValue();
 
             loadMapViewAndToolBars();
 
@@ -161,6 +170,14 @@ public class MainScreenController {
     }
 
     /**
+     * Funtion to return the login controller.
+     * @return loginController the login controller.
+     */
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    /**
      * The action handler that linked to the map button on main screen.
      *
      * @param actionEvent Top level container for this window.
@@ -179,6 +196,12 @@ public class MainScreenController {
      */
     public void loadMapViewAndToolBars() {
         loadMapViewAndToolBars(null);
+    }
+
+    public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
+        mainBorderPane.setCenter(loginScreen);
+        toolBarPane.setCenter(null);
+        mainBorderPane.setRight(null);
     }
 
     /**
