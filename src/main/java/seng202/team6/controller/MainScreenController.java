@@ -181,28 +181,51 @@ public class MainScreenController {
 
     }
 
+    /**
+     * Function to get the stations
+     * @return something???????????
+     */
     public ObservableMap<Integer, Station> getStations() {
         return stations;
     }
 
+    /**
+     * Function that returns the current user.
+     * @return currentUser the current user.
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Function to set the current user.
+     * @param currentUser the current user.
+     */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Function to update the stations.
+     * @param sql the sql query.
+     */
     public void updateStationsFromDatabase(String sql) {
         Map<Integer, Station> stationMap = dataService.fetchAllData(sql);
         getStations().clear();
         getStations().putAll(stationMap);
     }
 
+    /**
+     * Function to return the loginPage button.
+     * @return the login page button.
+     */
     public Button getLoginPageBtn() {
         return loginPageBtn;
     }
 
+    /**
+     * Changing the text of the button.
+     */
     public void setLoginBtnText() {
         this.loginPageBtn.setText("My Details");
     }
@@ -215,6 +238,10 @@ public class MainScreenController {
         return mapController;
     }
 
+    /**
+     * Function to return the map toolbar controller.
+     * @return map toolbar controller.
+     */
     public MapToolBarController getMapToolBarController() {
         return mapToolBarController;
     }
@@ -228,7 +255,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the data service.
+     * Function to return the data service.
      * @return data service. of main screen controller.
      */
     public DataService getDataService() {
@@ -236,7 +263,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the help controller.
+     * Function to return the help controller.
      * @return help controller.
      */
     public HelpController getHelpController() {
@@ -244,7 +271,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the data controller.
+     * Function to return the data controller.
      * @return data controller.
      */
     public DataController getDataController() {
@@ -252,13 +279,17 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the login controller.
+     * Function to return the login controller.
      * @return loginController the login controller.
      */
     public LoginController getLoginController() {
         return loginController;
     }
 
+    /**
+     * Function to return the 'My Details' controller.
+     * @return myDetailsController the 'my details' controller.
+     */
     public MyDetailsController getMyDetailsController() {
         return myDetailsController;
     }
@@ -284,6 +315,10 @@ public class MainScreenController {
         loadMapViewAndToolBars(null);
     }
 
+    /**
+     * Pick random fun fact and loads it into the text area.
+     * @param file the Fun fact text file
+     */
     public void loadGeckoFact(InputStream file) {
         loginController.funFactBox.clear();
 
@@ -307,6 +342,10 @@ public class MainScreenController {
         loginController.funFactBox.setFont(new Font("Courier", 16));
     }
 
+    /**
+     * The action handler that linked to the Login button on main screen.
+     * @param actionEvent when Login button is clicked
+     */
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
         if (currentUser == null) {
             mainBorderPane.setCenter(loginScreen);
@@ -318,10 +357,17 @@ public class MainScreenController {
         }
 
     }
+
+    /**
+     * The action handler that linked to the sign-up button on toolbar screen.
+     */
     public void loadSignUpViewAndToolBars() {
         mainBorderPane.setCenter(signUpScreen);
     }
 
+    /**
+     * The action handler that linked to the 'My Details' button on main screen.
+     */
     public void loadMyDetailsViewAndToolBars() {
         mainBorderPane.setCenter(myDetailsScreen);
         toolBarPane.setCenter(myDetailsToolBarScreen);
@@ -338,7 +384,6 @@ public class MainScreenController {
 
     /**
      * The action handler that linked to the map button on main screen.
-     *
      * @param actionEvent Top level container for this window.
      */
     public void loadDataViewAndToolBars(ActionEvent actionEvent) {
