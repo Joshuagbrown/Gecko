@@ -1,17 +1,13 @@
 package seng202.team6.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.exceptions.DuplicateEntryException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -22,15 +18,8 @@ import seng202.team6.models.Station;
  * @author Philip Dolbel
  */
 public class StationDao implements DaoInterface<Station> {
-    private final DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
-
-    /**
-     * Creates new StationDAO object and gets reference to the database singleton.
-     */
-    public StationDao() {
-        databaseManager = DatabaseManager.getInstance();
-    }
 
     private Station stationFromResultSet(ResultSet rs, List<Charger> chargers) throws SQLException {
         return new Station(
@@ -94,7 +83,8 @@ public class StationDao implements DaoInterface<Station> {
         return new Charger(
                 rs.getString("plugType"),
                 rs.getString("operative"),
-                rs.getInt("wattage")
+                rs.getInt("wattage"),
+                rs.getInt("chargerId")
         );
     }
 
@@ -103,19 +93,35 @@ public class StationDao implements DaoInterface<Station> {
         throw new NotImplementedException();
     }
 
+    private void addChargers(List<Charger> chargers, int stationId) throws SQLException {
+        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
+                + "values (?,?,?,?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
+            for (Charger charger : chargers) {
+                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
+                    ps.setInt(1, stationId);
+                    ps.setString(2, charger.getPlugType());
+                    ps.setInt(3, charger.getWattage());
+                    ps.setString(4, charger.getOperative());
+                    ps.executeUpdate();
+                }
+            }
+        }
+    }
+
     /**
      * Adds a station to the database.
      * @param toAdd object of type T to add.
      * @return The id of the station in the db, or -1 if there was an error.
      */
     @Override
-    public int add(Station toAdd) throws DuplicateEntryException {
+    public int add(Station toAdd) throws DatabaseException {
         String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
                 + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
                 + "chargingCost, hasTouristAttraction, lat, long)"
                 + "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
-                + "values (?,?,?,?)";
+
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, toAdd.getObjectId());
@@ -138,47 +144,105 @@ public class StationDao implements DaoInterface<Station> {
             if (rs.next()) {
                 insertId = rs.getInt(1);
             }
-
-            for (Charger charger : toAdd.getChargers()) {
-                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
-                    ps2.setInt(1, insertId);
-                    ps2.setString(2, charger.getPlugType());
-                    ps2.setInt(3, charger.getWattage());
-                    ps2.setString(4, charger.getOperative());
-
-                    ps2.executeUpdate();
-                } catch (SQLException sqlException) {
-                    log.error(sqlException);
-                    return -1;
-                }
-            }
+            addChargers(toAdd.getChargers(), insertId);
             return insertId;
-        } catch (SQLException sqlException) {
-            if (sqlException.getErrorCode() == 19) {
-                throw new DuplicateEntryException("Duplicate Entry");
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
+                throw new DatabaseException("A duplicate entry was provided", e);
             }
-            log.error(sqlException.getMessage());
-            return -1;
+            throw new DatabaseException("A database error occurred", e);
         }
     }
 
     @Override
     public void delete(int id) {
-        //delete station is not implemented yet
+        String stationSql = "DELETE FROM stations WHERE stationId=?";
 
+        try (Connection conn = databaseManager.connect();
+            PreparedStatement ps = conn.prepareStatement(stationSql)) {
+            ps.setInt(1, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Delete a charger.
+     * @param id id of the charger to delete
+     */
+    public void deleteCharger(int id) {
+        String chargerSql = "DELETE FROM chargers WHERE chargerId=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
+            ps.setInt(1, id);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addCharger(Charger charger) {
+        String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative) "
+                + "Values (?,?,?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps2 = conn.prepareStatement(insertChargerSql)) {
+            ps2.setString(1, charger.getPlugType());
+            ps2.setInt(2, charger.getWattage());
+            ps2.setString(3, charger.getOperative());
+            ps2.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateCharger(Charger charger) {
+        String updateChargerSql = "UPDATE chargers SET plugType =?, wattage=? , operative=? "
+                + "WHERE chargerId=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps2 = conn.prepareStatement(updateChargerSql)) {
+            ps2.setString(1, charger.getPlugType());
+            ps2.setInt(2, charger.getWattage());
+            ps2.setString(3, charger.getOperative());
+            ps2.setInt(4, charger.getChargerId());
+            ps2.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void update(Station toUpdate) {
-        //update station is not implemented yet
+        String stationSql = "UPDATE stations SET name=? , operator=? , owner=?,"
+                + "address=? , timeLimit=? , is24Hours=? , numberOfCarparks=?, carparkCost=? ,"
+                + "chargingCost=? , hasTouristAttraction=?, lat=? , long=? "
+                + "WHERE objectId=?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(stationSql)) {
+            ps.setString(1, toUpdate.getName());
+            ps.setString(2, toUpdate.getOperator());
+            ps.setString(3, toUpdate.getOwner());
+            ps.setString(4, toUpdate.getAddress());
+            ps.setInt(5, toUpdate.getTimeLimit());
+            ps.setBoolean(6, toUpdate.is24Hours());
+            ps.setInt(7, toUpdate.getNumberOfCarParks());
+            ps.setBoolean(8, toUpdate.isCarparkCost());
+            ps.setBoolean(9, toUpdate.isChargingCost());
+            ps.setBoolean(10, toUpdate.isHasTouristAttraction());
+            ps.setDouble(11, toUpdate.getCoordinates().getLatitude());
+            ps.setDouble(12, toUpdate.getCoordinates().getLongitude());
+
+            ps.executeUpdate();
+
+            for (Charger charger : toUpdate.getChargers()) {
+                if (charger.getChargerId() == -1) {
+                    addCharger(charger);
+                } else {
+                    updateCharger(charger);
+                }
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+        }
     }
-
-    @Override
-    public Station getStation(int stationId) {
-        String sql = "SELECT * FROM STATIONS WHERE stationId = " + stationId;
-        HashMap<Integer, Station> stations = getAll(sql);
-        return stations.get(stationId);
-    }
-
-
 }

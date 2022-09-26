@@ -119,7 +119,11 @@ public class MapToolBarController implements ScreenController {
 
     }
 
-    private JSONObject geoCode(String query) throws IOException, InterruptedException {
+    /**
+     * TODO: corentin what does this do.
+     * @param query the query to geocode
+     */
+    public JSONObject geoCode(String query) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;

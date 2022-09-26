@@ -24,8 +24,8 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/dist/L.Control.Locate.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
 
 
@@ -74,6 +74,7 @@
         addRoutingMarker : addRoutingMarker,
         removeAddressMarkers : removeAddressMarkers,
         removeRoute : removeRoute,
+        removeMarker: removeMarker,
     };
 
 
@@ -168,12 +169,21 @@
     }
 
 
-    function addMarker(title, lat, lng, stationId) {
-        var m = new L.Marker([lat, lng], {icon:greenIcon});
-        //m.bindPopup(title + "\n" +`<button id="button" type="button" onclick="editStation(stationId)">Edit Station</button>`).openPopup();
+    function addMarker(title, lat, lng, objectId) {
+        var m = new L.Marker([lat, lng], {icon:greenIcon})
+        /////OBJECT ID OR STATION ID
         m.bindPopup(title + "\n" +`<button data-id="${stationId}" class="button" type="button">Edit Station</button>`).openPopup();
         m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+        m.objectId = objectId;
         markers.push(m)
+    }
+
+    function removeMarker(objectId) {
+        var marker = markers.find(m => m.objectId === objectId);
+        if (marker && map.hasLayer(marker)) {
+            map.removeLayer(marker)
+        }
+        markers = markers.filter(m => m !== marker);
     }
 
 
