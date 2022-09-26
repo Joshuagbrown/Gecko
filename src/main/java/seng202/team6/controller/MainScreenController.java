@@ -1,19 +1,30 @@
 package seng202.team6.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
+import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.services.DataService;
 
@@ -96,6 +107,8 @@ public class MainScreenController {
     private LoginToolBarController loginToolBarController;
     private MyDetailsController myDetailsController;
     private MyDetailsToolBarController myDetailsToolBarController;
+
+    private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private User currentUser = null;
 
     /**
@@ -112,6 +125,7 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
+        updateStationsFromDatabase(null);
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
@@ -163,20 +177,54 @@ public class MainScreenController {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
+
     }
 
+    /**
+     * Function to get the stations.
+     * @return An observable map of stations.
+     */
+    public ObservableMap<Integer, Station> getStations() {
+        return stations;
+    }
+
+    /**
+     * Function that returns the current user.
+     * @return currentUser the current user.
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Function to set the current user.
+     * @param currentUser the current user.
+     */
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Function to update the stations.
+     * @param sql the sql query.
+     */
+    public void updateStationsFromDatabase(String sql) {
+        Map<Integer, Station> stationMap = dataService.fetchAllData(sql);
+        getStations().clear();
+        getStations().putAll(stationMap);
+    }
+
+    /**
+     * Function to return the loginPage button.
+     * @return the login page button.
+     */
     public Button getLoginPageBtn() {
         return loginPageBtn;
     }
 
+    /**
+     * Changing the text of the button.
+     */
     public void setLoginBtnText() {
         this.loginPageBtn.setText("My Details");
     }
@@ -189,12 +237,16 @@ public class MainScreenController {
         return mapController;
     }
 
+    /**
+     * Function to return the map toolbar controller.
+     * @return map toolbar controller.
+     */
     public MapToolBarController getMapToolBarController() {
         return mapToolBarController;
     }
 
     /**
-     * Funtion to return the stage.
+     * Function to return the stage.
      * @return stage of main screen controller.
      */
     public Stage getStage() {
@@ -202,7 +254,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the data service.
+     * Function to return the data service.
      * @return data service. of main screen controller.
      */
     public DataService getDataService() {
@@ -210,7 +262,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the help controller.
+     * Function to return the help controller.
      * @return help controller.
      */
     public HelpController getHelpController() {
@@ -218,7 +270,7 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the data controller.
+     * Function to return the data controller.
      * @return data controller.
      */
     public DataController getDataController() {
@@ -226,13 +278,17 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to return the login controller.
+     * Function to return the login controller.
      * @return loginController the login controller.
      */
     public LoginController getLoginController() {
         return loginController;
     }
 
+    /**
+     * Function to return the 'My Details' controller.
+     * @return myDetailsController the 'my details' controller.
+     */
     public MyDetailsController getMyDetailsController() {
         return myDetailsController;
     }
@@ -258,26 +314,69 @@ public class MainScreenController {
         loadMapViewAndToolBars(null);
     }
 
+    /**
+     * Pick random fun fact and loads it into the text area.
+     * @param file the Fun fact text file
+     */
+    public void loadGeckoFact(InputStream file) {
+        loginController.funFactBox.clear();
+
+        List<String> lines = new ArrayList<>();
+        String line;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(file));
+
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        int min = 0;
+        int max = 9;
+        int randomLine = (int) Math.floor(Math.random() * (max - min + 1) + min);
+        String funFact = lines.get(randomLine);
+        loginController.funFactBox.appendText(funFact);
+        loginController.funFactBox.setFont(new Font("Courier", 16));
+    }
+
+    /**
+     * The action handler that linked to the Login button on main screen.
+     * @param actionEvent when Login button is clicked
+     */
     public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
         if (currentUser == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
             mainBorderPane.setRight(null);
+            loadGeckoFact(getClass().getResourceAsStream("/TextFiles/FunFacts.txt"));
         } else {
             loadMyDetailsViewAndToolBars();
         }
 
     }
+
+    /**
+     * The action handler that linked to the sign-up button on toolbar screen.
+     */
     public void loadSignUpViewAndToolBars() {
         mainBorderPane.setCenter(signUpScreen);
     }
 
+    /**
+     * The action handler that linked to the 'My Details' button on main screen.
+     */
     public void loadMyDetailsViewAndToolBars() {
         mainBorderPane.setCenter(myDetailsScreen);
         toolBarPane.setCenter(myDetailsToolBarScreen);
         mainBorderPane.setRight(null);
     }
 
+    /**
+     * Function to call when logging in a user.
+     * @param user The user to login
+     */
     public void loginUser(User user) {
         setCurrentUser(user);
         loadMyDetailsViewAndToolBars();
@@ -288,7 +387,6 @@ public class MainScreenController {
 
     /**
      * The action handler that linked to the map button on main screen.
-     *
      * @param actionEvent Top level container for this window.
      */
     public void loadDataViewAndToolBars(ActionEvent actionEvent) {
@@ -329,7 +427,16 @@ public class MainScreenController {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call()  {
-                    dataService.loadDataFromCsv(selectedFile);
+                    ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
+                    value.addListener((observable, oldValue, newValue) -> {
+                        updateProgress(newValue.getKey(), newValue.getValue());
+                        updateMessage(newValue.getKey() + " / " + newValue.getValue());
+                    });
+                    try {
+                        dataService.loadDataFromCsv(selectedFile, value);
+                    } catch (CsvFileException | DatabaseException e) {
+                        throw new RuntimeException(e);
+                    }
                     return null;
                 }
             };
@@ -338,9 +445,12 @@ public class MainScreenController {
             dialog.setTitle("Loading data");
             new Thread(task).start();
             dialog.showAndWait();
+            if (task.getState() == Worker.State.FAILED) {
+                AlertMessage.createMessage("An error occurred when importing data",
+                        task.getException().getCause().getMessage());
+            }
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
-            mapController.addStationsToMap(null);
-            dataController.loadData(null);
+            updateStationsFromDatabase(null);
         }
     }
 }

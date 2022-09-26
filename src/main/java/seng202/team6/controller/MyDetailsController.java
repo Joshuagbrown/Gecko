@@ -1,14 +1,12 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import seng202.team6.models.User;
 import seng202.team6.services.Validity;
-import java.io.IOException;
 
 public class MyDetailsController implements ScreenController {
 
@@ -55,9 +53,10 @@ public class MyDetailsController implements ScreenController {
      * Changes the user details with the new details.
      * @param actionEvent When confirm button is clicked
      * @throws IOException if address is invalid
-     * @throws InterruptedException
+     * @throws InterruptedException thrown by check address
      */
-    public void confirmEditButton(ActionEvent actionEvent) throws IOException, InterruptedException {
+    public void confirmEditButton(ActionEvent actionEvent)
+            throws IOException, InterruptedException {
         User user = controller.getCurrentUser();
         if (Validity.checkName(nameField.getText())) {
             name = nameField.getText();
@@ -85,6 +84,9 @@ public class MyDetailsController implements ScreenController {
         }
     }
 
+    /**
+     * Cancel editing my details.
+     */
     public void cancelEditButton(ActionEvent actionEvent) {
         User user = controller.getCurrentUser();
         nameField.setText(user.getName());

@@ -6,10 +6,10 @@ public class UserLoginDetails {
     byte[] passwordSalt;
 
     /**
-     *
-     * @param userId
-     * @param passwordHash
-     * @param passwordSalt
+     * Main constructor.
+     * @param userId the user's id
+     * @param passwordHash the user's password hash
+     * @param passwordSalt the user's password salt
      */
     public UserLoginDetails(int userId, byte[] passwordHash, byte[] passwordSalt) {
         this.userId = userId;

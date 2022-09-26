@@ -10,10 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.value.WritableObjectValue;
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.exceptions.DuplicateEntryException;
-import seng202.team6.io.CsvImporter;
+import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.io.StationCsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.repository.DatabaseManager;
@@ -37,16 +40,14 @@ public class DataService {
      *
      * @param file file to retrieve necessary data from.
      */
-    public void loadDataFromCsv(File file) {
-        try {
-            CsvImporter csvImporter = new CsvImporter();
-            List<Station> stations = csvImporter.readFromFile(file);
-            for (Station station : stations) {
-                dao.add(station);
-            }
-
-        } catch (Exception e) {
-            log.error(e);
+    public void loadDataFromCsv(File file, WritableObjectValue<Pair<Integer, Integer>> value)
+            throws CsvFileException, DatabaseException {
+        StationCsvImporter stationCsvImporter = new StationCsvImporter();
+        List<Station> stations = stationCsvImporter.readFromFile(file);
+        int i = 0;
+        for (Station station : stations) {
+            dao.add(station);
+            value.set(new Pair<>(++i, stations.size()));
         }
     }
 
@@ -84,15 +85,19 @@ public class DataService {
         return dao.getAll(sql);
     }
 
-    public void addUser(User user) throws DuplicateEntryException {
+    /**
+     * Add a user to the database..
+     * @param user the user to add
+     */
+    public void addUser(User user) throws DatabaseException {
         userDao.add(user);
     }
 
-    public void updateUser(User user) {
+    /**
+     * Update a user in the database.
+     * @param user the user to update, must have userId != null
+     */
+    public void updateUser(User user) throws DatabaseException {
         userDao.update(user);
-    }
-
-    public UserDao getUserDao() {
-        return userDao;
     }
 }

@@ -1,12 +1,15 @@
 package seng202.team6.services;
 
-import seng202.team6.controller.MainScreenController;
-
 import java.io.IOException;
+import seng202.team6.controller.MainScreenController;
 
 public class Validity {
     private MainScreenController controller;
 
+    /**
+     * Contructor for validity.
+     * @param mainScreenController the controller to use.
+     */
     public Validity(MainScreenController mainScreenController) {
         this.controller = mainScreenController;
     }
@@ -38,6 +41,10 @@ public class Validity {
         return password.length() >= 8;
     }
 
+    /**
+     * Check whether an address is valid.
+     * @param address the address to check
+     */
     public boolean checkAddress(String address) throws IOException, InterruptedException {
         return controller.getMapToolBarController().geoCode(address) != null;
     }

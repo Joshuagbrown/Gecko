@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.stream.Collectors;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
@@ -34,7 +35,8 @@ public class MapController implements ScreenController {
     private double locationLat = 0;
     private double locationLng = 0;
     private String currentAddress;
-    private HashMap<Integer, Station> stations;
+
+    private ObservableMap<Integer, Station> stations;
 
     /**
      * Initialises the map view.
@@ -45,6 +47,7 @@ public class MapController implements ScreenController {
         this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked,
                 this::setClickLocation, this::setAddress);
         initMap();
+        this.stations = controller.getStations();
     }
 
     /**
@@ -110,7 +113,17 @@ public class MapController implements ScreenController {
 
                     javaScriptConnector.call("initMap");
 
-                    addStationsToMap(null);
+                    stations.addListener((MapChangeListener<Integer, Station>) change -> {
+                        if (change.wasAdded()) {
+                            addStation(change.getValueAdded());
+                        }
+
+                        if (change.wasRemoved()) {
+                            removeStation(change.getValueRemoved().getObjectId());
+                        }
+                    });
+
+                    stations.forEach((integer, station) -> addStation(station));
 
                 }
             });
@@ -138,23 +151,6 @@ public class MapController implements ScreenController {
     }
 
     /**
-     * This calls this add station function, for all the stations that fit the sql query.
-     * @param sql Takes a sql query as input.
-     */
-    public void addStationsToMap(String sql) {
-
-        stations = stationDao.getAll(sql);
-
-        javaScriptConnector.call(
-                "cleanUpMarkerLayer");
-
-        for (Station station : stations.values()) {
-            addStation(station);
-        }
-
-    }
-
-    /**
      * Adds a single station to the map.
      * @param station A station.
      */
@@ -163,6 +159,15 @@ public class MapController implements ScreenController {
                 "addMarker", station.getName(), station.getCoordinates().getLatitude(),
                 station.getCoordinates().getLongitude(), station.getObjectId());
     }
+
+    /**
+     * Remove a station from the map.
+     * @param objectId the objectId of the station
+     */
+    public void removeStation(int objectId) {
+        javaScriptConnector.call("removeMarker", objectId);
+    }
+
 
     /**
      * Function to get the current address.

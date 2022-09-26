@@ -74,6 +74,7 @@
         addRoutingMarker : addRoutingMarker,
         removeAddressMarkers : removeAddressMarkers,
         removeRoute : removeRoute,
+        removeMarker: removeMarker,
     };
 
 
@@ -161,11 +162,20 @@
     }
 
 
-    function addMarker(title, lat, lng, stationId) {
+    function addMarker(title, lat, lng, objectId) {
         var m = new L.Marker([lat, lng], {icon:greenIcon})
         m.bindPopup(title).openPopup();
         m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+        m.objectId = objectId;
         markers.push(m)
+    }
+
+    function removeMarker(objectId) {
+        var marker = markers.find(m => m.objectId === objectId);
+        if (marker && map.hasLayer(marker)) {
+            map.removeLayer(marker)
+        }
+        markers = markers.filter(m => m !== marker);
     }
 
 

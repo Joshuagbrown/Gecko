@@ -6,6 +6,8 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -15,7 +17,9 @@ import seng202.team6.models.UserLoginDetails;
 import seng202.team6.repository.UserDao;
 
 public class LoginController implements ScreenController {
-
+    @FXML
+    public Button logInButton;
+    public TextArea funFactBox;
     @FXML
     private TextField usernameLogin;
     @FXML
@@ -56,7 +60,8 @@ public class LoginController implements ScreenController {
         String username = usernameLogin.getText();
         UserLoginDetails userDetails = userDao.getLoginDetails(username);
         if (userDetails != null) {
-            byte[] hashedPassword = hashPassword(passwordLogin.getText(), userDetails.getPasswordSalt());
+            byte[] hashedPassword = hashPassword(passwordLogin.getText(),
+                    userDetails.getPasswordSalt());
             if (Arrays.equals(hashedPassword,userDetails.getPasswordHash())) {
                 errorText.setText("");
                 controller.loginUser(userDao.getOne(userDetails.getUserId()));

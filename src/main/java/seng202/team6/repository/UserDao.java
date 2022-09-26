@@ -1,16 +1,12 @@
 package seng202.team6.repository;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import seng202.team6.exceptions.DuplicateEntryException;
-import seng202.team6.models.User;
-import seng202.team6.models.UserLoginDetails;
-import seng202.team6.models.Vehicle;
-
-import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.HashMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.User;
+import seng202.team6.models.UserLoginDetails;
 
 public class UserDao implements DaoInterface<User> {
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -18,7 +14,7 @@ public class UserDao implements DaoInterface<User> {
 
     @Override
     public HashMap<Integer, User> getAll(String sql) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -44,8 +40,13 @@ public class UserDao implements DaoInterface<User> {
         }
     }
 
+    /**
+     * Get login details from username.
+     * @param username the username to check
+     */
     public UserLoginDetails getLoginDetails(String username) {
-        String userSql = "SELECT userId, passwordHash, passwordSalt FROM users WHERE username = (?)";
+        String userSql = "SELECT userId, passwordHash, passwordSalt "
+                + "FROM users WHERE username = (?)";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(userSql)) {
@@ -65,7 +66,7 @@ public class UserDao implements DaoInterface<User> {
     }
 
     @Override
-    public int add(User toAdd) throws DuplicateEntryException {
+    public int add(User toAdd) throws DatabaseException {
         String userSql = "INSERT INTO users (username, passwordHash, passwordSalt, address, name)"
                 + "values (?,?,?,?,?)";
 
@@ -86,10 +87,9 @@ public class UserDao implements DaoInterface<User> {
             return insertId;
         } catch (SQLException e) {
             if (e.getErrorCode() == 19) {
-                throw new DuplicateEntryException("Duplicate Entry");
+                throw new DatabaseException("A duplicate entry was found", e);
             }
-            log.error(e.getMessage(), e.getSQLState(), e.getErrorCode(), e.getClass().getName());
-            return -1;
+            throw new DatabaseException("There was an error with the database", e);
         }
     }
 
@@ -97,11 +97,11 @@ public class UserDao implements DaoInterface<User> {
 
     @Override
     public void delete(int id) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void update(User toUpdate) {
+    public void update(User toUpdate) throws DatabaseException {
         String userSql = "UPDATE users SET passwordHash=(?) , "
                 + "passwordSalt=(?) , address=(?) , name=(?)"
                 + "WHERE username=(?)";
@@ -116,7 +116,7 @@ public class UserDao implements DaoInterface<User> {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            throw new DatabaseException("There was an error with the database", e);
         }
     }
 

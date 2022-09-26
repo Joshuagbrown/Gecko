@@ -5,8 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Objects;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,9 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
-import org.json.simple.JSONObject;
-import seng202.team6.exceptions.DuplicateEntryException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
 import seng202.team6.services.Validity;
 
@@ -50,6 +46,11 @@ public class SignUpController implements ScreenController {
     private String address = null;
     private Validity valid;
 
+    /**
+     * Initialise the controller.
+     * @param stage Primary Stage of the application.
+     * @param controller The Controller class for the main screen.
+     */
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         valid = new Validity(controller);
@@ -61,7 +62,9 @@ public class SignUpController implements ScreenController {
      * @throws NoSuchAlgorithmException If the algorithm doesn't exist.
      * @throws InvalidKeySpecException If the key is invalid.
      */
-    public void signUp(ActionEvent actionEvent) throws NoSuchAlgorithmException, InvalidKeySpecException, DuplicateEntryException, IOException, InterruptedException {
+    public void signUp(ActionEvent actionEvent)
+            throws NoSuchAlgorithmException, InvalidKeySpecException,
+            IOException, InterruptedException {
         if (Validity.checkUserName(usernameSignUp.getText())) {
             username = usernameSignUp.getText();
             invalidUsername.setVisible(false);
@@ -101,8 +104,9 @@ public class SignUpController implements ScreenController {
             try {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
-            } catch (DuplicateEntryException e) {
-                AlertMessage.createMessage("Invalid username", "Username already in use.\nPick a new username");
+            } catch (DatabaseException e) {
+                AlertMessage.createMessage("Invalid username",
+                        "Username already in use.\nPick a new username");
             }
 
         }

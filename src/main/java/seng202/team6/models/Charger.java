@@ -12,9 +12,9 @@ public class Charger {
     /**
      * Constructor of the charger class.
      *
-     * @param plugType  the plug type of the charger.
+     * @param plugType the plug type of the charger.
      * @param operative whether it is operative or not.
-     * @param wattage   the wattage value at the charger.
+     * @param wattage the wattage value at the charger.
      */
     public Charger(String plugType, String operative, int wattage) {
         this.plugType = plugType;
@@ -22,6 +22,14 @@ public class Charger {
         this.wattage = wattage;
     }
 
+    /**
+     * Constructor for a charger with a chargerId too, useful for database updates.
+     *
+     * @param plugType the plug type of the charger.
+     * @param operative whether it is operative or not.
+     * @param wattage the wattage value at the charger.
+     * @param chargerId charger id of the charger from the database
+     */
     public Charger(String plugType, String operative, int wattage, int chargerId) {
         this(plugType, operative, wattage);
         this.chargerId = chargerId;
@@ -58,6 +66,10 @@ public class Charger {
         return chargerId;
     }
 
+    /**
+     * Returns the string value of this charger.
+     * @return The string value of this charger
+     */
     public String toString() {
         return this.wattage + " kW " + plugType + ", Status: " + operative;
     }
