@@ -58,10 +58,8 @@ public class MapController implements ScreenController {
      */
     public void editStation(String stationId) throws IOException {
         int id = Integer.parseInt(stationId);
-        Station station = controller.getDataService().getStation(id);
-        StationController stationController = new StationController(id);
-        stationController.setFields(station);
-        stationController.loadWindow();
+        StationController stationController = new StationController();
+        stationController.init(controller, id);
     }
 
 

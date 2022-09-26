@@ -34,27 +34,42 @@ public class StationController {
     @FXML
     public TextField nameField;
     private int stationId;
+    private MainScreenController controller;
+
 
     /**
-     * StationController class constructor.
+     * Initializes the Station Controller class.
      * @param id The stationId of the station.
      */
-    public StationController(int id) {
-        stationId = id;
+    public void init(MainScreenController controller, int id) throws IOException {
+        this.stationId = id;
+        this.controller = controller;
+        setFields();
+        loadWindow();
+    }
+
+    /**
+     * Finds and returns the station to display.
+     * @return station the station with corresponding id
+     */
+    public Station findStation() {
+        return controller.getDataService().getStation(stationId);
     }
 
     /**
      * Function which sets the fields of the edit-station pop up to be filled with the
      * information from the selected station.
-     * @param station the selected station
      */
-    public void setFields(Station station) {
+    public void setFields() {
+        Station station = findStation();
+        System.out.println(station.getName());
         nameField.setText(station.getName());
+        System.out.println("gets here");
         Position pos = station.getCoordinates();
+        //System.out.println("gets here");
         latField.setText(String.valueOf(pos.getLatitude()));
         lonField.setText(String.valueOf(pos.getLongitude()));
         addressField.setText(station.getAddress());
-
         if (station.is24Hours()) {
             hoursButton.setSelected(true);
         } else {
@@ -83,7 +98,6 @@ public class StationController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-
     }
 
 }
