@@ -100,4 +100,8 @@ public class DataService {
     public void updateUser(User user) throws DatabaseException {
         userDao.update(user);
     }
+
+    public Station getStation(int id) {
+        return dao.getOne(id);
+    }
 }

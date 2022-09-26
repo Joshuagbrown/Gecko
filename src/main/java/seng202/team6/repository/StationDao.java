@@ -90,7 +90,31 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public Station getOne(int id) {
-        throw new NotImplementedException();
+        String sql = "SELECT * from stations INNER JOIN chargers "
+                + "WHERE stations.stationId = (?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             PreparedStatement ps2 = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps2.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
+            ArrayList<Charger> chargers = new ArrayList<>();
+            boolean stillGoing = rs.next();
+            while (stillGoing) {
+                chargers.add(chargerFromResultSet(rs));
+                stillGoing = rs.next();
+                if (stillGoing) {
+                    rs2.next();
+                }
+            }
+            if (!chargers.isEmpty()) {
+                return stationFromResultSet(rs2, chargers);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void addChargers(List<Charger> chargers, int stationId) throws SQLException {

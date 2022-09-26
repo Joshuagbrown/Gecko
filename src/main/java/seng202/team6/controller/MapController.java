@@ -58,9 +58,7 @@ public class MapController implements ScreenController {
      */
     public void editStation(String stationId) throws IOException {
         int id = Integer.parseInt(stationId);
-        String sql = "SELECT * FROM STATIONS WHERE stationId == " + stationId;
-        HashMap<Integer, Station> stationList = stationDao.getAll(sql);
-        Station station = stationList.get(id);
+        Station station = controller.getDataService().getStation(id);
         StationController stationController = new StationController(id);
         stationController.setFields(station);
         stationController.loadWindow();
