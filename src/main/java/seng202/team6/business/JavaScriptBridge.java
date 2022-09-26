@@ -5,7 +5,6 @@ import java.io.IOException;
 /**
  * A class created to provide the ability to "bridge" from javascript (used within the OSM html)
  * to java.
- *
  * Author: Tara Lipscombe and Philip Dolbel
  */
 public class JavaScriptBridge {
@@ -28,11 +27,12 @@ public class JavaScriptBridge {
      *                          map controller class to communicate with the leaflet HTML in
      *                          javascript to get the address of the current clicked location.
      * @param editStationLambda is a function in the Map Controller class which allows for the
-     *                          *                   map controller class to communicate with the leaflet HTML in
-     *                          *                   javascript to initiate the pop-up to edit the station
+     *                          map controller class to communicate with the leaflet HTML in
+     *                          javascript to initiate the pop-up to edit the station
      */
     public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface
-            getLocationLambda, GetAddressInterface getAddressLambda, EditStationInterface editStationLambda) {
+            getLocationLambda, GetAddressInterface getAddressLambda,
+                            EditStationInterface editStationLambda) {
         getStationInterface = getStationLambda;
         getLocationInterface = getLocationLambda;
         getAddressInterface = getAddressLambda;
@@ -40,8 +40,8 @@ public class JavaScriptBridge {
     }
 
     /**
-     * function to get initiate the edit station pop-up.
-     * @param id
+     * Function to get initiate the edit station pop-up.
+     * @param id the stationID of the station
      */
     public void editStation(String id) throws IOException {
         editStationInterface.operation(id);

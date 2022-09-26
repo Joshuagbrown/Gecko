@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
@@ -53,15 +54,13 @@ public class MapController implements ScreenController {
 
     /**
      * Function to call the edit station pop-up.
-     * @param stationId
+     * @param stationId the stationId of the station
      */
     public void editStation(String stationId) throws IOException {
         int id = Integer.parseInt(stationId);
         String sql = "SELECT * FROM STATIONS WHERE stationId == " + stationId;
         HashMap<Integer, Station> stationList = stationDao.getAll(sql);
-        System.out.println(stationList.isEmpty());
         Station station = stationList.get(id);
-        System.out.println(station.getAddress());
         StationController stationController = new StationController(id);
         stationController.setFields(station);
         stationController.loadWindow();
@@ -132,15 +131,16 @@ public class MapController implements ScreenController {
 
                     javaScriptConnector.call("initMap");
 
-                    stations.addListener((MapChangeListener<Integer, Station>) change -> {
-                        if (change.wasAdded()) {
-                            addStation(change.getValueAdded());
-                        }
+                    controller.getStations().addListener((MapChangeListener<Integer, Station>)
+                            change -> {
+                            if (change.wasAdded()) {
+                                addStation(change.getValueAdded());
+                            }
 
-                        if (change.wasRemoved()) {
-                            removeStation(change.getValueRemoved().getObjectId());
-                        }
-                    });
+                            if (change.wasRemoved()) {
+                                removeStation(change.getValueRemoved().getObjectId());
+                            }
+                        });
 
                     stations.forEach((integer, station) -> addStation(station));
 

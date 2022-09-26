@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +15,10 @@ import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
 
-import java.io.IOException;
-
 public class StationController {
 
     @FXML
-    public TextField yField;
+    public TextField latField;
     @FXML
     public TextField addressField;
     @FXML
@@ -29,23 +28,31 @@ public class StationController {
     @FXML
     public Button viewChargersButton;
     @FXML
-    public TextField xField;
+    public TextField lonField;
     @FXML
     public Stage stage;
     @FXML
     public TextField nameField;
     private int stationId;
 
+    /**
+     * StationController class constructor.
+     * @param id The stationId of the station.
+     */
     public StationController(int id) {
         stationId = id;
     }
 
-
+    /**
+     * Function which sets the fields of the edit-station pop up to be filled with the
+     * information from the selected station.
+     * @param station the selected station
+     */
     public void setFields(Station station) {
         nameField.setText(station.getName());
         Position pos = station.getCoordinates();
-        xField.setText(String.valueOf(pos.getLatitude()));
-        yField.setText(String.valueOf(pos.getLongitude()));
+        latField.setText(String.valueOf(pos.getLatitude()));
+        lonField.setText(String.valueOf(pos.getLongitude()));
         addressField.setText(station.getAddress());
 
         if (station.is24Hours()) {
@@ -62,7 +69,10 @@ public class StationController {
 
     }
 
-
+    /**
+     * Loads the edit station pop-up window.
+     * @throws IOException Exception thrown
+     */
     public void loadWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         Parent root = (Parent) loader.load();
