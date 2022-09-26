@@ -11,9 +11,14 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Station;
@@ -57,12 +62,27 @@ public class MapController implements ScreenController {
      * @param stationId the stationId of the station
      */
     public void editStation(String stationId) throws IOException {
-        int id = Integer.parseInt(stationId);
-        StationController stationController = new StationController();
-        stationController.init(controller, id);
+        loadStationWindow(Integer.parseInt(stationId));
     }
 
-
+    /**
+     * Function to initialize and load the station pop-up.
+     * @param id the station id number
+     * @throws IOException exception thrown
+     */
+    public void loadStationWindow(int id) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Current Station");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.show();
+        StationController stationController = loader.getController();
+        stationController.init(stage, controller, id);
+    }
 
     /**
      * Function to set the current address.
