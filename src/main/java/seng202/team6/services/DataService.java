@@ -101,6 +101,10 @@ public class DataService {
         userDao.update(user);
     }
 
+    /**
+     * Get a station from the database by id.
+     * @param id the id
+     */
     public Station getStation(int id) {
         return dao.getOne(id);
     }
