@@ -2,8 +2,6 @@ package seng202.team6.io;
 
 import java.io.File;
 import java.util.List;
-
-import javafx.collections.ObservableList;
 import seng202.team6.exceptions.CsvException;
 import seng202.team6.exceptions.ImportableLineException;
 

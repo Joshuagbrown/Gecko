@@ -436,7 +436,10 @@ public class MainScreenController {
                     try {
                         return dataService.loadDataFromCsv(selectedFile, value)
                                 .stream().map(e ->
-                                        String.format("Line %d: %s", e.getLine(), e.getCause().getMessage()))
+                                        String.format(
+                                                "Line %d: %s",
+                                                e.getLine(),
+                                                e.getCause().getMessage()))
                                 .toList();
                     } catch (CsvFileException | DatabaseException e) {
                         throw new RuntimeException(e);

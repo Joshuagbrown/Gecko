@@ -11,8 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.WritableObjectValue;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -44,8 +42,10 @@ public class DataService {
      *
      * @param file file to retrieve necessary data from.
      */
-    public List<CsvLineException> loadDataFromCsv(File file, WritableObjectValue<Pair<Integer, Integer>> value)
-            throws CsvFileException, DatabaseException {
+    public List<CsvLineException> loadDataFromCsv(
+            File file,
+            WritableObjectValue<Pair<Integer, Integer>> value
+    ) throws CsvFileException, DatabaseException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         List<CsvLineException> errors = new ArrayList<>();
         List<Station> stations = stationCsvImporter.readFromFile(file, errors);

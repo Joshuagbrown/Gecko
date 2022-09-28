@@ -6,6 +6,7 @@ package seng202.team6.exceptions;
  */
 public class CsvLineException extends CsvException implements ImportableLineException {
     int line = 0;
+
     /**
      * The constructor of the csv line exception.
      * @param e the error that need to throw.
