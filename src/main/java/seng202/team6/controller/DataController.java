@@ -63,14 +63,13 @@ public class DataController implements ScreenController {
      */
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
-        loadData(null);
+        loadData();
     }
 
     /**
      * Loads the data into the table.
-     * @param sql A sql query from the filters.
      */
-    public void loadData(String sql) {
+    public void loadData() {
         table.getItems().clear();
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         xcolumn.setCellValueFactory(cellData ->
@@ -93,6 +92,9 @@ public class DataController implements ScreenController {
                 table.getItems().remove(change.getValueRemoved());
             }
         });
+
+        table.getItems().addAll(controller.getStations().values());
+
     }
 
     /**
