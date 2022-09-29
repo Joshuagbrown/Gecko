@@ -26,6 +26,7 @@ import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.repository.FilterBuilder;
 import seng202.team6.services.DataService;
 
 /**
@@ -125,7 +126,7 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
-        updateStationsFromDatabase(null);
+        updateStationsFromDatabase();
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
@@ -206,10 +207,19 @@ public class MainScreenController {
 
     /**
      * Function to update the stations.
-     * @param sql the sql query.
+     * @param builder The filter builder to use
      */
-    public void updateStationsFromDatabase(String sql) {
-        Map<Integer, Station> stationMap = dataService.fetchAllData(sql);
+    public void updateStationsFromDatabase(FilterBuilder builder) {
+        Map<Integer, Station> stationMap = dataService.fetchData(builder);
+        getStations().clear();
+        getStations().putAll(stationMap);
+    }
+
+    /**
+     * Function to update the stations.
+     */
+    public void updateStationsFromDatabase() {
+        Map<Integer, Station> stationMap = dataService.fetchData();
         getStations().clear();
         getStations().putAll(stationMap);
     }
@@ -446,7 +456,7 @@ public class MainScreenController {
                         task.getException().getCause().getMessage());
             }
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
-            updateStationsFromDatabase(null);
+            updateStationsFromDatabase();
         }
     }
 }

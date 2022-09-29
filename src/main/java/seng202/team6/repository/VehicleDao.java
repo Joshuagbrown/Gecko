@@ -16,7 +16,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
     private static final Logger log = LogManager.getLogger();
 
     @Override
-    public Map<Integer, Vehicle> getAll(String sql) {
+    public Map<Integer, Vehicle> getAll() {
         return null;
     }
 

@@ -11,10 +11,9 @@ import seng202.team6.exceptions.DatabaseException;
 public interface DaoInterface<T> {
     /**
      * Gets all of T from the database.
-     * @param sql string sql that want to excute.
      * @return List of all objects type T from the database.
      */
-    Map<Integer, T> getAll(String sql);
+    Map<Integer, T> getAll();
 
     /**
      * Gets a single object of type T from the database by id.
