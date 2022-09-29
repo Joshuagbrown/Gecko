@@ -36,6 +36,7 @@ public class DataController implements ScreenController {
             text.setLineSpacing(5);
         }
     }
+
     //A Logger object is used to log messages for  system
     private static final Logger log = LogManager.getLogger();
 
