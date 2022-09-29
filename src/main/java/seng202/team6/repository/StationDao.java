@@ -91,6 +91,7 @@ public class StationDao implements DaoInterface<Station> {
     @Override
     public Station getOne(int id) {
         String sql = "SELECT * from stations INNER JOIN chargers "
+                + "ON stations.stationId = chargers.stationId "
                 + "WHERE stations.stationId = (?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -229,7 +230,7 @@ public class StationDao implements DaoInterface<Station> {
             ps2.setInt(2, charger.getWattage());
             ps2.setString(3, charger.getOperative());
             ps2.setInt(4, charger.getChargerId());
-            ps2.executeQuery();
+            ps2.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -237,6 +238,7 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public void update(Station toUpdate) {
+        System.out.println(toUpdate.getObjectId());
         String stationSql = "UPDATE stations SET name=? , operator=? , owner=?,"
                 + "address=? , timeLimit=? , is24Hours=? , numberOfCarparks=?, carparkCost=? ,"
                 + "chargingCost=? , hasTouristAttraction=?, lat=? , long=? "
@@ -255,16 +257,19 @@ public class StationDao implements DaoInterface<Station> {
             ps.setBoolean(10, toUpdate.isHasTouristAttraction());
             ps.setDouble(11, toUpdate.getCoordinates().getLatitude());
             ps.setDouble(12, toUpdate.getCoordinates().getLongitude());
+            ps.setInt(13, toUpdate.getObjectId());
 
             ps.executeUpdate();
 
             for (Charger charger : toUpdate.getChargers()) {
+                System.out.println(charger);
                 if (charger.getChargerId() == -1) {
                     addCharger(charger);
                 } else {
                     updateCharger(charger);
                 }
             }
+            System.out.println("Gets hh");
         } catch (SQLException e) {
             log.error(e.getMessage());
         }

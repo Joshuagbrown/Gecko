@@ -94,10 +94,11 @@ public class MapController implements ScreenController {
 
     /**
      * Function that cll to display the station information when the station marker is clicked.
-     * @param id the id of the station.
+     * @param stationId the id of the station.
      */
-    public void onStationClicked(int id) {
-        Station station = stations.get(id);
+    public void onStationClicked(int stationId) {
+        Station station = stations.get(stationId);
+        System.out.println(station);
         setClickLocation(station.getCoordinates().getLatitude(),
                         station.getCoordinates().getLongitude());
         setAddress(station.getAddress());

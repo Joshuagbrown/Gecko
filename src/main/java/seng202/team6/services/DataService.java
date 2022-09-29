@@ -108,4 +108,13 @@ public class DataService {
     public Station getStation(int id) {
         return dao.getOne(id);
     }
+
+    /**
+     * Get the station DAO.
+     * @return the station DAO
+     */
+    public StationDao getStationDao() {
+        return dao;
+    }
+
 }

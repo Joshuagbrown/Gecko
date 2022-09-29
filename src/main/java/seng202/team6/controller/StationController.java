@@ -30,12 +30,14 @@ public class StationController {
     public Button viewChargersButton;
     @FXML
     public TextField lonField;
+    @FXML
+    public Button saveButton;
     private Stage stage;
     @FXML
     public TextField nameField;
-    public Button closePopUp;
     private int stationId;
     private MainScreenController controller;
+    private Station station;
 
 
 
@@ -47,24 +49,24 @@ public class StationController {
         this.stage = stage;
         this.stationId = id;
         this.controller = controller;
+        findStation();
         setFields();
     }
 
 
     /**
-     * Finds and returns the station to display.
-     * @return station the station with corresponding id
+     * Finds and sets the station to display.
      */
-    public Station findStation() {
-        return controller.getDataService().getStation(stationId);
+    public void findStation() {
+        this.station = controller.getDataService().getStation(stationId);
     }
+
 
     /**
      * Function which sets the fields of the edit-station pop up to be filled with the
      * information from the selected station.
      */
     public void setFields() {
-        Station station = findStation();
         nameField.setText(station.getName());
         Position pos = station.getCoordinates();
         latField.setText(String.valueOf(pos.getLatitude()));
@@ -84,5 +86,30 @@ public class StationController {
 
     }
 
+    /**
+     * Function to save changes made by user and update database.
+     * @param actionEvent when save button is clicked
+     */
+    public void savingChanges(ActionEvent actionEvent) {
 
+        String newName = nameField.getText();
+        String newAddress = addressField.getText();
+        Double newLat = Double.parseDouble(latField.getText());
+        Double newLong = Double.parseDouble(lonField.getText());
+        Position newPos = new Position(newLat, newLong);
+        boolean is24Hours = hoursButton.isSelected();
+        boolean tourist = touristButton.isSelected();
+
+        station.setName(newName);
+        station.setAddress(newAddress);
+        station.setPosition(newPos);
+        station.setIs24Hours(is24Hours);
+        station.setHasTouristAttraction(tourist);
+
+        System.out.println("Gets here");
+
+        controller.getDataService().getStationDao().update(station);
+        controller.updateStationsFromDatabase(null);
+
+    }
 }

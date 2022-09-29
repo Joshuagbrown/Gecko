@@ -173,7 +173,7 @@
         var m = new L.Marker([lat, lng], {icon:greenIcon})
         /////OBJECT ID OR STATION ID
         m.bindPopup(title + "\n" +`<button data-id="${objectId}" class="button" type="button">Edit Station</button>`).openPopup();
-        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(objectId));
         m.objectId = objectId;
         markers.push(m)
     }

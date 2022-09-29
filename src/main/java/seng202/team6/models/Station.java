@@ -186,5 +186,50 @@ public class Station {
                 + "Charging Cost : " + chargingCost + "\n"
                 + "Has Tourist Attraction : " + hasTouristAttraction;
     }
+
+    /**
+     * Function to set the name variable of station to new string.
+     * @param newName the new name string
+     */
+    public void setName(String newName) {
+        name = newName;
+    }
+
+    /**
+     * Function to set the address variable of station to new string.
+     * @param newAddress the new address string
+     */
+    public void setAddress(String newAddress) {
+        address = newAddress;
+    }
+
+
+    /**
+     * Function to set the coordinates variable of station to new Position.
+     * @param newPosition the new position
+     */
+    public void setPosition(Position newPosition) {
+        coordinates = newPosition;
+    }
+
+
+    /**
+     * Function to set the is24Hours variable to a new boolean.
+     * @param newHours new boolean for if the station is 24 hours
+     */
+    public void setIs24Hours(boolean newHours) {
+        is24Hours = newHours;
+    }
+
+
+    /**
+     * Function to set the hasTouristAttraction variable to a new boolean.
+     * @param newTourist new boolean for if the station has tourist attraction
+     */
+    public void setHasTouristAttraction(boolean newTourist) {
+        hasTouristAttraction = newTourist;
+    }
+
+
 }
 
