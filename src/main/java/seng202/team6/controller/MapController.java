@@ -98,7 +98,6 @@ public class MapController implements ScreenController {
      */
     public void onStationClicked(int stationId) {
         Station station = stations.get(stationId);
-        System.out.println(station);
         setClickLocation(station.getCoordinates().getLatitude(),
                         station.getCoordinates().getLongitude());
         setAddress(station.getAddress());

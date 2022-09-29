@@ -43,6 +43,8 @@ public class StationController {
 
     /**
      * Initializes the Station Controller class.
+     * @param stage the stage for the pop-up.
+     * @param controller the mainscreen controller.
      * @param id The stationId of the station.
      */
     public void init(Stage stage, MainScreenController controller, int id) throws IOException {
@@ -106,10 +108,22 @@ public class StationController {
         station.setIs24Hours(is24Hours);
         station.setHasTouristAttraction(tourist);
 
-        System.out.println("Gets here");
-
         controller.getDataService().getStationDao().update(station);
         controller.updateStationsFromDatabase(null);
+        stage.close();
+        controller.setTextAreaInMainScreen(station.toString());
+
+    }
+
+
+    /**
+     * Function to initialize the view/edit charger pop-up.
+     * @param actionEvent when the "View chargers" button is clicked
+     */
+    public void viewChargers(ActionEvent actionEvent) {
+
+
+
 
     }
 }

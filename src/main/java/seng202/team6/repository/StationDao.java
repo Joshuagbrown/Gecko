@@ -238,7 +238,6 @@ public class StationDao implements DaoInterface<Station> {
 
     @Override
     public void update(Station toUpdate) {
-        System.out.println(toUpdate.getObjectId());
         String stationSql = "UPDATE stations SET name=? , operator=? , owner=?,"
                 + "address=? , timeLimit=? , is24Hours=? , numberOfCarparks=?, carparkCost=? ,"
                 + "chargingCost=? , hasTouristAttraction=?, lat=? , long=? "
@@ -262,16 +261,38 @@ public class StationDao implements DaoInterface<Station> {
             ps.executeUpdate();
 
             for (Charger charger : toUpdate.getChargers()) {
-                System.out.println(charger);
                 if (charger.getChargerId() == -1) {
                     addCharger(charger);
                 } else {
                     updateCharger(charger);
                 }
             }
-            System.out.println("Gets hh");
         } catch (SQLException e) {
             log.error(e.getMessage());
         }
     }
+
+
+    //    public ArrayList<String> getChargerTypes() {
+    //        String chargerSql = "SELECT DISTINCT plugType FROM chargers";
+    //        try (Connection conn = databaseManager.connect();
+    //             PreparedStatement ps = conn.prepareStatement(chargerSql);
+    //             PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
+    //            ps.executeQuery();
+    //            ResultSet rs = ps.executeQuery();
+    //            ResultSet rs2 = ps2.executeQuery();
+    //            ArrayList<String> types = new ArrayList<>();
+    //            boolean stillGoing = rs.next();
+    //            while (stillGoing) {
+    //                types.add(chargerFromResultSet(rs));
+    //                stillGoing = rs.next();
+    //                if (stillGoing) {
+    //                    rs2.next();
+    //                }
+    //            }
+    //        } catch (SQLException e) {
+    //            throw new RuntimeException(e);
+    //        }
+    //    }
+
 }
