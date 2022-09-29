@@ -94,8 +94,7 @@ public class DataToolBarController implements ScreenController {
      */
     public void filterStation(ActionEvent actionEvent) {
         String sql = createSqlQueryStringFromFilter();
-        controller.getDataController().loadData(sql);
-        controller.getMapController().addStationsToMap(sql);
+        controller.updateStationsFromDatabase(sql);
     }
 
     /**
