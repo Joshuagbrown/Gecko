@@ -171,7 +171,7 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
-            loadMapViewAndToolBars();
+            mapButtonEventHandler();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -298,20 +298,19 @@ public class MainScreenController {
      *
      * @param actionEvent Top level container for this window.
      */
-    public void loadMapViewAndToolBars(ActionEvent actionEvent) {
+    public void mapButtonEventHandler(ActionEvent actionEvent) {
 
         textAreaInMainScreen.setText("");
         mainBorderPane.setCenter(mapScreen);
         toolBarPane.setCenter(mapToolBarScreen);
-        mainBorderPane.setRight(null);
         mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
     }
 
     /**
      * This loads the map view and toolbars.
      */
-    public void loadMapViewAndToolBars() {
-        loadMapViewAndToolBars(null);
+    public void mapButtonEventHandler() {
+        mapButtonEventHandler(null);
     }
 
     /**
@@ -345,11 +344,10 @@ public class MainScreenController {
      * The action handler that linked to the Login button on main screen.
      * @param actionEvent when Login button is clicked
      */
-    public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
+    public void loginButtonEventHandler(ActionEvent actionEvent) {
         if (currentUser == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
-            mainBorderPane.setRight(null);
             loadGeckoFact(getClass().getResourceAsStream("/TextFiles/FunFacts.txt"));
         } else {
             loadMyDetailsViewAndToolBars();
@@ -370,7 +368,6 @@ public class MainScreenController {
     public void loadMyDetailsViewAndToolBars() {
         mainBorderPane.setCenter(myDetailsScreen);
         toolBarPane.setCenter(myDetailsToolBarScreen);
-        mainBorderPane.setRight(null);
     }
 
     /**
@@ -381,7 +378,7 @@ public class MainScreenController {
         setCurrentUser(user);
         loadMyDetailsViewAndToolBars();
         getMyDetailsController().loadUserData();
-        loadMapViewAndToolBars();
+        mapButtonEventHandler();
         setLoginBtnText();
     }
 
@@ -393,7 +390,6 @@ public class MainScreenController {
 
         mainBorderPane.setCenter(dataScreen);
         toolBarPane.setCenter(dataToolBarScreen);
-        mainBorderPane.setRight(null);
     }
 
     /**
