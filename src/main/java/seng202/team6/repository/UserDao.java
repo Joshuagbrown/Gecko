@@ -13,7 +13,7 @@ public class UserDao implements DaoInterface<User> {
     private static final Logger log = LogManager.getLogger();
 
     @Override
-    public HashMap<Integer, User> getAll(String sql) {
+    public HashMap<Integer, User> getAll() {
         throw new UnsupportedOperationException();
     }
 

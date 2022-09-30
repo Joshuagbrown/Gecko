@@ -20,6 +20,7 @@ import seng202.team6.io.StationCsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.repository.DatabaseManager;
+import seng202.team6.repository.FilterBuilder;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
 
@@ -77,16 +78,21 @@ public class DataService {
     }
 
     /**
-     * Fetch data from the database, either all, or from the sql query.
-     * @param sql The sql query to run if exists
-     * @return A hashmap of the data returned
+     * Fetch all data from the database.
      */
-    public Map<Integer, Station> fetchAllData(String sql) {
-        return dao.getAll(sql);
+    public Map<Integer, Station> fetchData() {
+        return dao.getAll();
     }
 
     /**
-     * Add a user to the database..
+     * Fetch data from the database filtered by the FilterBuilder.
+     */
+    public Map<Integer, Station> fetchData(FilterBuilder builder) {
+        return dao.getFromFilterBuilder(builder);
+    }
+
+    /**
+     * Add a user to the database.
      * @param user the user to add
      */
     public void addUser(User user) throws DatabaseException {
