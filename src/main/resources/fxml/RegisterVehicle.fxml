@@ -28,7 +28,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="199.931640625" GridPane.rowIndex="4">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="199.931640625" GridPane.rowIndex="2">
                             <font>
                                 <Font size="15.0" />
                             </font></Text>
@@ -37,7 +37,7 @@
                             <font>
                                 <Font size="15.0" />
                             </font></Button>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Model:" wrappingWidth="188.7949104309082" GridPane.rowIndex="2">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Model:" wrappingWidth="188.7949104309082" GridPane.rowIndex="4">
                             <font>
                                 <Font size="15.0" />
                             </font></Text>
@@ -57,9 +57,11 @@
                   </Text>
                   <ChoiceBox fx:id="inputChargerType" prefHeight="26.0" prefWidth="248.0" GridPane.rowIndex="7" />
                   <ChoiceBox fx:id="inputVehicleMake" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="inputVehicleModel" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="3" />
-                  <ChoiceBox fx:id="inputVehicleYear" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="5" />
+                  <ChoiceBox fx:id="inputVehicleModel" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="5" />
+                  <ChoiceBox fx:id="inputVehicleYear" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="3" />
                   <TextField fx:id="inputTextOfMake" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="inputTextOfYear" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="inputTextOfModel" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                     </children>
                     <BorderPane.margin>
                         <Insets />

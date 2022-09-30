@@ -23,9 +23,11 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.repository.FilterBuilder;
 import seng202.team6.services.DataService;
 
 /**
@@ -127,7 +129,7 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
-        updateStationsFromDatabase(null);
+        updateStationsFromDatabase();
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
@@ -222,10 +224,19 @@ public class MainScreenController {
 
     /**
      * Function to update the stations.
-     * @param sql the sql query.
+     * @param builder The filter builder to use
      */
-    public void updateStationsFromDatabase(String sql) {
-        Map<Integer, Station> stationMap = dataService.fetchAllData(sql);
+    public void updateStationsFromDatabase(FilterBuilder builder) {
+        Map<Integer, Station> stationMap = dataService.fetchData(builder);
+        getStations().clear();
+        getStations().putAll(stationMap);
+    }
+
+    /**
+     * Function to update the stations.
+     */
+    public void updateStationsFromDatabase() {
+        Map<Integer, Station> stationMap = dataService.fetchData();
         getStations().clear();
         getStations().putAll(stationMap);
     }
@@ -438,20 +449,25 @@ public class MainScreenController {
                 .add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
-            Task<Void> task = new Task<>() {
+            Task<List<String>> task = new Task<>() {
                 @Override
-                protected Void call()  {
+                protected List<String> call()  {
                     ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
                     value.addListener((observable, oldValue, newValue) -> {
                         updateProgress(newValue.getKey(), newValue.getValue());
                         updateMessage(newValue.getKey() + " / " + newValue.getValue());
                     });
                     try {
-                        dataService.loadDataFromCsv(selectedFile, value);
+                        return dataService.loadDataFromCsv(selectedFile, value)
+                                .stream().map(e ->
+                                        String.format(
+                                                "Line %d: %s",
+                                                e.getLine(),
+                                                e.getCause().getMessage()))
+                                .toList();
                     } catch (CsvFileException | DatabaseException e) {
                         throw new RuntimeException(e);
                     }
-                    return null;
                 }
             };
             ProgressDialog dialog = new ProgressDialog(task);
@@ -462,9 +478,13 @@ public class MainScreenController {
             if (task.getState() == Worker.State.FAILED) {
                 AlertMessage.createMessage("An error occurred when importing data",
                         task.getException().getCause().getMessage());
+            } else if (task.getState() == Worker.State.SUCCEEDED) {
+                AlertMessage.createListMessage("Warning",
+                        "Some lines were skipped",
+                        task.getValue());
             }
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
-            updateStationsFromDatabase(null);
+            updateStationsFromDatabase();
         }
     }
     public void loadVehicleType() throws DatabaseException, CsvFileException {

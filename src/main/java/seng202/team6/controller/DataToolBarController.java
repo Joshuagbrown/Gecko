@@ -6,6 +6,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import seng202.team6.models.Position;
+import seng202.team6.repository.FilterBuilder;
 
 /**
  * The controller class of the data toolbar fxml.
@@ -34,67 +36,49 @@ public class DataToolBarController implements ScreenController {
     }
 
     /**
-     * This function creates a sql query from the filters selected.
-     * @return a string that is the sql query.
-     */
-    public String createSqlQueryStringFromFilter() {
-        String sql = "SELECT * FROM Stations "
-                + "JOIN chargers c ON stations.stationId = c.stationId WHERE ";
-        if (inputStationName.getText().length() != 0) {
-            sql += "(name LIKE '%" + inputStationName.getText()
-                    + "%' OR address LIKE '%"
-                    + inputStationName.getText()
-                    + "%' OR operator LIKE '%"
-                    + inputStationName.getText()
-                    + "%') AND ";
-        }
-        if (distanceSliderOfFilter.getValue() != 0) {
-            double[] latlng = controller.getMapController().getLatLng();
-            if (latlng[0] == 0) {
-                AlertMessage.createMessage("Current Location has not been selected.",
-                        "Please select a location on the map.");
-            } else {
-                float distance = (float) (distanceSliderOfFilter.getValue() / 110.574);
-                sql += "LAT < " + (latlng[0] + distance) + " AND lat > " + (latlng[0] - distance)
-                        + " AND long  < " + (latlng[1] + distance) + " AND long > "
-                        + (latlng[1] - distance) + " AND ";
-            }
-        }
-        if (timeLimitInFilter.getValue() != 0) {
-            sql += "(timeLimit >= " + timeLimitInFilter.getValue() + " OR timeLimit ==0) " + "AND ";
-        }
-        if (is24HourCheckBox.isSelected()) {
-            sql += "is24Hours = 1 AND ";
-        }
-        if (hasCarParkCostCheckBox.isSelected()) {
-            sql += "carparkCost = 0 AND ";
-        }
-        if (hasTouristAttractionCostCheckBox.isSelected()) {
-            sql += "hasTouristAttraction = 1 AND ";
-
-        }
-        if (hasChargingCostCheckBox.isSelected()) {
-            sql += "chargingCost = 0 AND ";
-        }
-        if (sql.equals("SELECT * FROM Stations "
-                + "JOIN chargers c ON stations.stationId = c.stationId WHERE ")) {
-            sql = "SELECT * FROM Stations JOIN chargers c ON stations.stationId = c.stationId";
-        } else {
-            int num = sql.lastIndexOf("AND");
-            sql = sql.substring(0, num);
-        }
-        sql += "; ORDER BY stations.stationId";
-        return sql;
-    }
-
-    /**
      * This function calls the create sql function,
      * and with that string applies the filters to the map and data table.
      * @param actionEvent When filter station button is clicked.
      */
     public void filterStation(ActionEvent actionEvent) {
-        String sql = createSqlQueryStringFromFilter();
-        controller.updateStationsFromDatabase(sql);
+        FilterBuilder builder = new FilterBuilder();
+
+        if (!inputStationName.getText().isBlank()) {
+            builder.addSearchFilter(inputStationName.getText());
+        }
+
+        if (distanceSliderOfFilter.getValue() != 0) {
+            Position position = controller.getMapController().getLatLng();
+            if (position == null) {
+                AlertMessage.createMessage("Current Location has not been selected.",
+                        "Please select a location on the map.");
+
+            } else {
+                builder.addDistanceFilter(position, distanceSliderOfFilter.getValue());
+            }
+        }
+
+        if (timeLimitInFilter.getValue() != 0) {
+            builder.addTimeLimitFilter(timeLimitInFilter.getValue());
+        }
+
+        if (is24HourCheckBox.isSelected()) {
+            builder.addIs24HourFilter();
+        }
+
+        if (hasCarParkCostCheckBox.isSelected()) {
+            builder.addCarParkCostFilter();
+        }
+
+        if (hasChargingCostCheckBox.isSelected()) {
+            builder.addHasChargingCostFilter();
+        }
+
+        if (hasTouristAttractionCostCheckBox.isSelected()) {
+            builder.addHasTouristAttractionFilter();
+        }
+
+        controller.updateStationsFromDatabase(builder);
     }
 
     /**

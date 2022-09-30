@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.value.WritableObjectValue;
@@ -15,6 +16,7 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
 import seng202.team6.io.VehicleCsvImporter;
@@ -22,6 +24,7 @@ import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.DatabaseManager;
+import seng202.team6.repository.FilterBuilder;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
 import seng202.team6.repository.VehicleDao;
@@ -45,21 +48,24 @@ public class DataService {
      *
      * @param file file to retrieve necessary data from.
      */
-    public void loadDataFromCsv(File file, WritableObjectValue<Pair<Integer, Integer>> value)
-            throws CsvFileException, DatabaseException {
+    public List<CsvLineException> loadDataFromCsv(
+            File file,
+            WritableObjectValue<Pair<Integer, Integer>> value
+    ) throws CsvFileException, DatabaseException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
-        List<Station> stations = stationCsvImporter.readFromFile(file);
+        List<CsvLineException> errors = new ArrayList<>();
+        List<Station> stations = stationCsvImporter.readFromFile(file, errors);
         int i = 0;
         for (Station station : stations) {
             dao.add(station);
             value.set(new Pair<>(++i, stations.size()));
         }
+        return errors;
     }
 
     public void loadVehicleDataFromCsv(File file) throws DatabaseException, CsvFileException {
         VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
-        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file);
-        int i = 0;
+        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, new ArrayList<>());
         for (Vehicle vehicle : vehicles) {
             vehicleDao.add(vehicle);
         }
@@ -91,16 +97,21 @@ public class DataService {
     }
 
     /**
-     * Fetch data from the database, either all, or from the sql query.
-     * @param sql The sql query to run if exists
-     * @return A hashmap of the data returned
+     * Fetch all data from the database.
      */
-    public Map<Integer, Station> fetchAllData(String sql) {
-        return dao.getAll(sql);
+    public Map<Integer, Station> fetchData() {
+        return dao.getAll();
     }
 
     /**
-     * Add a user to the database..
+     * Fetch data from the database filtered by the FilterBuilder.
+     */
+    public Map<Integer, Station> fetchData(FilterBuilder builder) {
+        return dao.getFromFilterBuilder(builder);
+    }
+
+    /**
+     * Add a user to the database.
      * @param user the user to add
      */
     public void addUser(User user) throws DatabaseException {
@@ -114,4 +125,5 @@ public class DataService {
     public void updateUser(User user) throws DatabaseException {
         userDao.update(user);
     }
+
 }
