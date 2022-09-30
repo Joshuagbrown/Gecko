@@ -273,26 +273,20 @@ public class StationDao implements DaoInterface<Station> {
     }
 
 
-    //    public ArrayList<String> getChargerTypes() {
-    //        String chargerSql = "SELECT DISTINCT plugType FROM chargers";
-    //        try (Connection conn = databaseManager.connect();
-    //             PreparedStatement ps = conn.prepareStatement(chargerSql);
-    //             PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
-    //            ps.executeQuery();
-    //            ResultSet rs = ps.executeQuery();
-    //            ResultSet rs2 = ps2.executeQuery();
-    //            ArrayList<String> types = new ArrayList<>();
-    //            boolean stillGoing = rs.next();
-    //            while (stillGoing) {
-    //                types.add(chargerFromResultSet(rs));
-    //                stillGoing = rs.next();
-    //                if (stillGoing) {
-    //                    rs2.next();
-    //                }
-    //            }
-    //        } catch (SQLException e) {
-    //            throw new RuntimeException(e);
-    //        }
-    //    }
+    public List<String> getChargerTypes() {
+        String plugType = "SELECT DISTINCT plugType FROM chargers";
+        try (Connection conn = databaseManager.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(plugType);
+            List<String> types = new ArrayList<>();
+            while (rs.next()) {
+                String type = rs.getString(1);
+                types.add(type);
+            }
+            return types;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
