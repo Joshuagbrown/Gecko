@@ -177,8 +177,9 @@ public class MainScreenController {
             registerVehicleScreen = pair.getKey();
             registerVehicleController = (RegisterVehicleController) pair.getValue();
 
-            loadMapViewAndToolBars();
+//            loadMapViewAndToolBars();
             loadVehicleType();
+            mapButtonEventHandler();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -189,6 +190,10 @@ public class MainScreenController {
         }
         stage.sizeToScene();
 
+    }
+
+    public void loadRegisterVehicleScreen(){
+        mainBorderPane.setCenter(registerVehicleScreen);
     }
 
     /**
@@ -309,7 +314,7 @@ public class MainScreenController {
      *
      * @param actionEvent Top level container for this window.
      */
-    public void loadMapViewAndToolBars(ActionEvent actionEvent) {
+    public void mapButtonEventHandler(ActionEvent actionEvent) {
 
         textAreaInMainScreen.setText("");
         mainBorderPane.setCenter(mapScreen);
@@ -321,8 +326,8 @@ public class MainScreenController {
     /**
      * This loads the map view and toolbars.
      */
-    public void loadMapViewAndToolBars() {
-        loadMapViewAndToolBars(null);
+    public void mapButtonEventHandler() {
+        mapButtonEventHandler(null);
     }
 
     /**
@@ -356,7 +361,7 @@ public class MainScreenController {
      * The action handler that linked to the Login button on main screen.
      * @param actionEvent when Login button is clicked
      */
-    public void loadLoginViewAndToolBars(ActionEvent actionEvent) {
+    public void loginButtonEventHandler(ActionEvent actionEvent) {
         if (currentUser == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
@@ -366,10 +371,6 @@ public class MainScreenController {
             loadMyDetailsViewAndToolBars();
         }
 
-    }
-
-    public void loadRegisterVehicleScreen(){
-        mainBorderPane.setCenter(registerVehicleScreen);
     }
 
     /**
@@ -385,7 +386,6 @@ public class MainScreenController {
     public void loadMyDetailsViewAndToolBars() {
         mainBorderPane.setCenter(myDetailsScreen);
         toolBarPane.setCenter(myDetailsToolBarScreen);
-        mainBorderPane.setRight(null);
     }
 
     /**
@@ -396,7 +396,7 @@ public class MainScreenController {
         setCurrentUser(user);
         loadMyDetailsViewAndToolBars();
         getMyDetailsController().loadUserData();
-        loadMapViewAndToolBars();
+        mapButtonEventHandler();
         setLoginBtnText();
     }
 
