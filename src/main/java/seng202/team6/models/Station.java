@@ -230,6 +230,14 @@ public class Station {
         hasTouristAttraction = newTourist;
     }
 
+    /**
+     * Function to add a charger to the stations current chargers.
+     * @param newCharger the charger to be added
+     */
+    public void addCharger(Charger newCharger) {
+        chargers.add(newCharger);
+    }
+
 
 }
 

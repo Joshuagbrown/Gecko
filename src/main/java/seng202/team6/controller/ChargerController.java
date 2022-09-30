@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,13 +15,8 @@ import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
 
 
+
 public class ChargerController {
-    @FXML
-    public RadioButton acButton;
-    @FXML
-    public ToggleGroup currentType;
-    @FXML
-    public RadioButton dcButton;
     @FXML
     public ToggleGroup operative;
     @FXML
@@ -35,9 +31,12 @@ public class ChargerController {
     public TextField wattageText;
     @FXML
     public ComboBox plugTypeDropDown;
+    public Button deleteButton;
     private Stage stage;
     private Station station;
     private MainScreenController controller;
+    private List<String> types;
+    private Charger currentlySelectedCharger;
 
     /**
      * Initializes the Charger Controller class.
@@ -58,13 +57,13 @@ public class ChargerController {
     public void setChargerAndPlugDropDown() {
 
         ObservableList<Charger> options = FXCollections.observableArrayList();
-        //for (Charger charger : station.getChargers()) {
-        //    options.add(charger);
-        //}
         options.addAll(station.getChargers());
         chargerDropDown.setItems(options);
 
-        // Need to get all different types of chargers
+        types = controller.getDataService().getStationDao().getChargerTypes();
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.addAll(types);
+        plugTypeDropDown.setItems(typeOptions);
 
     }
 
@@ -76,25 +75,107 @@ public class ChargerController {
      */
     public void chargerSelected(ActionEvent actionEvent) {
 
-        // ADD code for ac/dc once Philip adds this to database
         Charger current = (Charger) chargerDropDown.getValue();
-        String op = current.getOperative();
-        if (op.equals("Operative")) {
-            opButton.setSelected(true);
-            //notOpButton.setSelected(false);
-            //Do we need above?
-        } else {
-            notOpButton.setSelected(true);
+        currentlySelectedCharger = current;
+        if (current != null) {
+            String op = current.getOperative();
+            if (op.equals("Operative")) {
+                opButton.setSelected(true);
+            } else {
+                notOpButton.setSelected(true);
+            }
+
+            int watts = current.getWattage();
+            wattageText.setText(String.valueOf(watts));
+
+            String type = current.getPlugType();
+            int index = types.indexOf(type);
+            plugTypeDropDown.getSelectionModel().select(index);
         }
 
-        int watts = current.getWattage();
-        wattageText.setText(String.valueOf(watts));
+    }
 
+    /**
+     * Function used to update charger details in the database.
+     * @param actionEvent when the user selects "Save Changes"
+     */
+    public void saveChargerChanges(ActionEvent actionEvent) {
 
+        List<Charger> chargers = station.getChargers();
+        int i = 0;
+        boolean found = false;
+        while (i < chargers.size() && !found) {
+            if (chargers.get(i) == currentlySelectedCharger) {
+                found = true;
+            } else {
+                i++;
+            }
+        }
+
+        int wattage = Integer.parseInt(wattageText.getText());
+        String plugType = (String) plugTypeDropDown.getValue();
+        String op;
+        if (opButton.isSelected()) {
+            op = "Operative";
+        } else {
+            op = "Not Operative";
+        }
+
+        Charger updating;
+        if (i == chargers.size()) {
+            updating = new Charger(plugType, op, wattage);
+            station.addCharger(updating);
+        } else {
+            updating = chargers.get(i);
+            updating.setWattage(wattage);
+            updating.setOperative(op);
+            updating.setPlugType(plugType);
+        }
+
+        controller.getDataService().getStationDao().update(station);
+        setChargerAndPlugDropDown();
+        //plugTypeDropDown.getSelectionModel().select();
+        controller.updateStationsFromDatabase(null);
+        controller.setTextAreaInMainScreen(station.toString());
+
+    }
+
+    /**
+     * Function to add a new charger to the database under the
+     * currently selected charger.
+     * @param actionEvent when the add a new charger button is selected.
+     */
+    public void addCharger(ActionEvent actionEvent) {
+        chargerDropDown.getSelectionModel().clearSelection();
+        wattageText.setText("");
+        opButton.setSelected(true);
+        plugTypeDropDown.getSelectionModel().clearSelection();
 
     }
 
 
+    /**
+     * Function to delete the currently selected charger.
+     * @param actionEvent when the user selects delete charger
+     */
+    public void deleteCharger(ActionEvent actionEvent) {
+        List<Charger> chargers = station.getChargers();
+        int index = 0;
+        boolean found = false;
+        while (index < chargers.size() && !found) {
+            if (chargers.get(index) == currentlySelectedCharger) {
+                found = true;
+            } else {
+                index++;
+            }
+        }
+        chargers.remove(index);
 
+        controller.getDataService().getStationDao().update(station);
+        setChargerAndPlugDropDown();
+
+        controller.updateStationsFromDatabase(null);
+        controller.setTextAreaInMainScreen(station.toString());
+    }
 
 }

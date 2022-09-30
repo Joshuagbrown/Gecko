@@ -120,10 +120,18 @@ public class StationController {
      * Function to initialize the view/edit charger pop-up.
      * @param actionEvent when the "View chargers" button is clicked
      */
-    public void viewChargers(ActionEvent actionEvent) {
-
-
-
+    public void viewChargers(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Current Chargers");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.show();
+        ChargerController chargerController = loader.getController();
+        chargerController.init(stage, controller, station);
 
     }
 }

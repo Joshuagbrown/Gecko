@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
@@ -207,15 +206,16 @@ public class StationDao implements DaoInterface<Station> {
         }
     }
 
-    private void addCharger(Charger charger) {
-        String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative) "
-                + "Values (?,?,?)";
+    private void addCharger(Charger charger, int stationId) {
+        String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative,stationId) "
+                + "Values (?,?,?,?)";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps2 = conn.prepareStatement(insertChargerSql)) {
-            ps2.setString(1, charger.getPlugType());
-            ps2.setInt(2, charger.getWattage());
-            ps2.setString(3, charger.getOperative());
-            ps2.executeQuery();
+             PreparedStatement ps = conn.prepareStatement(insertChargerSql)) {
+            ps.setString(1, charger.getPlugType());
+            ps.setInt(2, charger.getWattage());
+            ps.setString(3, charger.getOperative());
+            ps.setInt(4, stationId);
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -262,7 +262,7 @@ public class StationDao implements DaoInterface<Station> {
 
             for (Charger charger : toUpdate.getChargers()) {
                 if (charger.getChargerId() == -1) {
-                    addCharger(charger);
+                    addCharger(charger, toUpdate.getObjectId());
                 } else {
                     updateCharger(charger);
                 }
@@ -273,6 +273,10 @@ public class StationDao implements DaoInterface<Station> {
     }
 
 
+    /**
+     * Function to get the distinct charger types from the database.
+     * @return the distinct charger types
+     */
     public List<String> getChargerTypes() {
         String plugType = "SELECT DISTINCT plugType FROM chargers";
         try (Connection conn = databaseManager.connect();
