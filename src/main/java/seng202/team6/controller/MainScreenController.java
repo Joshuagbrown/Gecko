@@ -115,6 +115,10 @@ public class MainScreenController {
     private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
 
+    private int currentUserId;
+
+
+
     /**
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen.
@@ -193,9 +197,24 @@ public class MainScreenController {
         stage.sizeToScene();
 
     }
+    public MyDetailsController getMyDetailController() {
+        return myDetailsController;
+    }
+
+    public RegisterVehicleController getRegisterVehicleController() {
+        return registerVehicleController;
+    }
 
     public void loadRegisterVehicleScreen(){
         mainBorderPane.setCenter(registerVehicleScreen);
+    }
+
+    public int getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public void setCurrentUserId(int currentUserId) {
+        this.currentUserId = currentUserId;
     }
 
     /**

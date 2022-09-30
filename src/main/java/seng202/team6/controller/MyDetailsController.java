@@ -1,11 +1,18 @@
 package seng202.team6.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.models.Vehicle;
+import seng202.team6.repository.VehicleDao;
 import seng202.team6.services.Validity;
 
 public class MyDetailsController implements ScreenController {
@@ -17,10 +24,17 @@ public class MyDetailsController implements ScreenController {
     public Button confirmEditButton;
     public Button editDetailsButton;
     public Button cancelEditButton;
+    public TableView<Vehicle> userVehicleTable;
+    public TableColumn<Vehicle, String> make;
+    public TableColumn<Vehicle, String> plugType;
+    public TableColumn<Vehicle, String> model;
+    public TableColumn<Vehicle, Integer> year;
     private MainScreenController controller;
     private String name = null;
     private String address = null;
     private Validity valid;
+
+    private VehicleDao vehicleDao = new VehicleDao();
 
 
     @Override
@@ -36,6 +50,23 @@ public class MyDetailsController implements ScreenController {
         usernameField.setText(controller.getCurrentUser().getUsername());
         nameField.setText(controller.getCurrentUser().getName());
         homeAddressField.setText(controller.getCurrentUser().getAddress());
+        loadUserVehicle();
+    }
+
+    public void loadUserVehicle(){
+
+        userVehicleTable.getItems().clear();
+        make.setCellValueFactory(new PropertyValueFactory<>("make"));
+        model.setCellValueFactory(new PropertyValueFactory<>("model"));
+        year.setCellValueFactory(new PropertyValueFactory<>("year"));
+        plugType.setCellValueFactory(new PropertyValueFactory<>("plugType"));
+
+        List<Vehicle> vehicles = vehicleDao.getUserVehicle(controller.getCurrentUserId());
+
+        userVehicleTable.getItems().addAll(vehicles);
+
+
+
     }
 
     /**

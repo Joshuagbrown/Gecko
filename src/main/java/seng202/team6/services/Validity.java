@@ -3,6 +3,8 @@ package seng202.team6.services;
 import java.io.IOException;
 import seng202.team6.controller.MainScreenController;
 
+import static org.apache.commons.lang3.StringUtils.isNumeric;
+
 public class Validity {
     private MainScreenController controller;
 
@@ -47,6 +49,14 @@ public class Validity {
      */
     public boolean checkAddress(String address) throws IOException, InterruptedException {
         return controller.getMapToolBarController().geoCode(address) != null;
+    }
+
+    public static boolean checkValue(String value) {
+        return isNumeric(value);
+    }
+    public static boolean checkPlugType(String plugType) {
+        return plugType.matches("(?=.*\\S)[a-zA-Z0-9\\s]*");
+//        return plugType.matches("^[a-zA-Z0-9]*$");
     }
 
 }

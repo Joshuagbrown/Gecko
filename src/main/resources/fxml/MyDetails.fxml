@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
+<SplitPane dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
   <items>
      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0">
         <columnConstraints>
@@ -100,10 +100,12 @@
            </Text>
         </children>
      </GridPane>
-     <TableView layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
+     <TableView fx:id="userVehicleTable" layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
         <columns>
-           <TableColumn prefWidth="75.0" text="C1" />
-           <TableColumn prefWidth="75.0" text="C2" />
+           <TableColumn fx:id="make" prefWidth="75.0" text="Make" />
+           <TableColumn fx:id="model" prefWidth="75.0" text="Model" />
+            <TableColumn fx:id="plugType" prefWidth="75.0" text="Plug type" />
+            <TableColumn fx:id="year" prefWidth="75.0" text="Year" />
         </columns>
      </TableView>
   </items>

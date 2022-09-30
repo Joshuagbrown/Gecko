@@ -62,6 +62,7 @@
                   <TextField fx:id="inputTextOfMake" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="inputTextOfYear" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="inputTextOfModel" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="inputTextOfChargerType" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                     </children>
                     <BorderPane.margin>
                         <Insets />

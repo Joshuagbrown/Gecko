@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Charger;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.models.Vehicle;
 
@@ -35,6 +36,23 @@ public class VehicleDao implements DaoInterface<Vehicle> {
                 makes.add(rs.getString(1));
             }
             return makes;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Vehicle> getUserVehicle(int userid) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        String vehicleSql = "SELECT make,model,plugType,year,userId FROM vehicles WHERE userId = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(vehicleSql)) {
+            ps.setInt(1, userid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString(3));
+                vehicles.add(new Vehicle(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5) ));
+            }
+            return vehicles;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -72,6 +90,23 @@ public class VehicleDao implements DaoInterface<Vehicle> {
             throw new RuntimeException(e);
         }
     }
+
+    public List<String> getPlugType() {
+        List<String> plugType = new ArrayList<>();
+        String makeSql = "SELECT DISTINCT plugType FROM chargers";
+        try (Connection conn = databaseManager.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(makeSql);
+            while (rs.next()) {
+                plugType.add(rs.getString(1));
+            }
+            return plugType;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
 
