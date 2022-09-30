@@ -173,7 +173,9 @@ public class ChargerController {
 
         controller.getDataService().getStationDao().update(station);
         setChargerAndPlugDropDown();
-
+        wattageText.setText("");
+        opButton.setSelected(true);
+        plugTypeDropDown.getSelectionModel().clearSelection();
         controller.updateStationsFromDatabase(null);
         controller.setTextAreaInMainScreen(station.toString());
     }
