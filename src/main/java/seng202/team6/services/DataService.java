@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.value.WritableObjectValue;
@@ -15,6 +16,7 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
 import seng202.team6.models.Station;
@@ -41,15 +43,19 @@ public class DataService {
      *
      * @param file file to retrieve necessary data from.
      */
-    public void loadDataFromCsv(File file, WritableObjectValue<Pair<Integer, Integer>> value)
-            throws CsvFileException, DatabaseException {
+    public List<CsvLineException> loadDataFromCsv(
+            File file,
+            WritableObjectValue<Pair<Integer, Integer>> value
+    ) throws CsvFileException, DatabaseException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
-        List<Station> stations = stationCsvImporter.readFromFile(file);
+        List<CsvLineException> errors = new ArrayList<>();
+        List<Station> stations = stationCsvImporter.readFromFile(file, errors);
         int i = 0;
         for (Station station : stations) {
             dao.add(station);
             value.set(new Pair<>(++i, stations.size()));
         }
+        return errors;
     }
 
     /**
