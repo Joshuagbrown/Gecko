@@ -17,11 +17,14 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
+import seng202.team6.io.VehicleCsvImporter;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.models.Vehicle;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
+import seng202.team6.repository.VehicleDao;
 
 /**
  * Service class to handle accessing and storing the necessary information.
@@ -32,6 +35,8 @@ public class DataService {
     private final StationDao dao = new StationDao();
 
     private final UserDao userDao = new UserDao();
+
+    private final VehicleDao vehicleDao = new VehicleDao();
 
 
     /**
@@ -48,6 +53,15 @@ public class DataService {
         for (Station station : stations) {
             dao.add(station);
             value.set(new Pair<>(++i, stations.size()));
+        }
+    }
+
+    public void loadVehicleDataFromCsv(File file) throws DatabaseException, CsvFileException {
+        VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
+        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file);
+        int i = 0;
+        for (Vehicle vehicle : vehicles) {
+            vehicleDao.add(vehicle);
         }
     }
 

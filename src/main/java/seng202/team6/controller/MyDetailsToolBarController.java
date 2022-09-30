@@ -20,6 +20,7 @@ public class MyDetailsToolBarController implements ScreenController {
      * Load the register vehicle pop up.
      */
     public void loadRegisterVehicle(ActionEvent actionEvent) {
+        controller.loadRegisterVehicleScreen();
     }
 
     /**

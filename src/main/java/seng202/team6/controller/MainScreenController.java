@@ -110,6 +110,8 @@ public class MainScreenController {
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private User currentUser = null;
+    private Parent registerVehicleScreen;
+    private RegisterVehicleController registerVehicleController;
 
     /**
      * Initialize the window by loading necessary screen and
@@ -171,9 +173,18 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
+            pair = screen.loadBigScreen(stage, "/fxml/RegisterVehicle.fxml", this);
+            registerVehicleScreen = pair.getKey();
+            registerVehicleController = (RegisterVehicleController) pair.getValue();
+
             loadMapViewAndToolBars();
+            loadVehicleType();
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        } catch (CsvFileException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
@@ -357,6 +368,10 @@ public class MainScreenController {
 
     }
 
+    public void loadRegisterVehicleScreen(){
+        mainBorderPane.setCenter(registerVehicleScreen);
+    }
+
     /**
      * The action handler that linked to the sign-up button on toolbar screen.
      */
@@ -393,7 +408,6 @@ public class MainScreenController {
 
         mainBorderPane.setCenter(dataScreen);
         toolBarPane.setCenter(dataToolBarScreen);
-        mainBorderPane.setRight(null);
     }
 
     /**
@@ -452,5 +466,9 @@ public class MainScreenController {
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
             updateStationsFromDatabase(null);
         }
+    }
+    public void loadVehicleType() throws DatabaseException, CsvFileException {
+        File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
+        dataService.loadVehicleDataFromCsv(csvFile);
     }
 }
