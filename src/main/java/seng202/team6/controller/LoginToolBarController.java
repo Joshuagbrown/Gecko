@@ -17,7 +17,7 @@ public class LoginToolBarController implements ScreenController {
      * Load the login page.
      */
     public void loadLogin(ActionEvent actionEvent) {
-        controller.loadLoginViewAndToolBars(null);
+        controller.loginButtonEventHandler(null);
     }
 
     @Override
