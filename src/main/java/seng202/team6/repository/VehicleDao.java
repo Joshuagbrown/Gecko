@@ -43,14 +43,14 @@ public class VehicleDao implements DaoInterface<Vehicle> {
 
     public List<Vehicle> getUserVehicle(int userid) {
         List<Vehicle> vehicles = new ArrayList<>();
-        String vehicleSql = "SELECT make,model,plugType,year,userId FROM vehicles WHERE userId = ?";
+        String vehicleSql = "SELECT make,model,plugType,year,userId,vehicleId FROM vehicles WHERE userId = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql)) {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 System.out.println(rs.getString(3));
-                vehicles.add(new Vehicle(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5) ));
+                vehicles.add(new Vehicle(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6) ));
             }
             return vehicles;
         } catch (SQLException e) {
@@ -150,15 +150,12 @@ public class VehicleDao implements DaoInterface<Vehicle> {
      * @param todelete the vehicle to delete
      */
     public void deleteVehicle(Vehicle todelete) {
-        String vehicleSql = "DELETE FROM vehicles WHERE make = (?) AND "
-                + "model = ? AND plugtype = ? AND year = ?";
+        String vehicleSql = "DELETE FROM vehicles WHERE  vehicleId = ? ";
+
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql)) {
 
-            ps.setString(1, todelete.getMake());
-            ps.setString(2,todelete.getModel());
-            ps.setString(3,todelete.getPlugType());
-            ps.setInt(4,todelete.getYear());
+            ps.setInt(1,todelete.getVehicleId());
 
             ps.executeUpdate();
 
@@ -170,8 +167,8 @@ public class VehicleDao implements DaoInterface<Vehicle> {
 
     @Override
     public void update(Vehicle toUpdate) {
-        String vehicleSql = "UPDATE vehicles SET make = (?) , "
-                + "model = ? , plugtype = ? , year = ? Where vehicleId = ?";
+        String vehicleSql = "UPDATE vehicles SET make = ? , "
+                + "model = ? , plugtype = ? , year = ? Where vehicleId = ? ";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql);) {
@@ -180,8 +177,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
             ps.setString(2,toUpdate.getModel());
             ps.setString(3,toUpdate.getPlugType());
             ps.setInt(4,toUpdate.getYear());
-            ps.setInt(5,toUpdate.getYear());
-
+            ps.setInt(5,toUpdate.getVehicleId());
             ps.executeUpdate();
 
         } catch (SQLException e) {

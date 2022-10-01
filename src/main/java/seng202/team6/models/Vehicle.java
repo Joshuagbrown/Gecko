@@ -5,6 +5,7 @@ package seng202.team6.models;
  */
 public class Vehicle {
 
+    private int vehicleId = -1;
     String make;
     String model;
     String plugType;
@@ -27,6 +28,23 @@ public class Vehicle {
         this.plugType = plugType;
         this.year = year;
         this.userId = userId;
+    }
+
+    public Vehicle(String make, String model, String plugType, int year, int userId,int vehicleId){
+        this.make = make;
+        this.model = model;
+        this.plugType = plugType;
+        this.year = year;
+        this.userId = userId;
+        this.vehicleId= vehicleId;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     public String getMake() {

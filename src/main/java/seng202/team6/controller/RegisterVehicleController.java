@@ -40,6 +40,8 @@ public class RegisterVehicleController implements ScreenController {
 
     private Validity validity = new Validity(controller);
 
+    private Vehicle editVehicle;
+
 
     @Override
     public void init(Stage stage, MainScreenController controller) {
@@ -263,10 +265,23 @@ public class RegisterVehicleController implements ScreenController {
 
     public void updateEditVehicle(ActionEvent actionEvent) throws DatabaseException {
         if (inputChecking() != null) {
-            vehicleDao.update(inputChecking());
+
+            Vehicle vehicle= inputChecking();
+            editVehicle.setMake(vehicle.getMake());
+            editVehicle.setModel(vehicle.getModel());
+            editVehicle.setYear(vehicle.getYear());
+            editVehicle.setPlugType(vehicle.getPlugType());
+            vehicleDao.update(editVehicle);
             controller.getMyDetailController().loadUserVehicle();
+
+            editVehicle = null;
+
 
         }
         clearVehicleSelect(null);
+    }
+
+    public void setEditVehicle(Vehicle editVehicle) {
+        this.editVehicle = editVehicle;
     }
 }

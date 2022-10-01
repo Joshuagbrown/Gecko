@@ -137,6 +137,7 @@ public class MyDetailsController implements ScreenController {
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
             controller.getRegisterVehicleController().loadEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+            controller.getRegisterVehicleController().setEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
 
         } else {
             AlertMessage.createMessage("Please selest a vehicle to edit", "Please click the vehicle table to select one vehicle.");
@@ -148,6 +149,7 @@ public class MyDetailsController implements ScreenController {
         VehicleDao vehicleDao = new VehicleDao();
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             vehicleDao.deleteVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+            controller.getRegisterVehicleController().setEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
             loadUserVehicle();
 
 
