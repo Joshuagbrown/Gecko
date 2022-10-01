@@ -218,22 +218,18 @@ public class MainScreenController {
      */
     public void loadRegisterVehicleScreen() throws IOException {
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RegisterVehicle.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 500, 600);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Current Station");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.show();
+        registerVehicleController = loader.getController();
+        registerVehicleController.init(stage, this);
 
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RegisterVehicle.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 500, 600);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Current Station");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.DECORATED);
-            stage.show();
-            registerVehicleController = loader.getController();
-            registerVehicleController.init(stage, this);
-
-
-//        mainBorderPane.setCenter(registerVehicleScreen);
     }
 
     /**

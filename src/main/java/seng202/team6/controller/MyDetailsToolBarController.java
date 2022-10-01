@@ -1,9 +1,8 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class MyDetailsToolBarController implements ScreenController {
 
