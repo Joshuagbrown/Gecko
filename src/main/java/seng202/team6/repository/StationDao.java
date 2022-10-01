@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
@@ -41,19 +43,17 @@ public class StationDao implements DaoInterface<Station> {
         );
     }
 
-    @Override
-    public HashMap<Integer, Station> getAll(String sql) {
-        HashMap<Integer, Station> stations = new HashMap<>();
-        if (sql == null) {
-            sql = "SELECT * FROM stations "
-                    + "INNER JOIN chargers c ON stations.stationId = c.stationId";
-        }
-        //String
+    /**
+     * Get stations from a filter builder.
+     * @param builder The builder to use.
+     */
+    public Map<Integer, Station> getFromFilterBuilder(FilterBuilder builder) {
+        Map<Integer, Station> stations = new HashMap<>();
         try (Connection conn = databaseManager.connect();
-             Statement stmt = conn.createStatement();
-             Statement stmt2 = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql);
-             ResultSet rs2 = stmt2.executeQuery(sql)) {
+             PreparedStatement ps = builder.build(conn);
+             PreparedStatement ps2 = builder.build(conn);
+             ResultSet rs = ps.executeQuery();
+             ResultSet rs2 = ps2.executeQuery()) {
             ArrayList<Charger> chargers = new ArrayList<>();
             boolean stillGoing = rs.next();
             while (stillGoing) {
@@ -76,6 +76,11 @@ public class StationDao implements DaoInterface<Station> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Map<Integer, Station> getAll() {
+        return getFromFilterBuilder(new FilterBuilder());
     }
 
     private Charger chargerFromResultSet(ResultSet rs) throws SQLException {

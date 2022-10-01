@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
 import seng202.team6.business.JavaScriptBridge;
+import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
 
@@ -37,10 +38,9 @@ public class MapController implements ScreenController {
     @FXML
     private WebView webView;
 
-    private StationDao stationDao = new StationDao();
     private MainScreenController controller;
-    private double locationLat = 0;
-    private double locationLng = 0;
+
+    private Position position = null;
     private String currentAddress;
 
     private ObservableMap<Integer, Station> stations;
@@ -110,16 +110,15 @@ public class MapController implements ScreenController {
      * @param lng longitude
      */
     public void setClickLocation(double lat, double lng) {
-        locationLat = lat;
-        locationLng = lng;
+        position = new Position(lat, lng);
     }
 
     /**
      * Function call to get two float value of the latitude and longitude.
      * @return a list with two float value of the latitude and longitude.
      */
-    public double[] getLatLng() {
-        return new double[]{locationLat, locationLng};
+    public Position getLatLng() {
+        return position;
     }
 
 
