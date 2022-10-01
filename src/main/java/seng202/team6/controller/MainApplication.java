@@ -14,6 +14,8 @@ import seng202.team6.services.DataService;
  */
 public class MainApplication extends Application {
     private DataService dataService = new DataService();
+    private final int PREF_MIN_WIDTH = 1200;
+    private final int PREF_MIN_HEIGHT = 800;
 
     @Override
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
@@ -24,10 +26,11 @@ public class MainApplication extends Application {
         baseController.init(primaryStage, dataService);
 
         primaryStage.setTitle("Gecko");
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, PREF_MIN_WIDTH, PREF_MIN_HEIGHT);
         scene.getStylesheets().add(getClass().getResource(
                 "/stylesheets/main.css").toExternalForm());
-
+        primaryStage.setMinWidth(PREF_MIN_WIDTH);
+        primaryStage.setMinHeight(PREF_MIN_HEIGHT);
         // Add a custom application icon
 
         primaryStage.setScene(scene);

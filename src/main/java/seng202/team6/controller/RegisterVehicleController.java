@@ -320,10 +320,10 @@ public class RegisterVehicleController implements ScreenController {
             btnConfirmEdit.setVisible(false);
             btnConfirmEdit.setDisable(true);
             submitVehicleButton.setDisable(false);
+            clearVehicleSelect(null);
 
 
         }
-        clearVehicleSelect(null);
     }
 
     public void setEditVehicle(Vehicle editVehicle) {
