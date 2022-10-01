@@ -1,9 +1,11 @@
 package seng202.team6.services;
 
+import static org.apache.commons.lang3.StringUtils.isNumeric;
+
 import java.io.IOException;
 import seng202.team6.controller.MainScreenController;
 
-import static org.apache.commons.lang3.StringUtils.isNumeric;
+
 
 public class Validity {
     private MainScreenController controller;
@@ -51,12 +53,22 @@ public class Validity {
         return controller.getMapToolBarController().geoCode(address) != null;
     }
 
+    /**
+     * Check the input value is a interger.
+     * @param value the string value that want to check.
+     * @return boolean of true or false.
+     */
     public static boolean checkValue(String value) {
         return isNumeric(value);
     }
+
+    /**
+     * Check the string to be made of alphabet and number and space.
+     * @param plugType the string that need to be check.
+     * @return boolean of true or false.
+     */
     public static boolean checkPlugType(String plugType) {
         return plugType.matches("(?=.*\\S)[a-zA-Z0-9\\s]*");
-//        return plugType.matches("^[a-zA-Z0-9]*$");
     }
 
 }

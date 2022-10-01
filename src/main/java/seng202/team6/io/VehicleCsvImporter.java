@@ -9,7 +9,7 @@ public class VehicleCsvImporter extends CsvImporter<Vehicle> {
     @Override
     protected Vehicle readValueFromLine(String[] line) throws CsvLineException {
 
-        try{
+        try {
             int year = Integer.parseInt(line[0]);
             String make = line[1];
             String  model = line[2];
@@ -19,7 +19,7 @@ public class VehicleCsvImporter extends CsvImporter<Vehicle> {
             return new Vehicle(make, model, plugType, year, userId);
 
 
-        } catch (NumberFormatException e ) {
+        } catch (NumberFormatException e) {
             throw new CsvLineException(e);
         }
     }

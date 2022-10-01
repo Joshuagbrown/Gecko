@@ -26,6 +26,10 @@ public class VehicleDao implements DaoInterface<Vehicle> {
         return null;
     }
 
+    /**
+     * The sql query to get the make of vehicle from the database.
+     * @return list of vehicle make string.
+     */
     public List<String> getMakes() {
         List<String> makes = new ArrayList<>();
         String makeSql = "SELECT DISTINCT make FROM vehicles WHERE userId = -1";
@@ -41,16 +45,24 @@ public class VehicleDao implements DaoInterface<Vehicle> {
         }
     }
 
+    /**
+     * Get the vehicle data of the user from the database with sql query.
+     * @param userid the user id of user.
+     * @return vehicle list of the user.
+     */
     public List<Vehicle> getUserVehicle(int userid) {
         List<Vehicle> vehicles = new ArrayList<>();
-        String vehicleSql = "SELECT make,model,plugType,year,userId,vehicleId FROM vehicles WHERE userId = ?";
+        String vehicleSql = "SELECT make,model,plugType,year,userId,vehicleId "
+                + "FROM vehicles WHERE userId = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql)) {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 System.out.println(rs.getString(3));
-                vehicles.add(new Vehicle(rs.getString(1), rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getInt(6) ));
+                vehicles.add(new Vehicle(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getInt(4), rs.getInt(5), rs.getInt(6)));
             }
             return vehicles;
         } catch (SQLException e) {
@@ -58,6 +70,11 @@ public class VehicleDao implements DaoInterface<Vehicle> {
         }
     }
 
+    /**
+     * he sql query to get the year of vehicle with related make from the database.
+     * @param make the make of the vehicle.
+     * @return list of vehicle year string.
+     */
     public List<String> getYear(String make) {
         List<String> makes = new ArrayList<>();
         String makeSql = "SELECT DISTINCT year FROM vehicles WHERE userId = -1 and make = ?";
@@ -74,9 +91,16 @@ public class VehicleDao implements DaoInterface<Vehicle> {
         }
     }
 
+    /**
+     * Get the model of the vehicle with related make and year from database.
+     * @param make the make of the vehicle.
+     * @param year the year of the vehicle.
+     * @return the list of the model.
+     */
     public List<String> getModel(String make,String year) {
         List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT model FROM vehicles WHERE userId = -1 and make = ? and year = ?";
+        String makeSql = "SELECT DISTINCT model FROM vehicles "
+                + "WHERE userId = -1 and make = ? and year = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(makeSql)) {
             ps.setString(1, make);
@@ -91,6 +115,10 @@ public class VehicleDao implements DaoInterface<Vehicle> {
         }
     }
 
+    /**
+     * Get the possible plug type of vehicle.
+     * @return list of plug type.
+     */
     public List<String> getPlugType() {
         List<String> plugType = new ArrayList<>();
         String makeSql = "SELECT DISTINCT plugType FROM chargers";
@@ -106,14 +134,12 @@ public class VehicleDao implements DaoInterface<Vehicle> {
         }
     }
 
-
-
-
-
-
-
-
-
+    /**
+     * Add the vehicle to the data base.
+     * @param toAdd object of type T to add.
+     * @return the insert id.
+     * @throws DatabaseException the database error.
+     */
     @Override
     public int add(Vehicle toAdd) throws DatabaseException {
 

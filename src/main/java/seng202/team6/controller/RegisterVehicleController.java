@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -7,14 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import seng202.team6.controller.AlertMessage;
+import seng202.team6.controller.MainScreenController;
+import seng202.team6.controller.ScreenController;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.VehicleDao;
 import seng202.team6.services.Validity;
 
-import java.util.List;
 
-//TODO make controller
 public class RegisterVehicleController implements ScreenController {
 
     public ChoiceBox inputChargerType;
@@ -32,10 +34,10 @@ public class RegisterVehicleController implements ScreenController {
     private MainScreenController controller;
 
 
-    private List<String> chargerTypeList ;
-    private List<String> makeList ;
+    private List<String> chargerTypeList;
+    private List<String> makeList;
     private List<String> modelList;
-    private List<String> yearList ;
+    private List<String> yearList;
     private VehicleDao vehicleDao = new VehicleDao();
 
     private Validity validity = new Validity(controller);
@@ -54,7 +56,11 @@ public class RegisterVehicleController implements ScreenController {
 
     }
 
-    public void loadEditVehicle(Vehicle vehicle){
+    /**
+     * load the vehicle page with the vehicle that want to edit.
+     * @param vehicle the vehicle that want to edit the data.
+     */
+    public void loadEditVehicle(Vehicle vehicle) {
 
         inputVehicleMake.valueProperty().set(vehicle.getMake());
         inputVehicleYear.valueProperty().set(Integer.toString(vehicle.getYear()));
@@ -68,7 +74,7 @@ public class RegisterVehicleController implements ScreenController {
     private void loadVehicleDataAndActionHandler() {
         loadMake();
         inputVehicleMake.setOnAction(event -> {
-            if (inputVehicleMake.getValue()=="other") {
+            if (inputVehicleMake.getValue() == "other") {
 
                 inputVehicleYear.getItems().clear();
                 inputVehicleModel.getItems().clear();
@@ -94,7 +100,7 @@ public class RegisterVehicleController implements ScreenController {
         });
 
         inputVehicleYear.setOnAction(event -> {
-            if (inputVehicleYear.getValue()=="other") {
+            if (inputVehicleYear.getValue() == "other") {
 
                 inputVehicleModel.getItems().clear();
 
@@ -115,13 +121,14 @@ public class RegisterVehicleController implements ScreenController {
                 inputTextOfYear.setVisible(false);
                 inputTextOfModel.setVisible(false);
 
-                loadModel((String) inputVehicleMake.getValue(), (String) inputVehicleYear.getValue());
+                loadModel((String) inputVehicleMake.getValue(),
+                        (String) inputVehicleYear.getValue());
             }
         });
 
         inputVehicleModel.setOnAction(event -> {
 
-            if (inputVehicleModel.getValue()=="other") {
+            if (inputVehicleModel.getValue() == "other") {
                 inputTextOfModel.setVisible(true);
 
             } else {
@@ -130,7 +137,7 @@ public class RegisterVehicleController implements ScreenController {
         });
         inputChargerType.setOnAction(event -> {
 
-            if (inputChargerType.getValue()=="other") {
+            if (inputChargerType.getValue() == "other") {
                 inputTextOfChargerType.setVisible(true);
 
             } else {
@@ -140,24 +147,40 @@ public class RegisterVehicleController implements ScreenController {
 
     }
 
-    public void loadMake(){
+    /**
+     * load the vehicle make into the choice box.
+     */
+    public void loadMake() {
         makeList = vehicleDao.getMakes();
         makeList.add("other");
         inputVehicleMake.getItems().setAll(makeList);
     }
 
-    public void loadYear(String make){
+    /**
+     * load the year of vehicle into the choice box with related make.
+     * @param make the vehicle make that determine the vehicle year.
+     */
+    public void loadYear(String make) {
         yearList = vehicleDao.getYear(make);
         yearList.add("other");
         inputVehicleYear.getItems().setAll(yearList);
     }
 
-    public void loadModel (String make, String year) {
+    /**
+     * load the vehicle model into the choice box with related year and make.
+     * @param make the vehicle make that determine the vehicle model.
+     * @param year the vehicle year that determine the vehicle model.
+     */
+    public void loadModel(String make, String year) {
         modelList = vehicleDao.getModel(make,year);
         modelList.add("other");
         inputVehicleModel.getItems().setAll(modelList);
     }
-    public void loadPlugType(){
+
+    /**
+     * load the possible plug type into the choice box.
+     */
+    public void loadPlugType() {
 
         List<String> plugType = vehicleDao.getPlugType();
         plugType.add("other");
@@ -166,6 +189,10 @@ public class RegisterVehicleController implements ScreenController {
     }
 
 
+    /**
+     * Clear the selected value of all the choice box.
+     * @param actionEvent the click action.
+     */
     public void clearVehicleSelect(ActionEvent actionEvent) {
 
         inputVehicleMake.valueProperty().set(null);
@@ -177,6 +204,11 @@ public class RegisterVehicleController implements ScreenController {
 
     }
 
+    /**
+     * The event handler of the add a new vehicle button.
+     * @param actionEvent event handler.
+     * @throws DatabaseException the database error.
+     */
     public void submitVehicle(ActionEvent actionEvent) throws DatabaseException {
         if (inputChecking() != null) {
             vehicleDao.add(inputChecking());
@@ -186,7 +218,11 @@ public class RegisterVehicleController implements ScreenController {
         }
     }
 
-    public Vehicle inputChecking(){
+    /**
+     * Check the input validation if valid return a vehicle if not return null.
+     * @return the vehicle that has all the essential data.
+     */
+    public Vehicle inputChecking() {
         String error = null;
 
         String make = null;
@@ -194,18 +230,17 @@ public class RegisterVehicleController implements ScreenController {
         String model = null;
         String plugType = null;
 
-        if (inputVehicleMake.getValue()!= null && inputVehicleMake.getValue()!= "other") {
+        if (inputVehicleMake.getValue() != null && inputVehicleMake.getValue() != "other") {
             make = (String) inputVehicleMake.getValue();
         } else {
             if (Validity.checkName(inputTextOfMake.getText())) {
                 make = inputTextOfMake.getText();
             } else {
-                error += "Please input a valid make \n" ;
-                //AlertMessage.createMessage("Invalid vehicle data", "Please input a valid make");
+                error += "Please input a valid make \n";
             }
         }
-        if (inputVehicleYear.getValue()!= null && inputVehicleYear.getValue()!= "other") {
-            year = Integer.parseInt((String)inputVehicleYear.getValue());
+        if (inputVehicleYear.getValue() != null && inputVehicleYear.getValue() != "other") {
+            year = Integer.parseInt((String) inputVehicleYear.getValue());
         } else {
             if (Validity.checkValue(inputTextOfYear.getText())) {
                 year = Integer.parseInt(inputTextOfYear.getText());
@@ -214,40 +249,42 @@ public class RegisterVehicleController implements ScreenController {
                 //AlertMessage.createMessage("Invalid vehicle data", "Please input a numeric year");
             }
         }
-        if (inputVehicleModel.getValue()!= null && inputVehicleYear.getValue()!= "other") {
+        if (inputVehicleModel.getValue() != null && inputVehicleYear.getValue() != "other") {
             model = (String) inputVehicleModel.getValue();
         } else {
             if (Validity.checkUserName(inputTextOfModel.getText())) {
                 model = inputTextOfYear.getText();
             } else {
                 error += "Please input a valid model of vehicle\n";
-                //AlertMessage.createMessage("Invalid vehicle data", "Please input a valid model of vehicle");
             }
         }
 
-        if (inputChargerType.getValue()!= null && inputChargerType.getValue()!= "other") {
+        if (inputChargerType.getValue() != null && inputChargerType.getValue() != "other") {
             plugType = (String) inputChargerType.getValue();
         } else {
             if (Validity.checkPlugType(inputTextOfChargerType.getText())) {
                 plugType = inputTextOfChargerType.getText();
             } else {
                 error += "Please input a valid plug type of vehicle\n";
-                //AlertMessage.createMessage("Invalid vehicle data", "Please input a valid plug type of vehicle");
             }
         }
 
 
-        if(make != null && year != -1 && model != null && plugType!= null) {
+        if (make != null && year != -1 && model != null && plugType != null) {
 
-            return new Vehicle(make,model,plugType,year,controller.getCurrentUserId());
+            return new Vehicle(make, model, plugType, year, controller.getCurrentUserId());
 
         } else {
             AlertMessage.createMessage("Invalid vehicle data", error);
             return null;
         }
+
     }
 
-    public void resetInputMake(){
+    /**
+     * If user input other of make that need to disable the choice of other choice box.
+     */
+    public void resetInputMake() {
         inputVehicleYear.getItems().clear();
         inputVehicleModel.getItems().clear();
 
@@ -263,10 +300,15 @@ public class RegisterVehicleController implements ScreenController {
     }
 
 
+    /**
+     * Update the vehicle with the new data.
+     * @param actionEvent event handler of click.
+     * @throws DatabaseException the database error that might occur.
+     */
     public void updateEditVehicle(ActionEvent actionEvent) throws DatabaseException {
         if (inputChecking() != null) {
 
-            Vehicle vehicle= inputChecking();
+            Vehicle vehicle = inputChecking();
             editVehicle.setMake(vehicle.getMake());
             editVehicle.setModel(vehicle.getModel());
             editVehicle.setYear(vehicle.getYear());

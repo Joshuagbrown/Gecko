@@ -2,10 +2,12 @@ package seng202.team6.controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -56,7 +58,10 @@ public class MyDetailsController implements ScreenController {
         loadUserVehicle();
     }
 
-    public void loadUserVehicle(){
+    /**
+     * load the user vehicles with user id.
+     */
+    public void loadUserVehicle() {
 
         userVehicleTable.getItems().clear();
         make.setCellValueFactory(new PropertyValueFactory<>("make"));
@@ -129,32 +134,49 @@ public class MyDetailsController implements ScreenController {
         cancelEditButton.setVisible(false);
     }
 
+    /**
+     * Register vehicle page is show when user click the add vehicle button.
+     * @param actionEvent the click action of add button.
+     */
     public void addVehicleEventHandler(ActionEvent actionEvent) {
         controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
     }
 
+    /**
+     * Edit vehicle page is show when user click the edit vehicle button.
+     * @param actionEvent the click action of add button.
+     */
     public void editVehicleEventHandler(ActionEvent actionEvent) {
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
-            controller.getRegisterVehicleController().loadEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
-            controller.getRegisterVehicleController().setEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+            controller.getRegisterVehicleController().loadEditVehicle(
+                    userVehicleTable.getSelectionModel().getSelectedItem());
+            controller.getRegisterVehicleController().setEditVehicle(
+                    userVehicleTable.getSelectionModel().getSelectedItem());
 
         } else {
-            AlertMessage.createMessage("Please selest a vehicle to edit", "Please click the vehicle table to select one vehicle.");
+            AlertMessage.createMessage("Please selest a vehicle to edit",
+                    "Please click the vehicle table to select one vehicle.");
         }
 
     }
 
+    /**
+     * User delete the vehicle from the table list.
+     * @param actionEvent  the click action of delete button.
+     */
     public void deleteVehicleEventHandler(ActionEvent actionEvent) {
         VehicleDao vehicleDao = new VehicleDao();
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             vehicleDao.deleteVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
-            controller.getRegisterVehicleController().setEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+            controller.getRegisterVehicleController().setEditVehicle(
+                    userVehicleTable.getSelectionModel().getSelectedItem());
             loadUserVehicle();
 
 
         } else {
-            AlertMessage.createMessage("Please select a vehicle to delete", "Please click the vehicle table to select one vehicle.");
+            AlertMessage.createMessage("Please select a vehicle to delete",
+                    "Please click the vehicle table to select one vehicle.");
         }
 
     }

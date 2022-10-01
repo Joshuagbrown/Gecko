@@ -63,6 +63,12 @@ public class DataService {
         return errors;
     }
 
+    /**
+     * load the vehicle data from csv file into the database.
+     * @param file the csv file that want to load the vehicle type data.
+     * @throws DatabaseException if the database error occur.
+     * @throws CsvFileException if the csv file error open.
+     */
     public void loadVehicleDataFromCsv(File file) throws DatabaseException, CsvFileException {
         VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
         List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, new ArrayList<>());

@@ -183,7 +183,6 @@ public class MainScreenController {
             registerVehicleScreen = pair.getKey();
             registerVehicleController = (RegisterVehicleController) pair.getValue();
 
-//            loadMapViewAndToolBars();
             loadVehicleType();
             mapButtonEventHandler();
 
@@ -197,22 +196,42 @@ public class MainScreenController {
         stage.sizeToScene();
 
     }
+
+    /**
+     * Function to get my detail controller of the app.
+     * @return my detail controller.
+     */
     public MyDetailsController getMyDetailController() {
         return myDetailsController;
     }
 
+    /**
+     * Function to get register vehicle controller of the app.
+     * @return register vehicle controller.
+     */
     public RegisterVehicleController getRegisterVehicleController() {
         return registerVehicleController;
     }
 
-    public void loadRegisterVehicleScreen(){
+    /**
+     * load the register vehicle screen on the main screen.
+     */
+    public void loadRegisterVehicleScreen() {
         mainBorderPane.setCenter(registerVehicleScreen);
     }
 
+    /**
+     * Function to get the current user id.
+     * @return current user id.
+     */
     public int getCurrentUserId() {
         return currentUserId;
     }
 
+    /**
+     * Fuction to set the current user id.
+     * @param currentUserId the user id to be set.
+     */
     public void setCurrentUserId(int currentUserId) {
         this.currentUserId = currentUserId;
     }
@@ -507,10 +526,19 @@ public class MainScreenController {
         }
     }
 
+    /**
+     * Funtion to get my detail toolbar controller.
+     * @return my detail toolbar controller.
+     */
     public MyDetailsToolBarController getMyDetailsToolBarController() {
         return myDetailsToolBarController;
     }
 
+    /**
+     * Action to load the csv file of green vehicle into the database.
+     * @throws DatabaseException the error from database.
+     * @throws CsvFileException the error from the csv file loading.
+     */
     public void loadVehicleType() throws DatabaseException, CsvFileException {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
         dataService.loadVehicleDataFromCsv(csvFile);
