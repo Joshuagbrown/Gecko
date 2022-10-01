@@ -29,6 +29,9 @@ public class MyDetailsController implements ScreenController {
     public TableColumn<Vehicle, String> plugType;
     public TableColumn<Vehicle, String> model;
     public TableColumn<Vehicle, Integer> year;
+    public Button btnAddVehicle;
+    public Button btnEditVehicle;
+    public Button btnDeleteVehicle;
     private MainScreenController controller;
     private String name = null;
     private String address = null;
@@ -64,8 +67,6 @@ public class MyDetailsController implements ScreenController {
         List<Vehicle> vehicles = vehicleDao.getUserVehicle(controller.getCurrentUserId());
 
         userVehicleTable.getItems().addAll(vehicles);
-
-
 
     }
 
@@ -126,5 +127,33 @@ public class MyDetailsController implements ScreenController {
         homeAddressField.setEditable(false);
         confirmEditButton.setVisible(false);
         cancelEditButton.setVisible(false);
+    }
+
+    public void addVehicleEventHandler(ActionEvent actionEvent) {
+        controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
+    }
+
+    public void editVehicleEventHandler(ActionEvent actionEvent) {
+        if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
+            controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
+            controller.getRegisterVehicleController().loadEditVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+
+        } else {
+            AlertMessage.createMessage("Please selest a vehicle to edit", "Please click the vehicle table to select one vehicle.");
+        }
+
+    }
+
+    public void deleteVehicleEventHandler(ActionEvent actionEvent) {
+        VehicleDao vehicleDao = new VehicleDao();
+        if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
+            vehicleDao.deleteVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+            loadUserVehicle();
+
+
+        } else {
+            AlertMessage.createMessage("Please select a vehicle to delete", "Please click the vehicle table to select one vehicle.");
+        }
+
     }
 }

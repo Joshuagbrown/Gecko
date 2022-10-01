@@ -506,6 +506,11 @@ public class MainScreenController {
             updateStationsFromDatabase();
         }
     }
+
+    public MyDetailsToolBarController getMyDetailsToolBarController() {
+        return myDetailsToolBarController;
+    }
+
     public void loadVehicleType() throws DatabaseException, CsvFileException {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
         dataService.loadVehicleDataFromCsv(csvFile);

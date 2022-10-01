@@ -28,6 +28,7 @@ public class RegisterVehicleController implements ScreenController {
     public TextField inputTextOfYear;
     public TextField inputTextOfModel;
     public TextField inputTextOfChargerType;
+    public Button btnConfirmEdit;
     private MainScreenController controller;
 
 
@@ -48,6 +49,16 @@ public class RegisterVehicleController implements ScreenController {
         loadPlugType();
         loadVehicleDataAndActionHandler();
 
+
+    }
+
+    public void loadEditVehicle(Vehicle vehicle){
+
+        inputVehicleMake.valueProperty().set(vehicle.getMake());
+        inputVehicleYear.valueProperty().set(Integer.toString(vehicle.getYear()));
+
+        inputVehicleModel.valueProperty().set(vehicle.getModel());
+        inputChargerType.valueProperty().set(vehicle.getPlugType());
 
     }
 
@@ -158,13 +169,22 @@ public class RegisterVehicleController implements ScreenController {
         inputVehicleMake.valueProperty().set(null);
         inputChargerType.valueProperty().set(null);
         resetInputMake();
+        loadVehicleDataAndActionHandler();
 
 
 
     }
 
     public void submitVehicle(ActionEvent actionEvent) throws DatabaseException {
+        if (inputChecking() != null) {
+            vehicleDao.add(inputChecking());
+            controller.getMyDetailController().loadUserVehicle();
+            clearVehicleSelect(null);
 
+        }
+    }
+
+    public Vehicle inputChecking(){
         String error = null;
 
         String make = null;
@@ -203,7 +223,7 @@ public class RegisterVehicleController implements ScreenController {
             }
         }
 
-        if (inputChargerType.getValue()!= null && inputVehicleYear.getValue()!= "other") {
+        if (inputChargerType.getValue()!= null && inputChargerType.getValue()!= "other") {
             plugType = (String) inputChargerType.getValue();
         } else {
             if (Validity.checkPlugType(inputTextOfChargerType.getText())) {
@@ -216,11 +236,12 @@ public class RegisterVehicleController implements ScreenController {
 
 
         if(make != null && year != -1 && model != null && plugType!= null) {
-            vehicleDao.add(new Vehicle(make,model,plugType,year,controller.getCurrentUserId()));
-            controller.getMyDetailController().loadUserVehicle();
+
+            return new Vehicle(make,model,plugType,year,controller.getCurrentUserId());
 
         } else {
             AlertMessage.createMessage("Invalid vehicle data", error);
+            return null;
         }
     }
 
@@ -240,8 +261,12 @@ public class RegisterVehicleController implements ScreenController {
     }
 
 
+    public void updateEditVehicle(ActionEvent actionEvent) throws DatabaseException {
+        if (inputChecking() != null) {
+            vehicleDao.update(inputChecking());
+            controller.getMyDetailController().loadUserVehicle();
 
-
-
-
+        }
+        clearVehicleSelect(null);
+    }
 }

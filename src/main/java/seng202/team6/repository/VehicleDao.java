@@ -171,7 +171,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
     @Override
     public void update(Vehicle toUpdate) {
         String vehicleSql = "UPDATE vehicles SET make = (?) , "
-                + "model = ? , plugtype = ? , year = ?";
+                + "model = ? , plugtype = ? , year = ? Where vehicleId = ?";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql);) {
@@ -180,6 +180,7 @@ public class VehicleDao implements DaoInterface<Vehicle> {
             ps.setString(2,toUpdate.getModel());
             ps.setString(3,toUpdate.getPlugType());
             ps.setInt(4,toUpdate.getYear());
+            ps.setInt(5,toUpdate.getYear());
 
             ps.executeUpdate();
 
