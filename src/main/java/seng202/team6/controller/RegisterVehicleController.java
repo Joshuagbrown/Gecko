@@ -249,11 +249,11 @@ public class RegisterVehicleController implements ScreenController {
                 //AlertMessage.createMessage("Invalid vehicle data", "Please input a numeric year");
             }
         }
-        if (inputVehicleModel.getValue() != null && inputVehicleYear.getValue() != "other") {
+        if (inputVehicleModel.getValue() != null && inputVehicleModel.getValue() != "other") {
             model = (String) inputVehicleModel.getValue();
         } else {
             if (Validity.checkUserName(inputTextOfModel.getText())) {
-                model = inputTextOfYear.getText();
+                model = inputTextOfModel.getText();
             } else {
                 error += "Please input a valid model of vehicle\n";
             }
@@ -317,6 +317,9 @@ public class RegisterVehicleController implements ScreenController {
             controller.getMyDetailController().loadUserVehicle();
 
             editVehicle = null;
+            btnConfirmEdit.setVisible(false);
+            btnConfirmEdit.setDisable(true);
+            submitVehicleButton.setDisable(false);
 
 
         }

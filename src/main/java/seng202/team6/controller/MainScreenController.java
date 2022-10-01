@@ -12,14 +12,18 @@ import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
@@ -179,10 +183,6 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
-            pair = screen.loadBigScreen(stage, "/fxml/RegisterVehicle.fxml", this);
-            registerVehicleScreen = pair.getKey();
-            registerVehicleController = (RegisterVehicleController) pair.getValue();
-
             loadVehicleType();
             mapButtonEventHandler();
 
@@ -216,8 +216,24 @@ public class MainScreenController {
     /**
      * load the register vehicle screen on the main screen.
      */
-    public void loadRegisterVehicleScreen() {
-        mainBorderPane.setCenter(registerVehicleScreen);
+    public void loadRegisterVehicleScreen() throws IOException {
+
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RegisterVehicle.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 500, 600);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Current Station");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            registerVehicleController = loader.getController();
+            registerVehicleController.init(stage, this);
+
+
+//        mainBorderPane.setCenter(registerVehicleScreen);
     }
 
     /**

@@ -3,6 +3,8 @@ package seng202.team6.controller;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MyDetailsToolBarController implements ScreenController {
 
     private MainScreenController controller;
@@ -20,7 +22,11 @@ public class MyDetailsToolBarController implements ScreenController {
      * Load the register vehicle pop up.
      */
     public void loadRegisterVehicle(ActionEvent actionEvent) {
-        controller.loadRegisterVehicleScreen();
+        try {
+            controller.loadRegisterVehicleScreen();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

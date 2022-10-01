@@ -139,7 +139,11 @@ public class MyDetailsController implements ScreenController {
      * @param actionEvent the click action of add button.
      */
     public void addVehicleEventHandler(ActionEvent actionEvent) {
+
+
         controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
+        controller.getRegisterVehicleController().btnConfirmEdit.setDisable(true);
+        controller.getRegisterVehicleController().submitVehicleButton.setDisable(false);
     }
 
     /**
@@ -147,12 +151,16 @@ public class MyDetailsController implements ScreenController {
      * @param actionEvent the click action of add button.
      */
     public void editVehicleEventHandler(ActionEvent actionEvent) {
+
+
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
             controller.getRegisterVehicleController().loadEditVehicle(
                     userVehicleTable.getSelectionModel().getSelectedItem());
             controller.getRegisterVehicleController().setEditVehicle(
                     userVehicleTable.getSelectionModel().getSelectedItem());
+            controller.getRegisterVehicleController().submitVehicleButton.setDisable(true);
+            controller.getRegisterVehicleController().btnConfirmEdit.setDisable(false);
 
         } else {
             AlertMessage.createMessage("Please selest a vehicle to edit",
