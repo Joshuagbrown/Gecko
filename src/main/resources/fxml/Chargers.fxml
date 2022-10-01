@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="321.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
+<AnchorPane prefHeight="321.0" prefWidth="510.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
    <children>
       <GridPane layoutX="147.0" layoutY="59.0" prefHeight="321.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -33,7 +41,10 @@
                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#addCharger" prefHeight="30.0" prefWidth="140.0" text="Add New Charger" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <padding>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                     </padding></Button>
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font></Button>
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="2">
@@ -98,10 +109,16 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </opaqueInsets>
                         </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="kW" GridPane.columnIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="kW" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
                      </children>
                   </GridPane>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="        PlugType:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="                        PlugType:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Text>
                   <ComboBox fx:id="plugTypeDropDown" prefHeight="30.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets />
@@ -119,7 +136,7 @@
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit Charger Information" underline="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
          </children>

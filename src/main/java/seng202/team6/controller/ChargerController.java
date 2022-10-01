@@ -13,7 +13,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
-
+import seng202.team6.services.Validity;
 
 
 public class ChargerController {
@@ -37,6 +37,7 @@ public class ChargerController {
     private MainScreenController controller;
     private List<String> types;
     private Charger currentlySelectedCharger;
+    private Validity valid;
 
     /**
      * Initializes the Charger Controller class.
@@ -48,6 +49,7 @@ public class ChargerController {
         this.stage = stage;
         this.station = station;
         this.controller = controller;
+        valid = new Validity(controller);
         setChargerAndPlugDropDown();
     }
 
@@ -105,42 +107,74 @@ public class ChargerController {
      */
     public void saveChargerChanges(ActionEvent actionEvent) {
 
-        List<Charger> chargers = station.getChargers();
-        int i = 0;
-        boolean found = false;
-        while (i < chargers.size() && !found) {
-            if (chargers.get(i) == currentlySelectedCharger) {
-                found = true;
-            } else {
-                i++;
+        Boolean valid = checkValues();
+        if (!valid) {
+            AlertMessage.createMessage("Invalid Changes made.",
+                    "Please fix the changes with errors.");
+        } else {
+            List<Charger> chargers = station.getChargers();
+            int i = 0;
+            boolean found = false;
+            while (i < chargers.size() && !found) {
+                if (chargers.get(i) == currentlySelectedCharger) {
+                    found = true;
+                } else {
+                    i++;
+                }
             }
+            int wattage = Integer.parseInt(wattageText.getText());
+            String plugType = (String) plugTypeDropDown.getValue();
+            String op;
+            if (opButton.isSelected()) {
+                op = "Operative";
+            } else {
+                op = "Not Operative";
+            }
+            Charger updating;
+            if (i == chargers.size()) {
+                updating = new Charger(plugType, op, wattage);
+                station.addCharger(updating);
+            } else {
+                updating = chargers.get(i);
+                updating.setWattage(wattage);
+                updating.setOperative(op);
+                updating.setPlugType(plugType);
+            }
+
+            controller.getDataService().getStationDao().update(station);
+            setChargerAndPlugDropDown();
+            chargerDropDown.getSelectionModel().select(i);
+            controller.updateStationsFromDatabase(null);
+            controller.setTextAreaInMainScreen(station.toString());
         }
 
-        int wattage = Integer.parseInt(wattageText.getText());
-        String plugType = (String) plugTypeDropDown.getValue();
-        String op;
-        if (opButton.isSelected()) {
-            op = "Operative";
+    }
+
+    /**
+     * Function to check the new provided details for the charger.
+     * @return true if all valid, entries, else false
+     */
+    private Boolean checkValues() {
+
+        Boolean returnable = true;
+
+        String wattage = wattageText.getText();
+
+        if (!valid.checkWattage(wattage)) {
+            wattageText.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
         } else {
-            op = "Not Operative";
+            wattageText.setStyle("");
         }
 
-        Charger updating;
-        if (i == chargers.size()) {
-            updating = new Charger(plugType, op, wattage);
-            station.addCharger(updating);
+        if (plugTypeDropDown.getValue() == null) {
+            plugTypeDropDown.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
         } else {
-            updating = chargers.get(i);
-            updating.setWattage(wattage);
-            updating.setOperative(op);
-            updating.setPlugType(plugType);
+            plugTypeDropDown.setStyle("");
         }
 
-        controller.getDataService().getStationDao().update(station);
-        setChargerAndPlugDropDown();
-        //plugTypeDropDown.getSelectionModel().select();
-        controller.updateStationsFromDatabase(null);
-        controller.setTextAreaInMainScreen(station.toString());
+        return returnable;
 
     }
 
@@ -173,15 +207,23 @@ public class ChargerController {
                 index++;
             }
         }
-        chargers.remove(index);
 
-        controller.getDataService().getStationDao().update(station);
-        setChargerAndPlugDropDown();
-        wattageText.setText("");
-        opButton.setSelected(true);
-        plugTypeDropDown.getSelectionModel().clearSelection();
-        controller.updateStationsFromDatabase(null);
-        controller.setTextAreaInMainScreen(station.toString());
+        if (index == chargers.size()) {
+            AlertMessage.createMessage("Unable to delete the currently selected charger.",
+                    "Please save your changes first.");
+        } else {
+            chargers.remove(index);
+
+            controller.getDataService().getStationDao().update(station);
+            setChargerAndPlugDropDown();
+            wattageText.setText("");
+            opButton.setSelected(true);
+            plugTypeDropDown.getSelectionModel().clearSelection();
+            chargerDropDown.getSelectionModel().clearSelection();
+            controller.updateStationsFromDatabase(null);
+            controller.setTextAreaInMainScreen(station.toString());
+        }
+
     }
 
 }

@@ -140,6 +140,22 @@ public class Validity {
         }
     }
 
+    /**
+     * Function to check if the provided string can represent a vai integer within given range.
+     * @param wat the given input
+     * @return true if valid, false if not
+     */
+    public Boolean checkWattage(String wat) {
+
+        Integer num = tryParse(wat);
+        if (num == null) {
+            return false;
+        } else {
+            return num > 0 && num <= 500;
+        }
+
+    }
+
 
 
 }
