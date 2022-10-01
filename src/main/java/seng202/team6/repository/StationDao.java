@@ -185,7 +185,7 @@ public class StationDao implements DaoInterface<Station> {
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, id);
-            ps.executeQuery();
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

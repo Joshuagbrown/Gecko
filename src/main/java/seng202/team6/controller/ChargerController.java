@@ -56,14 +56,18 @@ public class ChargerController {
      */
     public void setChargerAndPlugDropDown() {
 
-        ObservableList<Charger> options = FXCollections.observableArrayList();
-        options.addAll(station.getChargers());
-        chargerDropDown.setItems(options);
-
         types = controller.getDataService().getStationDao().getChargerTypes();
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
         typeOptions.addAll(types);
         plugTypeDropDown.setItems(typeOptions);
+
+        ObservableList<Charger> options = FXCollections.observableArrayList();
+        options.addAll(station.getChargers());
+        chargerDropDown.setItems(options);
+        if (options.size() > 0) {
+            chargerDropDown.getSelectionModel().select(0);
+        }
+
 
     }
 

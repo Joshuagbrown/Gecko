@@ -231,6 +231,57 @@ public class Station {
     }
 
     /**
+     * Function to update the operator.
+     * @param newOp the new Operator of the station
+     */
+    public void setOperator(String newOp) {
+        operator = newOp;
+    }
+
+    /**
+     * Function to update the owner.
+     * @param newOwner the new owner of the station
+     */
+    public void setOwner(String newOwner) {
+        owner = newOwner;
+    }
+
+
+    /**
+     * Funciton to update the timelimit.
+     * @param newTime the new timelimit of the station
+     */
+    public void setTimeLimit(int newTime) {
+        timeLimit = newTime;
+    }
+
+
+    /**
+     * Function to update the number of carParks.
+     * @param newParks the new number of carParks at the station
+     */
+    public void setNumberOfCarParks(int newParks) {
+        numberOfCarParks = newParks;
+    }
+
+
+    /**
+     * Function to update the carPark cost of the station.
+     * @param newCost the new cost of carParks at the station (as Boolean)
+     */
+    public void setCarParkCost(boolean newCost) {
+        carParkCost = newCost;
+    }
+
+    /**
+     * Function to update the charging cost of the station.
+     * @param newCost the new cost of charging at the station (as Boolean)
+     */
+    public void setChargingCost(boolean newCost) {
+        chargingCost = newCost;
+    }
+
+    /**
      * Function to add a charger to the stations current chargers.
      * @param newCharger the charger to be added
      */

@@ -1,6 +1,8 @@
 package seng202.team6.controller;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,29 +17,44 @@ import javafx.stage.StageStyle;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
+import seng202.team6.services.Validity;
 
 public class StationController {
-
     @FXML
-    public TextField latField;
+    private Button deleteButton;
     @FXML
-    public TextField addressField;
+    private TextField latField;
     @FXML
-    public CheckBox hoursButton;
+    private TextField addressField;
     @FXML
-    public CheckBox touristButton;
+    private CheckBox hoursButton;
     @FXML
-    public Button viewChargersButton;
+    private CheckBox touristButton;
     @FXML
-    public TextField lonField;
+    private Button viewChargersButton;
     @FXML
-    public Button saveButton;
+    private TextField lonField;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private TextField operatorField;
+    @FXML
+    private TextField ownerField;
+    @FXML
+    private TextField timeLimitField;
+    @FXML
+    private TextField numParksField;
+    @FXML
+    private CheckBox parkCostButton;
+    @FXML
+    private CheckBox chargingCostButton;
     private Stage stage;
     @FXML
-    public TextField nameField;
+    private TextField nameField;
     private int stationId;
     private MainScreenController controller;
     private Station station;
+    private Validity valid;
 
 
 
@@ -51,6 +68,7 @@ public class StationController {
         this.stage = stage;
         this.stationId = id;
         this.controller = controller;
+        valid = new Validity(controller);
         findStation();
         setFields();
     }
@@ -74,6 +92,9 @@ public class StationController {
         latField.setText(String.valueOf(pos.getLatitude()));
         lonField.setText(String.valueOf(pos.getLongitude()));
         addressField.setText(station.getAddress());
+        operatorField.setText(station.getOperator());
+        ownerField.setText(station.getOwner());
+
         if (station.is24Hours()) {
             hoursButton.setSelected(true);
         } else {
@@ -86,33 +107,150 @@ public class StationController {
             touristButton.setSelected(false);
         }
 
+        timeLimitField.setText(String.valueOf(station.getTimeLimit()));
+        numParksField.setText(String.valueOf(station.getNumberOfCarParks()));
+
+        if (station.isCarparkCost()) {
+            parkCostButton.setSelected(true);
+        } else {
+            parkCostButton.setSelected(false);
+        }
+
+        if (station.isChargingCost()) {
+            chargingCostButton.setSelected(true);
+        } else {
+            chargingCostButton.setSelected(false);
+        }
+
     }
 
     /**
      * Function to save changes made by user and update database.
      * @param actionEvent when save button is clicked
      */
-    public void savingChanges(ActionEvent actionEvent) {
+    public void savingChanges(ActionEvent actionEvent) throws IOException, InterruptedException {
+
+        Boolean valid = checkValues();
+        if (!valid) {
+            AlertMessage.createMessage("Invalid Changes made.",
+                    "Please fix the changes with errors.");
+        } else {
+            String newName = nameField.getText();
+            String newAddress = addressField.getText();
+            Double newLat = Double.parseDouble(latField.getText());
+            Double newLong = Double.parseDouble(lonField.getText());
+            Position newPos = new Position(newLat, newLong);
+            boolean is24Hours = hoursButton.isSelected();
+            boolean tourist = touristButton.isSelected();
+            String newOperator = operatorField.getText();
+            String newOwner = ownerField.getText();
+            int newTimeLimit = Integer.parseInt(timeLimitField.getText());
+            int newCarParks = Integer.parseInt(numParksField.getText());
+            boolean newCarParkCost = parkCostButton.isSelected();
+            boolean newChargingCost = chargingCostButton.isSelected();
+
+
+            station.setName(newName);
+            station.setAddress(newAddress);
+            station.setPosition(newPos);
+            station.setIs24Hours(is24Hours);
+            station.setHasTouristAttraction(tourist);
+            station.setOperator(newOperator);
+            station.setOperator(newOwner);
+            station.setTimeLimit(newTimeLimit);
+            station.setNumberOfCarParks(newCarParks);
+            station.setCarParkCost(newCarParkCost);
+            station.setChargingCost(newChargingCost);
+
+            controller.getDataService().getStationDao().update(station);
+            controller.updateStationsFromDatabase(null);
+            stage.close();
+            controller.setTextAreaInMainScreen(station.toString());
+        }
+
+    }
+
+
+    /**
+     * Function to check that all new values are of correct type/format.
+     */
+    private Boolean checkValues() throws IOException, InterruptedException {
+
+        Boolean returnable = true;
 
         String newName = nameField.getText();
+
+        if (!valid.checkStationName(newName)) {
+            nameField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            nameField.setStyle("");
+        }
+
         String newAddress = addressField.getText();
-        Double newLat = Double.parseDouble(latField.getText());
-        Double newLong = Double.parseDouble(lonField.getText());
-        Position newPos = new Position(newLat, newLong);
-        boolean is24Hours = hoursButton.isSelected();
-        boolean tourist = touristButton.isSelected();
 
-        station.setName(newName);
-        station.setAddress(newAddress);
-        station.setPosition(newPos);
-        station.setIs24Hours(is24Hours);
-        station.setHasTouristAttraction(tourist);
+        if (!valid.checkAddress(newAddress)) {
+            addressField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            addressField.setStyle("");
+        }
 
-        controller.getDataService().getStationDao().update(station);
-        controller.updateStationsFromDatabase(null);
-        stage.close();
-        controller.setTextAreaInMainScreen(station.toString());
+        String newLat = latField.getText();
 
+        if (!valid.checkLat(newLat)) {
+            latField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            latField.setStyle("");
+        }
+
+        String newLong = lonField.getText();
+
+        if (!valid.checkLon(newLong)) {
+            lonField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            lonField.setStyle("");
+        }
+
+        String newOperator = operatorField.getText();
+
+        if (!valid.checkOp(newOperator)) {
+            operatorField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            operatorField.setStyle("");
+        }
+
+        String newOwner = ownerField.getText();
+
+        if (!valid.checkOp(newOwner)) {
+            ownerField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            ownerField.setStyle("");
+        }
+
+        String newTimeLimit = timeLimitField.getText();
+
+        if (!valid.checkInts(newTimeLimit)) {
+            timeLimitField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            timeLimitField.setStyle("");
+        }
+
+        String newCarParks = numParksField.getText();
+
+        if (!valid.checkInts(newCarParks)) {
+            numParksField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+        } else {
+            numParksField.setStyle("");
+        }
+
+        return returnable;
     }
 
 
@@ -132,6 +270,20 @@ public class StationController {
         stage.show();
         ChargerController chargerController = loader.getController();
         chargerController.init(stage, controller, station);
+
+    }
+
+
+    /**
+     * Function used to delete the currently selected Station from the database and map.
+     * @param actionEvent when the user selects the "Delete Station" button
+     */
+    public void deleteSelectedStation(ActionEvent actionEvent) {
+
+        controller.getDataService().getStationDao().delete(station.getObjectId());
+        controller.updateStationsFromDatabase(null);
+        stage.close();
+        controller.setTextAreaInMainScreen("");
 
     }
 }
