@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.CsvLineException;
 
-public abstract class CsvImporter<T> implements Importable<T> {
+public abstract class CsvImporter<T> implements Importable<T, CsvLineException> {
     /**
      * A Logger object is used to log messages for a specific system.
      */
@@ -26,8 +26,9 @@ public abstract class CsvImporter<T> implements Importable<T> {
      * @throws CsvFileException if there was an error in reading the file.
      */
     @Override
-    public List<T> readFromFile(File file) throws CsvFileException {
-        ArrayList<T> values = new ArrayList<>();
+    public List<T> readFromFile(File file,
+                                List<CsvLineException> errors) throws CsvFileException {
+        List<T> values = new ArrayList<>();
 
         try (CSVReader reader = new CSVReader(new FileReader(file))) {
             reader.skip(1);
@@ -35,7 +36,7 @@ public abstract class CsvImporter<T> implements Importable<T> {
             String[] line;
             while ((line = reader.readNext()) != null) {
                 i++;
-                readLine(values, line, i);
+                readLine(values, line, i, errors);
             }
         } catch (IOException | CsvValidationException e) {
             throw new CsvFileException(e);
@@ -53,12 +54,14 @@ public abstract class CsvImporter<T> implements Importable<T> {
         return value;
     }
 
-    private void readLine(ArrayList<T> values, String[] line, int i) {
+    private void readLine(List<T> values, String[] line, int i,
+                          List<CsvLineException> errors) {
         try {
             T value = readValueFromLine(line);
             values.add(value);
         } catch (CsvLineException e) {
-            log.warn(String.format("Skipping invalid line: %s: %s", i, e));
+            e.setLine(i);
+            errors.add(e);
         }
     }
 

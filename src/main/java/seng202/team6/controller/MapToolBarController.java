@@ -212,8 +212,8 @@ public class MapToolBarController implements ScreenController {
 
         addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
         ArrayList<Double> current = new ArrayList<>();
-        current.add(controller.getMapController().getLatLng()[0]);
-        current.add(controller.getMapController().getLatLng()[1]);
+        current.add(controller.getMapController().getLatLng().getLatitude());
+        current.add(controller.getMapController().getLatLng().getLongitude());
         addressMarkerLatLng.set(fieldIndex, current);
 
         controller.getMapController().getJavaScriptConnector().call("removeAddressMarkers");

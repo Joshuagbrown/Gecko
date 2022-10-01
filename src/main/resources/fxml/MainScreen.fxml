@@ -94,7 +94,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadMapViewAndToolBars" prefHeight="33.0" prefWidth="136.0" text="Map">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#mapButtonEventHandler" prefHeight="33.0" prefWidth="136.0" text="Map">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                            </GridPane.margin>
@@ -110,7 +110,7 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button fx:id="loginPageBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadLoginViewAndToolBars" text="Login" GridPane.columnIndex="2">
+                        <Button fx:id="loginPageBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loginButtonEventHandler" text="Login" GridPane.columnIndex="2">
                            <font>
                               <Font size="17.0" />
                            </font>
