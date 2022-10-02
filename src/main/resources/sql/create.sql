@@ -1,19 +1,5 @@
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE IF NOT EXISTS journeys (
-    journeyId INTEGER PRIMARY KEY AUTOINCREMENT,
-    username INTEGER NOT NULL,
-    FOREIGN KEY(username) REFERENCES users(username)
-);
-
-CREATE TABLE IF NOT EXISTS addresses (
-    addressId INTEGER PRIMARY KEY AUTOINCREMENT,
-    journeyId INTEGER NOT NULL,
-    address TEXT NOT NULL,
-    order INTEGER NOT NULL,
-    FOREIGN KEY(journeyId) REFERENCES journeys(journeyId) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS stations (
     stationId INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER DEFAULT -1 NOT NULl,
@@ -60,4 +46,18 @@ CREATE TABLE IF NOT EXISTS users (
     passwordSalt BLOB NOT NULL,
     address TEXT,
     name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS journeys (
+    journeyId INTEGER PRIMARY KEY AUTOINCREMENT,
+    username INTEGER NOT NULL,
+    FOREIGN KEY(username) REFERENCES users(username)
+);
+
+CREATE TABLE IF NOT EXISTS addresses (
+    addressId INTEGER PRIMARY KEY AUTOINCREMENT,
+    journeyId INTEGER NOT NULL,
+    address TEXT NOT NULL,
+    addressOrder INTEGER NOT NULL,
+    FOREIGN KEY(journeyId) REFERENCES journeys(journeyId) ON DELETE CASCADE
 );

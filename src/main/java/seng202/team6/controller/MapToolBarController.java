@@ -29,6 +29,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Position;
 
@@ -186,8 +187,13 @@ public class MapToolBarController implements ScreenController {
         if (posArray.size() >= 2 && validAddresses) {
             if (saveJourneyCheck.isSelected()) {
                 if (controller.getCurrentUser() != null) {
-                    Journey journey = new Journey(addresses, controller.getCurrentUser().getUsername());
-                    controller.getDataService().addJourney(journey);
+                    try {
+                        Journey journey = new Journey(addresses,
+                                controller.getCurrentUser().getUsername());
+                        controller.getDataService().addJourney(journey);
+                    } catch (DatabaseException e) {
+                        AlertMessage.createMessage("Invalid journey", "Journey already exists");
+                    }
                 } else {
                     AlertMessage.createMessage("Only Users can save journeys",
                             "Please unselect the box or sign in and try again");

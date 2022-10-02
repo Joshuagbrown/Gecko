@@ -19,12 +19,15 @@ import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
+import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.FilterBuilder;
+import seng202.team6.repository.JourneyDao;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
+
 
 /**
  * Service class to handle accessing and storing the necessary information.
@@ -33,7 +36,7 @@ import seng202.team6.repository.UserDao;
 public class DataService {
     private static final Logger log = LogManager.getLogger();
     private final StationDao dao = new StationDao();
-
+    private final JourneyDao journeyDao = new JourneyDao();
     private final UserDao userDao = new UserDao();
 
 
@@ -111,5 +114,13 @@ public class DataService {
      */
     public void updateUser(User user) throws DatabaseException {
         userDao.update(user);
+    }
+
+    /**
+     * Adds a journey to the database.
+     * @param journey the journey to add
+     */
+    public void addJourney(Journey journey) throws DatabaseException {
+        journeyDao.add(journey);
     }
 }

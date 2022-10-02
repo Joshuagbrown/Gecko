@@ -1,5 +1,13 @@
 package seng202.team6.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,14 +17,6 @@ import seng202.team6.models.Journey;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Journey class which implements the DaoInterface, provides common functionality for
@@ -27,7 +27,8 @@ public class JourneyDao implements DaoInterface<Journey> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
-    private Journey journeyFromResultSet(ResultSet rs, ArrayList<String> addresses) throws SQLException {
+    private Journey journeyFromResultSet(ResultSet rs,
+                                         ArrayList<String> addresses) throws SQLException {
         return new Journey(
                 addresses,
                 rs.getString("username")
@@ -35,7 +36,9 @@ public class JourneyDao implements DaoInterface<Journey> {
     }
 
     @Override
-    public Map<Integer, Journey> getAll() { throw new UnsupportedOperationException(); }
+    public Map<Integer, Journey> getAll() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Journey getOne(int id) {
@@ -43,7 +46,7 @@ public class JourneyDao implements DaoInterface<Journey> {
     }
 
     private void addAddresses(ArrayList<String> addresses, int journeyId) throws SQLException {
-        String addressSql = "INSERT INTO addresses (journeyId, address, order)"
+        String addressSql = "INSERT INTO addresses (journeyId, address, addressOrder)"
                 + "values (?,?,?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(addressSql)) {
@@ -70,7 +73,7 @@ public class JourneyDao implements DaoInterface<Journey> {
 
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(journeySql)) {
-            ps.setString(4, toAdd.getUsername());
+            ps.setString(1, toAdd.getUsername());
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -135,5 +138,7 @@ public class JourneyDao implements DaoInterface<Journey> {
     }
 
     @Override
-    public void update(Journey toUpdate) { throw new NotImplementedException(); }
+    public void update(Journey toUpdate) {
+        throw new NotImplementedException();
+    }
 }
