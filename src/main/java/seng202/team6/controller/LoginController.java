@@ -39,6 +39,12 @@ public class LoginController implements ScreenController {
         errorText.setText("");
     }
 
+    /**
+     * Hashes the password.
+     * @param password The password
+     * @param salt The salt of the password
+     * @return the hash.
+     */
     private byte[] hashPassword(String password, byte[] salt) {
         try {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);

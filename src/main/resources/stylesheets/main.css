@@ -75,4 +75,10 @@
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
-
+#funFactBox {
+    -fx-background-insets: 0;
+    -fx-background-color: #EAEFBD;
+}
+#funFactBox .content {
+    -fx-background-color: #EAEFBD;
+}
