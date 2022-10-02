@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Journey {
-    private List<String> journeys;
-    private String userID;
+    private ArrayList<String> addresses;
+    private String username;
 
-    public Journey(ArrayList journeys, String userID) {
-        this.journeys = journeys;
-        this.userID = userID;
+    public Journey(ArrayList addresses, String username) {
+        this.addresses = addresses;
+        this.username = username;
     }
 
-    public List<String> getJourneys() {
-        return journeys;
+    public ArrayList<String> getAddresses() {
+        return addresses;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUsername() {
+        return username;
     }
 
 }
