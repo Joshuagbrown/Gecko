@@ -163,7 +163,7 @@ public class StationController {
             station.setChargingCost(newChargingCost);
 
             controller.getDataService().getStationDao().update(station);
-            controller.updateStationsFromDatabase(null);
+            controller.updateStationsFromDatabase();
             stage.close();
             controller.setTextAreaInMainScreen(station.toString());
         }
@@ -281,7 +281,7 @@ public class StationController {
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
         controller.getDataService().getStationDao().delete(station.getObjectId());
-        controller.updateStationsFromDatabase(null);
+        controller.updateStationsFromDatabase();
         stage.close();
         controller.setTextAreaInMainScreen("");
 

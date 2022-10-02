@@ -144,7 +144,7 @@ public class ChargerController {
             controller.getDataService().getStationDao().update(station);
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().select(i);
-            controller.updateStationsFromDatabase(null);
+            controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());
         }
 
@@ -220,7 +220,7 @@ public class ChargerController {
             opButton.setSelected(true);
             plugTypeDropDown.getSelectionModel().clearSelection();
             chargerDropDown.getSelectionModel().clearSelection();
-            controller.updateStationsFromDatabase(null);
+            controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());
         }
 
