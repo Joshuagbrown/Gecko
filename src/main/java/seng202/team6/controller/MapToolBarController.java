@@ -151,7 +151,7 @@ public class MapToolBarController implements ScreenController {
             throw new RuntimeException(e);
         }
         JSONArray items = (JSONArray) jsonResponse.get("items");
-        if (items.isEmpty()) {
+        if (items == null || items.isEmpty()) {
             return null;
         } else {
             JSONObject bestResult = (JSONObject) items.get(0);

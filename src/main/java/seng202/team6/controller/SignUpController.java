@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.crypto.SecretKeyFactory;
@@ -21,11 +24,11 @@ import seng202.team6.services.Validity;
 public class SignUpController implements ScreenController {
     private MainScreenController controller;
     @FXML
+    private TextField nameSignUp;
+    @FXML
     private TextField usernameSignUp;
     @FXML
     private PasswordField passwordSignUp;
-    @FXML
-    private TextField nameSignUp;
     @FXML
     private TextField addressSignUp;
     @FXML
@@ -34,6 +37,8 @@ public class SignUpController implements ScreenController {
     private Button registerVehicleButtonSignUp;
     @FXML
     private Text invalidUsername;
+    @FXML
+    private Text repeatUsername;
     @FXML
     private Text invalidName;
     @FXML
@@ -68,30 +73,38 @@ public class SignUpController implements ScreenController {
         if (Validity.checkUserName(usernameSignUp.getText())) {
             username = usernameSignUp.getText();
             invalidUsername.setVisible(false);
+            usernameSignUp.setStyle(null);
         } else {
             usernameSignUp.setText("");
             invalidUsername.setVisible(true);
+            usernameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (Validity.checkName(nameSignUp.getText())) {
             name = nameSignUp.getText();
             invalidName.setVisible(false);
+            nameSignUp.setStyle(null);
         } else {
             nameSignUp.setText("");
             invalidName.setVisible(true);
+            nameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (Validity.checkPassword(passwordSignUp.getText())) {
             password = passwordSignUp.getText();
             invalidPassword.setVisible(false);
+            passwordSignUp.setStyle(null);
         } else {
             passwordSignUp.setText("");
             invalidPassword.setVisible(true);
+            passwordSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (valid.checkAddress(addressSignUp.getText())) {
             address = addressSignUp.getText();
             invalidAddress.setVisible(false);
+            addressSignUp.setStyle(null);
         } else {
             addressSignUp.setText("");
             invalidAddress.setVisible(true);
+            addressSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (username != null && name != null && password != null && address != null) {
             SecureRandom random = new SecureRandom();
@@ -105,8 +118,10 @@ public class SignUpController implements ScreenController {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
             } catch (DatabaseException e) {
-                AlertMessage.createMessage("Invalid username",
-                        "Username already in use.\nPick a new username");
+                usernameSignUp.setText("");
+                invalidUsername.setVisible(false);
+                repeatUsername.setVisible(true);
+                usernameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             }
 
         }
