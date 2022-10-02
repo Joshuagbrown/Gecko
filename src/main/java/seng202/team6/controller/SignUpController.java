@@ -75,7 +75,7 @@ public class SignUpController implements ScreenController {
             invalidUsername.setVisible(false);
             usernameSignUp.setStyle(null);
         } else {
-            usernameSignUp.setText("");
+            usernameSignUp.clear();
             invalidUsername.setVisible(true);
             usernameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
@@ -84,7 +84,7 @@ public class SignUpController implements ScreenController {
             invalidName.setVisible(false);
             nameSignUp.setStyle(null);
         } else {
-            nameSignUp.setText("");
+            nameSignUp.clear();
             invalidName.setVisible(true);
             nameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
@@ -93,7 +93,7 @@ public class SignUpController implements ScreenController {
             invalidPassword.setVisible(false);
             passwordSignUp.setStyle(null);
         } else {
-            passwordSignUp.setText("");
+            passwordSignUp.clear();
             invalidPassword.setVisible(true);
             passwordSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
@@ -102,7 +102,7 @@ public class SignUpController implements ScreenController {
             invalidAddress.setVisible(false);
             addressSignUp.setStyle(null);
         } else {
-            addressSignUp.setText("");
+            addressSignUp.clear();
             invalidAddress.setVisible(true);
             addressSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
@@ -118,7 +118,7 @@ public class SignUpController implements ScreenController {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
             } catch (DatabaseException e) {
-                usernameSignUp.setText("");
+                usernameSignUp.clear();
                 invalidUsername.setVisible(false);
                 repeatUsername.setVisible(true);
                 usernameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
