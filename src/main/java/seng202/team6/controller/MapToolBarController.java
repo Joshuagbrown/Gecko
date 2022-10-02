@@ -191,6 +191,7 @@ public class MapToolBarController implements ScreenController {
                 } else {
                     AlertMessage.createMessage("Only Users can save journeys",
                             "Please unselect the box or sign in and try again");
+                    saveJourneyCheck.setSelected(false);
                 }
             }
             String json = new Gson().toJson(posArray);
