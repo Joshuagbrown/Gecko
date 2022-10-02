@@ -213,7 +213,7 @@ public class ChargerController {
                     "Please save your changes first.");
         } else {
             chargers.remove(index);
-
+            station.setChargers(chargers);
             controller.getDataService().getStationDao().update(station);
             setChargerAndPlugDropDown();
             wattageText.setText("");

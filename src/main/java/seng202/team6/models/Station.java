@@ -290,5 +290,14 @@ public class Station {
     }
 
 
+    /**
+     * Updates the list of chargers to a new list of chargers.
+     * @param newChargers the new list of chargers
+     */
+    public void setChargers(List<Charger> newChargers) {
+        chargers = newChargers;
+    }
+
+
 }
 

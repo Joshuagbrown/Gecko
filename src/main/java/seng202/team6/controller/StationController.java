@@ -1,6 +1,8 @@
 package seng202.team6.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
@@ -55,6 +57,7 @@ public class StationController {
     private MainScreenController controller;
     private Station station;
     private Validity valid;
+    private List<String> currentErrors = new ArrayList<>();
 
 
 
@@ -132,8 +135,9 @@ public class StationController {
 
         Boolean valid = checkValues();
         if (!valid) {
-            AlertMessage.createMessage("Invalid Changes made.",
-                    "Please fix the changes with errors.");
+            AlertMessage.createListMessageStation("Invalid Changes made.",
+                    "Please fix the changes with the following errors.", currentErrors);
+            currentErrors.clear();
         } else {
             String newName = nameField.getText();
             String newAddress = addressField.getText();
@@ -183,6 +187,8 @@ public class StationController {
         if (!valid.checkStationName(newName)) {
             nameField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Station name must be greater than a length of 0, and only contain "
+                    + "characters within the" + " following set {a-z, A-Z, '+', '&', ',', ' '}");
         } else {
             nameField.setStyle("");
         }
@@ -192,6 +198,7 @@ public class StationController {
         if (!valid.checkAddress(newAddress)) {
             addressField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Address must represent an existing address");
         } else {
             addressField.setStyle("");
         }
@@ -201,6 +208,7 @@ public class StationController {
         if (!valid.checkLat(newLat)) {
             latField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Latitude must be within NZ (i.e. between -46.56069 and -35.22676");
         } else {
             latField.setStyle("");
         }
@@ -210,6 +218,7 @@ public class StationController {
         if (!valid.checkLon(newLong)) {
             lonField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Longitude must be within NZ (i.e. between -176.55973 and 178.00417");
         } else {
             lonField.setStyle("");
         }
@@ -219,6 +228,8 @@ public class StationController {
         if (!valid.checkOp(newOperator)) {
             operatorField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Operator name must be of length greater than 0 and only contain "
+                    + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
         } else {
             operatorField.setStyle("");
         }
@@ -228,6 +239,8 @@ public class StationController {
         if (!valid.checkOp(newOwner)) {
             ownerField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Owner name must be of length greater than 0 and only contain "
+                    + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
         } else {
             ownerField.setStyle("");
         }
@@ -237,6 +250,7 @@ public class StationController {
         if (!valid.checkInts(newTimeLimit)) {
             timeLimitField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Time Limit must be a valid integer between 0 and 300");
         } else {
             timeLimitField.setStyle("");
         }
@@ -246,6 +260,7 @@ public class StationController {
         if (!valid.checkInts(newCarParks)) {
             numParksField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Number of CarParks must be a valid integer between 0 and 300");
         } else {
             numParksField.setStyle("");
         }
