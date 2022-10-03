@@ -1,17 +1,13 @@
 package seng202.team6.repository;
 
-import junit.framework.Assert;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.exceptions.InstanceAlreadyExistsException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +20,7 @@ class StationDaoTest {
     static DatabaseManager manager;
     static StationDao stationDao;
 
-    @BeforeAll
-    static void setup() throws InstanceAlreadyExistsException {
-        DatabaseManager.removeInstance();
-        manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
-        stationDao = new StationDao();
-    }
-
-    @Test
-    void addTest() throws DatabaseException {
+    static Station getStation() {
         Charger charger = new Charger("CHAdeMO", "Operative", 45);
         List<Charger> chargerList = new ArrayList<>();
         chargerList.add(charger);
@@ -49,14 +37,34 @@ class StationDaoTest {
         boolean carParkCost = true;
         boolean chargingCost = true;
         boolean hasTouristAttraction = true;
-        Station toAdd = new Station(coordinates, name, objectId, operator, owner, address,
+        return new Station(coordinates, name, objectId, operator, owner, address,
                 timeLimit, is24Hours, chargerList, numberOfCarParks,carParkCost, chargingCost,
                 hasTouristAttraction);
+    }
 
+    @BeforeAll
+    static void setup() throws InstanceAlreadyExistsException {
+        DatabaseManager.removeInstance();
+        manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
+        stationDao = new StationDao();
+    }
 
+    @BeforeEach
+    void reset() {
+        manager.resetDB();
+    }
+
+    @Test
+    void addTest() throws DatabaseException {
         assertEquals(0, stationDao.getAll().size());
-        stationDao.add(toAdd);
+        stationDao.add(getStation());
         assertEquals(1, stationDao.getAll().size());
-        assertEquals(toAdd, stationDao.getOne(1));
+        assertEquals(getStation(), stationDao.getOne(1));
+    }
+
+    @Test
+    void addDuplicateThrows() throws DatabaseException {
+        stationDao.add(getStation());
+        assertThrowsExactly(DatabaseException.class, () -> stationDao.add(getStation()));
     }
 }
