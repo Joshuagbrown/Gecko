@@ -124,8 +124,8 @@ public class StationController {
         } else {
             chargingCostButton.setSelected(false);
         }
-
     }
+
 
     /**
      * Function to save changes made by user and update database.

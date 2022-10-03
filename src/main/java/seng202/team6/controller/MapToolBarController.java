@@ -120,7 +120,9 @@ public class MapToolBarController implements ScreenController {
     }
 
     /**
-     * TODO: corentin what does this do.
+     * Function that takes a "potential" address string, uses geocoding (provided by API Here.com) to
+     * identify its corresponding position (represented by a latitude and a longitude) and return this position,
+     * will return null if provided string does not correspond to an existing address.
      * @param query the query to geocode
      */
     public JSONObject geoCode(String query) throws IOException, InterruptedException {
@@ -153,6 +155,42 @@ public class MapToolBarController implements ScreenController {
         }
     }
 
+//    /**
+//     * This function goes through the text fields of locations,
+//     * calls geocode to get the longitude and latitude,
+//     * calls add route function with the list of longitude and latitudes.
+//     * @param actionEvent When find route button is clicked.
+//     */
+//    public void findRoute(ActionEvent actionEvent) {
+//        ArrayList<JSONObject>  posArray = new ArrayList<>();
+//        int i = 0;
+//        for (TextField textField : arrayOfTextFields) {
+//            try {
+//                if (!Objects.equals(textField.getText(), "")) {
+//                    JSONObject location = geoCode(textField.getText());
+//                    //posArray.add(location);
+//                }
+//            } catch (IOException | InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        boolean validAddresses = true;
+//        if (posArray.contains(null)) {
+//            validAddresses = false;
+//        }
+//        if (posArray.size() >= 2 && validAddresses) {
+//            String json = new Gson().toJson(posArray);
+//            controller.getMapController().getJavaScriptConnector().call("addRoute", json);
+//        } else if (!validAddresses) {
+//            AlertMessage.createMessage("Invalid Address Entered.",
+//                    "Please input at least two valid destinations.");
+//        } else {
+//            AlertMessage.createMessage("Incorrect number of addresses.",
+//                    "Please input at least two destinations.");
+//        }
+//    }
+
+
     /**
      * This function goes through the text fields of locations,
      * calls geocode to get the longitude and latitude,
@@ -160,12 +198,14 @@ public class MapToolBarController implements ScreenController {
      * @param actionEvent When find route button is clicked.
      */
     public void findRoute(ActionEvent actionEvent) {
-        ArrayList<JSONObject>  posArray = new ArrayList<>();
+        ArrayList<Double>  posArray = new ArrayList<>();
+        int i = 0;
         for (TextField textField : arrayOfTextFields) {
             try {
                 if (!Objects.equals(textField.getText(), "")) {
+
                     JSONObject location = geoCode(textField.getText());
-                    posArray.add(location);
+                    //posArray.add(location);
                 }
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
