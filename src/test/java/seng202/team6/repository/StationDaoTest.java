@@ -9,6 +9,7 @@ import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,13 +21,22 @@ class StationDaoTest {
     static DatabaseManager manager;
     static StationDao stationDao;
 
-    static Station getStation() {
-        Charger charger = new Charger("CHAdeMO", "Operative", 45);
-        List<Charger> chargerList = new ArrayList<>();
-        chargerList.add(charger);
+    static Station stationMultipleChargers() {
+        List<Charger> chargerList = Arrays.asList(
+                new Charger("CHAdeMO", "Operative", 45),
+                new Charger("Type 2 CCS", "Not Operative", 10));
+        return station(chargerList, 2);
+    }
 
+    static Station station() {
+        List<Charger> chargerList = new ArrayList<>();
+        Charger charger = new Charger("CHAdeMO", "Operative", 45);
+        chargerList.add(charger);
+        return station(chargerList, 1);
+    }
+
+    static Station station(List<Charger> chargerList, int objectId) {
         Position coordinates = new Position(-43, 171);
-        int objectId = 1;
         String name = "testName";
         String operator = "testOperator";
         String owner = "testOwner";
@@ -57,14 +67,38 @@ class StationDaoTest {
     @Test
     void addTest() throws DatabaseException {
         assertEquals(0, stationDao.getAll().size());
-        stationDao.add(getStation());
+        int first = stationDao.add(station());
         assertEquals(1, stationDao.getAll().size());
-        assertEquals(getStation(), stationDao.getOne(1));
+        assertEquals(station(), stationDao.getOne(first));
     }
 
     @Test
     void addDuplicateThrows() throws DatabaseException {
-        stationDao.add(getStation());
-        assertThrowsExactly(DatabaseException.class, () -> stationDao.add(getStation()));
+        stationDao.add(station());
+        assertThrowsExactly(DatabaseException.class, () -> stationDao.add(station()));
+    }
+
+    @Test
+    void getOneWithMultipleChargers() throws DatabaseException {
+        int first = stationDao.add(stationMultipleChargers());
+        assertEquals(stationMultipleChargers(), stationDao.getOne(first));
+    }
+
+    @Test
+    void getAllMultipleStations() throws DatabaseException {
+        int first = stationDao.add(station());
+        int second = stationDao.add(stationMultipleChargers());
+        assertEquals(2, stationDao.getAll().size());
+        assertEquals(station(), stationDao.getAll().get(first));
+        assertEquals(stationMultipleChargers(), stationDao.getAll().get(second));
+    }
+
+    @Test
+    void getChargerTypes() throws DatabaseException {
+        stationDao.add(station());
+        stationDao.add(stationMultipleChargers());
+        List<String> chargerTypes = stationDao.getChargerTypes();
+        assertEquals(2, stationDao.getChargerTypes().size());
+        assertEquals(Arrays.asList("CHAdeMO", "Type 2 CCS"), chargerTypes);
     }
 }
