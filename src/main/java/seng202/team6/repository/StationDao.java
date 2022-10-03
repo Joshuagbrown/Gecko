@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
@@ -191,21 +190,6 @@ public class StationDao implements DaoInterface<Station> {
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, id);
             ps.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Delete a charger.
-     * @param id id of the charger to delete
-     */
-    public void deleteCharger(int id) {
-        String chargerSql = "DELETE FROM chargers WHERE chargerId=?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
-            ps.setInt(1, id);
-            ps.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -75,13 +75,22 @@ class StationDaoTest {
     @Test
     void addDuplicateThrows() throws DatabaseException {
         stationDao.add(station());
-        assertThrowsExactly(DatabaseException.class, () -> stationDao.add(station()));
+        assertThrowsExactly(DatabaseException.class, () -> stationDao.add(station()),
+                "A duplicate entry was provided");
     }
 
     @Test
     void getOneWithMultipleChargers() throws DatabaseException {
         int first = stationDao.add(stationMultipleChargers());
         assertEquals(stationMultipleChargers(), stationDao.getOne(first));
+    }
+
+    @Test
+    void getOneInvalid() throws DatabaseException {
+        int first = stationDao.add(station());
+        int second = stationDao.add(stationMultipleChargers());
+        // Arbitrary number that is guaranteed to not be either first or second
+        assertNull(stationDao.getOne(first + second + 1));
     }
 
     @Test
@@ -100,5 +109,31 @@ class StationDaoTest {
         List<String> chargerTypes = stationDao.getChargerTypes();
         assertEquals(2, stationDao.getChargerTypes().size());
         assertEquals(Arrays.asList("CHAdeMO", "Type 2 CCS"), chargerTypes);
+    }
+
+    @Test
+    void addCharger() throws DatabaseException {
+        int first = stationDao.add(station());
+        Station station = stationDao.getOne(first);
+        station.addCharger(new Charger("Type 2 CCS", "Not Operative", 10));
+        stationDao.update(station);
+        assertEquals(station, stationDao.getOne(first));
+    }
+
+    @Test
+    void updateCharger() throws DatabaseException {
+        int first = stationDao.add(station());
+        Station station = stationDao.getOne(first);
+        station.getChargers().get(0).setOperative("Not Operative");
+        stationDao.update(station);
+        assertEquals(station, stationDao.getOne(first));
+    }
+
+    @Test
+    void deleteCharger() throws DatabaseException {
+        int first = stationDao.add(station());
+        assertEquals(1, stationDao.getAll().size());
+        stationDao.delete(first);
+        assertEquals(0, stationDao.getAll().size());
     }
 }
