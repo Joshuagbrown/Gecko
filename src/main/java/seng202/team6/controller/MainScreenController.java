@@ -323,6 +323,13 @@ public class MainScreenController {
     }
 
     /**
+     * Changing the text of the button.
+     */
+    public void setLoginBtnTextBack() {
+        this.loginPageBtn.setText("Login");
+    }
+
+    /**
      * Function to return the map controller.
      * @return mapController.
      */
