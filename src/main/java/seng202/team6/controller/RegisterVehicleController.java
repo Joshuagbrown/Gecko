@@ -1,7 +1,6 @@
 package seng202.team6.controller;
 
 import java.util.List;
-
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
