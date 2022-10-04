@@ -183,15 +183,15 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
-            loadVehicleType();
+            //loadVehicleType();
             mapButtonEventHandler();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        } catch (CsvFileException e) {
-            throw new RuntimeException(e);
+            //} catch (DatabaseException e) {
+            //throw new RuntimeException(e);
+            //} catch (CsvFileException e) {
+            // throw new RuntimeException(e);
         }
         stage.sizeToScene();
 

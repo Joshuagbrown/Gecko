@@ -151,11 +151,12 @@ public class StationController {
             boolean newCarParkCost = parkCostButton.isSelected();
             boolean newChargingCost = chargingCostButton.isSelected();
 
-            JSONObject allFields = (JSONObject) controller.getMapToolBarController().geoCode(newAddress);
-            Double newLat = Double.parseDouble(latField.getText());
-            Double newLong = Double.parseDouble(lonField.getText());
+            JSONObject positionField = controller.getMapToolBarController().geoCode(newAddress);
+            String lat = (String) positionField.get("lat");
+            String lng = (String) positionField.get("lng");
+            Double newLat = Double.parseDouble(lat);
+            Double newLong = Double.parseDouble(lng);
             Position newPos = new Position(newLat, newLong);
-
 
             station.setName(newName);
             station.setAddress(newAddress);
@@ -207,30 +208,12 @@ public class StationController {
             addressField.setStyle("");
         }
 
-        String newLat = latField.getText();
-
-        if (!valid.checkLat(newLat)) {
-            latField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
-            returnable = false;
-            currentErrors.add("Latitude must be within NZ (i.e. between -46.56069 and -35.22676");
-        } else {
-            latField.setStyle("");
-        }
-
-        String newLong = lonField.getText();
-
-        if (!valid.checkLon(newLong)) {
-            lonField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
-            returnable = false;
-            currentErrors.add("Longitude must be within NZ (i.e. between -176.55973 and 178.00417");
-        } else {
-            lonField.setStyle("");
-        }
 
         String newOperator = operatorField.getText();
 
         if (!valid.checkOp(newOperator)) {
-            operatorField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            operatorField.setStyle("-fx-text-box-border-width: 10px; -fx-text-box-border: #b22222; "
+                    + "-fx-focus-color: #b22222;");
             returnable = false;
             currentErrors.add("Operator name must be of length greater than 0 and only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
