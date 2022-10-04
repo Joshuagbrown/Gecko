@@ -289,7 +289,23 @@ public class Station {
         chargers.add(newCharger);
     }
 
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Station station = (Station) o;
+        return objectId == station.objectId && timeLimit == station.timeLimit
+                && is24Hours == station.is24Hours && numberOfCarParks == station.numberOfCarParks
+                && carParkCost == station.carParkCost && chargingCost == station.chargingCost
+                && hasTouristAttraction == station.hasTouristAttraction
+                && coordinates.equals(station.coordinates) && name.equals(station.name)
+                && operator.equals(station.operator) && owner.equals(station.owner)
+                && address.equals(station.address) && chargers.equals(station.chargers);
+    }
     /**
      * Updates the list of chargers to a new list of chargers.
      * @param newChargers the new list of chargers
@@ -297,7 +313,11 @@ public class Station {
     public void setChargers(List<Charger> newChargers) {
         chargers = newChargers;
     }
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(coordinates, objectId, name, operator, owner, address, timeLimit,
+                is24Hours, chargers, numberOfCarParks, carParkCost, chargingCost,
+                hasTouristAttraction);
+    }
 }
 

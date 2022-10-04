@@ -1,5 +1,7 @@
 package seng202.team6.models;
 
+import java.util.Objects;
+
 /**
  * Represents a charger at a charging station.
  */
@@ -98,10 +100,39 @@ public class Charger {
 
 
     /**
+     * This does NOT take into account chargerId.
+     * @param o Object to compare
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Charger charger = (Charger) o;
+        return wattage == charger.wattage
+                && plugType.equals(charger.plugType) && operative.equals(charger.operative);
+    }
+
+    /**
+     * This does NOT take into account chargerId.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(plugType, operative, wattage);
+    }
+
+    /**
      * Returns the string value of this charger.
      * @return The string value of this charger
      */
     public String toString() {
         return this.wattage + " kW " + plugType + ", Status: " + operative;
+    }
+
+    public void setChargerId(int chargerId) {
+        this.chargerId = chargerId;
     }
 }
