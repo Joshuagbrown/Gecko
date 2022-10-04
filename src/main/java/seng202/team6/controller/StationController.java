@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.json.simple.JSONObject;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.repository.StationDao;
@@ -141,9 +142,6 @@ public class StationController {
         } else {
             String newName = nameField.getText();
             String newAddress = addressField.getText();
-            Double newLat = Double.parseDouble(latField.getText());
-            Double newLong = Double.parseDouble(lonField.getText());
-            Position newPos = new Position(newLat, newLong);
             boolean is24Hours = hoursButton.isSelected();
             boolean tourist = touristButton.isSelected();
             String newOperator = operatorField.getText();
@@ -152,6 +150,11 @@ public class StationController {
             int newCarParks = Integer.parseInt(numParksField.getText());
             boolean newCarParkCost = parkCostButton.isSelected();
             boolean newChargingCost = chargingCostButton.isSelected();
+
+            JSONObject allFields = (JSONObject) controller.getMapToolBarController().geoCode(newAddress);
+            Double newLat = Double.parseDouble(latField.getText());
+            Double newLong = Double.parseDouble(lonField.getText());
+            Position newPos = new Position(newLat, newLong);
 
 
             station.setName(newName);
