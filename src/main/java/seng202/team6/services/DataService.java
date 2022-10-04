@@ -122,7 +122,7 @@ public class DataService {
     /**
      * Fetch all journey data from the database.
      */
-    public Map<String, Journey> fetchJourneyData() {
+    public Map<Integer, Journey> fetchJourneyData() {
         return journeyDao.getAll();
     }
 

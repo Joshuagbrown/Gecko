@@ -116,7 +116,7 @@ public class MainScreenController {
     private MyDetailsToolBarController myDetailsToolBarController;
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
-    private ObservableMap<String, Journey> journeys = FXCollections.observableHashMap();
+    private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
     private User currentUser = null;
     private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
@@ -186,14 +186,10 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
-            loadVehicleType();
+            // loadVehicleType();
             mapButtonEventHandler();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        } catch (CsvFileException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
@@ -263,7 +259,7 @@ public class MainScreenController {
      * Function to get the journeys.
      * @return An observable map of journeys.
      */
-    public ObservableMap<String, Journey> getJourneys() {
+    public ObservableMap<Integer, Journey> getJourneys() {
         return journeys;
     }
 
@@ -306,7 +302,7 @@ public class MainScreenController {
      * Function to update the journeys.
      */
     public void updateJourneysFromDatabase() {
-        Map<String, Journey> journeyMap = dataService.fetchJourneyData();
+        Map<Integer, Journey> journeyMap = dataService.fetchJourneyData();
         getJourneys().clear();
         getJourneys().putAll(journeyMap);
     }

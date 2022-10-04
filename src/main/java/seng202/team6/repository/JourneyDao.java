@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,15 +19,16 @@ import seng202.team6.models.Journey;
  * database access.
  * @author Lucas Redding
  */
-public class JourneyDao implements DaoInterface<String,Journey> {
+public class JourneyDao implements DaoInterface<Integer,Journey> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
     private Journey journeyFromResultSet(ResultSet rs,
-                                         ArrayList<String> addresses)throws SQLException {
+                                         List<String> addresses)throws SQLException {
         return new Journey(
                 addresses,
-                rs.getString("username")
+                rs.getString("username"),
+                rs.getInt("journeyId")
         );
     }
 
@@ -34,24 +36,24 @@ public class JourneyDao implements DaoInterface<String,Journey> {
      * Get journeys from database.
      */
     @Override
-    public Map<String, Journey> getAll() {
+    public Map<Integer, Journey> getAll() {
         String sql = "SELECT * from journeys "
                 + "INNER JOIN addresses a on journeys.journeyId = a.journeyId "
                 + "ORDER BY journeys.journeyId, a.addressOrder";
 
 
-        Map<String, Journey> journeys = new HashMap<>();
+        Map<Integer, Journey> journeys = new HashMap<>();
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql);
              PreparedStatement ps2 = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery();
              ResultSet rs2 = ps2.executeQuery()) {
-            ArrayList<String> addresses = new ArrayList<>();
+            List<String> addresses = new ArrayList<>();
             boolean stillGoing = rs.next();
             while (stillGoing) {
                 if (rs.getInt("journeyId") != rs2.getInt("journeyId")) {
                     Journey journey = journeyFromResultSet(rs2, new ArrayList<>(addresses));
-                    journeys.put(journey.getUsername(), journey);
+                    journeys.put(journey.getJourneyId(), journey);
                     addresses.clear();
                 }
                 addresses.add(rs.getString("address"));
@@ -62,7 +64,7 @@ public class JourneyDao implements DaoInterface<String,Journey> {
             }
             if (!addresses.isEmpty()) {
                 Journey journey = journeyFromResultSet(rs2, addresses);
-                journeys.put(journey.getUsername(), journey);
+                journeys.put(journey.getJourneyId(), journey);
             }
 
             return journeys;
@@ -76,7 +78,7 @@ public class JourneyDao implements DaoInterface<String,Journey> {
         throw new UnsupportedOperationException();
     }
 
-    private void addAddresses(ArrayList<String> addresses, int journeyId) throws SQLException {
+    private void addAddresses(List<String> addresses, int journeyId) throws SQLException {
         String addressSql = "INSERT INTO addresses (journeyId, address, addressOrder)"
                 + "values (?,?,?)";
         try (Connection conn = databaseManager.connect();

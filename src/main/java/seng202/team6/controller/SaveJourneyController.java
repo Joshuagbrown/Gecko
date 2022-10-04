@@ -42,16 +42,14 @@ public class SaveJourneyController implements ScreenController {
     public void loadData() {
         journeyTable.getItems().clear();
 
-        midPoints.setCellFactory(stationStringTableColumn -> new MultiLineCell());
+        midPoints.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
 
         startPoint.setCellValueFactory(new PropertyValueFactory<>("start"));
         endPoint.setCellValueFactory(new PropertyValueFactory<>("end"));
         midPoints.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getAddresses()
-                        .stream()
-                        .collect(Collectors.joining("\n"))));
+                new SimpleObjectProperty<>(String.join("\n", cellData.getValue().getAddresses())));
 
-        controller.getJourneys().addListener((MapChangeListener<String, Journey>) change -> {
+        controller.getJourneys().addListener((MapChangeListener<Integer, Journey>) change -> {
             if (change.wasAdded()) {
                 journeyTable.getItems().add(change.getValueAdded());
             }
