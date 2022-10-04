@@ -61,10 +61,16 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return username.equals(user.username) && Arrays.equals(passwordHash, user.passwordHash) && Arrays.equals(passwordSalt, user.passwordSalt) && address.equals(user.address) && name.equals(user.name);
+        return username.equals(user.username) && Arrays.equals(passwordHash, user.passwordHash)
+                && Arrays.equals(passwordSalt, user.passwordSalt) && address.equals(user.address)
+                && name.equals(user.name);
     }
 
     @Override

@@ -93,10 +93,15 @@ public class Vehicle {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Vehicle vehicle = (Vehicle) o;
-        return year == vehicle.year && userId == vehicle.userId && make.equals(vehicle.make) && model.equals(vehicle.model) && plugType.equals(vehicle.plugType);
+        return year == vehicle.year && userId == vehicle.userId && make.equals(vehicle.make)
+                && model.equals(vehicle.model) && plugType.equals(vehicle.plugType);
     }
 
     @Override
