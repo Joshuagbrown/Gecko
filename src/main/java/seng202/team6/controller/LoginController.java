@@ -72,15 +72,18 @@ public class LoginController implements ScreenController {
                 errorText.setText("");
                 controller.setCurrentUserId(userDetails.getUserId());
                 controller.loginUser(userDao.getOne(userDetails.getUserId()));
-                System.out.println(userDetails.getUserId());
-
+                passwordLogin.clear();
             } else {
                 passwordLogin.clear();
                 errorText.setText("You have entered an invalid username or password");
+                usernameLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+                passwordLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             }
         } else {
             passwordLogin.clear();
             errorText.setText("You have entered an invalid username or password");
+            usernameLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            passwordLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
     }
 
