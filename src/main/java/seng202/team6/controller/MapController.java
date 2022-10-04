@@ -62,7 +62,12 @@ public class MapController implements ScreenController {
      * @param stationId the stationId of the station
      */
     public void editStation(String stationId) throws IOException {
-        loadStationWindow(Integer.parseInt(stationId));
+        if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
+            AlertMessage.createMessage("Unable to access this feature",
+                    "Please Log in or Sign up.");
+        } else {
+            loadStationWindow(Integer.parseInt(stationId));
+        }
     }
 
     /**
