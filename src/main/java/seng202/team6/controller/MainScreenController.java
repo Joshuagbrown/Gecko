@@ -477,6 +477,7 @@ public class MainScreenController {
         setLoginBtnText();
     }
 
+
     /**
      * The action handler that linked to the map button on main screen.
      * @param actionEvent Top level container for this window.

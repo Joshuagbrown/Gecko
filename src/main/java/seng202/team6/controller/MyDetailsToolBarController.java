@@ -40,4 +40,5 @@ public class MyDetailsToolBarController implements ScreenController {
     public void loadGeneral(ActionEvent actionEvent) {
     }
 
+
 }

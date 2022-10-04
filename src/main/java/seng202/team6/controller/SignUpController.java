@@ -130,4 +130,5 @@ public class SignUpController implements ScreenController {
 
         }
     }
+
 }
