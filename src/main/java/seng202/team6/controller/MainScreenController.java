@@ -12,14 +12,18 @@ import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
@@ -114,6 +118,12 @@ public class MainScreenController {
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private ObservableMap<String, Journey> journeys = FXCollections.observableHashMap();
     private User currentUser = null;
+    private Parent registerVehicleScreen;
+    private RegisterVehicleController registerVehicleController;
+
+    private int currentUserId;
+
+
 
     /**
      * Initialize the window by loading necessary screen and
@@ -176,13 +186,69 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
+            loadVehicleType();
             mapButtonEventHandler();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        } catch (CsvFileException e) {
+            throw new RuntimeException(e);
         }
         stage.sizeToScene();
 
+    }
+
+    /**
+     * Function to get my detail controller of the app.
+     * @return my detail controller.
+     */
+    public MyDetailsController getMyDetailController() {
+        return myDetailsController;
+    }
+
+    /**
+     * Function to get register vehicle controller of the app.
+     * @return register vehicle controller.
+     */
+    public RegisterVehicleController getRegisterVehicleController() {
+        return registerVehicleController;
+    }
+
+    /**
+     * load the register vehicle screen on the main screen.
+     */
+    public void loadRegisterVehicleScreen() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/RegisterVehicle.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 500, 600);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Current Station");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.show();
+        registerVehicleController = loader.getController();
+        registerVehicleController.init(stage, this);
+
+    }
+
+    /**
+     * Function to get the current user id.
+     * @return current user id.
+     */
+    public int getCurrentUserId() {
+        return currentUserId;
+    }
+
+    /**
+     * Fuction to set the current user id.
+     * @param currentUserId the user id to be set.
+     */
+    public void setCurrentUserId(int currentUserId) {
+        this.currentUserId = currentUserId;
     }
 
     /**
@@ -334,6 +400,7 @@ public class MainScreenController {
         textAreaInMainScreen.setText("");
         mainBorderPane.setCenter(mapScreen);
         toolBarPane.setCenter(mapToolBarScreen);
+        mainBorderPane.setRight(null);
         mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
     }
 
@@ -379,6 +446,7 @@ public class MainScreenController {
         if (currentUser == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
+            mainBorderPane.setRight(null);
             loadGeckoFact(getClass().getResourceAsStream("/TextFiles/FunFacts.txt"));
         } else {
             loadMyDetailsViewAndToolBars();
@@ -488,5 +556,23 @@ public class MainScreenController {
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
             updateStationsFromDatabase();
         }
+    }
+
+    /**
+     * Funtion to get my detail toolbar controller.
+     * @return my detail toolbar controller.
+     */
+    public MyDetailsToolBarController getMyDetailsToolBarController() {
+        return myDetailsToolBarController;
+    }
+
+    /**
+     * Action to load the csv file of green vehicle into the database.
+     * @throws DatabaseException the error from database.
+     * @throws CsvFileException the error from the csv file loading.
+     */
+    public void loadVehicleType() throws DatabaseException, CsvFileException {
+        File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
+        dataService.loadVehicleDataFromCsv(csvFile);
     }
 }

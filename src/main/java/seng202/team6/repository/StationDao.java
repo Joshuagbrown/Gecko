@@ -94,7 +94,32 @@ public class StationDao implements DaoInterface<Integer, Station> {
 
     @Override
     public Station getOne(int id) {
-        throw new NotImplementedException();
+        String sql = "SELECT * from stations INNER JOIN chargers "
+                + "ON stations.stationId = chargers.stationId "
+                + "WHERE stations.stationId = (?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             PreparedStatement ps2 = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps2.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
+            ArrayList<Charger> chargers = new ArrayList<>();
+            boolean stillGoing = rs.next();
+            while (stillGoing) {
+                chargers.add(chargerFromResultSet(rs));
+                stillGoing = rs.next();
+                if (stillGoing) {
+                    rs2.next();
+                }
+            }
+            if (!chargers.isEmpty()) {
+                return stationFromResultSet(rs2, chargers);
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void addChargers(List<Charger> chargers, int stationId) throws SQLException {
@@ -165,7 +190,7 @@ public class StationDao implements DaoInterface<Integer, Station> {
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, id);
-            ps.executeQuery();
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -186,15 +211,16 @@ public class StationDao implements DaoInterface<Integer, Station> {
         }
     }
 
-    private void addCharger(Charger charger) {
-        String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative) "
-                + "Values (?,?,?)";
+    private void addCharger(Charger charger, int stationId) {
+        String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative,stationId) "
+                + "Values (?,?,?,?)";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps2 = conn.prepareStatement(insertChargerSql)) {
-            ps2.setString(1, charger.getPlugType());
-            ps2.setInt(2, charger.getWattage());
-            ps2.setString(3, charger.getOperative());
-            ps2.executeQuery();
+             PreparedStatement ps = conn.prepareStatement(insertChargerSql)) {
+            ps.setString(1, charger.getPlugType());
+            ps.setInt(2, charger.getWattage());
+            ps.setString(3, charger.getOperative());
+            ps.setInt(4, stationId);
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -209,7 +235,7 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps2.setInt(2, charger.getWattage());
             ps2.setString(3, charger.getOperative());
             ps2.setInt(4, charger.getChargerId());
-            ps2.executeQuery();
+            ps2.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -235,12 +261,13 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps.setBoolean(10, toUpdate.isHasTouristAttraction());
             ps.setDouble(11, toUpdate.getCoordinates().getLatitude());
             ps.setDouble(12, toUpdate.getCoordinates().getLongitude());
+            ps.setInt(13, toUpdate.getObjectId());
 
             ps.executeUpdate();
 
             for (Charger charger : toUpdate.getChargers()) {
                 if (charger.getChargerId() == -1) {
-                    addCharger(charger);
+                    addCharger(charger, toUpdate.getObjectId());
                 } else {
                     updateCharger(charger);
                 }
@@ -249,4 +276,26 @@ public class StationDao implements DaoInterface<Integer, Station> {
             log.error(e.getMessage());
         }
     }
+
+
+    /**
+     * Function to get the distinct charger types from the database.
+     * @return the distinct charger types
+     */
+    public List<String> getChargerTypes() {
+        String plugType = "SELECT DISTINCT plugType FROM chargers";
+        try (Connection conn = databaseManager.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(plugType);
+            List<String> types = new ArrayList<>();
+            while (rs.next()) {
+                String type = rs.getString(1);
+                types.add(type);
+            }
+            return types;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

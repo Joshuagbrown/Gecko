@@ -19,14 +19,17 @@ import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
+import seng202.team6.io.VehicleCsvImporter;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.models.Vehicle;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.FilterBuilder;
 import seng202.team6.repository.JourneyDao;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
+import seng202.team6.repository.VehicleDao;
 
 
 /**
@@ -38,6 +41,8 @@ public class DataService {
     private final StationDao dao = new StationDao();
     private final JourneyDao journeyDao = new JourneyDao();
     private final UserDao userDao = new UserDao();
+
+    private final VehicleDao vehicleDao = new VehicleDao();
 
 
     /**
@@ -59,6 +64,20 @@ public class DataService {
             value.set(new Pair<>(++i, stations.size()));
         }
         return errors;
+    }
+
+    /**
+     * load the vehicle data from csv file into the database.
+     * @param file the csv file that want to load the vehicle type data.
+     * @throws DatabaseException if the database error occur.
+     * @throws CsvFileException if the csv file error open.
+     */
+    public void loadVehicleDataFromCsv(File file) throws DatabaseException, CsvFileException {
+        VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
+        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, new ArrayList<>());
+        for (Vehicle vehicle : vehicles) {
+            vehicleDao.add(vehicle);
+        }
     }
 
     /**
@@ -129,5 +148,20 @@ public class DataService {
      */
     public void addJourney(Journey journey) throws DatabaseException {
         journeyDao.add(journey);
+    }
+
+    /** Get a station from the database by id.
+     * @param id the id
+     */
+    public Station getStation(int id) {
+        return dao.getOne(id);
+    }
+
+    /**
+     * Get the station DAO.
+     * @return the station DAO
+     */
+    public StationDao getStationDao() {
+        return dao;
     }
 }

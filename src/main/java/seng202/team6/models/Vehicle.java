@@ -5,6 +5,7 @@ package seng202.team6.models;
  */
 public class Vehicle {
 
+    private int vehicleId = -1;
     String make;
     String model;
     String plugType;
@@ -27,6 +28,33 @@ public class Vehicle {
         this.plugType = plugType;
         this.year = year;
         this.userId = userId;
+    }
+
+    /**
+
+     * Constructor class, takes in vehicle information.
+     * @param make The vehicle make, or brand.
+     * @param model The model of the vehicle.
+     * @param plugType The type of charger on the vehicle.
+     * @param year The year the vehicle was produced.
+     * @param userId The user that owns the vehicle.
+     * @param vehicleId the id of the vehicle from the database.
+     */
+    public Vehicle(String make, String model, String plugType, int year, int userId,int vehicleId) {
+        this.make = make;
+        this.model = model;
+        this.plugType = plugType;
+        this.year = year;
+        this.userId = userId;
+        this.vehicleId = vehicleId;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     public String getMake() {

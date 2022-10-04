@@ -5,21 +5,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
+<SplitPane dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
   <items>
      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0">
         <columnConstraints>
-           <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="258.0" />
-           <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="342.0" />
+           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="250.0" />
+           <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="350.0" />
         </columnConstraints>
         <rowConstraints>
-           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-           <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+           <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="119.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+           <RowConstraints maxHeight="119.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="188.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+           <RowConstraints maxHeight="188.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+           <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="139.0" minHeight="5.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
-           <Button fx:id="editDetailsButton" mnemonicParsing="false" onAction="#editDetails" text="Edit Details" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+           <Button fx:id="editDetailsButton" mnemonicParsing="false" onAction="#editDetails" text="Edit Details" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
               <font>
                  <Font size="16.0" />
               </font>
@@ -27,7 +32,7 @@
                  <Insets right="20.0" />
               </GridPane.margin>
            </Button>
-           <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditButton" text="Confirm Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+           <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditButton" text="Confirm Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets right="20.0" />
               </GridPane.margin>
@@ -35,7 +40,7 @@
                  <Font size="16.0" />
               </font>
            </Button>
-           <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditButton" text="Cancel Edit" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+           <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditButton" text="Cancel Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets right="20.0" />
               </GridPane.margin>
@@ -43,7 +48,7 @@
                  <Font size="16.0" />
               </font>
            </Button>
-           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to My Details!" GridPane.valignment="TOP">
+           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to My Details!" GridPane.valignment="CENTER">
               <font>
                  <Font size="16.0" />
               </font>
@@ -51,7 +56,7 @@
                  <Insets left="20.0" top="20.0" />
               </GridPane.margin>
            </Text>
-           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.valignment="BOTTOM">
+           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets left="20.0" />
               </GridPane.margin>
@@ -59,12 +64,12 @@
                  <Font size="16.0" />
               </font>
            </Text>
-           <TextField fx:id="nameField" editable="false" promptText="User's Name" GridPane.rowIndex="1" GridPane.valignment="TOP">
+           <TextField fx:id="nameField" editable="false" promptText="User's Name" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets left="20.0" right="10.0" top="10.0" />
               </GridPane.margin>
            </TextField>
-           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                   <GridPane.margin>
                  <Insets left="20.0" />
               </GridPane.margin>
@@ -72,12 +77,12 @@
                  <Font size="16.0" />
               </font>
            </Text>
-           <TextField fx:id="usernameField" editable="false" promptText="User's Username" GridPane.rowIndex="2" GridPane.valignment="TOP">
+           <TextField fx:id="usernameField" editable="false" promptText="User's Username" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets left="20.0" right="10.0" top="10.0" />
               </GridPane.margin>
            </TextField>
-           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Home Address:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Home Address:" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
               <font>
                  <Font size="16.0" />
               </font>
@@ -85,12 +90,12 @@
                  <Insets left="20.0" />
               </GridPane.margin>
            </Text>
-           <TextField fx:id="homeAddressField" editable="false" promptText="Home Address" GridPane.rowIndex="3" GridPane.valignment="TOP">
+           <TextField fx:id="homeAddressField" editable="false" promptText="Home Address" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets left="20.0" right="10.0" top="10.0" />
               </GridPane.margin>
            </TextField>
-           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicles:" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicles:" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
               <font>
                  <Font size="16.0" />
               </font>
@@ -98,12 +103,17 @@
                  <Insets left="20.0" />
               </GridPane.margin>
            </Text>
+            <Button fx:id="btnAddVehicle" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onAction="#addVehicleEventHandler" text="Add new Vehcle" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Button fx:id="btnEditVehicle" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#editVehicleEventHandler" text="Edit Vehicle" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Button fx:id="btnDeleteVehicle" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#deleteVehicleEventHandler" text="Delete Vehicle" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
         </children>
      </GridPane>
-     <TableView layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
+     <TableView fx:id="userVehicleTable" layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
         <columns>
-           <TableColumn prefWidth="75.0" text="C1" />
-           <TableColumn prefWidth="75.0" text="C2" />
+           <TableColumn fx:id="make" prefWidth="75.0" text="Make" />
+           <TableColumn fx:id="model" prefWidth="75.0" text="Model" />
+            <TableColumn fx:id="plugType" prefWidth="75.0" text="Plug type" />
+            <TableColumn fx:id="year" prefWidth="75.0" text="Year" />
         </columns>
      </TableView>
   </items>

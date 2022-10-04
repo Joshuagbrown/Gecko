@@ -19,6 +19,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
+import seng202.team6.repository.UserDao;
 import seng202.team6.services.Validity;
 
 public class SignUpController implements ScreenController {
@@ -50,6 +51,8 @@ public class SignUpController implements ScreenController {
     private String password = null;
     private String address = null;
     private Validity valid;
+
+    private UserDao userDao = new UserDao();
 
     /**
      * Initialise the controller.
@@ -117,6 +120,7 @@ public class SignUpController implements ScreenController {
             try {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
+                controller.setCurrentUserId(userDao.getLoginDetails(username).getUserId());
             } catch (DatabaseException e) {
                 usernameSignUp.clear();
                 invalidUsername.setVisible(false);

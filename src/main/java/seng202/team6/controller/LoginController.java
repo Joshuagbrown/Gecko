@@ -70,7 +70,10 @@ public class LoginController implements ScreenController {
                     userDetails.getPasswordSalt());
             if (Arrays.equals(hashedPassword,userDetails.getPasswordHash())) {
                 errorText.setText("");
+                controller.setCurrentUserId(userDetails.getUserId());
                 controller.loginUser(userDao.getOne(userDetails.getUserId()));
+                System.out.println(userDetails.getUserId());
+
             } else {
                 passwordLogin.clear();
                 errorText.setText("You have entered an invalid username or password");
