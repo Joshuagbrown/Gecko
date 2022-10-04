@@ -25,6 +25,7 @@ import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.repository.FilterBuilder;
@@ -111,6 +112,7 @@ public class MainScreenController {
     private MyDetailsToolBarController myDetailsToolBarController;
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
+    private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
     private User currentUser = null;
 
     /**
@@ -128,6 +130,7 @@ public class MainScreenController {
         this.stage = stage;
         this.dataService = dataService;
         updateStationsFromDatabase();
+        updateJourneysFromDatabase();
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
@@ -191,6 +194,14 @@ public class MainScreenController {
     }
 
     /**
+     * Function to get the journeys.
+     * @return An observable map of journeys.
+     */
+    public ObservableMap<Integer, Journey> getJourneys() {
+        return journeys;
+    }
+
+    /**
      * Function that returns the current user.
      * @return currentUser the current user.
      */
@@ -223,6 +234,15 @@ public class MainScreenController {
         Map<Integer, Station> stationMap = dataService.fetchData();
         getStations().clear();
         getStations().putAll(stationMap);
+    }
+
+    /**
+     * Function to update the journeys.
+     */
+    public void updateJourneysFromDatabase() {
+        Map<Integer, Journey> journeyMap = dataService.fetchJourneyData();
+        getJourneys().clear();
+        getJourneys().putAll(journeyMap);
     }
 
     /**

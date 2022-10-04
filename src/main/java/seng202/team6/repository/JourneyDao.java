@@ -27,17 +27,33 @@ public class JourneyDao implements DaoInterface<Journey> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
-    private Journey journeyFromResultSet(ResultSet rs,
-                                         ArrayList<String> addresses) throws SQLException {
+    private Journey journeyFromResultSet(ResultSet rs, ArrayList<String> addresses) throws SQLException {
         return new Journey(
                 addresses,
                 rs.getString("username")
         );
     }
 
+    /**
+     * Get journeys from database.
+     */
     @Override
     public Map<Integer, Journey> getAll() {
-        throw new UnsupportedOperationException();
+//        String sql = "SELECT address, addressOrder, journeyId FROM addresses a, journeys j WHERE a.journeyId = j.journeyId AND j.username = 'lucas'";
+        String sql = "SELECT * from journeys INNER JOIN"
+
+        Map<Integer, Journey> journeys = new HashMap<>();
+        try (Connection conn = databaseManager.connect()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps2 = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
+            ArrayList<String> addresses = new ArrayList<>();
+
+            return journeys;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

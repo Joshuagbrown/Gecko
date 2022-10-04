@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS journeys (
     journeyId INTEGER PRIMARY KEY AUTOINCREMENT,
-    username INTEGER NOT NULL,
-    FOREIGN KEY(username) REFERENCES users(username)
+    username TEXT NOT NULL,
+    FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS addresses (

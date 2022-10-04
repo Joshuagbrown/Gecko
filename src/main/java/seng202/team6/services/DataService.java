@@ -101,6 +101,13 @@ public class DataService {
     }
 
     /**
+     * Fetch all journey data from the database.
+     */
+    public Map<Integer, Journey> fetchJourneyData() {
+        return journeyDao.getAll();
+    }
+
+    /**
      * Add a user to the database.
      * @param user the user to add
      */
