@@ -131,6 +131,10 @@ public class SignUpController implements ScreenController {
 
         }
     }
+
+    /**
+     * Clear fields.
+     */
     public void clearFields() {
         usernameSignUp.clear();
         passwordSignUp.clear();
