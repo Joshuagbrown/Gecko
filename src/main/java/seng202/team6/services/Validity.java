@@ -3,6 +3,7 @@ package seng202.team6.services;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import seng202.team6.controller.MainScreenController;
 
 
@@ -58,8 +59,11 @@ public class Validity {
      * @param value the string value that want to check.
      * @return boolean of true or false.
      */
-    public static boolean checkValue(String value) {
-        return isNumeric(value);
+    public static boolean checkVehicleYear(String value) {
+        LocalDate currentdate = LocalDate.now();
+
+        return isNumeric(value) && Integer.parseInt(value) <  (2 + currentdate.getYear())
+                && Integer.parseInt(value) > 1980;
     }
 
     /**
