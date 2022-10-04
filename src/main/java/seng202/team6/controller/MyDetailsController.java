@@ -189,15 +189,4 @@ public class MyDetailsController implements ScreenController {
         }
 
     }
-
-    /**
-     * Logs the user out.
-     * @param actionEvent When log out is clicked
-     */
-    public void logOut(ActionEvent actionEvent) {
-        controller.setCurrentUser(null);
-        controller.loadSignUpViewAndToolBars();
-        controller.mapButtonEventHandler();
-        controller.setLoginBtnTextBack();
-    }
 }

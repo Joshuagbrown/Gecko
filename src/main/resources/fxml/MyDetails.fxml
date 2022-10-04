@@ -113,14 +113,6 @@
             <Button fx:id="btnAddVehicle" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onAction="#addVehicleEventHandler" text="Add new Vehcle" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
             <Button fx:id="btnEditVehicle" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#editVehicleEventHandler" text="Edit Vehicle" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
             <Button fx:id="btnDeleteVehicle" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#deleteVehicleEventHandler" text="Delete Vehicle" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOut" text="Log out" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </Button>
         </children>
      </GridPane>
      <TableView fx:id="userVehicleTable" layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
