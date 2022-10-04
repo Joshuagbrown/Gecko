@@ -142,6 +142,7 @@ public class ChargerController {
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
             //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
+            System.out.println(station.getChargers());
             controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());
         }
