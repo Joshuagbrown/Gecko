@@ -119,8 +119,13 @@ public class MapToolBarController implements ScreenController {
 
     }
 
+
+
     /**
-     * TODO: corentin what does this do.
+     * Function that takes a "potential" address string, uses geocoding (provided by API Here.com)
+     * to identify its corresponding position (represented by a latitude and a longitude) and
+     * return this position, will return null if provided string does not correspond to
+     * an existing address.
      * @param query the query to geocode
      */
     public JSONObject geoCode(String query) throws IOException, InterruptedException {
@@ -186,6 +191,7 @@ public class MapToolBarController implements ScreenController {
                     "Please input at least two destinations.");
         }
     }
+
 
     /**
      * Display filter screen on the map toolbar.

@@ -42,6 +42,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.4.1</version>
       </plugin>
+
     </plugins>
   </reporting>
 
@@ -60,7 +61,12 @@
       <type>maven-plugin</type>
     </dependency>
 
-
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.8</version>
+      <type>maven-plugin</type>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.maven.doxia</groupId>
@@ -208,6 +214,27 @@
         <configuration>
           <mainClass>seng202.team6.App</mainClass>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.8</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
