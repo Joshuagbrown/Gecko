@@ -36,7 +36,7 @@ public interface DaoInterface<K,T> {
      * @param id id of object to delete.
      *           *
      * */
-    void delete(int id);
+    void delete(int id) throws DatabaseException;
 
     /**
      * Updates an object in the database.

@@ -68,7 +68,7 @@ public class Validity {
      * @return boolean of true or false.
      */
     public static boolean checkPlugType(String plugType) {
-        return plugType.matches("(?=.*\\S)[a-zA-Z0-9\\s]*");
+        return plugType.matches("[a-zA-Z0-9\\s]+");
     }
 
     /**

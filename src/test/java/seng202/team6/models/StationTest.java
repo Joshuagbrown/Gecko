@@ -28,20 +28,9 @@ public class StationTest {
         boolean carParkCost = true;
         boolean chargingCost = true;
         boolean hasTouristAttraction = true;
-        String string = "Station Name : " + name + "\n"
-                + "Coordinate : " + coordinates.getLatitude() + ","
-                + coordinates.getLongitude() + "\n"
-                + "ObjectId : " + objectId + "\n"
-                + "Operator : " + operator + "\n"
-                + "Owner : " + owner + "\n"
-                + "Address : " + address + "\n"
-                + "Time Limit : " + timeLimit + "\n"
-                + "Is 24 Hour : " + is24Hours + "\n"
-                + "Charger : " + "\n"
-                + "Number Of CarPark : " + numberOfCarParks + "\n"
-                + "CarPark Cost : " + carParkCost + "\n"
-                + "Charging Cost : " + chargingCost + "\n"
-                + "Has Tourist Attraction : " + hasTouristAttraction;
+        Station station = new Station(coordinates, name, objectId, operator, owner, address,
+                timeLimit, is24Hours, new ArrayList<>(), numberOfCarParks, carParkCost,
+                chargingCost, hasTouristAttraction);
         String testString = "Station Name : " + "testName" + "\n"
                 + "Coordinate : " + "-43.0" + ","
                 + "171.0" + "\n"
@@ -51,11 +40,11 @@ public class StationTest {
                 + "Address : " + "testAddress" + "\n"
                 + "Time Limit : " + "10" + "\n"
                 + "Is 24 Hour : " + "true" + "\n"
-                + "Charger : " + "\n"
+                + "Chargers : " + "\n\n"
                 + "Number Of CarPark : " + "1" + "\n"
                 + "CarPark Cost : " + "true" + "\n"
                 + "Charging Cost : " + "true" + "\n"
                 + "Has Tourist Attraction : " + "true";
-        assertEquals(string, testString);
+        assertEquals(testString, station.toString());
     }
 }

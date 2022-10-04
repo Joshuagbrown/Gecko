@@ -56,11 +56,4 @@ public class JourneyDaoTest {
         assertEquals(journey(), journeyDao.getAll().get(first));
         assertEquals(anotherJourney(), journeyDao.getAll().get(second));
     }
-
-    @Test
-    @Disabled
-    void getOneTest() throws DatabaseException {
-        int first = journeyDao.add(journey());
-        assertEquals(journey(), journeyDao.getOne(first));
-    }
 }
