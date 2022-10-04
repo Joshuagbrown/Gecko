@@ -131,4 +131,8 @@ public class Charger {
     public String toString() {
         return this.wattage + " kW " + plugType + ", Status: " + operative;
     }
+
+    public void setChargerId(int chargerId) {
+        this.chargerId = chargerId;
+    }
 }

@@ -205,6 +205,14 @@ public class StationDao implements DaoInterface<Station> {
             ps.setString(3, charger.getOperative());
             ps.setInt(4, stationId);
             ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+
+            int insertId = -1;
+            if (rs.next()) {
+                insertId = rs.getInt(1);
+            }
+            charger.setChargerId(insertId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
