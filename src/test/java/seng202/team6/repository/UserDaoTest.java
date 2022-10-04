@@ -70,7 +70,7 @@ public class UserDaoTest {
     }
 
     @Test
-    void updateTest() throws DatabaseException{
+    void updateTest() throws DatabaseException {
         int first = userDao.add(user());
         User user = userDao.getOne(first);
         user.setAddress("16 Rustic Lane, Spreydon 8024, New Zealand");

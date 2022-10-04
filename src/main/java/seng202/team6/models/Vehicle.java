@@ -53,10 +53,6 @@ public class Vehicle {
         return vehicleId;
     }
 
-    public void setVehicleId(int vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
     public String getMake() {
         return make;
     }
@@ -91,9 +87,5 @@ public class Vehicle {
 
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }

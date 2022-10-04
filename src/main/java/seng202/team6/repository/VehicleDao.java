@@ -18,12 +18,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     @Override
     public Map<Integer, Vehicle> getAll() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Vehicle getOne(int id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -168,20 +168,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     @Override
     public void delete(int id) {
-
-    }
-
-    /**
-     * Delete a vehicle from the database.
-     * @param todelete the vehicle to delete
-     */
-    public void deleteVehicle(Vehicle todelete) {
         String vehicleSql = "DELETE FROM vehicles WHERE  vehicleId = ? ";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql)) {
 
-            ps.setInt(1,todelete.getVehicleId());
+            ps.setInt(1, id);
 
             ps.executeUpdate();
 
@@ -189,7 +181,6 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             log.error((e.getMessage()));
         }
     }
-
 
     @Override
     public void update(Vehicle toUpdate) {

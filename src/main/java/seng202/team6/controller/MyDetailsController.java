@@ -176,7 +176,8 @@ public class MyDetailsController implements ScreenController {
     public void deleteVehicleEventHandler(ActionEvent actionEvent) {
         VehicleDao vehicleDao = new VehicleDao();
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
-            vehicleDao.deleteVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
+            vehicleDao.delete(userVehicleTable
+                    .getSelectionModel().getSelectedItem().getVehicleId());
             controller.getRegisterVehicleController().setEditVehicle(
                     userVehicleTable.getSelectionModel().getSelectedItem());
             loadUserVehicle();
