@@ -306,6 +306,7 @@ public class Station {
                 && operator.equals(station.operator) && owner.equals(station.owner)
                 && address.equals(station.address) && chargers.equals(station.chargers);
     }
+
     /**
      * Updates the list of chargers to a new list of chargers.
      * @param newChargers the new list of chargers
@@ -313,6 +314,7 @@ public class Station {
     public void setChargers(List<Charger> newChargers) {
         chargers = newChargers;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(coordinates, objectId, name, operator, owner, address, timeLimit,

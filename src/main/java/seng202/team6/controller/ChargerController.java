@@ -127,10 +127,8 @@ public class ChargerController {
             Charger updating;
             if (currentlySelectedCharger == station.getChargers().size()) {
                 updating = new Charger(plugType, op, wattage);
-                System.out.println(station.getChargers());
                 chargers.add(updating);
                 station.setChargers(chargers);
-                System.out.println(station.getChargers());
             } else {
                 updating = chargers.get(currentlySelectedCharger);
                 updating.setWattage(wattage);
@@ -142,7 +140,6 @@ public class ChargerController {
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
             //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
-            System.out.println(station.getChargers());
             controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());
         }
@@ -200,7 +197,6 @@ public class ChargerController {
      */
     public void deleteCharger(ActionEvent actionEvent) {
         List<Charger> chargers = station.getChargers();
-        System.out.println(chargers);
 
         if (currentlySelectedCharger >= chargers.size()) {
             AlertMessage.createMessage("Unable to delete the currently selected charger.",
@@ -208,7 +204,6 @@ public class ChargerController {
         } else {
             chargers.remove(currentlySelectedCharger);
             station.setChargers(chargers);
-            System.out.println(station.getChargers());
             controller.getDataService().getStationDao().update(station);
             controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());

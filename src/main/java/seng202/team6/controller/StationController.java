@@ -166,7 +166,6 @@ public class StationController {
             station.setCarParkCost(newCarParkCost);
             station.setChargingCost(newChargingCost);
 
-            System.out.println(station.getChargers());
 
             controller.getDataService().getStationDao().update(station);
             controller.updateStationsFromDatabase();
