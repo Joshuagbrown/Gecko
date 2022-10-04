@@ -132,4 +132,23 @@ public class DataService {
         userDao.update(user);
     }
 
+<<<<<<< src/main/java/seng202/team6/services/DataService.java
+=======
+    /**
+     * Get a station from the database by id.
+     * @param id the id
+     */
+    public Station getStation(int id) {
+        return dao.getOne(id);
+    }
+
+    /**
+     * Get the station DAO.
+     * @return the station DAO
+     */
+    public StationDao getStationDao() {
+        return dao;
+    }
+
+>>>>>>> src/main/java/seng202/team6/services/DataService.java
 }

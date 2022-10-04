@@ -62,9 +62,40 @@ public class Charger {
         return wattage;
     }
 
+    /**
+     * Function to get charger ID.
+     * @return the charger id
+     */
     public int getChargerId() {
         return chargerId;
     }
+
+
+    /**
+     * Function to set Wattage.
+     * @param watts the new number of watts
+     */
+    public void setWattage(int watts) {
+        wattage = watts;
+    }
+
+
+    /**
+     * Funciton to set the plugType of the charger.
+     * @param type the new charger type
+     */
+    public void setPlugType(String type) {
+        plugType = type;
+    }
+
+    /**
+     * Funciton to set the new operative status of the charger.
+     * @param op the new operative status
+     */
+    public void setOperative(String op) {
+        operative = op;
+    }
+
 
     /**
      * Returns the string value of this charger.

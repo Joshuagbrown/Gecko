@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
  * Represents a charging station.
  */
 public class Station {
+
     private Position coordinates;
     private int objectId;
     private String name;
@@ -185,5 +186,109 @@ public class Station {
                 + "Charging Cost : " + chargingCost + "\n"
                 + "Has Tourist Attraction : " + hasTouristAttraction;
     }
+
+    /**
+     * Function to set the name variable of station to new string.
+     * @param newName the new name string
+     */
+    public void setName(String newName) {
+        name = newName;
+    }
+
+    /**
+     * Function to set the address variable of station to new string.
+     * @param newAddress the new address string
+     */
+    public void setAddress(String newAddress) {
+        address = newAddress;
+    }
+
+
+    /**
+     * Function to set the coordinates variable of station to new Position.
+     * @param newPosition the new position
+     */
+    public void setPosition(Position newPosition) {
+        coordinates = newPosition;
+    }
+
+
+    /**
+     * Function to set the is24Hours variable to a new boolean.
+     * @param newHours new boolean for if the station is 24 hours
+     */
+    public void setIs24Hours(boolean newHours) {
+        is24Hours = newHours;
+    }
+
+
+    /**
+     * Function to set the hasTouristAttraction variable to a new boolean.
+     * @param newTourist new boolean for if the station has tourist attraction
+     */
+    public void setHasTouristAttraction(boolean newTourist) {
+        hasTouristAttraction = newTourist;
+    }
+
+    /**
+     * Function to update the operator.
+     * @param newOp the new Operator of the station
+     */
+    public void setOperator(String newOp) {
+        operator = newOp;
+    }
+
+    /**
+     * Function to update the owner.
+     * @param newOwner the new owner of the station
+     */
+    public void setOwner(String newOwner) {
+        owner = newOwner;
+    }
+
+
+    /**
+     * Funciton to update the timelimit.
+     * @param newTime the new timelimit of the station
+     */
+    public void setTimeLimit(int newTime) {
+        timeLimit = newTime;
+    }
+
+
+    /**
+     * Function to update the number of carParks.
+     * @param newParks the new number of carParks at the station
+     */
+    public void setNumberOfCarParks(int newParks) {
+        numberOfCarParks = newParks;
+    }
+
+
+    /**
+     * Function to update the carPark cost of the station.
+     * @param newCost the new cost of carParks at the station (as Boolean)
+     */
+    public void setCarParkCost(boolean newCost) {
+        carParkCost = newCost;
+    }
+
+    /**
+     * Function to update the charging cost of the station.
+     * @param newCost the new cost of charging at the station (as Boolean)
+     */
+    public void setChargingCost(boolean newCost) {
+        chargingCost = newCost;
+    }
+
+    /**
+     * Function to add a charger to the stations current chargers.
+     * @param newCharger the charger to be added
+     */
+    public void addCharger(Charger newCharger) {
+        chargers.add(newCharger);
+    }
+
+
 }
 
