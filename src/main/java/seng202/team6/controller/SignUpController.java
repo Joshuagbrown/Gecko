@@ -121,6 +121,7 @@ public class SignUpController implements ScreenController {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
                 controller.setCurrentUserId(userDao.getLoginDetails(username).getUserId());
+                clearFields();
             } catch (DatabaseException e) {
                 usernameSignUp.clear();
                 invalidUsername.setVisible(false);
@@ -129,5 +130,11 @@ public class SignUpController implements ScreenController {
             }
 
         }
+    }
+    public void clearFields() {
+        usernameSignUp.clear();
+        passwordSignUp.clear();
+        addressSignUp.clear();
+        nameSignUp.clear();
     }
 }
