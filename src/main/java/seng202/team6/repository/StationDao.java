@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
@@ -196,21 +195,6 @@ public class StationDao implements DaoInterface<Integer, Station> {
         }
     }
 
-    /**
-     * Delete a charger.
-     * @param id id of the charger to delete
-     */
-    public void deleteCharger(int id) {
-        String chargerSql = "DELETE FROM chargers WHERE chargerId=?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
-            ps.setInt(1, id);
-            ps.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void addCharger(Charger charger, int stationId) {
         String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative,stationId) "
                 + "Values (?,?,?,?)";
@@ -221,6 +205,14 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps.setString(3, charger.getOperative());
             ps.setInt(4, stationId);
             ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+
+            int insertId = -1;
+            if (rs.next()) {
+                insertId = rs.getInt(1);
+            }
+            charger.setChargerId(insertId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

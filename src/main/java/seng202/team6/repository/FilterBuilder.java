@@ -92,7 +92,8 @@ public class FilterBuilder {
      */
     public PreparedStatement build(Connection conn) throws SQLException {
         String sql = "SELECT * FROM stations "
-                + "JOIN chargers c ON stations.stationId = c.stationId";
+                + "JOIN chargers c ON stations.stationId = c.stationId "
+                + "ORDER BY stations.stationId";
         if (filters.isEmpty()) {
             return conn.prepareStatement(sql);
         }

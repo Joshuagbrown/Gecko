@@ -30,6 +30,7 @@ public class DataToolBarController implements ScreenController {
     private TextField inputStationName;
     private MainScreenController controller;
 
+
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;

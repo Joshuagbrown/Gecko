@@ -49,4 +49,23 @@ public class AlertMessage {
         alert.getDialogPane().setPrefWidth(300);
         alert.showAndWait();
     }
+
+    /**
+     * Creates a pop-up message and displays the error.
+     * @param title The title of the pop-up.
+     * @param header The header of the pop-up.
+     * @param rows The list of values to show.
+     */
+    public static void createListMessageStation(String title, String header, List<String> rows) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        ListView<String> listView = new ListView<>();
+        listView.getItems().setAll(rows);
+        listView.setPrefWidth(500);
+        alert.getDialogPane().setContent(listView);
+        alert.getDialogPane().setPrefWidth(500);
+        alert.getDialogPane().setPrefHeight(300);
+        alert.showAndWait();
+    }
 }

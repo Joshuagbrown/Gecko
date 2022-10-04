@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,8 +37,9 @@ public class ChargerController {
     private Station station;
     private MainScreenController controller;
     private List<String> types;
-    private Charger currentlySelectedCharger;
+    private int currentlySelectedCharger;
     private Validity valid;
+    private List<String> currentErrors = new ArrayList<>();
 
     /**
      * Initializes the Charger Controller class.
@@ -54,7 +56,7 @@ public class ChargerController {
     }
 
     /**
-     * Function to set all chargers in the charger drop down.
+     * Function to set all chargers in the charger dropDown.
      */
     public void setChargerAndPlugDropDown() {
 
@@ -70,7 +72,6 @@ public class ChargerController {
             chargerDropDown.getSelectionModel().select(0);
         }
 
-
     }
 
     /**
@@ -82,7 +83,7 @@ public class ChargerController {
     public void chargerSelected(ActionEvent actionEvent) {
 
         Charger current = (Charger) chargerDropDown.getValue();
-        currentlySelectedCharger = current;
+        currentlySelectedCharger = chargerDropDown.getSelectionModel().getSelectedIndex();
         if (current != null) {
             String op = current.getOperative();
             if (op.equals("Operative")) {
@@ -108,20 +109,13 @@ public class ChargerController {
     public void saveChargerChanges(ActionEvent actionEvent) {
 
         Boolean valid = checkValues();
+
         if (!valid) {
-            AlertMessage.createMessage("Invalid Changes made.",
-                    "Please fix the changes with errors.");
+            AlertMessage.createListMessageStation("Invalid Changes made.",
+                    "Please fix the changes with errors.", currentErrors);
+            currentErrors.clear();
         } else {
             List<Charger> chargers = station.getChargers();
-            int i = 0;
-            boolean found = false;
-            while (i < chargers.size() && !found) {
-                if (chargers.get(i) == currentlySelectedCharger) {
-                    found = true;
-                } else {
-                    i++;
-                }
-            }
             int wattage = Integer.parseInt(wattageText.getText());
             String plugType = (String) plugTypeDropDown.getValue();
             String op;
@@ -131,11 +125,12 @@ public class ChargerController {
                 op = "Not Operative";
             }
             Charger updating;
-            if (i == chargers.size()) {
+            if (currentlySelectedCharger == station.getChargers().size()) {
                 updating = new Charger(plugType, op, wattage);
-                station.addCharger(updating);
+                chargers.add(updating);
+                station.setChargers(chargers);
             } else {
-                updating = chargers.get(i);
+                updating = chargers.get(currentlySelectedCharger);
                 updating.setWattage(wattage);
                 updating.setOperative(op);
                 updating.setPlugType(plugType);
@@ -143,7 +138,8 @@ public class ChargerController {
 
             controller.getDataService().getStationDao().update(station);
             setChargerAndPlugDropDown();
-            chargerDropDown.getSelectionModel().select(i);
+            chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
+            //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
             controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());
         }
@@ -163,6 +159,7 @@ public class ChargerController {
         if (!valid.checkWattage(wattage)) {
             wattageText.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("Wattage must be a valid integer between 0 and 500");
         } else {
             wattageText.setStyle("");
         }
@@ -170,6 +167,7 @@ public class ChargerController {
         if (plugTypeDropDown.getValue() == null) {
             plugTypeDropDown.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
+            currentErrors.add("A PlugType must be selected.");
         } else {
             plugTypeDropDown.setStyle("");
         }
@@ -188,6 +186,7 @@ public class ChargerController {
         wattageText.setText("");
         opButton.setSelected(true);
         plugTypeDropDown.getSelectionModel().clearSelection();
+        currentlySelectedCharger = station.getChargers().size();
 
     }
 
@@ -198,30 +197,21 @@ public class ChargerController {
      */
     public void deleteCharger(ActionEvent actionEvent) {
         List<Charger> chargers = station.getChargers();
-        int index = 0;
-        boolean found = false;
-        while (index < chargers.size() && !found) {
-            if (chargers.get(index) == currentlySelectedCharger) {
-                found = true;
-            } else {
-                index++;
-            }
-        }
 
-        if (index == chargers.size()) {
+        if (currentlySelectedCharger >= chargers.size()) {
             AlertMessage.createMessage("Unable to delete the currently selected charger.",
                     "Please save your changes first.");
         } else {
-            chargers.remove(index);
-
+            chargers.remove(currentlySelectedCharger);
+            station.setChargers(chargers);
             controller.getDataService().getStationDao().update(station);
+            controller.updateStationsFromDatabase();
+            controller.setTextAreaInMainScreen(station.toString());
             setChargerAndPlugDropDown();
             wattageText.setText("");
             opButton.setSelected(true);
             plugTypeDropDown.getSelectionModel().clearSelection();
             chargerDropDown.getSelectionModel().clearSelection();
-            controller.updateStationsFromDatabase();
-            controller.setTextAreaInMainScreen(station.toString());
         }
 
     }
