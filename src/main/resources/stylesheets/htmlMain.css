@@ -1,0 +1,21 @@
+body {
+    background-color: #93c14e;
+}
+h1 {
+    text-align: center;
+    color: white;
+    margin: auto;
+    width: 50%;
+    border: 3px solid white;
+    padding: 10px;
+}
+h2 {
+    text-align: center;
+    color: white;
+}
+h3 {
+    color: white;
+}
+p {
+    color: white;
+}
