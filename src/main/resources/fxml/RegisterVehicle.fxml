@@ -7,7 +7,7 @@
 
 <!--TODO place in correct controller-->
 
-<BorderPane prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
+<BorderPane prefHeight="348.0" prefWidth="258.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
     <center>
           <GridPane prefHeight="352.0" prefWidth="321.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -57,15 +57,15 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <ChoiceBox fx:id="inputChargerType" prefHeight="26.0" prefWidth="248.0" GridPane.rowIndex="7" />
-            <ChoiceBox fx:id="inputVehicleMake" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="inputVehicleModel" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="5" />
-            <ChoiceBox fx:id="inputVehicleYear" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="3" />
+            <ComboBox fx:id="inputVehicleMake" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="1" />
+            <ComboBox fx:id="inputVehicleModel" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="5" />
+            <ComboBox fx:id="inputVehicleYear" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="3" />
             <TextField fx:id="inputTextOfMake" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="inputTextOfYear" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="inputTextOfModel" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="inputTextOfChargerType" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Button fx:id="btnConfirmEdit" disable="true" mnemonicParsing="false" onAction="#updateEditVehicle" prefHeight="29.0" prefWidth="79.0" text="Confirm Edit" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <ComboBox fx:id="inputChargerType" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="7" />
               </children>
           </GridPane>
     </center>

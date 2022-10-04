@@ -1,16 +1,12 @@
 package seng202.team6.controller;
 
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
+
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import seng202.team6.controller.AlertMessage;
-import seng202.team6.controller.MainScreenController;
-import seng202.team6.controller.ScreenController;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.VehicleDao;
@@ -19,12 +15,12 @@ import seng202.team6.services.Validity;
 
 public class RegisterVehicleController implements ScreenController {
 
-    public ChoiceBox inputChargerType;
-    public ChoiceBox inputVehicleMake;
-    public ChoiceBox inputVehicleModel;
-    public ChoiceBox inputVehicleYear;
+    public ComboBox inputChargerType;
+    public ComboBox inputVehicleMake;
+    public ComboBox inputVehicleModel;
+    public ComboBox inputVehicleYear;
 
-    public ChoiceBox[] choiceBoxeList = {inputVehicleMake,inputVehicleModel,inputVehicleYear};
+    public ComboBox[] comboBoxeList = {inputVehicleMake,inputVehicleModel,inputVehicleYear};
     public Button submitVehicleButton;
     public TextField inputTextOfMake;
     public TextField inputTextOfYear;
