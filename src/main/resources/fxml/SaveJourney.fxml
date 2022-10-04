@@ -7,8 +7,9 @@
    <children>
       <TableView fx:id="journeyTable" layoutX="207.0" layoutY="76.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn fx:id="start" prefWidth="71.0" text="Start Point" />
+            <TableColumn fx:id="end" prefWidth="75.0" text="End Point" />
+            <TableColumn fx:id="mid" prefWidth="75.0" text="Stops" />
         </columns>
       </TableView>
    </children>
