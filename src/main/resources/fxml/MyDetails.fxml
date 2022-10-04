@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
+<SplitPane fx:id="myDetailsPane" dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
   <items>
      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0">
         <columnConstraints>
@@ -32,7 +32,7 @@
                  <Insets right="20.0" />
               </GridPane.margin>
            </Button>
-           <Button fx:id="confirmEditButton" mnemonicParsing="false" onAction="#confirmEditButton" text="Confirm Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+           <Button fx:id="confirmEditButton" mnemonicParsing="false" visible="false" onAction="#confirmEditButton" text="Confirm Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets right="20.0" />
               </GridPane.margin>
@@ -40,7 +40,7 @@
                  <Font size="16.0" />
               </font>
            </Button>
-           <Button fx:id="cancelEditButton" mnemonicParsing="false" onAction="#cancelEditButton" text="Cancel Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+           <Button fx:id="cancelEditButton" mnemonicParsing="false" visible="false" onAction="#cancelEditButton" text="Cancel Edit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
               <GridPane.margin>
                  <Insets right="20.0" />
               </GridPane.margin>
