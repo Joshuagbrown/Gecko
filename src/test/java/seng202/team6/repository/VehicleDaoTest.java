@@ -63,14 +63,8 @@ public class VehicleDaoTest {
     }
 
     @Test
-    void deleteInvalidTest() {
-        assertThrowsExactly(DatabaseException.class, () -> vehicleDao.delete(1),
-                "An invalid vehicle id was provided");
-    }
-
-    @Test
     void updateTest() throws DatabaseException {
-        int first = vehicleDao.add(vehicle());
+        vehicleDao.add(vehicle());
         Vehicle vehicle = vehicleDao.getUserVehicle(1).get(0);
         vehicle.setMake("Toyota");
         vehicle.setModel("Camry");

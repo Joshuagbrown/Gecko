@@ -1,5 +1,8 @@
 package seng202.team6.models;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class User {
     String username;
     byte[] passwordHash;
@@ -54,5 +57,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return username.equals(user.username) && Arrays.equals(passwordHash, user.passwordHash) && Arrays.equals(passwordSalt, user.passwordSalt) && address.equals(user.address) && name.equals(user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(username, address, name);
+        result = 31 * result + Arrays.hashCode(passwordHash);
+        result = 31 * result + Arrays.hashCode(passwordSalt);
+        return result;
     }
 }

@@ -59,7 +59,6 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString(3));
                 vehicles.add(new Vehicle(rs.getString(1),
                         rs.getString(2), rs.getString(3),
                         rs.getInt(4), rs.getInt(5), rs.getInt(6)));
@@ -167,7 +166,7 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws DatabaseException {
         String vehicleSql = "DELETE FROM vehicles WHERE  vehicleId = ? ";
 
         try (Connection conn = databaseManager.connect();
@@ -176,9 +175,8 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             ps.setInt(1, id);
 
             ps.executeUpdate();
-
         } catch (SQLException e) {
-            log.error((e.getMessage()));
+            throw new DatabaseException("An error occurred", e);
         }
     }
 

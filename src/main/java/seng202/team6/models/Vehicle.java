@@ -1,5 +1,7 @@
 package seng202.team6.models;
 
+import java.util.Objects;
+
 /**
  * Represents a vehicle in the system.
  */
@@ -87,5 +89,18 @@ public class Vehicle {
 
     public int getUserId() {
         return userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return year == vehicle.year && userId == vehicle.userId && make.equals(vehicle.make) && model.equals(vehicle.model) && plugType.equals(vehicle.plugType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(make, model, plugType, year, userId);
     }
 }
