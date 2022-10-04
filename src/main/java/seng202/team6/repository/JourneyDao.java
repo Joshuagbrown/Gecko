@@ -117,9 +117,6 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             addAddresses(toAdd.getAddresses(), insertId);
             return insertId;
         } catch (SQLException e) {
-            if (e.getErrorCode() == 19) {
-                throw new DatabaseException("A duplicate entry was provided", e);
-            }
             throw new DatabaseException("A database error occurred", e);
         }
     }
