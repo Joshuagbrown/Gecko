@@ -237,7 +237,7 @@ public class RegisterVehicleController implements ScreenController {
         if (inputVehicleYear.getValue() != null && inputVehicleYear.getValue() != "other") {
             year = Integer.parseInt((String) inputVehicleYear.getValue());
         } else {
-            if (Validity.checkValue(inputTextOfYear.getText())) {
+            if (Validity.checkVehicleYear(inputTextOfYear.getText())) {
                 year = Integer.parseInt(inputTextOfYear.getText());
             } else {
                 error += "Please input a numeric year\n";
