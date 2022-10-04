@@ -1,7 +1,6 @@
 package seng202.team6.controller;
 
 import java.util.stream.Collectors;
-
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Journey;
-import seng202.team6.models.Station;
 
 public class SaveJourneyController implements ScreenController {
 
@@ -53,7 +51,7 @@ public class SaveJourneyController implements ScreenController {
                         .stream()
                         .collect(Collectors.joining("\n"))));
 
-        controller.getJourneys().addListener((MapChangeListener<Integer, Journey>) change -> {
+        controller.getJourneys().addListener((MapChangeListener<String, Journey>) change -> {
             if (change.wasAdded()) {
                 journeyTable.getItems().add(change.getValueAdded());
             }

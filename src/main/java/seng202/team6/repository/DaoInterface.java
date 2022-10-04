@@ -8,12 +8,12 @@ import seng202.team6.exceptions.DatabaseException;
  * database access.
  * @author Morgan English.
  */
-public interface DaoInterface<T> {
+public interface DaoInterface<K,T> {
     /**
      * Gets all of T from the database.
      * @return List of all objects type T from the database.
      */
-    Map<Integer, T> getAll();
+    Map<K, T> getAll();
 
     /**
      * Gets a single object of type T from the database by id.

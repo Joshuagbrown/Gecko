@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Vehicle;
 
-public class VehicleDao implements DaoInterface<Vehicle> {
+public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();

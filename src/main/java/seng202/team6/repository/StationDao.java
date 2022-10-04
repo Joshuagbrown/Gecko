@@ -18,7 +18,7 @@ import seng202.team6.models.Station;
  * database access.
  * @author Philip Dolbel
  */
-public class StationDao implements DaoInterface<Station> {
+public class StationDao implements DaoInterface<Integer, Station> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
