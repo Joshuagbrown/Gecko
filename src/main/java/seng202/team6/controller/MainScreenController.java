@@ -105,6 +105,10 @@ public class MainScreenController {
      * parent class for the details toolbar screen to display the details toolbar.
      */
     private Parent myDetailsToolBarScreen;
+    /**
+     * parent class for the saved journeys screen to display the saved journeys page.
+     */
+    private Parent journeysScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
@@ -114,6 +118,7 @@ public class MainScreenController {
     private LoginToolBarController loginToolBarController;
     private MyDetailsController myDetailsController;
     private MyDetailsToolBarController myDetailsToolBarController;
+    private SaveJourneyController saveJourneyController;
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
@@ -185,6 +190,10 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBar.fxml", this);
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
+
+            pair = screen.loadBigScreen(stage, "/fxml/SaveJourney.fxml", this);
+            journeysScreen = pair.getKey();
+            saveJourneyController = (SaveJourneyController) pair.getValue();
 
             // loadVehicleType();
             mapButtonEventHandler();
@@ -302,9 +311,11 @@ public class MainScreenController {
      * Function to update the journeys.
      */
     public void updateJourneysFromDatabase() {
-        Map<Integer, Journey> journeyMap = dataService.fetchJourneyData();
         getJourneys().clear();
-        getJourneys().putAll(journeyMap);
+        if (currentUser != null) {
+            Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(currentUser.getUsername());
+            getJourneys().putAll(journeyMap);
+        }
     }
 
     /**
@@ -415,6 +426,23 @@ public class MainScreenController {
     }
 
     /**
+     * Loads the saved journeys page on the 'my details' screen.
+     */
+    public void loadJourneysButtonEventHandler() {
+        updateJourneysFromDatabase();
+        textAreaInMainScreen.setText("");
+        mainBorderPane.setCenter(journeysScreen);
+        toolBarPane.setCenter(myDetailsToolBarScreen);
+        mainBorderPane.setRight(null);
+    }
+
+    /**
+     * Loads the general page on the 'my details' screen.
+     */
+    public void loadGeneralButtonEventHandler() {
+    }
+
+    /**
      * Pick random fun fact and loads it into the text area.
      * @param file the Fun fact text file
      */
@@ -483,7 +511,6 @@ public class MainScreenController {
         mapButtonEventHandler();
         setLoginBtnText();
     }
-
 
     /**
      * The action handler that linked to the map button on main screen.
@@ -579,4 +606,5 @@ public class MainScreenController {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
         dataService.loadVehicleDataFromCsv(csvFile);
     }
+
 }

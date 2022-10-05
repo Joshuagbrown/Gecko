@@ -32,12 +32,15 @@ public class MyDetailsToolBarController implements ScreenController {
      * Load the saved journeys section.
      */
     public void loadSavedJourneys(ActionEvent actionEvent) {
+        controller.loadJourneysButtonEventHandler();
     }
+
 
     /**
      * Load the general section.
      */
     public void loadGeneral(ActionEvent actionEvent) {
+        controller.loadGeneralButtonEventHandler();
     }
 
     /**

@@ -1,5 +1,6 @@
 package seng202.team6.models;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,7 +8,9 @@ import java.util.Objects;
  * Represents a Journey.
  */
 public class Journey {
-    private List<String> addresses;
+    private String start;
+    private String end;
+    private List<String> midPoints;
     private String username;
     private int journeyId = -1;
 
@@ -28,12 +31,22 @@ public class Journey {
      * @param username username of user that owns this journey
      */
     public Journey(List<String> addresses, String username) {
-        this.addresses = addresses;
+        this.start = addresses.get(0);
+        this.end = addresses.get(addresses.size()-1);
+        if (addresses.size() > 2) {
+            this.midPoints = addresses.subList(1, addresses.size()-1);
+        } else {
+            this.midPoints = Arrays.asList();
+        }
         this.username = username;
     }
 
     public List<String> getAddresses() {
-        return addresses;
+        return midPoints;
+    }
+
+    public List<String> getMidPoints() {
+        return midPoints;
     }
 
     public String getUsername() {
@@ -42,6 +55,14 @@ public class Journey {
 
     public int getJourneyId() {
         return journeyId;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
     }
 
     @Override
@@ -53,11 +74,12 @@ public class Journey {
             return false;
         }
         Journey journey = (Journey) o;
-        return addresses.equals(journey.addresses) && username.equals(journey.username);
+        return midPoints.equals(journey.midPoints) && username.equals(journey.username)
+                && start.equals(journey.start) && end.equals(journey.end);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(addresses, username);
+        return Objects.hash(start, end, midPoints, username);
     }
 }

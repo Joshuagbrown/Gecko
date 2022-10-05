@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.SaveJourneyController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.SaveJourneyController">
    <children>
-      <TableView fx:id="journeyTable" layoutX="207.0" layoutY="76.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="journeyTable" layoutX="207.0" layoutY="76.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-            <TableColumn fx:id="start" prefWidth="71.0" text="Start Point" />
-            <TableColumn fx:id="end" prefWidth="75.0" text="End Point" />
-            <TableColumn fx:id="mid" prefWidth="75.0" text="Stops" />
+            <TableColumn fx:id="startPoint" prefWidth="180.0" text="Start Point" />
+            <TableColumn fx:id="endPoint" prefWidth="180.0" text="End Point" />
+            <TableColumn fx:id="midPoints" prefWidth="197.0" text="Stops" />
         </columns>
       </TableView>
    </children>

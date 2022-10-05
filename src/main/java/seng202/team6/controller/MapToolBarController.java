@@ -197,7 +197,7 @@ public class MapToolBarController implements ScreenController {
                                 controller.getCurrentUser().getUsername());
                         controller.getDataService().addJourney(journey);
                     } catch (DatabaseException e) {
-                        AlertMessage.createMessage("Invalid journey", "Journey already exists");
+                        AlertMessage.createMessage("Invalid journey", "");
                     }
                 } else {
                     AlertMessage.createMessage("Only Users can save journeys",

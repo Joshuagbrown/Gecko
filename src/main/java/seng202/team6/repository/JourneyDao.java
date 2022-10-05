@@ -33,14 +33,53 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
     }
 
     /**
-     * Get journeys from database.
+     * Get journeys of a particular user from database.
      */
+    public Map<Integer, Journey> getAllFromUser(String username) {
+        String sql = "SELECT * from journeys "
+                + "INNER JOIN addresses a on journeys.journeyId = a.journeyId "
+                + "WHERE journeys.username = (?)"
+                + "ORDER BY journeys.journeyId, a.addressOrder";
+
+
+        Map<Integer, Journey> journeys = new HashMap<>();
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             PreparedStatement ps2 = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps2.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
+            List<String> addresses = new ArrayList<>();
+            boolean stillGoing = rs.next();
+            while (stillGoing) {
+                if (rs.getInt("journeyId") != rs2.getInt("journeyId")) {
+                    Journey journey = journeyFromResultSet(rs2, new ArrayList<>(addresses));
+                    journeys.put(journey.getJourneyId(), journey);
+                    addresses.clear();
+                }
+                addresses.add(rs.getString("address"));
+                stillGoing = rs.next();
+                if (stillGoing) {
+                    rs2.next();
+                }
+            }
+            if (!addresses.isEmpty()) {
+                Journey journey = journeyFromResultSet(rs2, addresses);
+                journeys.put(journey.getJourneyId(), journey);
+            }
+
+            return journeys;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public Map<Integer, Journey> getAll() {
         String sql = "SELECT * from journeys "
                 + "INNER JOIN addresses a on journeys.journeyId = a.journeyId "
                 + "ORDER BY journeys.journeyId, a.addressOrder";
-
 
         Map<Integer, Journey> journeys = new HashMap<>();
         try (Connection conn = databaseManager.connect();

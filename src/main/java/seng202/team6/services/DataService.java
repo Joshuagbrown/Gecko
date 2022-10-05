@@ -122,8 +122,8 @@ public class DataService {
     /**
      * Fetch all journey data from the database.
      */
-    public Map<Integer, Journey> fetchJourneyData() {
-        return journeyDao.getAll();
+    public Map<Integer, Journey> fetchJourneyData(String username) {
+        return journeyDao.getAllFromUser(username);
     }
 
     /**
