@@ -43,11 +43,13 @@ public class SaveJourneyController implements ScreenController {
         journeyTable.getItems().clear();
 
         midPoints.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
+        startPoint.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
+        endPoint.setCellFactory(stationStringTableColumn -> new MultiLineCell<>());
 
         startPoint.setCellValueFactory(new PropertyValueFactory<>("start"));
         endPoint.setCellValueFactory(new PropertyValueFactory<>("end"));
         midPoints.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(String.join("\n", cellData.getValue().getAddresses()
+                new SimpleObjectProperty<>(String.join("\n", cellData.getValue().getMidPoints()
                         .stream()
                         .map(value -> "• " + value)
                         .collect(Collectors.joining("\n")))));

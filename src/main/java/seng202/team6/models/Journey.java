@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Journey {
     private String start;
     private String end;
+    private List<String> addresses;
     private List<String> midPoints;
     private String username;
     private int journeyId = -1;
@@ -38,11 +39,12 @@ public class Journey {
         } else {
             this.midPoints = Arrays.asList();
         }
+        this.addresses = addresses;
         this.username = username;
     }
 
     public List<String> getAddresses() {
-        return midPoints;
+        return addresses;
     }
 
     public List<String> getMidPoints() {
