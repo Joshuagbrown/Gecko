@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
@@ -23,8 +22,6 @@ import netscape.javascript.JSObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import seng202.team6.repository.StationDao;
-
 
 
 /**
@@ -52,7 +49,8 @@ public class MapController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked,
-                this::setClickLocation, this::setAddress, this::editStation);
+                this::setClickLocation, this::setAddress, this::editStation,
+                this::addStationToDatabase);
         initMap();
         this.stations = controller.getStations();
     }
@@ -61,13 +59,36 @@ public class MapController implements ScreenController {
      * Function to call the edit station pop-up.
      * @param stationId the stationId of the station
      */
-    public void editStation(String stationId) throws IOException {
+    public void editStation(String stationId) throws IOException, InterruptedException {
         if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
             AlertMessage.createMessage("Unable to access this feature",
                     "Please Log in or Sign up.");
         } else {
-            loadStationWindow(Integer.parseInt(stationId));
+            loadStationWindow(Integer.parseInt(stationId), null);
         }
+    }
+
+    /**
+     * Function to call the add station pop-up.
+     * @param address the string of the address
+     */
+    public void addStationToDatabase(String address) throws IOException, InterruptedException {
+        if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
+            AlertMessage.createMessage("Unable to access this feature",
+                    "Please Log in or Sign up.");
+        } else {
+            loadStationWindow(null, address);
+        }
+    }
+
+    /**
+     * Adds a single station to the map.
+     * @param station A station.
+     */
+    public void addStation(Station station) {
+        javaScriptConnector.call(
+                "addMarker", station.getName(), station.getCoordinates().getLatitude(),
+                station.getCoordinates().getLongitude(), station.getObjectId());
     }
 
     /**
@@ -75,7 +96,8 @@ public class MapController implements ScreenController {
      * @param id the station id number
      * @throws IOException exception thrown
      */
-    public void loadStationWindow(int id) throws IOException {
+    public void loadStationWindow(Integer id, String address) throws IOException,
+            InterruptedException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -85,8 +107,8 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
-        StationController stationController = loader.getController();
-        stationController.init(stage, controller, id);
+        EditStationController editStationController = loader.getController();
+        editStationController.init(stage, controller, id, address);
     }
 
     /**
@@ -189,15 +211,6 @@ public class MapController implements ScreenController {
         return javaScriptConnector;
     }
 
-    /**
-     * Adds a single station to the map.
-     * @param station A station.
-     */
-    public void addStation(Station station) {
-        javaScriptConnector.call(
-                "addMarker", station.getName(), station.getCoordinates().getLatitude(),
-                station.getCoordinates().getLongitude(), station.getObjectId());
-    }
 
     /**
      * Remove a station from the map.

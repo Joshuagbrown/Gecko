@@ -22,6 +22,7 @@ public class Station {
     private boolean carParkCost;
     private boolean chargingCost;
     private boolean hasTouristAttraction;
+    private int stationId = -1;
 
     /**
      * The constructor of the station with related information.
@@ -58,6 +59,33 @@ public class Station {
         this.chargingCost = chargingCost;
         this.hasTouristAttraction = hasTouristAttraction;
     }
+
+    /**
+     * New Constructor.
+     * @param coordinates the coordinate of the station.
+     * @param name the name of the station.
+     * @param objectId the objectId of the station.
+     * @param operator the operator of the station.
+     * @param owner the owner of the station.
+     * @param address the address of the station.
+     * @param timeLimit the timeLimit of the station.
+     * @param is24Hours the is24Hours of the station.
+     * @param chargers the chargers of the station.
+     * @param numberOfCarparks the number of car-parks of the station.
+     * @param carparkCost the car-park Cost of the station.
+     * @param chargingCost the chargingCost of the station.
+     * @param hasTouristAttraction the hasTouristAttraction of the station.
+     * @param stationId the stations' id
+     */
+    public Station(Position coordinates, String name, int objectId, String operator, String owner,
+                   String address, int timeLimit, boolean is24Hours, List<Charger> chargers,
+                   int numberOfCarparks, boolean carparkCost, boolean chargingCost,
+                   boolean hasTouristAttraction, int stationId) {
+        this(coordinates, name, objectId, operator, owner, address, timeLimit, is24Hours, chargers,
+                numberOfCarparks, carparkCost, chargingCost, hasTouristAttraction);
+        this.stationId = stationId;
+    }
+
 
     /**
      * Function to get the coordinate of the station.

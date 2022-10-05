@@ -104,18 +104,26 @@
             if (marker != null) {
                 map.removeLayer(marker)
             }
-            marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
 
-            //m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+            marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
+            var address = fetchAddress(e.latlng);
+
+            marker.bindPopup(address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`).openPopup();
+            //if (address != null) {
+                //marker.bindPopup(address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`).openPopup();
+            //} else {
+               // marker.bindPopup("No address found.").openPopup();
+            //}
+
             javaScriptBridge.setClickLocation(e.latlng.lat, e.latlng.lng);
-            fetchAddress(e.latlng, marker)
 
             map.addLayer(marker);
             //marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
         }
     }
 
-    function fetchAddress(latlng, marker) {
+
+    function fetchAddress(latlng) {
         fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latlng.lat}&lon=${latlng.lng}&apiKey=
 8df6478512f9435785f55fe7b64385ed`)
                 .then(response => response.json())
@@ -124,9 +132,11 @@
                         const address = result.features[0].properties.formatted;
                         L.popup({offset:[0, -33]}).setLatLng(latlng).setContent(address).openOn(map);
                         javaScriptBridge.setAddress(address);
+                        return address;
 
                     } else {
-                        L.popup({offset:[0, -33]}).setLatLng(latlng).setContent("No address found").openOn(map);
+                        //L.popup({offset:[0, -33]}).setLatLng(latlng).setContent("No address found").openOn(map);
+                        return null;
                     }
                 });
     }
@@ -167,6 +177,10 @@
 
     function editStation(id) {
         javaScriptBridge.editStation(id);
+    }
+
+    function addStation(address) {
+        javaScriptBridge.addStation(address);
     }
 
 
@@ -215,6 +229,12 @@
     document.addEventListener("click", e => {
         if (e.target.className == "button") {
             editStation(e.target.dataset.id);
+        }
+    })
+
+    document.addEventListener("click", e => {
+        if (e.target.className == "addButton") {
+            addStation(e.target.dataset.id);
         }
     })
 

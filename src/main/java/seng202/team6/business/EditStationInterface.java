@@ -13,7 +13,7 @@ public interface EditStationInterface {
      * The operation that takes the station Id.
      * @param id The stationId for the Station
      */
-    void operation(String id) throws IOException;
+    void operation(String id) throws IOException, InterruptedException;
 
 }
 
