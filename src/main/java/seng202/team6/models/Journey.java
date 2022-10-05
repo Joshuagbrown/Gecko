@@ -33,9 +33,9 @@ public class Journey {
      */
     public Journey(List<String> addresses, String username) {
         this.start = addresses.get(0);
-        this.end = addresses.get(addresses.size()-1);
+        this.end = addresses.get(addresses.size() - 1);
         if (addresses.size() > 2) {
-            this.midPoints = addresses.subList(1, addresses.size()-1);
+            this.midPoints = addresses.subList(1, addresses.size() - 1);
         } else {
             this.midPoints = Arrays.asList();
         }

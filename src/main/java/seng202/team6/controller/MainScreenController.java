@@ -313,7 +313,8 @@ public class MainScreenController {
     public void updateJourneysFromDatabase() {
         getJourneys().clear();
         if (currentUser != null) {
-            Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(currentUser.getUsername());
+            Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(
+                    currentUser.getUsername());
             getJourneys().putAll(journeyMap);
         }
     }
