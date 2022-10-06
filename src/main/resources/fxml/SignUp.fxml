@@ -23,15 +23,15 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create Account" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create Account" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
-                  <Insets />
+                  <Insets top="20.0" />
                </GridPane.margin>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -39,12 +39,12 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField fx:id="usernameSignUp" promptText="Enter Username" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <TextField fx:id="usernameSignUp" promptText="Enter Username" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="10.0" />
                </GridPane.margin>
             </TextField>
-            <PasswordField fx:id="passwordSignUp" promptText="Enter Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+            <PasswordField fx:id="passwordSignUp" promptText="Enter Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="10.0" />
                </GridPane.margin>
@@ -54,7 +54,7 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -99,19 +99,30 @@
                   <Insets right="30.0" />
                </GridPane.margin>
             </Button>
-            <Text fx:id="invalidUsername" strokeType="OUTSIDE" strokeWidth="0.0" text="Username must only consist of letters and numbers." visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <Text fx:id="invalidUsername" strokeType="OUTSIDE" strokeWidth="0.0" text="Username must only consist of letters and numbers." visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </Text>
-            <Text fx:id="invalidPassword" strokeType="OUTSIDE" strokeWidth="0.0" text="Password must be atleast 8 characters" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+            <Text fx:id="invalidPassword" strokeType="OUTSIDE" strokeWidth="0.0" text="Password must be atleast 8 characters" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </Text>
-            <Text fx:id="invalidName" strokeType="OUTSIDE" strokeWidth="0.0" text="Name must only consist of letters" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Text fx:id="invalidName" strokeType="OUTSIDE" strokeWidth="0.0" text="Name must only consist of letters" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
             <Text fx:id="invalidAddress" strokeType="OUTSIDE" strokeWidth="0.0" text="Not a valid address" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Text fx:id="repeatUsername" strokeType="OUTSIDE" strokeWidth="0.0" text="Username already in use" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Text fx:id="repeatUsername" strokeType="OUTSIDE" strokeWidth="0.0" text="Username already in use" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <PasswordField fx:id="confirmPassword" promptText="Re-enter Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </PasswordField>
+            <Text fx:id="noMatch" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwords do not match" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>

@@ -31,6 +31,8 @@ public class SignUpController implements ScreenController {
     @FXML
     private PasswordField passwordSignUp;
     @FXML
+    private PasswordField confirmPassword;
+    @FXML
     private TextField addressSignUp;
     @FXML
     private Button signUpButton;
@@ -44,6 +46,8 @@ public class SignUpController implements ScreenController {
     private Text invalidName;
     @FXML
     private Text invalidPassword;
+    @FXML
+    private Text noMatch;
     @FXML
     private Text invalidAddress;
     private String username = null;
@@ -97,6 +101,7 @@ public class SignUpController implements ScreenController {
             passwordSignUp.setStyle(null);
         } else {
             passwordSignUp.clear();
+            confirmPassword.clear();
             invalidPassword.setVisible(true);
             passwordSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
@@ -108,6 +113,18 @@ public class SignUpController implements ScreenController {
             addressSignUp.clear();
             invalidAddress.setVisible(true);
             addressSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+        }
+        if (Validity.matchPassword(passwordSignUp.getText(), confirmPassword.getText())) {
+            noMatch.setVisible(false);
+            passwordSignUp.setStyle(null);
+            confirmPassword.setStyle(null);
+        } else {
+            password = null;
+            passwordSignUp.clear();
+            confirmPassword.clear();
+            noMatch.setVisible(true);
+            passwordSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            confirmPassword.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (username != null && name != null && password != null && address != null) {
             SecureRandom random = new SecureRandom();
@@ -138,6 +155,7 @@ public class SignUpController implements ScreenController {
     public void clearFields() {
         usernameSignUp.clear();
         passwordSignUp.clear();
+        confirmPassword.clear();
         addressSignUp.clear();
         nameSignUp.clear();
     }
