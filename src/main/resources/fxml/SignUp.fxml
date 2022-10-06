@@ -49,7 +49,17 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </PasswordField>
+            <PasswordField fx:id="confirmPassword" promptText="Re-enter Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </PasswordField>
             <TextField fx:id="nameSignUp" promptText="Enter Name" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="addressSignUp" promptText="Enter Home Adress" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="10.0" />
                </GridPane.margin>
@@ -78,11 +88,6 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Text>
-            <TextField fx:id="addressSignUp" promptText="Enter Home Adress" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </TextField>
             <Button fx:id="registerVehicleButtonSignUp" mnemonicParsing="false" text="Register Vehicle" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <font>
                   <Font size="16.0" />
@@ -117,11 +122,6 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <PasswordField fx:id="confirmPassword" promptText="Re-enter Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </PasswordField>
             <Text fx:id="noMatch" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwords do not match" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
