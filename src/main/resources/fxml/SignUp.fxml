@@ -93,7 +93,7 @@
                   <Font size="16.0" />
                </font>
                <GridPane.margin>
-                  <Insets />
+                  <Insets bottom="40"/>
                </GridPane.margin>
             </Button>
             <Text fx:id="invalidUsername" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Username must only consist of letters and numbers." visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
