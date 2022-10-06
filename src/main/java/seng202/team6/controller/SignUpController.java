@@ -73,7 +73,7 @@ public class SignUpController implements ScreenController {
     public void signUp(ActionEvent actionEvent)
             throws NoSuchAlgorithmException, InvalidKeySpecException,
             IOException, InterruptedException {
-        if (Validity.checkUserName(usernameSignUp.getText())) {
+        if (Validity.checkUserName(usernameSignUp.getText())&& usernameSignUp.getText().length()>=3) {
             username = usernameSignUp.getText();
             invalidUsername.setVisible(false);
             usernameSignUp.setStyle(null);

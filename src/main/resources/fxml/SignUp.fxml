@@ -83,7 +83,7 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="registerVehicleButtonSignUp" mnemonicParsing="false" text="Register Vehicle" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+            <Button fx:id="registerVehicleButtonSignUp" mnemonicParsing="false" text="Register Vehicle" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font>
