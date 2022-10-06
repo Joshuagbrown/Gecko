@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
+import seng202.team6.business.EditStationInterface;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -53,6 +54,16 @@ public class MapController implements ScreenController {
                 this::addStationToDatabase);
         initMap();
         this.stations = controller.getStations();
+
+        try {
+            loadAddStationWindow("50 Packe Street, Edgeware, Christchurch "
+                    + "8013, New Zealand");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
@@ -64,7 +75,7 @@ public class MapController implements ScreenController {
             AlertMessage.createMessage("Unable to access this feature",
                     "Please Log in or Sign up.");
         } else {
-            loadStationWindow(Integer.parseInt(stationId), null);
+            loadEditStationWindow(Integer.parseInt(stationId));
         }
     }
 
@@ -77,7 +88,7 @@ public class MapController implements ScreenController {
             AlertMessage.createMessage("Unable to access this feature",
                     "Please Log in or Sign up.");
         } else {
-            loadStationWindow(null, address);
+            loadAddStationWindow(address);
         }
     }
 
@@ -96,9 +107,11 @@ public class MapController implements ScreenController {
      * @param id the station id number
      * @throws IOException exception thrown
      */
-    public void loadStationWindow(Integer id, String address) throws IOException,
+    public void loadEditStationWindow(Integer id) throws IOException,
             InterruptedException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
+        EditStationController editStationController = new EditStationController();
+        loader.setController(editStationController);
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -107,9 +120,31 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
-        EditStationController editStationController = loader.getController();
-        editStationController.init(stage, controller, id, address);
+        editStationController.init(stage, controller, id);
     }
+
+
+    /**
+     * Function to initialize and load thew station pop-up.
+     * @param address the address of the station
+     */
+    private void loadAddStationWindow(String address) throws IOException, InterruptedException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
+        AddStationController addStationController = new AddStationController();
+        loader.setController(addStationController);
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Add a New Station");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.show();
+        addStationController.init(stage, controller, address);
+
+    }
+
+
 
     /**
      * Function to set the current address.

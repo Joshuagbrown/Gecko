@@ -79,9 +79,8 @@ public class AddStationController {
      *
      * @param stage      the stage for the pop-up.
      * @param controller the mainscreen controller.
-     * @param id         The stationId of the station.
      */
-    public void init(Stage stage, MainScreenController controller, Integer id, String address)
+    public void init(Stage stage, MainScreenController controller, String address)
             throws IOException, InterruptedException {
 
         this.stage = stage;
@@ -90,6 +89,7 @@ public class AddStationController {
         valid = new Validity(controller);
         findLatLon();
         setFields();
+
     }
 
 

@@ -10,7 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -25,6 +27,9 @@ import seng202.team6.services.Validity;
  * Author: Tara Lipscomnbe
  */
 public class EditStationController {
+
+    @FXML
+    public BorderPane editStationBorderPane;
     @FXML
     private Button deleteButton;
     @FXML
@@ -61,7 +66,6 @@ public class EditStationController {
     private Station station;
     private Validity valid;
     private List<String> currentErrors = new ArrayList<>();
-    private String address;
 
 
     /**
@@ -70,7 +74,7 @@ public class EditStationController {
      * @param controller the mainscreen controller.
      * @param id The stationId of the station.
      */
-    public void init(Stage stage, MainScreenController controller, Integer id, String address)
+    public void init(Stage stage, MainScreenController controller, Integer id)
             throws IOException, InterruptedException {
 
         this.stage = stage;
@@ -287,7 +291,7 @@ public class EditStationController {
         stage.show();
         ChargerController chargerController = loader.getController();
         chargerController.init(stage, controller, station);
-
+        //editStationBorderPane.setBottom(root);
     }
 
 
