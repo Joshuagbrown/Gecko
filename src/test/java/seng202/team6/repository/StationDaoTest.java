@@ -25,17 +25,17 @@ class StationDaoTest {
         List<Charger> chargerList = Arrays.asList(
                 new Charger("CHAdeMO", "Operative", 45),
                 new Charger("Type 2 CCS", "Not Operative", 10));
-        return station(chargerList, 2);
+        return station(chargerList);
     }
 
     static Station station() {
         List<Charger> chargerList = new ArrayList<>();
         Charger charger = new Charger("CHAdeMO", "Operative", 45);
         chargerList.add(charger);
-        return station(chargerList, 1);
+        return station(chargerList);
     }
 
-    static Station station(List<Charger> chargerList, int objectId) {
+    static Station station(List<Charger> chargerList) {
         Position coordinates = new Position(-43, 171);
         String name = "testName";
         String operator = "testOperator";
@@ -47,7 +47,7 @@ class StationDaoTest {
         boolean carParkCost = true;
         boolean chargingCost = true;
         boolean hasTouristAttraction = true;
-        return new Station(coordinates, name, objectId, operator, owner, address,
+        return new Station(coordinates, name, operator, owner, address,
                 timeLimit, is24Hours, chargerList, numberOfCarParks,carParkCost, chargingCost,
                 hasTouristAttraction);
     }

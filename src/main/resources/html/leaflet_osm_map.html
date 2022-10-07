@@ -192,16 +192,16 @@
     }
 
 
-    function addMarker(title, lat, lng, objectId) {
+    function addMarker(title, lat, lng, stationId) {
         var m = new L.Marker([lat, lng], {icon:greenIcon})
-        m.bindPopup(title + "\n" +`<button data-id="${objectId}" class="button" type="button">Edit Station</button>`).openPopup();
-        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(objectId));
-        m.objectId = objectId;
+        m.bindPopup(title + "\n" +`<button data-id="${stationId}" class="button" type="button">Edit Station</button>`).openPopup();
+        m.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(stationId));
+        m.stationId = stationId;
         markers.push(m)
     }
 
-    function removeMarker(objectId) {
-        var marker = markers.find(m => m.objectId === objectId);
+    function removeMarker(stationId) {
+        var marker = markers.find(m => m.stationId === stationId);
         if (marker && map.hasLayer(marker)) {
             map.removeLayer(marker)
         }
@@ -211,7 +211,7 @@
 
     function cleanUpMarkerLayer() {
         while (markers.length > 0) {
-            let m = markers.pop();
+            let m = markers.pop()
             if (map.hasLayer(m)) {
                 map.removeLayer(m);
             }

@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS stations (
     lat REAL NOT NULL,
     long REAL NOT NULL,
     name TEXT NOT NULL,
-    objectId INTEGER NOT NULL,
     operator TEXT NOT NULL,
     owner TEXT NOT NULL,
     address TEXT NOT NULL,
@@ -16,7 +15,6 @@ CREATE TABLE IF NOT EXISTS stations (
     carparkCost INTEGER NOT NULL,
     chargingCost INTEGER NOT NULL,
     hasTouristAttraction INTEGER NOT NULL,
-    UNIQUE(userId,objectId),
     FOREIGN KEY(userId) REFERENCES users(userId)
 );
 

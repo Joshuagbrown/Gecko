@@ -71,10 +71,9 @@ public class AddStationController {
     private Position pos;
 
     private Station station;
-    //TEMP FIX FOR OBJECT ID
-    private static int i = 342;
 
     private Scene stationScene;
+    private Scene chargerScene;
     private List<Charger> chargers = new ArrayList<Charger>();
     private ChargerController chargerController = new ChargerController();
 
@@ -145,7 +144,6 @@ public class AddStationController {
      *
      * @param actionEvent when save button is clicked
      */
-    @SuppressWarnings("checkstyle:VariableDeclarationUsageDistance")
     public void savingChanges(ActionEvent actionEvent) throws IOException,
             InterruptedException, DatabaseException {
 
@@ -167,10 +165,11 @@ public class AddStationController {
             boolean newCarParkCost = parkCostButton.isSelected();
             boolean newChargingCost = chargingCostButton.isSelected();
             chargers = chargerController.getCurrentChargers();
-            Station newStation = new Station(pos, newName, i, newOperator, newOwner,
+
+
+            Station newStation = new Station(pos, newName, newOperator, newOwner,
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
                     newChargingCost, tourist);
-            i++;
             station = newStation;
             controller.getDataService().getStationDao().add(newStation);
             controller.updateStationsFromDatabase();
@@ -268,7 +267,7 @@ public class AddStationController {
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
             Parent root = loader.load();
-            Scene chargerScene = new Scene(root);
+            chargerScene = new Scene(root);
             stage.setScene(chargerScene);
             stage.setTitle("Current Chargers");
             stage.show();
@@ -287,7 +286,7 @@ public class AddStationController {
      */
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
-        controller.getDataService().getStationDao().delete(station.getObjectId());
+        controller.getDataService().getStationDao().delete(station.getStationId());
         controller.updateStationsFromDatabase();
         stage.close();
         controller.setTextAreaInMainScreen("");

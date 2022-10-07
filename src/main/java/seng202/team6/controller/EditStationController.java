@@ -307,7 +307,7 @@ public class EditStationController {
      */
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
-        controller.getDataService().getStationDao().delete(station.getObjectId());
+        controller.getDataService().getStationDao().delete(station.getStationId());
         controller.updateStationsFromDatabase();
         stage.close();
         controller.setTextAreaInMainScreen("");
