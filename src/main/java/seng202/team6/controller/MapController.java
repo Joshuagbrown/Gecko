@@ -91,7 +91,7 @@ public class MapController implements ScreenController {
     public void addStation(Station station) {
         javaScriptConnector.call(
                 "addMarker", station.getName(), station.getCoordinates().getLatitude(),
-                station.getCoordinates().getLongitude(), station.getObjectId());
+                station.getCoordinates().getLongitude(), station.getStationId());
     }
 
     /**
@@ -219,7 +219,7 @@ public class MapController implements ScreenController {
                             }
 
                             if (change.wasRemoved()) {
-                                removeStation(change.getValueRemoved().getObjectId());
+                                removeStation(change.getValueRemoved().getStationId());
                             }
                         });
 
@@ -253,10 +253,10 @@ public class MapController implements ScreenController {
 
     /**
      * Remove a station from the map.
-     * @param objectId the objectId of the station
+     * @param stationId the objectId of the station
      */
-    public void removeStation(int objectId) {
-        javaScriptConnector.call("removeMarker", objectId);
+    public void removeStation(int stationId) {
+        javaScriptConnector.call("removeMarker", stationId);
     }
 
 

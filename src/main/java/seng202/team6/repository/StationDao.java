@@ -28,7 +28,6 @@ public class StationDao implements DaoInterface<Station> {
                         rs.getDouble("long")
                 ),
                 rs.getString("name"),
-                rs.getInt("objectId"),
                 rs.getString("operator"),
                 rs.getString("owner"),
                 rs.getString("address"),
@@ -38,7 +37,8 @@ public class StationDao implements DaoInterface<Station> {
                 rs.getInt("numberOfCarparks"),
                 rs.getBoolean("carparkCost"),
                 rs.getBoolean("chargingCost"),
-                rs.getBoolean("hasTouristAttraction")
+                rs.getBoolean("hasTouristAttraction"),
+                rs.getInt("stationId")
         );
     }
 
@@ -58,7 +58,7 @@ public class StationDao implements DaoInterface<Station> {
             while (stillGoing) {
                 if (rs.getInt("stationId") != rs2.getInt("stationId")) {
                     Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
-                    stations.put(station.getObjectId(), station);
+                    stations.put(station.getStationId(), station);
                     chargers.clear();
                 }
                 chargers.add(chargerFromResultSet(rs));
@@ -69,7 +69,7 @@ public class StationDao implements DaoInterface<Station> {
             }
             if (!chargers.isEmpty()) {
                 Station station = stationFromResultSet(rs2, chargers);
-                stations.put(station.getObjectId(), station);
+                stations.put(station.getStationId(), station);
             }
             return stations;
         } catch (SQLException e) {
@@ -145,26 +145,25 @@ public class StationDao implements DaoInterface<Station> {
      */
     @Override
     public int add(Station toAdd) throws DatabaseException {
-        String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
+        String stationSql = "INSERT INTO stations (name, operator, owner,"
                 + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
                 + "chargingCost, hasTouristAttraction, lat, long)"
-                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?);";
 
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(stationSql)) {
-            ps.setInt(1, toAdd.getObjectId());
-            ps.setString(2, toAdd.getName());
-            ps.setString(3, toAdd.getOperator());
-            ps.setString(4, toAdd.getOwner());
-            ps.setString(5, toAdd.getAddress());
-            ps.setInt(6, toAdd.getTimeLimit());
-            ps.setBoolean(7, toAdd.is24Hours());
-            ps.setInt(8, toAdd.getNumberOfCarParks());
-            ps.setBoolean(9, toAdd.isCarparkCost());
-            ps.setBoolean(10, toAdd.isChargingCost());
-            ps.setBoolean(11, toAdd.isHasTouristAttraction());
-            ps.setDouble(12, toAdd.getCoordinates().getLatitude());
-            ps.setDouble(13, toAdd.getCoordinates().getLongitude());
+            ps.setString(1, toAdd.getName());
+            ps.setString(2, toAdd.getOperator());
+            ps.setString(3, toAdd.getOwner());
+            ps.setString(4, toAdd.getAddress());
+            ps.setInt(5, toAdd.getTimeLimit());
+            ps.setBoolean(6, toAdd.is24Hours());
+            ps.setInt(7, toAdd.getNumberOfCarParks());
+            ps.setBoolean(8, toAdd.isCarparkCost());
+            ps.setBoolean(9, toAdd.isChargingCost());
+            ps.setBoolean(10, toAdd.isHasTouristAttraction());
+            ps.setDouble(11, toAdd.getCoordinates().getLatitude());
+            ps.setDouble(12, toAdd.getCoordinates().getLongitude());
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -175,10 +174,12 @@ public class StationDao implements DaoInterface<Station> {
             addChargers(toAdd.getChargers(), insertId);
             return insertId;
         } catch (SQLException e) {
+            log.error("An error occurred", e);
             if (e.getErrorCode() == 19) {
                 throw new DatabaseException("A duplicate entry was provided", e);
             }
             throw new DatabaseException("A database error occurred", e);
+
         }
     }
 
@@ -238,7 +239,7 @@ public class StationDao implements DaoInterface<Station> {
         String stationSql = "UPDATE stations SET name=? , operator=? , owner=?,"
                 + "address=? , timeLimit=? , is24Hours=? , numberOfCarparks=?, carparkCost=? ,"
                 + "chargingCost=? , hasTouristAttraction=?, lat=? , long=? "
-                + "WHERE objectId=?";
+                + "WHERE stationId=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setString(1, toUpdate.getName());
@@ -253,13 +254,13 @@ public class StationDao implements DaoInterface<Station> {
             ps.setBoolean(10, toUpdate.isHasTouristAttraction());
             ps.setDouble(11, toUpdate.getCoordinates().getLatitude());
             ps.setDouble(12, toUpdate.getCoordinates().getLongitude());
-            ps.setInt(13, toUpdate.getObjectId());
+            ps.setInt(13, toUpdate.getStationId());
 
             ps.executeUpdate();
 
             for (Charger charger : toUpdate.getChargers()) {
                 if (charger.getChargerId() == -1) {
-                    addCharger(charger, toUpdate.getObjectId());
+                    addCharger(charger, toUpdate.getStationId());
                 } else {
                     updateCharger(charger);
                 }

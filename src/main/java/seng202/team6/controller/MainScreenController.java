@@ -602,9 +602,9 @@ public class MainScreenController {
         Parent current = (Parent) mainBorderPane.getCenter();
         int stationID;
         if (current == dataScreen) {
-            stationID = getDataController().getCurrentlySelected().getObjectId();
+            stationID = getDataController().getCurrentlySelected().getStationId();
         } else {
-            stationID = getMapController().getCurrentlySelected().getObjectId();
+            stationID = getMapController().getCurrentlySelected().getStationId();
         }
         getMapController().loadEditStationWindow(stationID);
     }

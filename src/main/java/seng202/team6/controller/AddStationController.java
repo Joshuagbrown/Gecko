@@ -74,8 +74,6 @@ public class AddStationController {
     private Position pos;
 
     private Station station;
-    //TEMP FIX FOR OBJECT ID
-    private static int i = 342;
 
     private Scene stationScene;
     private Scene chargerScene;
@@ -176,10 +174,9 @@ public class AddStationController {
 
             ///CHECK CHARGERS
 
-            Station newStation = new Station(pos, newName, i, newOperator, newOwner,
+            Station newStation = new Station(pos, newName, newOperator, newOwner,
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
                     newChargingCost, tourist);
-            i++;
             station = newStation;
             controller.getDataService().getStationDao().add(newStation);
             controller.updateStationsFromDatabase();
@@ -296,7 +293,7 @@ public class AddStationController {
      */
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
-        controller.getDataService().getStationDao().delete(station.getObjectId());
+        controller.getDataService().getStationDao().delete(station.getStationId());
         controller.updateStationsFromDatabase();
         stage.close();
         controller.setTextAreaInMainScreen("");

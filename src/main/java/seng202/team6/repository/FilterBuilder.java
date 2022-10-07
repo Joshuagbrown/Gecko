@@ -92,8 +92,7 @@ public class FilterBuilder {
      */
     public PreparedStatement build(Connection conn) throws SQLException {
         String sql = "SELECT * FROM stations "
-                + "JOIN chargers c ON stations.stationId = c.stationId "
-                + "ORDER BY stations.stationId";
+                + "JOIN chargers c ON stations.stationId = c.stationId ";
         if (filters.isEmpty()) {
             return conn.prepareStatement(sql);
         }
@@ -101,6 +100,7 @@ public class FilterBuilder {
         sql += " WHERE " + filters.stream()
                 .map(str -> String.format("(%s)", str))
                 .collect(Collectors.joining());
+        sql += " ORDER BY stations.stationId";
         PreparedStatement ps = conn.prepareStatement(sql);
         for (int i = 0; i < arguments.size(); i++) {
             ps.setObject(i + 1, arguments.get(i));
