@@ -438,12 +438,6 @@ public class MainScreenController {
     }
 
     /**
-     * Loads the general page on the 'my details' screen.
-     */
-    public void loadGeneralButtonEventHandler() {
-    }
-
-    /**
      * Pick random fun fact and loads it into the text area.
      * @param file the Fun fact text file
      */

@@ -40,7 +40,7 @@ public class MyDetailsToolBarController implements ScreenController {
      * Load the general section.
      */
     public void loadGeneral(ActionEvent actionEvent) {
-        controller.loadGeneralButtonEventHandler();
+        controller.loadMyDetailsViewAndToolBars();
     }
 
     /**
