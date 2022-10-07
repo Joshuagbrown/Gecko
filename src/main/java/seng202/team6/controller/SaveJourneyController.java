@@ -3,7 +3,9 @@ package seng202.team6.controller;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.MapChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -11,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 
@@ -19,6 +22,7 @@ public class SaveJourneyController implements ScreenController {
     private static final Logger log = LogManager.getLogger();
     private MainScreenController controller;
     private Journey selectedJourney;
+    private int selectedJourneyIndex;
     @FXML
     private TableView<Journey> journeyTable;
     @FXML
@@ -76,5 +80,21 @@ public class SaveJourneyController implements ScreenController {
      */
     public void clickItem(MouseEvent mouseEvent) {
         selectedJourney = journeyTable.getSelectionModel().getSelectedItem();
+        selectedJourneyIndex = journeyTable.getSelectionModel().getSelectedIndex();
+    }
+
+    public void deleteJourney(ActionEvent actionEvent) {
+        if (selectedJourney != null && journeyTable.getSelectionModel().isSelected(selectedJourneyIndex)) {
+            try {
+                controller.getDataService().deleteJourney(selectedJourney);
+                journeyTable.getItems().remove(selectedJourneyIndex);
+                selectedJourney = null;
+                selectedJourneyIndex = -1;
+            } catch (DatabaseException e) {
+                log.error("Error removing journey from database",e);
+            }
+        } else {
+            AlertMessage.createMessage("No Journey Selected", "A journey must be selected to be deleted");
+        }
     }
 }

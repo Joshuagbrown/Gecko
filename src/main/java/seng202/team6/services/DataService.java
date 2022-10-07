@@ -150,6 +150,14 @@ public class DataService {
         journeyDao.add(journey);
     }
 
+    /**
+     * Deletes a journey from the database.
+     * @param journey the journey to delete
+     */
+    public void deleteJourney(Journey journey) throws DatabaseException {
+        journeyDao.delete(journey.getJourneyId());
+    }
+
     /** Get a station from the database by id.
      * @param id the id
      */

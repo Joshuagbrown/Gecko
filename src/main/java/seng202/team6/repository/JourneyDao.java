@@ -166,12 +166,12 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
      */
     @Override
     public void delete(int id) {
-        String journeySql = "DELETE FROM journeys WHERE journeyId=?";
+        String journeySql = "DELETE FROM journeys WHERE journeyId=(?)";
 
         try (Connection conn = databaseManager.connect();
             PreparedStatement ps = conn.prepareStatement(journeySql)) {
             ps.setInt(1, id);
-            ps.executeQuery();
+            ps.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -186,7 +186,7 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(addressSql)) {
             ps.setInt(1, id);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -200,7 +200,7 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps2.setInt(1, journeyId);
             ps2.setString(2, address);
             ps2.setInt(3, order);
-            ps2.executeQuery();
+            ps2.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

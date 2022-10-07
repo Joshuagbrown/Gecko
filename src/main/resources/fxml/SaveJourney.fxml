@@ -30,7 +30,7 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="deleteJourneyButton" alignment="CENTER" mnemonicParsing="false" text="Delete Journey" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Button fx:id="deleteJourneyButton" alignment="CENTER" mnemonicParsing="false" onAction="#deleteJourney" text="Delete Journey" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
