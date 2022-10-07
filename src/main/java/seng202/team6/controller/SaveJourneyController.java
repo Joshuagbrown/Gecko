@@ -83,8 +83,16 @@ public class SaveJourneyController implements ScreenController {
         selectedJourneyIndex = journeyTable.getSelectionModel().getSelectedIndex();
     }
 
+    /**
+     * Deletes the selected journey when the delete journey button is pushed.
+     * The selected journey is the journey that is highlighted on the journey table
+     * when the delete button is clicked. If no journey is selected an error
+     * popup is displayed.
+     * @param actionEvent Delete button is clicked event.
+     */
     public void deleteJourney(ActionEvent actionEvent) {
-        if (selectedJourney != null && journeyTable.getSelectionModel().isSelected(selectedJourneyIndex)) {
+        if (selectedJourney != null
+                && journeyTable.getSelectionModel().isSelected(selectedJourneyIndex)) {
             try {
                 controller.getDataService().deleteJourney(selectedJourney);
                 journeyTable.getItems().remove(selectedJourneyIndex);
@@ -94,7 +102,8 @@ public class SaveJourneyController implements ScreenController {
                 log.error("Error removing journey from database",e);
             }
         } else {
-            AlertMessage.createMessage("No Journey Selected", "A journey must be selected to be deleted");
+            AlertMessage.createMessage("No Journey Selected",
+                    "A journey must be selected to be deleted");
         }
     }
 }
