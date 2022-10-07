@@ -7,7 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -50,6 +52,7 @@ public class ChargerController {
      * @param controller the mainscreen controller.
      * @param station the current station.
      */
+    @SuppressWarnings("checkstyle:Indentation")
     public void init(Stage stage, Scene scene, MainScreenController controller,
                      Station station) {
         this.stage = stage;
@@ -141,6 +144,7 @@ public class ChargerController {
                 updating.setPlugType(plugType);
             }
 
+
             controller.getDataService().getStationDao().update(station);
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
@@ -220,6 +224,8 @@ public class ChargerController {
         }
 
     }
+
+
 
     /**
      * Returns the scene back to the Station Information Scene.

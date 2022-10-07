@@ -42,6 +42,7 @@ public class MapController implements ScreenController {
     private String currentAddress;
 
     private ObservableMap<Integer, Station> stations;
+    private Station currentlySelected;
 
     /**
      * Initialises the map view.
@@ -111,6 +112,7 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
+        System.out.println(id);
         editStationController.init(stage, scene, controller, id);
     }
 
@@ -119,7 +121,7 @@ public class MapController implements ScreenController {
      * Function to initialize and load thew station pop-up.
      * @param address the address of the station
      */
-    private void loadAddStationWindow(String address) throws IOException, InterruptedException {
+    public void loadAddStationWindow(String address) throws IOException, InterruptedException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         AddStationController addStationController = new AddStationController();
         loader.setController(addStationController);
@@ -151,10 +153,12 @@ public class MapController implements ScreenController {
      */
     public void onStationClicked(int stationId) {
         Station station = stations.get(stationId);
+        currentlySelected = station;
         setClickLocation(station.getCoordinates().getLatitude(),
                         station.getCoordinates().getLongitude());
         setAddress(station.getAddress());
         controller.setTextAreaInMainScreen(station.toString());
+        controller.changeToEditButton();
     }
 
     /**
@@ -164,6 +168,7 @@ public class MapController implements ScreenController {
      */
     public void setClickLocation(double lat, double lng) {
         position = new Position(lat, lng);
+        controller.changeToAddButton();
     }
 
     /**
@@ -172,6 +177,14 @@ public class MapController implements ScreenController {
      */
     public Position getLatLng() {
         return position;
+    }
+
+    /**
+     * Function to return the currently selected station in the map.
+     * @return the currently select station
+     */
+    public Station getCurrentlySelected() {
+        return currentlySelected;
     }
 
 

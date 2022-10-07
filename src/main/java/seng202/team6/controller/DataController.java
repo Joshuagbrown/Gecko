@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;
@@ -70,6 +71,8 @@ public class DataController implements ScreenController {
     @FXML
     public TableColumn<Station, String>  chargers;
 
+    public Station currentlySelected;
+
 
     /**
      * Initialize the window.
@@ -123,8 +126,24 @@ public class DataController implements ScreenController {
      */
     public void clickItem(MouseEvent mouseEvent) {
         Station selected = table.getSelectionModel().getSelectedItem();
+        currentlySelected = selected;
         if (selected != null) {
             controller.setTextAreaInMainScreen(selected.toString());
+            controller.changeToEditButton();
+        } else {
+            controller.changeToAddButton();
         }
     }
+
+
+    /**
+     * Function to return the currently selected station.
+     * @return currently selected station
+     */
+    public Station getCurrentlySelected() {
+        return currentlySelected;
+    }
+
+
+
 }

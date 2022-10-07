@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -73,10 +75,11 @@ public class AddStationController {
 
     private Station station;
     //TEMP FIX FOR OBJECT ID
-    private static int i = 343;
+    private static int i = 342;
 
     private Scene stationScene;
     private Scene chargerScene;
+    private List<Charger> chargers = new ArrayList<Charger>();
 
 
     /**
@@ -88,12 +91,24 @@ public class AddStationController {
     public void init(Stage stage, Scene scene, MainScreenController controller, String address)
             throws IOException, InterruptedException {
         this.stage = stage;
+        stage.setOnCloseRequest(e -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Have you saved all of the "
+                    + "changes you have made?", ButtonType.YES, ButtonType.NO);
+            ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
+
+            if (ButtonType.NO.equals(result)) {
+                // no choice or no clicked -> don't close
+                e.consume();
+            }
+        });
         this.stationScene = scene;
         this.address = address;
         this.controller = controller;
         valid = new Validity(controller);
-        findLatLon();
-        setFields();
+        if (address != null) {
+            findLatLon();
+            setFields();
+        }
 
     }
 
@@ -120,14 +135,17 @@ public class AddStationController {
      * longitude.
      */
     private void setFields() {
-        addressField.setText(address);
-        latField.setText(String.valueOf(pos.getLatitude()));
-        lonField.setText(String.valueOf(pos.getLongitude()));
-        addressField.setEditable(false);
-        latField.setEditable(false);
-        //latField.setStyle("-fx-background-color: 00000066");
-        lonField.setEditable(false);
-        //lonField.setStyle("-fx-background-color: 00000066");
+        if (address != null) {
+            addressField.setText(address);
+            latField.setText(String.valueOf(pos.getLatitude()));
+            lonField.setText(String.valueOf(pos.getLongitude()));
+            addressField.setEditable(false);
+        } else {
+            latField.setEditable(false);
+            //latField.setStyle("-fx-background-color: 00000066");
+            lonField.setEditable(false);
+            //lonField.setStyle("-fx-background-color: 00000066");
+        }
 
     }
 
@@ -157,7 +175,6 @@ public class AddStationController {
             boolean newChargingCost = chargingCostButton.isSelected();
 
             ///CHECK CHARGERS
-            List<Charger> chargers = new ArrayList<Charger>();
 
             Station newStation = new Station(pos, newName, i, newOperator, newOwner,
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
@@ -189,6 +206,16 @@ public class AddStationController {
                     + "characters within the" + " following set {a-z, A-Z, '+', '&', ',', ' '}");
         } else {
             nameField.setStyle("");
+        }
+
+        String newAddress = addressField.getText();
+
+        if (!valid.checkAddress(newAddress)) {
+            addressField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            returnable = false;
+            currentErrors.add("Address must represent an existing address");
+        } else {
+            addressField.setStyle("");
         }
 
 
@@ -274,6 +301,15 @@ public class AddStationController {
         stage.close();
         controller.setTextAreaInMainScreen("");
 
+    }
+
+    /**
+     * Adds any newly saved chargers on the charger pop-up to the charger list
+     * So they are saved with the station in the database.
+     * @param newCharger the charger to be added
+     */
+    public void addCharger(Charger newCharger) {
+        chargers.add(newCharger);
     }
 
 
