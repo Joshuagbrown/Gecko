@@ -7,15 +7,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Journey;
+import seng202.team6.models.Station;
 
 public class SaveJourneyController implements ScreenController {
 
     private static final Logger log = LogManager.getLogger();
     private MainScreenController controller;
+    private Journey selectedJourney;
     @FXML
     private TableView<Journey> journeyTable;
     @FXML
@@ -65,5 +68,13 @@ public class SaveJourneyController implements ScreenController {
 
         journeyTable.getItems().addAll(controller.getJourneys().values());
 
+    }
+
+    /**
+     * This sets the selected journey to what journey has been clicked on.
+     * @param mouseEvent Station is clicked.
+     */
+    public void clickItem(MouseEvent mouseEvent) {
+        selectedJourney = journeyTable.getSelectionModel().getSelectedItem();
     }
 }
