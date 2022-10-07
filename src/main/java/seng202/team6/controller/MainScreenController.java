@@ -138,7 +138,7 @@ public class MainScreenController {
      * @param dataService Service class to handle accessing and storing the necessary information.
      *
      */
-    void init(Stage stage, DataService dataService) {
+    public void init(Stage stage, DataService dataService) {
         Pair<Parent, ScreenController> pair;
         LoadScreen screen = new LoadScreen();
 
