@@ -35,7 +35,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="showJourneyButton" mnemonicParsing="false" text="Show Journey on map" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Button fx:id="showJourneyButton" mnemonicParsing="false" onAction="#showJourney" text="Show Journey on map" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>

@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.MapChangeListener;
@@ -23,6 +24,7 @@ public class SaveJourneyController implements ScreenController {
     private MainScreenController controller;
     private Journey selectedJourney;
     private int selectedJourneyIndex;
+    private int stopAmount;
     @FXML
     private TableView<Journey> journeyTable;
     @FXML
@@ -103,7 +105,28 @@ public class SaveJourneyController implements ScreenController {
             }
         } else {
             AlertMessage.createMessage("No Journey Selected",
-                    "A journey must be selected to be deleted");
+                    "Please select a journey and try again");
+        }
+    }
+
+    /**
+     * when show journey is clicked it calls a function in the maptoolbar and goes to the map page.
+     * @param actionEvent when show journey is clicked
+     */
+    public void showJourney(ActionEvent actionEvent) {
+        if (selectedJourney != null
+                && journeyTable.getSelectionModel().isSelected(selectedJourneyIndex)) {
+            if (selectedJourney.getMidPoints() == null) {
+                stopAmount = 0;
+            } else {
+                stopAmount = selectedJourney.getMidPoints().size();
+            }
+            List<String> allAddresses = selectedJourney.getAddresses();
+            controller.getMapToolBarController().findRouteFromJourney(stopAmount, allAddresses);
+            controller.mapButtonEventHandler();
+        } else {
+            AlertMessage.createMessage("No Journey Selected",
+                    "Please select a journey and try again");
         }
     }
 }
