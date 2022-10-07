@@ -590,7 +590,7 @@ public class MainScreenController {
      * @param actionEvent when 'Add Station' button is clicked.
      */
     public void addStation(ActionEvent actionEvent) throws IOException, InterruptedException {
-        getMapController().loadAddStationWindow("");
+        getMapController().loadAddStationWindow(null);
     }
 
     /**

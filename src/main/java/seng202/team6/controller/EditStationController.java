@@ -33,8 +33,7 @@ public class EditStationController {
     public BorderPane editStationBorderPane;
     @FXML
     private Button deleteButton;
-    @FXML
-    private TextField latField;
+
     @FXML
     private TextField addressField;
     @FXML
@@ -43,8 +42,7 @@ public class EditStationController {
     private CheckBox touristButton;
     @FXML
     private Button viewChargersButton;
-    @FXML
-    private TextField lonField;
+
     @FXML
     private Button saveButton;
     @FXML
@@ -117,9 +115,6 @@ public class EditStationController {
      */
     public void setFields() {
         nameField.setText(station.getName());
-        Position pos = station.getCoordinates();
-        latField.setText(String.valueOf(pos.getLatitude()));
-        lonField.setText(String.valueOf(pos.getLongitude()));
         addressField.setText(station.getAddress());
         operatorField.setText(station.getOperator());
         ownerField.setText(station.getOwner());

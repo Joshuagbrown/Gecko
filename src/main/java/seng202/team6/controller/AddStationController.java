@@ -34,8 +34,6 @@ public class AddStationController {
     @FXML
     private Button deleteButton;
     @FXML
-    private TextField latField;
-    @FXML
     private TextField addressField;
     @FXML
     private CheckBox hoursButton;
@@ -43,8 +41,7 @@ public class AddStationController {
     private CheckBox touristButton;
     @FXML
     private Button viewChargersButton;
-    @FXML
-    private TextField lonField;
+
     @FXML
     private Button saveButton;
     @FXML
@@ -78,8 +75,8 @@ public class AddStationController {
     private static int i = 342;
 
     private Scene stationScene;
-    private Scene chargerScene;
     private List<Charger> chargers = new ArrayList<Charger>();
+    private ChargerController chargerController = new ChargerController();
 
 
     /**
@@ -137,14 +134,7 @@ public class AddStationController {
     private void setFields() {
         if (address != null) {
             addressField.setText(address);
-            latField.setText(String.valueOf(pos.getLatitude()));
-            lonField.setText(String.valueOf(pos.getLongitude()));
             addressField.setEditable(false);
-        } else {
-            latField.setEditable(false);
-            //latField.setStyle("-fx-background-color: 00000066");
-            lonField.setEditable(false);
-            //lonField.setStyle("-fx-background-color: 00000066");
         }
 
     }
@@ -155,6 +145,7 @@ public class AddStationController {
      *
      * @param actionEvent when save button is clicked
      */
+    @SuppressWarnings("checkstyle:VariableDeclarationUsageDistance")
     public void savingChanges(ActionEvent actionEvent) throws IOException,
             InterruptedException, DatabaseException {
 
@@ -164,6 +155,8 @@ public class AddStationController {
                     "Please fix the changes with the following errors.", currentErrors);
             currentErrors.clear();
         } else {
+            address = addressField.getText();
+            findLatLon();
             String newName = nameField.getText();
             boolean is24Hours = hoursButton.isSelected();
             boolean tourist = touristButton.isSelected();
@@ -173,9 +166,7 @@ public class AddStationController {
             int newCarParks = Integer.parseInt(numParksField.getText());
             boolean newCarParkCost = parkCostButton.isSelected();
             boolean newChargingCost = chargingCostButton.isSelected();
-
-            ///CHECK CHARGERS
-
+            chargers = chargerController.getCurrentChargers();
             Station newStation = new Station(pos, newName, i, newOperator, newOwner,
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
                     newChargingCost, tourist);
@@ -277,11 +268,11 @@ public class AddStationController {
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
             Parent root = loader.load();
-            chargerScene = new Scene(root);
+            Scene chargerScene = new Scene(root);
             stage.setScene(chargerScene);
             stage.setTitle("Current Chargers");
             stage.show();
-            ChargerController chargerController = loader.getController();
+            //ChargerController chargerController = loader.getController();
             chargerController.init(stage, stationScene, controller, station);
         }
 

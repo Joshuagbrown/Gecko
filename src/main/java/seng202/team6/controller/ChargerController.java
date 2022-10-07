@@ -43,24 +43,30 @@ public class ChargerController {
     private int currentlySelectedCharger;
     private Validity valid;
     private List<String> currentErrors = new ArrayList<>();
-
+    private List<Charger> currentChargers = new ArrayList<>();
     private Scene stationScene;
 
     /**
      * Initializes the Charger Controller class.
      * @param stage the stage for the pop-up.
      * @param controller the mainscreen controller.
-     * @param station the current station.
+     * @param newStation the current station.
      */
     @SuppressWarnings("checkstyle:Indentation")
     public void init(Stage stage, Scene scene, MainScreenController controller,
-                     Station station) {
+                     Station newStation) {
         this.stage = stage;
         this.stationScene = scene;
-        this.station = station;
+        this.station = newStation;
+        System.out.println(station.getChargers().size());
         this.controller = controller;
         valid = new Validity(controller);
         setChargerAndPlugDropDown();
+        currentChargers.clear();
+        for (Charger charger : station.getChargers()) {
+            currentChargers.add(charger);
+        }
+
     }
 
     /**
@@ -137,13 +143,17 @@ public class ChargerController {
                 updating = new Charger(plugType, op, wattage);
                 chargers.add(updating);
                 station.setChargers(chargers);
+                currentChargers.add(updating);
             } else {
                 updating = chargers.get(currentlySelectedCharger);
+                Charger classUpdating = currentChargers.get(currentlySelectedCharger);
                 updating.setWattage(wattage);
+                classUpdating.setWattage(wattage);
                 updating.setOperative(op);
+                classUpdating.setOperative(op);
                 updating.setPlugType(plugType);
+                classUpdating.setPlugType(plugType);
             }
-
 
             controller.getDataService().getStationDao().update(station);
             setChargerAndPlugDropDown();
@@ -226,6 +236,13 @@ public class ChargerController {
     }
 
 
+    /**
+     * Funciton to get the current chargers from the charger controller.
+     * @return the current chargers
+     */
+    public List<Charger> getCurrentChargers() {
+        return currentChargers;
+    }
 
     /**
      * Returns the scene back to the Station Information Scene.
