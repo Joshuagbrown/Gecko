@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -41,14 +42,18 @@ public class ChargerController {
     private Validity valid;
     private List<String> currentErrors = new ArrayList<>();
 
+    private Scene stationScene;
+
     /**
      * Initializes the Charger Controller class.
      * @param stage the stage for the pop-up.
      * @param controller the mainscreen controller.
      * @param station the current station.
      */
-    public void init(Stage stage, MainScreenController controller, Station station) {
+    public void init(Stage stage, Scene scene, MainScreenController controller,
+                     Station station) {
         this.stage = stage;
+        this.stationScene = scene;
         this.station = station;
         this.controller = controller;
         valid = new Validity(controller);
@@ -216,4 +221,11 @@ public class ChargerController {
 
     }
 
+    /**
+     * Returns the scene back to the Station Information Scene.
+     * @param actionEvent when the return button is selected
+     */
+    public void returnStationInfo(ActionEvent actionEvent) {
+        stage.setScene(stationScene);
+    }
 }

@@ -72,6 +72,11 @@ public class AddStationController {
     private Position pos;
 
     private Station station;
+    //TEMP FIX FOR OBJECT ID
+    private static int i = 343;
+
+    private Scene stationScene;
+    private Scene chargerScene;
 
 
     /**
@@ -80,10 +85,10 @@ public class AddStationController {
      * @param stage      the stage for the pop-up.
      * @param controller the mainscreen controller.
      */
-    public void init(Stage stage, MainScreenController controller, String address)
+    public void init(Stage stage, Scene scene, MainScreenController controller, String address)
             throws IOException, InterruptedException {
-
         this.stage = stage;
+        this.stationScene = scene;
         this.address = address;
         this.controller = controller;
         valid = new Validity(controller);
@@ -101,10 +106,11 @@ public class AddStationController {
      * @throws InterruptedException from geocoding
      */
     private void findLatLon() throws IOException, InterruptedException {
+
         JSONObject positionField = controller.getMapToolBarController().geoCode(address);
-        String lat = (String) positionField.get("lat");
-        String lng = (String) positionField.get("lng");
-        pos = new Position(Double.parseDouble(lat), Double.parseDouble(lng));
+        double lat = (double) positionField.get("lat");
+        double lng = (double) positionField.get("lng");
+        pos = new Position(lat, lng);
 
     }
 
@@ -114,13 +120,14 @@ public class AddStationController {
      * longitude.
      */
     private void setFields() {
-
         addressField.setText(address);
         latField.setText(String.valueOf(pos.getLatitude()));
         lonField.setText(String.valueOf(pos.getLongitude()));
         addressField.setEditable(false);
         latField.setEditable(false);
+        //latField.setStyle("-fx-background-color: 00000066");
         lonField.setEditable(false);
+        //lonField.setStyle("-fx-background-color: 00000066");
 
     }
 
@@ -152,14 +159,13 @@ public class AddStationController {
             ///CHECK CHARGERS
             List<Charger> chargers = new ArrayList<Charger>();
 
-            Station newStation = new Station(pos, newName, -1, newOperator, newOwner,
+            Station newStation = new Station(pos, newName, i, newOperator, newOwner,
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
                     newChargingCost, tourist);
-
+            i++;
             station = newStation;
             controller.getDataService().getStationDao().add(newStation);
             controller.updateStationsFromDatabase();
-            stage.close();
             controller.setTextAreaInMainScreen(newStation.toString());
 
         }
@@ -238,37 +244,37 @@ public class AddStationController {
      * @param actionEvent when the "View chargers" button is clicked
      */
     public void viewChargers(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Current Chargers");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.DECORATED);
-        stage.show();
-        ChargerController chargerController = loader.getController();
-        chargerController.init(stage, controller, station);
+        if (station == null) {
+            AlertMessage.createMessage("Unable to view/edit Chargers",
+                    "Please create station and select 'Save Changes' first.");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
+            Parent root = loader.load();
+            chargerScene = new Scene(root);
+            stage.setScene(chargerScene);
+            stage.setTitle("Current Chargers");
+            stage.show();
+            ChargerController chargerController = loader.getController();
+            chargerController.init(stage, stationScene, controller, station);
+        }
 
     }
 
 
 
 
+    /**
+     * Function used to delete the currently selected Station from the database and map.
+     * @param actionEvent when the user selects the "Delete Station" button
+     */
+    public void deleteSelectedStation(ActionEvent actionEvent) {
 
+        controller.getDataService().getStationDao().delete(station.getObjectId());
+        controller.updateStationsFromDatabase();
+        stage.close();
+        controller.setTextAreaInMainScreen("");
 
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 

@@ -67,6 +67,9 @@ public class EditStationController {
     private Validity valid;
     private List<String> currentErrors = new ArrayList<>();
 
+    private Scene stationScene;
+    private Scene chargerScene;
+
 
     /**
      * Initializes the Station Controller class.
@@ -74,10 +77,11 @@ public class EditStationController {
      * @param controller the mainscreen controller.
      * @param id The stationId of the station.
      */
-    public void init(Stage stage, MainScreenController controller, Integer id)
+    public void init(Stage stage, Scene scene, MainScreenController controller, Integer id)
             throws IOException, InterruptedException {
 
         this.stage = stage;
+        this.stationScene = scene;
         this.stationId = id;
         this.controller = controller;
         valid = new Validity(controller);
@@ -191,11 +195,9 @@ public class EditStationController {
      */
     private Position getPos(String newAddress) throws IOException, InterruptedException {
         JSONObject positionField = controller.getMapToolBarController().geoCode(newAddress);
-        String lat = (String) positionField.get("lat");
-        String lng = (String) positionField.get("lng");
-        Double newLat = Double.parseDouble(lat);
-        Double newLong = Double.parseDouble(lng);
-        return new Position(newLat, newLong);
+        double lat = (double) positionField.get("lat");
+        double lng = (double) positionField.get("lng");
+        return new Position(lat, lng);
     }
 
 
@@ -282,15 +284,13 @@ public class EditStationController {
     public void viewChargers(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
+        //editStationBorderPane.setBottom(root);
+        chargerScene = new Scene(root);
+        stage.setScene(chargerScene);
         stage.setTitle("Current Chargers");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.DECORATED);
         stage.show();
         ChargerController chargerController = loader.getController();
-        chargerController.init(stage, controller, station);
+        chargerController.init(stage, stationScene, controller, station);
         //editStationBorderPane.setBottom(root);
     }
 

@@ -55,15 +55,6 @@ public class MapController implements ScreenController {
         initMap();
         this.stations = controller.getStations();
 
-        try {
-            loadAddStationWindow("50 Packe Street, Edgeware, Christchurch "
-                    + "8013, New Zealand");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     /**
@@ -120,7 +111,7 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
-        editStationController.init(stage, controller, id);
+        editStationController.init(stage, scene, controller, id);
     }
 
 
@@ -140,7 +131,7 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
-        addStationController.init(stage, controller, address);
+        addStationController.init(stage, scene, controller, address);
 
     }
 
