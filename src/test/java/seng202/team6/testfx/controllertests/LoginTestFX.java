@@ -39,8 +39,8 @@ public class LoginTestFX extends TestFXBase {
         DataService dataService = new DataService();
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
         Parent root = baseLoader.load();
-        MainScreenController baseController = baseLoader.getController();
-        baseController.init(stage, dataService);
+        mainScreenController = baseLoader.getController();
+        mainScreenController.init(stage, dataService);
         Parent page = loader.load();
         initState(loader, stage);
         Scene scene = new Scene(page);
