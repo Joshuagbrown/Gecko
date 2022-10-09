@@ -27,7 +27,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
-import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
@@ -575,7 +574,7 @@ public class MainScreenController {
                 AlertMessage.createMessage("An error occurred when importing data",
                         task.getException().getCause().getMessage());
             } else if (task.getState() == Worker.State.SUCCEEDED) {
-                AlertMessage.createListMessage("Warning",
+                AlertMessage.createListMessageStation("Warning",
                         "Some lines were skipped",
                         task.getValue());
             }
