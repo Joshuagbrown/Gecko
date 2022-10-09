@@ -21,6 +21,7 @@ import seng202.team6.controller.MainScreenController;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.exceptions.InstanceAlreadyExistsException;
 import seng202.team6.models.User;
+import seng202.team6.models.UserLoginDetails;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.UserDao;
 import seng202.team6.services.DataService;
@@ -34,6 +35,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.HexFormat;
 
+import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 
 
@@ -134,6 +136,16 @@ public class LoginStepDefs extends TestFXBase {
 
 
 
+    @When("User clicks My Details button")
+    public void userClicksMyDetailsButton() {
+        clickOn("#loginPageBtn");
+
+    }
+
+    @Then("User can see the my details page")
+    public void userCanSeeTheMyDetailsPage() {
+        verifyThat("#editDetailsButton", Node::isVisible);
+    }
 
 
 
