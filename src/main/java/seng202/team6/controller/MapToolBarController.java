@@ -312,7 +312,7 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.getChildren().remove(saveJourneyCheck);
 
             TextField addOneTextField = new TextField();
-            addOneTextField.setFont(Font.font(13));
+//            addOneTextField.setFont(Font.font(13));
             addOneTextField.setVisible(true);
 
             arrayOfTextFields.add(addOneTextField);
@@ -326,7 +326,7 @@ public class MapToolBarController implements ScreenController {
             addressMarkerTitles.add(null);
 
             Button autoFillButton = new Button("Auto-Fill");
-            autoFillButton.setFont(Font.font(15));
+//            autoFillButton.setFont(Font.font(15));
             GridPane.setHalignment(autoFillButton, HPos.RIGHT);
             autoFillButton.setVisible(true);
             autoFillButton.setOnAction(e -> autoFillEventHandler(addOneTextField));

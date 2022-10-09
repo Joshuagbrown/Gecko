@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javaVersion>17</javaVersion>
-    <javaFXVersion>17</javaFXVersion>
+    <javaFXVersion>18</javaFXVersion>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <testfx.robot>awt</testfx.robot>
@@ -82,13 +82,13 @@
       <version>3.32.3.2</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.testfx/openjfx-monocle -->
-    <dependency>
-      <groupId>org.testfx</groupId>
-      <artifactId>openjfx-monocle</artifactId>
-      <version>jdk-12.0.1+2</version>
-      <scope>test</scope>
-    </dependency>
+<!--    &lt;!&ndash; https://mvnrepository.com/artifact/org.testfx/openjfx-monocle &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>org.testfx</groupId>-->
+<!--      <artifactId>openjfx-monocle</artifactId>-->
+<!--      <version>jdk-12.0.1+2</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
 
 
 

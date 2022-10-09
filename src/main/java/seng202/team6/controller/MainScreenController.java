@@ -468,7 +468,7 @@ public class MainScreenController {
         int randomLine = (int) Math.floor(Math.random() * (max - min + 1) + min);
         String funFact = lines.get(randomLine);
         loginController.funFactBox.appendText(funFact);
-        loginController.funFactBox.setFont(new Font("Courier", 16));
+//        loginController.funFactBox.setFont(new Font("Courier", 16));
     }
 
     /**
