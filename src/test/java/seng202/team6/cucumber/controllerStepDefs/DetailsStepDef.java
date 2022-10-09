@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.junit.After;
 import org.junit.jupiter.api.BeforeAll;
 import org.testfx.framework.junit5.ApplicationTest;
 import seng202.team6.controller.LoginController;
@@ -40,8 +41,14 @@ public class DetailsStepDef extends TestFXBase {
                 "54 Bellvue Avenue, Papanui 8052, New Zealand", "Name");
     }
 
-    @BeforeAll
-    static void setup() throws InstanceAlreadyExistsException, DatabaseException {
+    @Before
+    @Override
+    public void setUpClass() throws Exception {
+        ApplicationTest.launch(MainApplication.class);
+        setup();
+    }
+
+    public void setup() throws InstanceAlreadyExistsException, DatabaseException {
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
@@ -49,11 +56,6 @@ public class DetailsStepDef extends TestFXBase {
     }
 
     @Before
-    @Override
-    public void setUpClass() throws Exception {
-        ApplicationTest.launch(MainApplication.class);
-    }
-
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
@@ -69,6 +71,11 @@ public class DetailsStepDef extends TestFXBase {
     public void initState(FXMLLoader loader, Stage stage,MainScreenController mainScreenController) {
         LoginController loginController = loader.getController();
         loginController.init(stage,mainScreenController);
+    }
+
+    @After
+    public void breakDown() {
+        manager.resetDB();
     }
 
     @Given("User is logged in")

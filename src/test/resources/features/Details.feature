@@ -1,4 +1,4 @@
-Feature Details page
+Feature: Details page
 
   Scenario: (AT_14) Viewing user details
     Given User is logged in
