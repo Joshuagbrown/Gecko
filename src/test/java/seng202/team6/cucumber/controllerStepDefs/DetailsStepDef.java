@@ -30,7 +30,7 @@ public class DetailsStepDef extends TestFXBase {
 
     static MainScreenController mainScreenController;
     static DatabaseManager manager;
-    static UserDao userDao;
+    static UserDao userDao = new UserDao();;
 
     static User user() {
         byte[] passwordHash = HexFormat.of().parseHex("C0E64B6AE3A5F1D293E28704712F3663");
@@ -44,7 +44,7 @@ public class DetailsStepDef extends TestFXBase {
     static void setup() throws InstanceAlreadyExistsException, DatabaseException {
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
-        userDao = new UserDao();
+
         userDao.add(user());
     }
 
@@ -80,7 +80,7 @@ public class DetailsStepDef extends TestFXBase {
 
     @When("User clicks My Details button")
     public void userClicksMyDetailsButton() {
-        mainScreenController.loginButtonEventHandler(new ActionEvent());
+        mainScreenController.loginButtonEventHandler(null);
     }
 
     @Then("User can see the my details page")

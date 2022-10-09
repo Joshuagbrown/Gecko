@@ -1,6 +1,8 @@
 package seng202.team6.cucumber.controllerStepDefs;
 
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -11,11 +13,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
 import seng202.team6.controller.LoginController;
 import seng202.team6.controller.MainApplication;
 import seng202.team6.controller.MainScreenController;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.exceptions.InstanceAlreadyExistsException;
 import seng202.team6.models.User;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.UserDao;
@@ -25,6 +29,7 @@ import seng202.team6.testfx.controllertests.TestFXBase;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.HexFormat;
@@ -40,27 +45,42 @@ public class LoginStepDefs extends TestFXBase {
 
 
     User user() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] passwordSalt = HexFormat.of().parseHex("D03FEF3D6CE1AAEDF4255FEDE95DDEA8");
+
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
         String password = "123456789";
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), passwordSalt, 65536, 128);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] passwordHash = factory.generateSecret(spec).getEncoded();
-        //byte[] passwordHash = HexFormat.of().parseHex("C0E64B6AE3A5F1D293E28704712F3663");
+        byte[] hash = factory.generateSecret(spec).getEncoded();
+        User user = new User("admin", hash, salt, "54 Bellvue Avenue, Papanui 8052, New Zealand", "Name");
 
-
-        return new User("admin", passwordHash, passwordSalt,
-                "54 Bellvue Avenue, Papanui 8052, New Zealand", "Name");
+        return user;
 
     }
 
     @Before
     @Override
     public void setUpClass() throws Exception {
+        ApplicationTest.launch(MainApplication.class);
+    }
+
+    @Before
+    public void setup() throws InstanceAlreadyExistsException, NoSuchAlgorithmException, InvalidKeySpecException, DatabaseException {
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
         userDao.add(user());
-        ApplicationTest.launch(MainApplication.class);
+    }
+
+
+
+
+
+    @After
+    public void breakDownClass() {
+        manager.resetDB();
     }
 
     @Override
@@ -109,6 +129,13 @@ public class LoginStepDefs extends TestFXBase {
         //Assertions.assertNotNull(mainScreenController.getCurrentUser());
         //verifyThat("#logInButton", Node::isVisible);
     }
+
+    @Then("I am not logged in")
+    public void iAmNotLoggedIn() {
+        verifyThat("#errorText", Node::isVisible);
+    }
+
+
 
 
 
