@@ -137,7 +137,7 @@ public class MainScreenController {
      * @param dataService Service class to handle accessing and storing the necessary information.
      *
      */
-    void init(Stage stage, DataService dataService) {
+    public void init(Stage stage, DataService dataService) {
         Pair<Parent, ScreenController> pair;
         LoadScreen screen = new LoadScreen();
 
@@ -346,6 +346,14 @@ public class MainScreenController {
      */
     public MapController getMapController() {
         return mapController;
+    }
+
+    /**
+     * getter that returns the myDetailsScreen.
+     * @return myDetailsScreen.
+     */
+    public Parent getMyDetailsScreen() {
+        return myDetailsScreen;
     }
 
     /**
