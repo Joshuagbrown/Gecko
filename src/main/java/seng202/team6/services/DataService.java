@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.WritableObjectValue;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -58,11 +60,12 @@ public class DataService {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         List<CsvLineException> errors = new ArrayList<>();
         List<Station> stations = stationCsvImporter.readFromFile(file, errors);
-        int i = 0;
-        for (Station station : stations) {
-            dao.add(station);
-            value.set(new Pair<>(++i, stations.size()));
-        }
+
+        IntegerProperty integerProperty = new SimpleIntegerProperty();
+        integerProperty.addListener((observable, oldValue, newValue) ->
+                value.setValue(new Pair<>(newValue.intValue(), stations.size())));
+
+        dao.addAll(stations, integerProperty);
         return errors;
     }
 
@@ -154,7 +157,7 @@ public class DataService {
      * Deletes a journey from the database.
      * @param journey the journey to delete
      */
-    public void deleteJourney(Journey journey) throws DatabaseException {
+    public void deleteJourney(Journey journey) {
         journeyDao.delete(journey.getJourneyId());
     }
 
