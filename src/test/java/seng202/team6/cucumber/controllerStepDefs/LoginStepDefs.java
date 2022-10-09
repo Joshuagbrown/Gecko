@@ -63,15 +63,11 @@ public class LoginStepDefs extends TestFXBase {
     @Before
     @Override
     public void setUpClass() throws Exception {
-        ApplicationTest.launch(MainApplication.class);
-    }
-
-    @Before
-    public void setup() throws InstanceAlreadyExistsException, NoSuchAlgorithmException, InvalidKeySpecException, DatabaseException {
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
         userDao.add(user());
+        ApplicationTest.launch(MainApplication.class);
     }
 
 
@@ -134,6 +130,8 @@ public class LoginStepDefs extends TestFXBase {
     public void iAmNotLoggedIn() {
         verifyThat("#errorText", Node::isVisible);
     }
+
+
 
 
 
