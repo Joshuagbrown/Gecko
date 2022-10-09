@@ -350,6 +350,12 @@ public class MainScreenController {
     }
 
     /**
+     * getter that returns the myDetailsScreen.
+     * @return myDetailsScreen.
+     */
+    public Parent getMyDetailsScreen() { return myDetailsScreen; }
+
+    /**
      * Function to return the map toolbar controller.
      * @return map toolbar controller.
      */
