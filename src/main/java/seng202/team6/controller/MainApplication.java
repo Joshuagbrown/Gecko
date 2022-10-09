@@ -20,6 +20,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
         dataService.createTables();
+
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
         Parent root = baseLoader.load();
         MainScreenController baseController = baseLoader.getController();
@@ -39,6 +40,7 @@ public class MainApplication extends Application {
 
     /**
      * The function that call to launch the project.
+     * 
      * @param args the args.
      */
     public static void main(String[] args) {

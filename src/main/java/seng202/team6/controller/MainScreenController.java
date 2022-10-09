@@ -36,7 +36,8 @@ import seng202.team6.services.DataService;
 
 /**
  * Controller of the main screen fxml.
- * @author  Phyu Wai Lwin.
+ * 
+ * @author Phyu Wai Lwin.
  */
 public class MainScreenController {
 
@@ -105,7 +106,8 @@ public class MainScreenController {
      */
     private Parent myDetailsToolBarScreen;
     /**
-     * parent class for the saved journeys screen to display the saved journeys page.
+     * parent class for the saved journeys screen to display the saved journeys
+     * page.
      */
     private Parent journeysScreen;
     private MapController mapController;
@@ -127,14 +129,13 @@ public class MainScreenController {
 
     private int currentUserId;
 
-
-
     /**
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen.
      *
-     * @param stage Top level container for this window.
-     * @param dataService Service class to handle accessing and storing the necessary information.
+     * @param stage       Top level container for this window.
+     * @param dataService Service class to handle accessing and storing the
+     *                    necessary information.
      *
      */
     public void init(Stage stage, DataService dataService) {
@@ -206,6 +207,7 @@ public class MainScreenController {
 
     /**
      * Function to get my detail controller of the app.
+     * 
      * @return my detail controller.
      */
     public MyDetailsController getMyDetailController() {
@@ -214,6 +216,7 @@ public class MainScreenController {
 
     /**
      * Function to get register vehicle controller of the app.
+     * 
      * @return register vehicle controller.
      */
     public RegisterVehicleController getRegisterVehicleController() {
@@ -241,6 +244,7 @@ public class MainScreenController {
 
     /**
      * Function to get the current user id.
+     * 
      * @return current user id.
      */
     public int getCurrentUserId() {
@@ -249,6 +253,7 @@ public class MainScreenController {
 
     /**
      * Fuction to set the current user id.
+     * 
      * @param currentUserId the user id to be set.
      */
     public void setCurrentUserId(int currentUserId) {
@@ -257,6 +262,7 @@ public class MainScreenController {
 
     /**
      * Function to get the stations.
+     * 
      * @return An observable map of stations.
      */
     public ObservableMap<Integer, Station> getStations() {
@@ -265,6 +271,7 @@ public class MainScreenController {
 
     /**
      * Function to get the journeys.
+     * 
      * @return An observable map of journeys.
      */
     public ObservableMap<Integer, Journey> getJourneys() {
@@ -273,6 +280,7 @@ public class MainScreenController {
 
     /**
      * Function that returns the current user.
+     * 
      * @return currentUser the current user.
      */
     public User getCurrentUser() {
@@ -281,6 +289,7 @@ public class MainScreenController {
 
     /**
      * Function to set the current user.
+     * 
      * @param currentUser the current user.
      */
     public void setCurrentUser(User currentUser) {
@@ -289,6 +298,7 @@ public class MainScreenController {
 
     /**
      * Function to update the stations.
+     * 
      * @param builder The filter builder to use
      */
     public void updateStationsFromDatabase(FilterBuilder builder) {
@@ -320,6 +330,7 @@ public class MainScreenController {
 
     /**
      * Function to return the loginPage button.
+     * 
      * @return the login page button.
      */
     public Button getLoginPageBtn() {
@@ -342,6 +353,7 @@ public class MainScreenController {
 
     /**
      * Function to return the map controller.
+     * 
      * @return mapController.
      */
     public MapController getMapController() {
@@ -350,6 +362,7 @@ public class MainScreenController {
 
     /**
      * getter that returns the myDetailsScreen.
+     * 
      * @return myDetailsScreen.
      */
     public Parent getMyDetailsScreen() {
@@ -358,6 +371,7 @@ public class MainScreenController {
 
     /**
      * Function to return the map toolbar controller.
+     * 
      * @return map toolbar controller.
      */
     public MapToolBarController getMapToolBarController() {
@@ -366,6 +380,7 @@ public class MainScreenController {
 
     /**
      * Function to return the stage.
+     * 
      * @return stage of main screen controller.
      */
     public Stage getStage() {
@@ -374,6 +389,7 @@ public class MainScreenController {
 
     /**
      * Function to return the data service.
+     * 
      * @return data service. of main screen controller.
      */
     public DataService getDataService() {
@@ -382,6 +398,7 @@ public class MainScreenController {
 
     /**
      * Function to return the help controller.
+     * 
      * @return help controller.
      */
     public HelpController getHelpController() {
@@ -390,6 +407,7 @@ public class MainScreenController {
 
     /**
      * Function to return the data controller.
+     * 
      * @return data controller.
      */
     public DataController getDataController() {
@@ -398,6 +416,7 @@ public class MainScreenController {
 
     /**
      * Function to return the login controller.
+     * 
      * @return loginController the login controller.
      */
     public LoginController getLoginController() {
@@ -406,6 +425,7 @@ public class MainScreenController {
 
     /**
      * Function to return the 'My Details' controller.
+     * 
      * @return myDetailsController the 'my details' controller.
      */
     public MyDetailsController getMyDetailsController() {
@@ -446,6 +466,7 @@ public class MainScreenController {
 
     /**
      * Pick random fun fact and loads it into the text area.
+     * 
      * @param file the Fun fact text file
      */
     public void loadGeckoFact(InputStream file) {
@@ -468,11 +489,12 @@ public class MainScreenController {
         int randomLine = (int) Math.floor(Math.random() * (max - min + 1) + min);
         String funFact = lines.get(randomLine);
         loginController.funFactBox.appendText(funFact);
-//        loginController.funFactBox.setFont(new Font("Courier", 16));
+        loginController.funFactBox.setFont(new Font("Courier", 16));
     }
 
     /**
      * The action handler that linked to the Login button on main screen.
+     * 
      * @param actionEvent when Login button is clicked
      */
     public void loginButtonEventHandler(ActionEvent actionEvent) {
@@ -504,6 +526,7 @@ public class MainScreenController {
 
     /**
      * Function to call when logging in a user.
+     * 
      * @param user The user to login
      */
     public void loginUser(User user) {
@@ -516,6 +539,7 @@ public class MainScreenController {
 
     /**
      * The action handler that linked to the map button on main screen.
+     * 
      * @param actionEvent Top level container for this window.
      */
     public void loadDataViewAndToolBars(ActionEvent actionEvent) {
@@ -536,6 +560,7 @@ public class MainScreenController {
 
     /**
      * Display string information on the text area.
+     * 
      * @param info the string information.
      */
     public void setTextAreaInMainScreen(String info) {
@@ -554,7 +579,7 @@ public class MainScreenController {
         if (selectedFile != null) {
             Task<List<String>> task = new Task<>() {
                 @Override
-                protected List<String> call()  {
+                protected List<String> call() {
                     ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
                     value.addListener((observable, oldValue, newValue) -> {
                         updateProgress(newValue.getKey(), newValue.getValue());
@@ -562,11 +587,10 @@ public class MainScreenController {
                     });
                     try {
                         return dataService.loadDataFromCsv(selectedFile, value)
-                                .stream().map(e ->
-                                        String.format(
-                                                "Line %d: %s",
-                                                e.getLine(),
-                                                e.getCause().getMessage()))
+                                .stream().map(e -> String.format(
+                                        "Line %d: %s",
+                                        e.getLine(),
+                                        e.getCause().getMessage()))
                                 .toList();
                     } catch (CsvFileException | DatabaseException e) {
                         throw new RuntimeException(e);
@@ -593,6 +617,7 @@ public class MainScreenController {
 
     /**
      * Funtion to get my detail toolbar controller.
+     * 
      * @return my detail toolbar controller.
      */
     public MyDetailsToolBarController getMyDetailsToolBarController() {
@@ -601,8 +626,9 @@ public class MainScreenController {
 
     /**
      * Action to load the csv file of green vehicle into the database.
+     * 
      * @throws DatabaseException the error from database.
-     * @throws CsvFileException the error from the csv file loading.
+     * @throws CsvFileException  the error from the csv file loading.
      */
     public void loadVehicleType() throws DatabaseException, CsvFileException {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
