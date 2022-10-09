@@ -16,6 +16,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import seng202.team6.controller.LoginController;
 import seng202.team6.controller.MainApplication;
 import seng202.team6.controller.MainScreenController;
+import seng202.team6.services.DataService;
 import seng202.team6.testfx.controllertests.TestFXBase;
 
 import static org.testfx.api.FxAssert.verifyThat;
@@ -33,15 +34,20 @@ public class LoginStepDefs extends TestFXBase {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        mainScreenController = loader1.load();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        DataService dataService = new DataService();
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
+        Parent root = baseLoader.load();
+        mainScreenController = baseLoader.getController();
+        mainScreenController.init(stage, dataService);
         Parent page = loader.load();
         initState(loader, stage,mainScreenController);
         Scene scene = new Scene(page);
         stage.setScene(scene);
         stage.show();
+
+
     }
     public void initState(FXMLLoader loader, Stage stage,MainScreenController mainScreenController) {
         LoginController loginController = loader.getController();
@@ -50,6 +56,7 @@ public class LoginStepDefs extends TestFXBase {
 
     @Given("I am on the login screen")
     public void iAmOnTheLoginScreen() {
+        clickOn("#loginPageBtn");
         // We know that only the login screen has a login button, so if we can see we can't've logged in
         verifyThat("#logInButton", Node::isVisible);
     }
@@ -66,8 +73,9 @@ public class LoginStepDefs extends TestFXBase {
     @Then("I am logged in success")
     public void iAmLoggedInSuccess() {
         // We know that once we log in the main screen has a button to log out, so if we can see this it must've logged us in correctly
-
-        Assertions.assertNotNull(mainScreenController.getCurrentUser());
+        clickOn("#loginPageBtn");
+        verifyThat("#logOutButton", Node::isVisible);
+        //Assertions.assertNotNull(mainScreenController.getCurrentUser());
         //verifyThat("#logInButton", Node::isVisible);
     }
 
