@@ -63,6 +63,7 @@ public class LoginTestFX extends TestFXBase {
         clickOn("#logInButton");
         // We know that once we log in the main screen has a button to log out, so if we can see this it must've logged us in correctly
         Assertions.assertNotNull(mainScreenController.getCurrentUser());
+        Assertions.assertEquals("pwl",mainScreenController.getCurrentUser().getUsername());
     }
 
 
