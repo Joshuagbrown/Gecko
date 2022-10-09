@@ -21,6 +21,7 @@ import seng202.team6.models.User;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.UserDao;
+import seng202.team6.services.DataService;
 import seng202.team6.testfx.controllertests.TestFXBase;
 
 import java.util.HexFormat;
@@ -44,42 +45,37 @@ public class DetailsStepDef extends TestFXBase {
     @Before
     @Override
     public void setUpClass() throws Exception {
-        ApplicationTest.launch(MainApplication.class);
-        setup();
-    }
-
-    public void setup() throws InstanceAlreadyExistsException, DatabaseException {
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
         userDao.add(user());
+        ApplicationTest.launch(MainApplication.class);
     }
 
-    @Before
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        mainScreenController = loader1.load();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        DataService dataService = new DataService();
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
+        Parent root = baseLoader.load();
+        mainScreenController = baseLoader.getController();
+        mainScreenController.init(stage, dataService);
         Parent page = loader.load();
         initState(loader, stage,mainScreenController);
         Scene scene = new Scene(page);
         stage.setScene(scene);
         stage.show();
+
+
     }
     public void initState(FXMLLoader loader, Stage stage,MainScreenController mainScreenController) {
         LoginController loginController = loader.getController();
         loginController.init(stage,mainScreenController);
     }
 
-    @After
-    public void breakDown() {
-        manager.resetDB();
-    }
-
     @Given("User is logged in")
-    public void userIsLoggedIn() {
+    public void userIsLoggedIn() throws InstanceAlreadyExistsException, DatabaseException {
         UserLoginDetails userDetails = userDao.getLoginDetails(user().getUsername());
         mainScreenController.setCurrentUserId(userDetails.getUserId());
         mainScreenController.loginUser(userDao.getOne(userDetails.getUserId()));
