@@ -144,7 +144,7 @@ public class ChargerController {
         } else {
             List<Charger> chargers = station.getChargers();
             int wattage = Integer.parseInt(wattageText.getText());
-            String plugType = (String) plugTypeDropDown.getValue();
+            String plugType = plugTypeDropDown.getValue();
             String op;
             if (opButton.isSelected()) {
                 op = "Operative";
