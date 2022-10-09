@@ -2,19 +2,20 @@ package seng202.team6.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
 import seng202.team6.services.Validity;
@@ -24,7 +25,7 @@ public class ChargerController {
     @FXML
     public ToggleGroup operative;
     @FXML
-    public ComboBox chargerDropDown;
+    public ComboBox<Charger> chargerDropDown = new ComboBox<Charger>();
     @FXML
     public Button addButton;
     @FXML
@@ -34,8 +35,15 @@ public class ChargerController {
     @FXML
     public TextField wattageText;
     @FXML
-    public ComboBox plugTypeDropDown;
+    public ComboBox<String> plugTypeDropDown = new ComboBox<>();
+    @FXML
     public Button deleteButton;
+    @FXML
+    public Text chargerTitle;
+    @FXML
+    public Button saveStationButton;
+    @FXML
+    public Button saveChanges;
     private Stage stage;
     private Station station;
     private MainScreenController controller;
@@ -45,6 +53,7 @@ public class ChargerController {
     private List<String> currentErrors = new ArrayList<>();
     private List<Charger> currentChargers = new ArrayList<>();
     private Scene stationScene;
+    private String newOrUpdate;
 
     /**
      * Initializes the Charger Controller class.
@@ -52,19 +61,22 @@ public class ChargerController {
      * @param controller the mainscreen controller.
      * @param newStation the current station.
      */
-    @SuppressWarnings("checkstyle:Indentation")
     public void init(Stage stage, Scene scene, MainScreenController controller,
-                     Station newStation) {
+                     Station newStation, String newOrUpdate) {
         this.stage = stage;
         this.stationScene = scene;
         this.station = newStation;
-        System.out.println(station.getChargers().size());
         this.controller = controller;
+        this.newOrUpdate = newOrUpdate;
         valid = new Validity(controller);
         setChargerAndPlugDropDown();
         currentChargers.clear();
-        for (Charger charger : station.getChargers()) {
-            currentChargers.add(charger);
+        currentChargers.addAll(station.getChargers());
+        if (Objects.equals(newOrUpdate, "new")) {
+            chargerTitle.setText("Add Charger Information");
+        } else {
+            chargerTitle.setText("Add/Edit Charger Information");
+            saveStationButton.setVisible(false);
         }
 
     }
@@ -85,6 +97,7 @@ public class ChargerController {
         if (options.size() > 0) {
             chargerDropDown.getSelectionModel().select(0);
         }
+
 
     }
 
@@ -154,12 +167,14 @@ public class ChargerController {
                 updating.setPlugType(plugType);
                 classUpdating.setPlugType(plugType);
             }
-
-            controller.getDataService().getStationDao().update(station);
+            
+            if (Objects.equals(newOrUpdate, "update")) {
+                controller.getDataService().getStationDao().update(station);
+                controller.updateStationsFromDatabase();
+            }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
             //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
-            controller.updateStationsFromDatabase();
             controller.setTextAreaInMainScreen(station.toString());
         }
 
@@ -237,7 +252,7 @@ public class ChargerController {
 
 
     /**
-     * Funciton to get the current chargers from the charger controller.
+     * Function to get the current chargers from the charger controller.
      * @return the current chargers
      */
     public List<Charger> getCurrentChargers() {
@@ -250,5 +265,20 @@ public class ChargerController {
      */
     public void returnStationInfo(ActionEvent actionEvent) {
         stage.setScene(stationScene);
+    }
+
+
+    /**
+     * Saves the new station and adds it to the database, and refreshes the page.
+     * @param actionEvent when the save station button is selected
+     */
+    public void saveStation(ActionEvent actionEvent) {
+        try {
+            controller.getDataService().getStationDao().add(station);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
+        controller.updateStationsFromDatabase();
+        stage.close();
     }
 }

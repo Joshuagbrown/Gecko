@@ -112,7 +112,6 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
-        System.out.println(id);
         editStationController.init(stage, scene, controller, id);
     }
 

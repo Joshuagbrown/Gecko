@@ -3,6 +3,7 @@ package seng202.team6.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,6 +31,8 @@ import seng202.team6.services.Validity;
  */
 public class EditStationController {
 
+    @FXML
+    private Text stationTitle;
     @FXML
     public BorderPane editStationBorderPane;
     @FXML
@@ -69,6 +73,8 @@ public class EditStationController {
     private Scene stationScene;
     private Scene chargerScene;
 
+    private String originalAddress;
+
 
     /**
      * Initializes the Station Controller class.
@@ -86,8 +92,8 @@ public class EditStationController {
             ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
 
             if (ButtonType.NO.equals(result)) {
-                // no choice or no clicked -> don't close
                 e.consume();
+                controller.changeToAddButton();
             }
         });
         this.stationScene = scene;
@@ -96,6 +102,7 @@ public class EditStationController {
         valid = new Validity(controller);
         findStation();
         setFields();
+        stationTitle.setText("Edit Station Information");
 
     }
 
@@ -106,6 +113,7 @@ public class EditStationController {
      */
     public void findStation() {
         this.station = controller.getDataService().getStation(stationId);
+        this.originalAddress = station.getAddress();
     }
 
 
@@ -161,7 +169,6 @@ public class EditStationController {
             currentErrors.clear();
         } else {
             String newName = nameField.getText();
-            String newAddress = addressField.getText();
             boolean is24Hours = hoursButton.isSelected();
             boolean tourist = touristButton.isSelected();
             String newOperator = operatorField.getText();
@@ -171,10 +178,7 @@ public class EditStationController {
             boolean newCarParkCost = parkCostButton.isSelected();
             boolean newChargingCost = chargingCostButton.isSelected();
 
-            Position newPos = getPos(newAddress);
-            station.setPosition(newPos);
             station.setName(newName);
-            station.setAddress(newAddress);
             station.setIs24Hours(is24Hours);
             station.setHasTouristAttraction(tourist);
             station.setOperator(newOperator);
@@ -183,6 +187,13 @@ public class EditStationController {
             station.setNumberOfCarParks(newCarParks);
             station.setCarParkCost(newCarParkCost);
             station.setChargingCost(newChargingCost);
+
+            String newAddress = addressField.getText();
+            if (!Objects.equals(newAddress, originalAddress)) {
+                station.setAddress(newAddress);
+                Position newPos = getPos(newAddress);
+                station.setPosition(newPos);
+            }
 
             controller.getDataService().getStationDao().update(station);
             controller.updateStationsFromDatabase();
@@ -290,14 +301,12 @@ public class EditStationController {
     public void viewChargers(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
         Parent root = loader.load();
-        //editStationBorderPane.setBottom(root);
         chargerScene = new Scene(root);
         stage.setScene(chargerScene);
         stage.setTitle("Current Chargers");
         stage.show();
         ChargerController chargerController = loader.getController();
-        chargerController.init(stage, stationScene, controller, station);
-        //editStationBorderPane.setBottom(root);
+        chargerController.init(stage, stationScene, controller, station, "update");
     }
 
 

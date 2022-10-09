@@ -3,6 +3,7 @@ package seng202.team6.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,6 +34,10 @@ import seng202.team6.services.Validity;
  */
 public class AddStationController {
 
+    @FXML
+    private Text stationTitle;
+    @FXML
+    private GridPane gridPane;
     @FXML
     private Button deleteButton;
     @FXML
@@ -60,6 +67,8 @@ public class AddStationController {
     @FXML
     private TextField nameField;
 
+    @FXML
+    private Text chargerText;
     private MainScreenController controller;
 
     private Validity valid;
@@ -93,7 +102,6 @@ public class AddStationController {
             ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
 
             if (ButtonType.NO.equals(result)) {
-                // no choice or no clicked -> don't close
                 e.consume();
             }
         });
@@ -105,6 +113,14 @@ public class AddStationController {
             findLatLon();
             setFields();
         }
+        stationTitle.setText("Add New Station Information");
+        deleteButton.setVisible(false);
+        chargerText.setVisible(false);
+        viewChargersButton.setVisible(false);
+        saveButton.setText("Continue");
+        gridPane.getRowConstraints().remove(5);
+        //gridPane.getChildren().removeIf(
+
 
     }
 
@@ -171,8 +187,9 @@ public class AddStationController {
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
                     newChargingCost, tourist);
             station = newStation;
-            controller.getDataService().getStationDao().add(newStation);
-            controller.updateStationsFromDatabase();
+            //            controller.getDataService().getStationDao().add(newStation);
+            //            controller.updateStationsFromDatabase();
+            viewChargers(null);
             controller.setTextAreaInMainScreen(newStation.toString());
 
         }
@@ -262,7 +279,7 @@ public class AddStationController {
      */
     public void viewChargers(ActionEvent actionEvent) throws IOException {
         if (station == null) {
-            AlertMessage.createMessage("Unable to view/edit Chargers",
+            AlertMessage.createMessage("Unable to add Chargers",
                     "Please create station and select 'Save Changes' first.");
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
@@ -271,14 +288,23 @@ public class AddStationController {
             stage.setScene(chargerScene);
             stage.setTitle("Current Chargers");
             stage.show();
-            //ChargerController chargerController = loader.getController();
-            chargerController.init(stage, stationScene, controller, station);
+            ChargerController chargerController = loader.getController();
+            chargerController.init(stage, stationScene, controller, station, "new");
         }
 
     }
 
 
 
+
+    /**
+     * Adds any newly saved chargers on the charger pop-up to the charger list
+     * So they are saved with the station in the database.
+     * @param newCharger the charger to be added
+     */
+    public void addCharger(Charger newCharger) {
+        chargers.add(newCharger);
+    }
 
     /**
      * Function used to delete the currently selected Station from the database and map.
@@ -292,22 +318,6 @@ public class AddStationController {
         controller.setTextAreaInMainScreen("");
 
     }
-
-    /**
-     * Adds any newly saved chargers on the charger pop-up to the charger list
-     * So they are saved with the station in the database.
-     * @param newCharger the charger to be added
-     */
-    public void addCharger(Charger newCharger) {
-        chargers.add(newCharger);
-    }
-
-
-
-
-
-
-
 
 
 

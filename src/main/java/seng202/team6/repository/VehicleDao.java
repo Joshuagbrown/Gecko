@@ -59,7 +59,6 @@ public class VehicleDao implements DaoInterface<Vehicle> {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString(3));
                 vehicles.add(new Vehicle(rs.getString(1),
                         rs.getString(2), rs.getString(3),
                         rs.getInt(4), rs.getInt(5), rs.getInt(6)));

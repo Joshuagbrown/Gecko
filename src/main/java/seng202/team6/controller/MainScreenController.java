@@ -590,7 +590,12 @@ public class MainScreenController {
      * @param actionEvent when 'Add Station' button is clicked.
      */
     public void addStation(ActionEvent actionEvent) throws IOException, InterruptedException {
-        getMapController().loadAddStationWindow(null);
+        if (getCurrentUserId() == 0 || getCurrentUserId() == -1) {
+            AlertMessage.createMessage("Unable to access this feature",
+                    "Please Log in or Sign up.");
+        } else {
+            getMapController().loadAddStationWindow(null);
+        }
     }
 
     /**
@@ -599,14 +604,19 @@ public class MainScreenController {
      * @param actionEvent when 'Edit Station' button is clicked.
      */
     public void editStation(ActionEvent actionEvent) throws IOException, InterruptedException {
-        Parent current = (Parent) mainBorderPane.getCenter();
-        int stationID;
-        if (current == dataScreen) {
-            stationID = getDataController().getCurrentlySelected().getStationId();
+        if (getCurrentUserId() == 0 || getCurrentUserId() == -1) {
+            AlertMessage.createMessage("Unable to access this feature",
+                    "Please Log in or Sign up.");
         } else {
-            stationID = getMapController().getCurrentlySelected().getStationId();
+            Parent current = (Parent) mainBorderPane.getCenter();
+            int stationID;
+            if (current == dataScreen) {
+                stationID = getDataController().getCurrentlySelected().getStationId();
+            } else {
+                stationID = getMapController().getCurrentlySelected().getStationId();
+            }
+            getMapController().loadEditStationWindow(stationID);
         }
-        getMapController().loadEditStationWindow(stationID);
     }
 
     /**

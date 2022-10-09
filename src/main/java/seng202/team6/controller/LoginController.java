@@ -66,7 +66,6 @@ public class LoginController implements ScreenController {
                 errorText.setText("");
                 controller.setCurrentUserId(userDetails.getUserId());
                 controller.loginUser(userDao.getOne(userDetails.getUserId()));
-                System.out.println(userDetails.getUserId());
 
             } else {
                 passwordLogin.clear();
