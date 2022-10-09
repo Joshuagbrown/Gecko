@@ -16,8 +16,18 @@ import org.testfx.framework.junit5.ApplicationTest;
 import seng202.team6.controller.LoginController;
 import seng202.team6.controller.MainApplication;
 import seng202.team6.controller.MainScreenController;
+import seng202.team6.models.User;
+import seng202.team6.repository.DatabaseManager;
+import seng202.team6.repository.UserDao;
 import seng202.team6.services.DataService;
 import seng202.team6.testfx.controllertests.TestFXBase;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.HexFormat;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
@@ -25,10 +35,31 @@ import static org.testfx.api.FxAssert.verifyThat;
 public class LoginStepDefs extends TestFXBase {
 
     MainScreenController mainScreenController;
+    static DatabaseManager manager;
+    static UserDao userDao;
+
+
+    User user() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] passwordSalt = HexFormat.of().parseHex("D03FEF3D6CE1AAEDF4255FEDE95DDEA8");
+        String password = "123456789";
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), passwordSalt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] passwordHash = factory.generateSecret(spec).getEncoded();
+        //byte[] passwordHash = HexFormat.of().parseHex("C0E64B6AE3A5F1D293E28704712F3663");
+
+
+        return new User("admin", passwordHash, passwordSalt,
+                "54 Bellvue Avenue, Papanui 8052, New Zealand", "Name");
+
+    }
 
     @Before
     @Override
     public void setUpClass() throws Exception {
+        DatabaseManager.removeInstance();
+        manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
+        userDao = new UserDao();
+        userDao.add(user());
         ApplicationTest.launch(MainApplication.class);
     }
 
