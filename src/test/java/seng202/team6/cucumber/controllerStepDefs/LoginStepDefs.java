@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
 import seng202.team6.controller.LoginController;
@@ -105,7 +106,6 @@ public class LoginStepDefs extends TestFXBase {
 
     @Given("I am on the login screen")
     public void iAmOnTheLoginScreen() {
-        clickOn("#loginPageBtn");
         // We know that only the login screen has a login button, so if we can see we can't've logged in
         verifyThat("#logInButton", Node::isVisible);
     }
@@ -122,7 +122,7 @@ public class LoginStepDefs extends TestFXBase {
     @Then("I am logged in success")
     public void iAmLoggedInSuccess() {
         // We know that once we log in the main screen has a button to log out, so if we can see this it must've logged us in correctly
-        clickOn("#loginPageBtn");
+
         verifyThat("#logOutButton", Node::isVisible);
         //Assertions.assertNotNull(mainScreenController.getCurrentUser());
         //verifyThat("#logInButton", Node::isVisible);
@@ -148,5 +148,44 @@ public class LoginStepDefs extends TestFXBase {
     }
 
 
+    @When("User clicks log out button")
+    public void userClicksLogOutButton() {
+        clickOn("#logOutButton");
+    }
 
+    @Given("User logged in with with username {string} and password {string} and in my detail page")
+    public void userLoggedInWithWithUsernameAndPasswordAndInMyDetailPage(String username, String password) {
+        userClicksMyDetailsButton();
+        iAmOnTheLoginScreen();
+        iLoginWithUsernameAndPassword(username, password);
+        userClicksMyDetailsButton();
+
+    }
+
+    @When("User click edit button")
+    public void userClickEditButton() {
+        clickOn("#editDetailsButton");
+    }
+
+    @And("User input {string} on name space")
+    public void userInputOnNameSpace(String name) {
+
+        doubleClickOn("#nameField");
+        write(name);
+
+    }
+
+    @And("User click confirm edit button")
+    public void userClickConfirmEditButton() {
+        clickOn("#confirmEditButton");
+
+    }
+
+    @Then("User Name have been into {string}")
+    public void userNameHaveBeenInto(String name) {
+        //Boolean value = "#usernameField".equals(name);
+        verifyThat("#editDetailsButton", Node::isVisible);
+
+//        Assertions.assertTrue("#usernameField".matches(name));
+    }
 }
