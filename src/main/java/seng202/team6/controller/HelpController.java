@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -44,10 +45,8 @@ public class HelpController implements ScreenController {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml(file));
-        String content = getHtml(getClass().getResourceAsStream("/stylesheets/htmlMain.css"));
-        String dataPrefix = "data:text/css;charset=utf-8;base64,";
-        webEngine.setUserStyleSheetLocation(dataPrefix
-                + Base64.getEncoder().encodeToString(content.getBytes()));
+        String uri = getClass().getResource("/stylesheets/htmlMain.css").toExternalForm();
+        webEngine.setUserStyleSheetLocation(uri);
     }
 
     /**
