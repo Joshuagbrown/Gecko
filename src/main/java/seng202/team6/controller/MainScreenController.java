@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
@@ -640,8 +642,12 @@ public class MainScreenController {
      */
     public void addStation(ActionEvent actionEvent) throws IOException, InterruptedException {
         if (getCurrentUserId() == 0 || getCurrentUserId() == -1) {
-            AlertMessage.createMessage("Unable to access this feature",
+            Optional<ButtonType> result = AlertMessage.createMessageWithAction(
+                    "Unable to access this feature",
                     "Please Log in or Sign up.");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                loginButtonEventHandler(null);
+            }
         } else {
             getMapController().loadAddStationWindow(null);
         }
@@ -654,8 +660,12 @@ public class MainScreenController {
      */
     public void editStation(ActionEvent actionEvent) throws IOException, InterruptedException {
         if (getCurrentUserId() == 0 || getCurrentUserId() == -1) {
-            AlertMessage.createMessage("Unable to access this feature",
+            Optional<ButtonType> result = AlertMessage.createMessageWithAction(
+                    "Unable to access this feature",
                     "Please Log in or Sign up.");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                loginButtonEventHandler(null);
+            }
         } else {
             Parent current = (Parent) mainBorderPane.getCenter();
             int stationID;

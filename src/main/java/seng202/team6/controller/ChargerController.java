@@ -264,7 +264,9 @@ public class ChargerController {
      * @param actionEvent when the return button is selected
      */
     public void returnStationInfo(ActionEvent actionEvent) {
+
         stage.setScene(stationScene);
+        stage.setTitle("Current Station");
     }
 
 
@@ -273,12 +275,19 @@ public class ChargerController {
      * @param actionEvent when the save station button is selected
      */
     public void saveStation(ActionEvent actionEvent) {
-        try {
-            controller.getDataService().getStationDao().add(station);
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+        if (station.getChargers().isEmpty()) {
+            AlertMessage.createMessage("Unable to Save Station.",
+                    "Please ensure you have added at least one Charger "
+                            + "to your Station.");
+        } else {
+            try {
+                controller.getDataService().getStationDao().add(station);
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
+            controller.updateStationsFromDatabase();
+            stage.close();
         }
-        controller.updateStationsFromDatabase();
-        stage.close();
+
     }
 }

@@ -1,7 +1,9 @@
 package seng202.team6.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
@@ -68,4 +70,23 @@ public class AlertMessage {
         alert.getDialogPane().setPrefHeight(300);
         alert.showAndWait();
     }
+
+    /**
+     * Creates a pop-up message and displays the error.
+     * @param header The header message.
+     * @param body The error messages.
+     * @return the optional button type to invoke function call
+     */
+    public static Optional<ButtonType> createMessageWithAction(String header, String body) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error Message:");
+        alert.setHeaderText(header);
+        alert.setContentText(body);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result;
+    }
+
+
+
+
 }

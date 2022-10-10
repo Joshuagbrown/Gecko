@@ -37,6 +37,7 @@
     let routingMarkers = [];
     var route;
     var javaScriptBridge;
+    var currentClicked;
     var greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -97,35 +98,30 @@
      * This object can be returned to our java code, where we can call the functions we define inside of it
      */
     function clickMap() {
-        var marker;
 
         map.on('click', onMapClick);
         function onMapClick(e) {
-            if (marker != null) {
-                map.removeLayer(marker)
+            javaScriptBridge.setAddress("");
+            if (currentClicked != null) {
+                map.removeLayer(currentClicked)
             }
 
-            // marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
-            // marker.bindPopup("No address found.").openPopup();
-            // map.addLayer(marker);
-            //marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
             fetchAddress(e.latlng)
                 .then(address => {
                     //marker.bindPopup(address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`).openPopup();
-                    marker = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
+                    currentClicked = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
                     if (address != null) {
                         const markerContent = address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`
-                        marker.bindPopup(markerContent).openPopup();
+                        currentClicked.bindPopup(markerContent).openPopup();
                         L.popup({offset:[0, -28]}).setLatLng(e.latlng).setContent(markerContent).openOn(map);
                     } else {
-                        marker.bindPopup("No address found.").openPopup();
+                        currentClicked.bindPopup("No address found.").openPopup();
                         L.popup({offset:[0, -33]}).setLatLng(e.latlng).setContent("No address found.").openOn(map);
                     }
 
                     javaScriptBridge.setClickLocation(e.latlng.lat, e.latlng.lng);
-                    marker.addTo(map);
-                    //map.addLayer(marker);
-                    //marker.bindPopup("<b>New Location</b><br />I am a popup.").openPopup();
+                    currentClicked.addTo(map);
+
                 })
         }
     }

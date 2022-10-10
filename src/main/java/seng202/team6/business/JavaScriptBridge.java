@@ -55,7 +55,7 @@ public class JavaScriptBridge {
      * function to get location from the station id.
      * @param id the station id.
      */
-    public void getStationFromClick(int id) {
+    public void getStationFromClick(int id) throws IOException {
         getStationInterface.operation(id);
     }
 
@@ -72,7 +72,7 @@ public class JavaScriptBridge {
      * function to get the location form address.
      * @param address the address.
      */
-    public void setAddress(String address) {
+    public void setAddress(String address) throws IOException {
         getAddressInterface.operation(address);
     }
 
