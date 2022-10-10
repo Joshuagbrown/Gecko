@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="411.0" minWidth="248.0" prefHeight="411.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="411.0" minWidth="248.0" prefHeight="411.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MapToolBarController">
    <center>
       <Accordion fx:id="AccordionForFilter" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="213.0" minWidth="112.8" prefHeight="213.0" prefWidth="202.0" BorderPane.alignment="TOP_LEFT">
         <panes>

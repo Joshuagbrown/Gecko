@@ -13,9 +13,15 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javaVersion>17</javaVersion>
-    <javaFXVersion>18.0.2</javaFXVersion>
+    <javaFXVersion>17.0.2</javaFXVersion>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <testfx.robot>awt</testfx.robot>
+    <testfx.headless>false</testfx.headless>
+    <prism.order>sw</prism.order>
+    <prism.text>native</prism.text>
+    <java.awt.headless>false</java.awt.headless>
+    <headless.geometry>1600x1200-32</headless.geometry>
   </properties>
 
   <reporting>
@@ -37,6 +43,28 @@
           </reportSet>
         </reportSets>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M7</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*TestFX.java</include>
+          </includes>
+          <properties>
+            <!-- Work around. Surefire does not include enough information to
+            disambiguate between different examples and scenarios. -->
+            <configurationParameters>
+              cucumber.junit-platform.naming-strategy=long
+            </configurationParameters>
+          </properties>
+          <testFailureIgnore>true</testFailureIgnore>
+        </configuration>
+      </plugin>
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -112,32 +140,56 @@
       <version>${javaFXVersion}</version>
     </dependency>
 
+    <!-- Testing dependencies -->
+    <!--    TestFX -->
+    <!-- https://mvnrepository.com/artifact/org.testfx/testfx-junit5 -->
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-junit5</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.testfx/testfx-core -->
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-core</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.23.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--    Cucumber-->
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
-      <version>7.6.0</version>
-      <scope>test</scope>
+      <version>7.4.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit-platform-engine -->
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit-platform-engine</artifactId>
-      <version>7.6.0</version>
+      <version>7.4.1</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite -->
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-suite</artifactId>
-      <version>1.9.0</version>
+      <version>1.8.2</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.9.0</version>
+      <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -178,7 +230,13 @@
     </dependency>
 
 
-
+ <!-- https://mvnrepository.com/artifact/org.testfx/openjfx-monocle -->
+   <dependency>
+     <groupId>org.testfx</groupId>
+     <artifactId>openjfx-monocle</artifactId>
+     <version>jdk-12.0.1+2</version>
+     <scope>test</scope>
+    </dependency>
 
 
   </dependencies>
@@ -254,6 +312,14 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M7</version>
         <configuration>
+          <systemPropertyVariables>
+            <testfx.robot>${testfx.robot}</testfx.robot>
+            <testfx.headless>${testfx.headless}</testfx.headless>
+            <prism.order>${prism.order}</prism.order>
+            <prism.text>${prism.text}</prism.text>
+            <java.awt.headless>${java.awt.headless}</java.awt.headless>
+            <headless.geometry>${headless.geometry}</headless.geometry>
+          </systemPropertyVariables>
           <properties>
             <!-- Work around. Surefire does not include enough information to
             disambiguate between different examples and scenarios. -->
@@ -293,4 +359,17 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>headlessTests</id>
+      <properties>
+        <testfx.robot>glass</testfx.robot>
+        <testfx.headless>true</testfx.headless>
+        <prism.order>sw</prism.order>
+        <prism.text>t2k</prism.text>
+        <java.awt.headless>true</java.awt.headless>
+        <headless.geometry>1600x1200-32</headless.geometry>
+      </properties>
+    </profile>
+  </profiles>
 </project>
