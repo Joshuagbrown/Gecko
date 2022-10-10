@@ -3,6 +3,8 @@ package seng202.team6.services;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Objects;
 import seng202.team6.controller.MainScreenController;
 
 
@@ -46,6 +48,16 @@ public class Validity {
     }
 
     /**
+     * Checks if the passwords match.
+     * @param password first password
+     * @param confirm the confirmation password
+     * @return true if the both passwords match
+     */
+    public static boolean matchPassword(String password, String confirm) {
+        return Objects.equals(password, confirm);
+    }
+
+    /**
      * Check whether an address is valid.
      * @param address the address to check
      */
@@ -62,8 +74,11 @@ public class Validity {
      * @param value the string value that want to check.
      * @return boolean of true or false.
      */
-    public static boolean checkValue(String value) {
-        return isNumeric(value);
+    public static boolean checkVehicleYear(String value) {
+        LocalDate currentdate = LocalDate.now();
+
+        return isNumeric(value) && Integer.parseInt(value) <  (2 + currentdate.getYear())
+                && Integer.parseInt(value) > 1980;
     }
 
     /**
@@ -72,7 +87,7 @@ public class Validity {
      * @return boolean of true or false.
      */
     public static boolean checkPlugType(String plugType) {
-        return plugType.matches("(?=.*\\S)[a-zA-Z0-9\\s]*");
+        return plugType.matches("[a-zA-Z0-9\\s]+");
     }
 
     /**

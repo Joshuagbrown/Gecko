@@ -1,16 +1,22 @@
 package seng202.team6.repository;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import seng202.team6.exceptions.DatabaseException;
-import seng202.team6.exceptions.InstanceAlreadyExistsException;
-import seng202.team6.models.Charger;
-import seng202.team6.models.Position;
-import seng202.team6.models.Station;
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import seng202.team6.exceptions.CsvFileException;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.exceptions.InstanceAlreadyExistsException;
+import seng202.team6.io.StationCsvImporter;
+import seng202.team6.models.Charger;
+import seng202.team6.models.Position;
+import seng202.team6.models.Station;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -135,5 +141,30 @@ class StationDaoTest {
         assertEquals(1, stationDao.getAll().size());
         stationDao.delete(first);
         assertEquals(0, stationDao.getAll().size());
+    }
+
+    @Test
+    void addAllChargers() throws DatabaseException {
+        assertEquals(0, stationDao.getAll().size());
+        List<Station> stations = Arrays.asList(station(), stationMultipleChargers());
+        IntegerProperty value = new SimpleIntegerProperty();
+        value.addListener((observable, oldValue, newValue) -> System.out.println(newValue));
+
+        stationDao.addAll(stations, value);
+        assertEquals(2, value.getValue());
+        assertEquals(2, stationDao.getAll().size());
+    }
+
+    @Test
+    void addAllChargersFull() throws DatabaseException, URISyntaxException, CsvFileException {
+        assertEquals(0, stationDao.getAll().size());
+        StationCsvImporter importer = new StationCsvImporter();
+        List<Station> stations = importer.readFromFile(new File(getClass().getResource("/full.csv").toURI()), new ArrayList<>());
+        IntegerProperty value = new SimpleIntegerProperty();
+        value.addListener((observable, oldValue, newValue) -> System.out.println(newValue));
+
+        stationDao.addAll(stations, value);
+        assertEquals(341, value.getValue());
+        assertEquals(341, stationDao.getAll().size());
     }
 }

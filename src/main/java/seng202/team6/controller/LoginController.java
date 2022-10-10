@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -39,6 +40,12 @@ public class LoginController implements ScreenController {
         errorText.setText("");
     }
 
+    /**
+     * Hashes the password.
+     * @param password The password
+     * @param salt The salt of the password
+     * @return the hash.
+     */
     private byte[] hashPassword(String password, byte[] salt) {
         try {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
@@ -66,14 +73,18 @@ public class LoginController implements ScreenController {
                 errorText.setText("");
                 controller.setCurrentUserId(userDetails.getUserId());
                 controller.loginUser(userDao.getOne(userDetails.getUserId()));
-
+                passwordLogin.clear();
             } else {
                 passwordLogin.clear();
                 errorText.setText("You have entered an invalid username or password");
+                usernameLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+                passwordLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             }
         } else {
             passwordLogin.clear();
             errorText.setText("You have entered an invalid username or password");
+            usernameLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            passwordLogin.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
     }
 

@@ -10,12 +10,14 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -28,6 +30,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Journey;
+import seng202.team6.models.Position;
 
 /**
  * Controller for the map toolbar.
@@ -77,6 +82,8 @@ public class MapToolBarController implements ScreenController {
      * Button is clicked to remove the route from the map.
      */
     @FXML
+    public CheckBox saveJourneyCheck;
+    @FXML
     public Button removeRouteButton;
     private MainScreenController controller;
     @FXML
@@ -87,6 +94,7 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<TextField>  arrayOfTextFields = new ArrayList<>();
     private ArrayList<String> addressMarkerTitles = new ArrayList<>();
     private ArrayList<ArrayList<Double>> addressMarkerLatLng = new ArrayList<>();
+    private ArrayList<String> addresses = new ArrayList<>();
     private int numAddresses = 2;
     /**
      * Initializes the controller.
@@ -150,7 +158,7 @@ public class MapToolBarController implements ScreenController {
             throw new RuntimeException(e);
         }
         JSONArray items = (JSONArray) jsonResponse.get("items");
-        if (items.isEmpty()) {
+        if (items == null || items.isEmpty()) {
             return null;
         } else {
             JSONObject bestResult = (JSONObject) items.get(0);
@@ -159,16 +167,26 @@ public class MapToolBarController implements ScreenController {
     }
 
     /**
+     * when the 'GO!' button is clicked,
+     * calls the 'goRoute' function.
+     * @param actionEvent When the 'GO!' button is clicked.
+     */
+    public void findRoute(ActionEvent actionEvent) {
+        goRoute();
+    }
+
+    /**
      * This function goes through the text fields of locations,
      * calls geocode to get the longitude and latitude,
      * calls add route function with the list of longitude and latitudes.
-     * @param actionEvent When find route button is clicked.
      */
-    public void findRoute(ActionEvent actionEvent) {
-        ArrayList<JSONObject>  posArray = new ArrayList<>();
+    public void goRoute() {
+        ArrayList<JSONObject> posArray = new ArrayList<>();
+        addresses.clear();
         for (TextField textField : arrayOfTextFields) {
             try {
                 if (!Objects.equals(textField.getText(), "")) {
+                    addresses.add(textField.getText());
                     JSONObject location = geoCode(textField.getText());
                     posArray.add(location);
                 }
@@ -181,6 +199,21 @@ public class MapToolBarController implements ScreenController {
             validAddresses = false;
         }
         if (posArray.size() >= 2 && validAddresses) {
+            if (saveJourneyCheck.isSelected()) {
+                if (controller.getCurrentUser() != null) {
+                    try {
+                        Journey journey = new Journey(addresses,
+                                controller.getCurrentUser().getUsername());
+                        controller.getDataService().addJourney(journey);
+                    } catch (DatabaseException e) {
+                        AlertMessage.createMessage("Invalid journey", "");
+                    }
+                } else {
+                    AlertMessage.createMessage("Only Users can save journeys",
+                            "Please unselect the box or sign in and try again");
+                    saveJourneyCheck.setSelected(false);
+                }
+            }
             String json = new Gson().toJson(posArray);
             controller.getMapController().getJavaScriptConnector().call("addRoute", json);
         } else if (!validAddresses) {
@@ -190,6 +223,25 @@ public class MapToolBarController implements ScreenController {
             AlertMessage.createMessage("Incorrect number of addresses.",
                     "Please input at least two destinations.");
         }
+    }
+
+    /**
+     * This function clears the route, the makes the route,
+     * from the route given from the journey.
+     * @param stopAmount the amount of stops needing to be added
+     * @param allAddresses all the addresses in the route
+     */
+    public void findRouteFromJourney(int stopAmount, List<String> allAddresses) {
+        deleteRoute();
+        int counter = 0;
+        for (int i = 0; i < stopAmount; i++) {
+            insertAddressFieldAndButton(addStopButton);
+        }
+        for (TextField textField : arrayOfTextFields) {
+            textField.setText(allAddresses.get(counter));
+            counter++;
+        }
+        goRoute();
     }
 
 
@@ -212,26 +264,32 @@ public class MapToolBarController implements ScreenController {
      * @param field The text field being filled.
      */
     public void autoFillEventHandler(TextField field) {
+        Position position = controller.getMapController().getLatLng();
+        if (position == null) {
+            AlertMessage.createMessage("Current Location has not been selected.",
+                    "Please select a location on the map.");
 
-        field.setText(controller.getMapController().getAddress());
-        int fieldIndex = arrayOfTextFields.indexOf(field);
+        } else {
+            field.setText(controller.getMapController().getAddress());
+            int fieldIndex = arrayOfTextFields.indexOf(field);
 
-        addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
-        ArrayList<Double> current = new ArrayList<>();
-        current.add(controller.getMapController().getLatLng().getLatitude());
-        current.add(controller.getMapController().getLatLng().getLongitude());
-        addressMarkerLatLng.set(fieldIndex, current);
+            addressMarkerTitles.set(fieldIndex, controller.getMapController().getAddress());
+            ArrayList<Double> current = new ArrayList<>();
+            current.add(controller.getMapController().getLatLng().getLatitude());
+            current.add(controller.getMapController().getLatLng().getLongitude());
+            addressMarkerLatLng.set(fieldIndex, current);
 
-        controller.getMapController().getJavaScriptConnector().call("removeAddressMarkers");
+            controller.getMapController().getJavaScriptConnector().call("removeAddressMarkers");
 
-        int i = 0;
-        for (String address : addressMarkerTitles) {
-            if (address != null) {
-                controller.getMapController().getJavaScriptConnector().call(
-                        "addRoutingMarker", addressMarkerTitles.get(i),
-                        addressMarkerLatLng.get(i).get(0), addressMarkerLatLng.get(i).get(1));
+            int i = 0;
+            for (String address : addressMarkerTitles) {
+                if (address != null) {
+                    controller.getMapController().getJavaScriptConnector().call(
+                            "addRoutingMarker", addressMarkerTitles.get(i),
+                            addressMarkerLatLng.get(i).get(0), addressMarkerLatLng.get(i).get(1));
+                }
+                i++;
             }
-            i++;
         }
     }
 
@@ -251,6 +309,7 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.getChildren().remove(findRouteButton);
             planTripGridPane.getChildren().remove(addStopButton);
             planTripGridPane.getChildren().remove(removeRouteButton);
+            planTripGridPane.getChildren().remove(saveJourneyCheck);
 
             TextField addOneTextField = new TextField();
             addOneTextField.setFont(Font.font(13));
@@ -292,11 +351,11 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.add(addOneTextField, 0,row + 1);
             planTripGridPane.add(autoFillButton, 0, row);
             planTripGridPane.add(endLabel, 0, row);
-            planTripGridPane.add(findRouteButton, 0,row + 2);
+            planTripGridPane.add(findRouteButton, 0,row + 3);
             planTripGridPane.add(addStopButton, 0,row + 2);
-            planTripGridPane.add(removeRouteButton, 0, row + 2);
+            planTripGridPane.add(saveJourneyCheck, 0, row + 2);
+            planTripGridPane.add(removeRouteButton, 0, row + 3);
         }
-
     }
 
     /**
@@ -304,9 +363,8 @@ public class MapToolBarController implements ScreenController {
      * also resets the amount of text fields back to a start and end,
      * also resets the texts fields back to empty,
      * also removes the markers from the list of markers.
-     * @param actionEvent When remove route button is clicked.
      */
-    public void removeRoute(ActionEvent actionEvent) {
+    public void deleteRoute() {
         controller.getMapController().getJavaScriptConnector().call("removeRoute");
         planTripGridPane.getChildren().clear();
 
@@ -323,9 +381,10 @@ public class MapToolBarController implements ScreenController {
         planTripGridPane.add(endAutoFill, 0, 2);
         planTripGridPane.add(endLabel, 0, 2);
         planTripGridPane.add(endLocation, 0, 3);
-        planTripGridPane.add(findRouteButton, 0,4);
+        planTripGridPane.add(saveJourneyCheck, 0, 4);
         planTripGridPane.add(addStopButton, 0,4);
-        planTripGridPane.add(removeRouteButton, 0, 4);
+        planTripGridPane.add(findRouteButton, 0,5);
+        planTripGridPane.add(removeRouteButton, 0, 5);
 
         while (arrayOfTextFields.size() > 2) {
             arrayOfTextFields.remove(2);
@@ -338,5 +397,15 @@ public class MapToolBarController implements ScreenController {
         for (TextField textField : arrayOfTextFields) {
             textField.setText("");
         }
+        saveJourneyCheck.setSelected(false);
+    }
+
+    /**
+     * This function removes the route from the map,
+     * by calling the 'delete route' function.
+     * @param actionEvent When remove route button is clicked.
+     */
+    public void removeRoute(ActionEvent actionEvent) {
+        deleteRoute();
     }
 }

@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.WritableObjectValue;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -20,14 +22,17 @@ import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.io.StationCsvImporter;
 import seng202.team6.io.VehicleCsvImporter;
+import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.FilterBuilder;
+import seng202.team6.repository.JourneyDao;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
 import seng202.team6.repository.VehicleDao;
+
 
 /**
  * Service class to handle accessing and storing the necessary information.
@@ -36,7 +41,7 @@ import seng202.team6.repository.VehicleDao;
 public class DataService {
     private static final Logger log = LogManager.getLogger();
     private final StationDao dao = new StationDao();
-
+    private final JourneyDao journeyDao = new JourneyDao();
     private final UserDao userDao = new UserDao();
 
     private final VehicleDao vehicleDao = new VehicleDao();
@@ -55,11 +60,12 @@ public class DataService {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         List<CsvLineException> errors = new ArrayList<>();
         List<Station> stations = stationCsvImporter.readFromFile(file, errors);
-        int i = 0;
-        for (Station station : stations) {
-            dao.add(station);
-            value.set(new Pair<>(++i, stations.size()));
-        }
+
+        IntegerProperty integerProperty = new SimpleIntegerProperty();
+        integerProperty.addListener((observable, oldValue, newValue) ->
+                value.setValue(new Pair<>(newValue.intValue(), stations.size())));
+
+        dao.addAll(stations, integerProperty);
         return errors;
     }
 
@@ -117,6 +123,13 @@ public class DataService {
     }
 
     /**
+     * Fetch all journey data from the database.
+     */
+    public Map<Integer, Journey> fetchJourneyData(String username) {
+        return journeyDao.getAllFromUser(username);
+    }
+
+    /**
      * Add a user to the database.
      * @param user the user to add
      */
@@ -133,7 +146,22 @@ public class DataService {
     }
 
     /**
-     * Get a station from the database by id.
+     * Adds a journey to the database.
+     * @param journey the journey to add
+     */
+    public void addJourney(Journey journey) throws DatabaseException {
+        journeyDao.add(journey);
+    }
+
+    /**
+     * Deletes a journey from the database.
+     * @param journey the journey to delete
+     */
+    public void deleteJourney(Journey journey) {
+        journeyDao.delete(journey.getJourneyId());
+    }
+
+    /** Get a station from the database by id.
      * @param id the id
      */
     public Station getStation(int id) {

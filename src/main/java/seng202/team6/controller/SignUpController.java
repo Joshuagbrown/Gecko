@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.crypto.SecretKeyFactory;
@@ -22,11 +25,13 @@ import seng202.team6.services.Validity;
 public class SignUpController implements ScreenController {
     private MainScreenController controller;
     @FXML
+    private TextField nameSignUp;
+    @FXML
     private TextField usernameSignUp;
     @FXML
     private PasswordField passwordSignUp;
     @FXML
-    private TextField nameSignUp;
+    private PasswordField confirmPassword;
     @FXML
     private TextField addressSignUp;
     @FXML
@@ -36,9 +41,13 @@ public class SignUpController implements ScreenController {
     @FXML
     private Text invalidUsername;
     @FXML
+    private Text repeatUsername;
+    @FXML
     private Text invalidName;
     @FXML
     private Text invalidPassword;
+    @FXML
+    private Text noMatch;
     @FXML
     private Text invalidAddress;
     private String username = null;
@@ -68,33 +77,55 @@ public class SignUpController implements ScreenController {
     public void signUp(ActionEvent actionEvent)
             throws NoSuchAlgorithmException, InvalidKeySpecException,
             IOException, InterruptedException {
-        if (Validity.checkUserName(usernameSignUp.getText())) {
+        if (Validity.checkUserName(usernameSignUp.getText())
+                && usernameSignUp.getText().length() >= 3) {
             username = usernameSignUp.getText();
             invalidUsername.setVisible(false);
+            usernameSignUp.setStyle(null);
         } else {
-            usernameSignUp.setText("");
+            usernameSignUp.clear();
             invalidUsername.setVisible(true);
+            usernameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (Validity.checkName(nameSignUp.getText())) {
             name = nameSignUp.getText();
             invalidName.setVisible(false);
+            nameSignUp.setStyle(null);
         } else {
-            nameSignUp.setText("");
+            nameSignUp.clear();
             invalidName.setVisible(true);
+            nameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (Validity.checkPassword(passwordSignUp.getText())) {
             password = passwordSignUp.getText();
             invalidPassword.setVisible(false);
+            passwordSignUp.setStyle(null);
         } else {
-            passwordSignUp.setText("");
+            passwordSignUp.clear();
+            confirmPassword.clear();
             invalidPassword.setVisible(true);
+            passwordSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (valid.checkAddress(addressSignUp.getText())) {
             address = addressSignUp.getText();
             invalidAddress.setVisible(false);
+            addressSignUp.setStyle(null);
         } else {
-            addressSignUp.setText("");
+            addressSignUp.clear();
             invalidAddress.setVisible(true);
+            addressSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+        }
+        if (Validity.matchPassword(passwordSignUp.getText(), confirmPassword.getText())) {
+            noMatch.setVisible(false);
+            passwordSignUp.setStyle(null);
+            confirmPassword.setStyle(null);
+        } else {
+            password = null;
+            passwordSignUp.clear();
+            confirmPassword.clear();
+            noMatch.setVisible(true);
+            passwordSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            confirmPassword.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
         }
         if (username != null && name != null && password != null && address != null) {
             SecureRandom random = new SecureRandom();
@@ -108,11 +139,25 @@ public class SignUpController implements ScreenController {
                 controller.getDataService().addUser(user);
                 controller.loginUser(user);
                 controller.setCurrentUserId(userDao.getLoginDetails(username).getUserId());
+                clearFields();
             } catch (DatabaseException e) {
-                AlertMessage.createMessage("Invalid username",
-                        "Username already in use.\nPick a new username");
+                usernameSignUp.clear();
+                invalidUsername.setVisible(false);
+                repeatUsername.setVisible(true);
+                usernameSignUp.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             }
 
         }
+    }
+
+    /**
+     * Clear fields.
+     */
+    public void clearFields() {
+        usernameSignUp.clear();
+        passwordSignUp.clear();
+        confirmPassword.clear();
+        addressSignUp.clear();
+        nameSignUp.clear();
     }
 }
