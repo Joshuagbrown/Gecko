@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Objects;
 import seng202.team6.controller.MainScreenController;
 
 
@@ -44,6 +45,16 @@ public class Validity {
      */
     public static boolean checkPassword(String password) {
         return password.length() >= 8;
+    }
+
+    /**
+     * Checks if the passwords match.
+     * @param password first password
+     * @param confirm the confirmation password
+     * @return true if the both passwords match
+     */
+    public static boolean matchPassword(String password, String confirm) {
+        return Objects.equals(password, confirm);
     }
 
     /**

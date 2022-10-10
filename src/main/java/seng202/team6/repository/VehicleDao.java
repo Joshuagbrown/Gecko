@@ -11,19 +11,19 @@ import seng202.team6.models.Charger;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.models.Vehicle;
 
-public class VehicleDao implements DaoInterface<Vehicle> {
+public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
     @Override
     public Map<Integer, Vehicle> getAll() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Vehicle getOne(int id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -59,7 +59,6 @@ public class VehicleDao implements DaoInterface<Vehicle> {
             ps.setInt(1, userid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString(3));
                 vehicles.add(new Vehicle(rs.getString(1),
                         rs.getString(2), rs.getString(3),
                         rs.getInt(4), rs.getInt(5), rs.getInt(6)));
@@ -167,29 +166,19 @@ public class VehicleDao implements DaoInterface<Vehicle> {
     }
 
     @Override
-    public void delete(int id) {
-
-    }
-
-    /**
-     * Delete a vehicle from the database.
-     * @param todelete the vehicle to delete
-     */
-    public void deleteVehicle(Vehicle todelete) {
+    public void delete(int id) throws DatabaseException {
         String vehicleSql = "DELETE FROM vehicles WHERE  vehicleId = ? ";
 
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(vehicleSql)) {
 
-            ps.setInt(1,todelete.getVehicleId());
+            ps.setInt(1, id);
 
             ps.executeUpdate();
-
         } catch (SQLException e) {
-            log.error((e.getMessage()));
+            throw new DatabaseException("An error occurred", e);
         }
     }
-
 
     @Override
     public void update(Vehicle toUpdate) {

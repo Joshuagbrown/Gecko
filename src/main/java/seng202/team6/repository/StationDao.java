@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.value.WritableIntegerValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
@@ -17,7 +18,7 @@ import seng202.team6.models.Station;
  * database access.
  * @author Philip Dolbel
  */
-public class StationDao implements DaoInterface<Station> {
+public class StationDao implements DaoInterface<Integer, Station> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
@@ -121,37 +122,67 @@ public class StationDao implements DaoInterface<Station> {
         }
     }
 
-    private void addChargers(List<Charger> chargers, int stationId) throws SQLException {
+    private void addChargers(List<Charger> chargers, int stationId,
+                             Connection conn) throws SQLException {
         String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
                 + "values (?,?,?,?)";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
-            for (Charger charger : chargers) {
-                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
-                    ps.setInt(1, stationId);
-                    ps.setString(2, charger.getPlugType());
-                    ps.setInt(3, charger.getWattage());
-                    ps.setString(4, charger.getOperative());
-                    ps.executeUpdate();
-                }
+        for (Charger charger : chargers) {
+            try (PreparedStatement ps = conn.prepareStatement(chargerSql)) {
+                ps.setInt(1, stationId);
+                ps.setString(2, charger.getPlugType());
+                ps.setInt(3, charger.getWattage());
+                ps.setString(4, charger.getOperative());
+                ps.executeUpdate();
             }
+        }
+    }
+
+    /**
+     * Add a list of stations to the database.
+     * @param stations the list of stations to add
+     * @param value A writableintegervalue to use for the progress bar
+     */
+    public void addAll(List<Station> stations,
+                       WritableIntegerValue value) throws DatabaseException {
+        try (Connection conn = databaseManager.connect()) {
+            conn.setAutoCommit(false);
+            for (Station station : stations) {
+                add(station, conn);
+                value.set(value.get() + 1);
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            throw new DatabaseException("A database error occurred", e);
         }
     }
 
     /**
      * Adds a station to the database.
      * @param toAdd object of type T to add.
-     * @return The id of the station in the db, or -1 if there was an error.
+     * @return The id of the station in the db
      */
     @Override
     public int add(Station toAdd) throws DatabaseException {
+        try (Connection conn = databaseManager.connect()) {
+            return add(toAdd, conn);
+        } catch (SQLException e) {
+            throw new DatabaseException("A database error occurred", e);
+        }
+    }
+
+    /**
+     * Adds a station to the database using the given connection.
+     * @param toAdd object of type T to add.
+     * @param conn The connection to use, useful for batch (not really) processing
+     * @return The id of the station in the db
+     */
+    private int add(Station toAdd, Connection conn) throws DatabaseException {
         String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
                 + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
                 + "chargingCost, hasTouristAttraction, lat, long)"
                 + "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-        try (Connection conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(stationSql)) {
+        try (PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setInt(1, toAdd.getObjectId());
             ps.setString(2, toAdd.getName());
             ps.setString(3, toAdd.getOperator());
@@ -172,7 +203,7 @@ public class StationDao implements DaoInterface<Station> {
             if (rs.next()) {
                 insertId = rs.getInt(1);
             }
-            addChargers(toAdd.getChargers(), insertId);
+            addChargers(toAdd.getChargers(), insertId, conn);
             return insertId;
         } catch (SQLException e) {
             if (e.getErrorCode() == 19) {
@@ -289,5 +320,4 @@ public class StationDao implements DaoInterface<Station> {
             throw new RuntimeException(e);
         }
     }
-
 }

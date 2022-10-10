@@ -8,7 +8,7 @@ import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
 import seng202.team6.models.UserLoginDetails;
 
-public class UserDao implements DaoInterface<User> {
+public class UserDao implements DaoInterface<Integer, User> {
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 

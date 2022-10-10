@@ -3,6 +3,7 @@ package seng202.team6.services;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
@@ -14,7 +15,9 @@ import seng202.team6.models.Station;
 import seng202.team6.io.StationCsvImporter;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,16 +27,19 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test CSVImporter implementation
  */
 public class StationCsvImporterTest {
-    // TODO: Not sure how to make an invalid csv file
-//    @Test
-//    public void readFromInvalidCSVFileShouldThrow() {
-//        CSVImporter csvImporter = new CSVImporter();
-//        assertThrows(CSVFileException.class,
-//            () -> csvImporter.readFromFile(new File(getClass().getResource("/invalidfile.csv").toURI())));
-//    }
+    @Test
+    @Disabled
+    /*
+     * Not sure how to create an invalid csv file
+     */
+    void invalidCsvFileTest() {
+        StationCsvImporter csvImporter = new StationCsvImporter();
+        assertThrows(CsvFileException.class,
+            () -> csvImporter.readFromFile(new File(getClass().getResource("/invalidfile.csv").toURI()), new ArrayList<>()));
+    }
 
     @Test
-    void readFromValidCSVReadsTheCorrectNumberOfStations() throws URISyntaxException, CsvException {
+    void validCsvFileTest() throws URISyntaxException, CsvException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         ObservableList<CsvLineException> warnings = FXCollections.observableArrayList();
         List<Station> stations =  stationCsvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()), warnings);
@@ -42,9 +48,9 @@ public class StationCsvImporterTest {
     }
 
     @Test
-    void invalidCSVLinesShouldBeSkippedWhenReadingFile() throws URISyntaxException, CsvFileException {
+    void invalidCsvLinesTest() throws URISyntaxException, CsvFileException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
-        ObservableList<CsvLineException> warnings = FXCollections.observableArrayList();
+        List<CsvLineException> warnings = new ArrayList<>();
         List<Station> stations = stationCsvImporter.readFromFile(new File(getClass().getResource("/invalidline.csv").toURI()), warnings);
         assertEquals(3, stations.size());
         assertEquals(1, warnings.size());
@@ -52,7 +58,7 @@ public class StationCsvImporterTest {
     }
 
     @Test
-    void validCSVLinesShouldBeParsedProperly() throws URISyntaxException, CsvFileException {
+    void validCsvLinesTest() throws URISyntaxException, CsvFileException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         ObservableList<CsvLineException> warnings = FXCollections.observableArrayList();
         List<Station> stations = stationCsvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()), warnings);

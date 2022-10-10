@@ -47,3 +47,17 @@ CREATE TABLE IF NOT EXISTS users (
     address TEXT,
     name TEXT
 );
+
+CREATE TABLE IF NOT EXISTS journeys (
+    journeyId INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS addresses (
+    addressId INTEGER PRIMARY KEY AUTOINCREMENT,
+    journeyId INTEGER NOT NULL,
+    address TEXT NOT NULL,
+    addressOrder INTEGER NOT NULL,
+    FOREIGN KEY(journeyId) REFERENCES journeys(journeyId) ON DELETE CASCADE
+);

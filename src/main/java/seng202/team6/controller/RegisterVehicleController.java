@@ -240,7 +240,7 @@ public class RegisterVehicleController implements ScreenController {
             if (Validity.checkVehicleYear(inputTextOfYear.getText())) {
                 year = Integer.parseInt(inputTextOfYear.getText());
             } else {
-                error += "Please input a numeric year\n";
+                error += "Please input a valid year \n";
                 //AlertMessage.createMessage("Invalid vehicle data", "Please input a numeric year");
             }
         }

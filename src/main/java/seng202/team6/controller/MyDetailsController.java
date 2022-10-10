@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
@@ -176,10 +177,15 @@ public class MyDetailsController implements ScreenController {
     public void deleteVehicleEventHandler(ActionEvent actionEvent) {
         VehicleDao vehicleDao = new VehicleDao();
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
-            vehicleDao.deleteVehicle(userVehicleTable.getSelectionModel().getSelectedItem());
-            controller.getRegisterVehicleController().setEditVehicle(
-                    userVehicleTable.getSelectionModel().getSelectedItem());
-            loadUserVehicle();
+            try {
+                vehicleDao.delete(userVehicleTable
+                        .getSelectionModel().getSelectedItem().getVehicleId());
+                controller.getRegisterVehicleController().setEditVehicle(
+                        userVehicleTable.getSelectionModel().getSelectedItem());
+                loadUserVehicle();
+            } catch (DatabaseException e) {
+                AlertMessage.createMessage("Error", "Couldn't find vehicle to delete");
+            }
 
 
         } else {

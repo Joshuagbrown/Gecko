@@ -32,12 +32,26 @@ public class MyDetailsToolBarController implements ScreenController {
      * Load the saved journeys section.
      */
     public void loadSavedJourneys(ActionEvent actionEvent) {
+        controller.loadJourneysButtonEventHandler();
     }
+
 
     /**
      * Load the general section.
      */
     public void loadGeneral(ActionEvent actionEvent) {
+        controller.loadMyDetailsViewAndToolBars();
     }
 
+    /**
+     * Logs the user out.
+     * @param actionEvent When log out is clicked
+     */
+    public void logOut(ActionEvent actionEvent) {
+        controller.setCurrentUser(null);
+        controller.setCurrentUserId(0);
+        controller.loadSignUpViewAndToolBars();
+        controller.mapButtonEventHandler();
+        controller.setLoginBtnTextBack();
+    }
 }

@@ -27,8 +27,8 @@ import javafx.stage.StageStyle;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
-import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.repository.FilterBuilder;
@@ -104,6 +104,10 @@ public class MainScreenController {
      * parent class for the details toolbar screen to display the details toolbar.
      */
     private Parent myDetailsToolBarScreen;
+    /**
+     * parent class for the saved journeys screen to display the saved journeys page.
+     */
+    private Parent journeysScreen;
     private MapController mapController;
     private DataController dataController;
     private HelpController helpController;
@@ -113,8 +117,10 @@ public class MainScreenController {
     private LoginToolBarController loginToolBarController;
     private MyDetailsController myDetailsController;
     private MyDetailsToolBarController myDetailsToolBarController;
+    private SaveJourneyController saveJourneyController;
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
+    private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
     private User currentUser = null;
     private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
@@ -138,6 +144,7 @@ public class MainScreenController {
         this.stage = stage;
         this.dataService = dataService;
         updateStationsFromDatabase();
+        updateJourneysFromDatabase();
 
         try {
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
@@ -183,14 +190,14 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
-            loadVehicleType();
+            pair = screen.loadBigScreen(stage, "/fxml/SaveJourney.fxml", this);
+            journeysScreen = pair.getKey();
+            saveJourneyController = (SaveJourneyController) pair.getValue();
+
+            // loadVehicleType();
             mapButtonEventHandler();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        } catch (CsvFileException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
@@ -257,6 +264,14 @@ public class MainScreenController {
     }
 
     /**
+     * Function to get the journeys.
+     * @return An observable map of journeys.
+     */
+    public ObservableMap<Integer, Journey> getJourneys() {
+        return journeys;
+    }
+
+    /**
      * Function that returns the current user.
      * @return currentUser the current user.
      */
@@ -292,6 +307,18 @@ public class MainScreenController {
     }
 
     /**
+     * Function to update the journeys.
+     */
+    public void updateJourneysFromDatabase() {
+        getJourneys().clear();
+        if (currentUser != null) {
+            Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(
+                    currentUser.getUsername());
+            getJourneys().putAll(journeyMap);
+        }
+    }
+
+    /**
      * Function to return the loginPage button.
      * @return the login page button.
      */
@@ -304,6 +331,13 @@ public class MainScreenController {
      */
     public void setLoginBtnText() {
         this.loginPageBtn.setText("My Details");
+    }
+
+    /**
+     * Changing the text of the button.
+     */
+    public void setLoginBtnTextBack() {
+        this.loginPageBtn.setText("Login");
     }
 
     /**
@@ -389,6 +423,17 @@ public class MainScreenController {
      */
     public void mapButtonEventHandler() {
         mapButtonEventHandler(null);
+    }
+
+    /**
+     * Loads the saved journeys page on the 'my details' screen.
+     */
+    public void loadJourneysButtonEventHandler() {
+        updateJourneysFromDatabase();
+        textAreaInMainScreen.setText("");
+        mainBorderPane.setCenter(journeysScreen);
+        toolBarPane.setCenter(myDetailsToolBarScreen);
+        mainBorderPane.setRight(null);
     }
 
     /**
@@ -529,7 +574,7 @@ public class MainScreenController {
                 AlertMessage.createMessage("An error occurred when importing data",
                         task.getException().getCause().getMessage());
             } else if (task.getState() == Worker.State.SUCCEEDED) {
-                AlertMessage.createListMessage("Warning",
+                AlertMessage.createListMessageStation("Warning",
                         "Some lines were skipped",
                         task.getValue());
             }
@@ -555,4 +600,5 @@ public class MainScreenController {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
         dataService.loadVehicleDataFromCsv(csvFile);
     }
+
 }
