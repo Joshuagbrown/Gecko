@@ -48,6 +48,6 @@ public class HelpToolBarController implements ScreenController {
      */
     public void loadLoginHelp(ActionEvent actionEvent) {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
-                "/html/LoginHelpPage.html/"));
+                "/html/LoginHelpPage.html"));
     }
 }
