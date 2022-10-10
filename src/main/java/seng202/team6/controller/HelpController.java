@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.fxml.FXML;
@@ -43,8 +44,10 @@ public class HelpController implements ScreenController {
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml(file));
-        webEngine.setUserStyleSheetLocation(getClass().getResource(
-                "/stylesheets/htmlMain.css/").toString());
+        String content = getHtml(getClass().getResourceAsStream("/stylesheets/htmlMain.css"));
+        String dataPrefix = "data:text/css;charset=utf-8;base64,";
+        webEngine.setUserStyleSheetLocation(dataPrefix
+                + Base64.getEncoder().encodeToString(content.getBytes()));
     }
 
     /**
