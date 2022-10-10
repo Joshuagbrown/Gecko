@@ -1,21 +1,27 @@
 body {
-    background-color: #93c14e;
+    background-color: #EAEFBD;
+    font-family: Tahoma, serif;
 }
 h1 {
     text-align: center;
-    color: white;
+    color: black;
     margin: auto;
     width: 50%;
-    border: 3px solid white;
+    border: 3px solid #93c14e;
+    border-radius: 50px;
     padding: 10px;
 }
 h2 {
     text-align: center;
-    color: white;
+    color: black;
 }
 h3 {
-    color: white;
+    border-top: 5px dotted #93c14e;
+    color: black;
+    font-size: 15px;
+    padding: 12px;
 }
 p {
-    color: white;
+    color: black;
+    margin: 10px;
 }
