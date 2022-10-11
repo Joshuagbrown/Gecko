@@ -32,7 +32,7 @@ import seng202.team6.services.Validity;
  * Controller for add station pop-up.
  * Author: Tara Lipscombe
  */
-public class AddStationController {
+public class AddStationController implements StationController {
 
     @FXML
     private Text stationTitle;
@@ -146,7 +146,7 @@ public class AddStationController {
      * Sets the fields in the add station pop up with the address, latitude and
      * longitude.
      */
-    private void setFields() {
+    public void setFields() {
         if (address != null) {
             addressField.setText(address);
             addressField.setEditable(false);
@@ -161,7 +161,7 @@ public class AddStationController {
      * @param actionEvent when save button is clicked
      */
     public void savingChanges(ActionEvent actionEvent) throws IOException,
-            InterruptedException, DatabaseException {
+            InterruptedException {
 
         Boolean valid = checkValues();
         if (!valid) {
@@ -200,7 +200,7 @@ public class AddStationController {
     /**
      * Function to check that all new values are of correct type/format.
      */
-    private Boolean checkValues() throws IOException, InterruptedException {
+    public Boolean checkValues() throws IOException, InterruptedException {
 
         Boolean returnable = true;
 

@@ -16,11 +16,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.json.simple.JSONObject;
-import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.services.Validity;
@@ -29,7 +26,7 @@ import seng202.team6.services.Validity;
  * Controller for edit station pop-up.
  * Author: Tara Lipscomnbe
  */
-public class EditStationController {
+public class EditStationController implements StationController {
 
     @FXML
     private Text stationTitle;
@@ -221,7 +218,7 @@ public class EditStationController {
     /**
      * Function to check that all new values are of correct type/format.
      */
-    private Boolean checkValues() throws IOException, InterruptedException {
+    public Boolean checkValues() throws IOException, InterruptedException {
 
         Boolean returnable = true;
 
