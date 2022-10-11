@@ -2,7 +2,6 @@ package seng202.team6.controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

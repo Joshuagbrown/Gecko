@@ -19,10 +19,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -85,6 +83,8 @@ public class MapToolBarController implements ScreenController {
     public CheckBox saveJourneyCheck;
     @FXML
     public Button removeRouteButton;
+    public ColumnConstraints planTripBar;
+    public TitledPane planTrip;
     private MainScreenController controller;
     @FXML
     private TextField startLocation;
@@ -96,6 +96,9 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<ArrayList<Double>> addressMarkerLatLng = new ArrayList<>();
     private ArrayList<String> addresses = new ArrayList<>();
     private int numAddresses = 2;
+
+    @FXML
+    public TextField addOneTextField;
     /**
      * Initializes the controller.
      * @param stage Primary Stage of the application.
@@ -311,7 +314,7 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.getChildren().remove(removeRouteButton);
             planTripGridPane.getChildren().remove(saveJourneyCheck);
 
-            TextField addOneTextField = new TextField();
+            addOneTextField = new TextField();
             addOneTextField.setFont(Font.font(13));
             addOneTextField.setVisible(true);
 

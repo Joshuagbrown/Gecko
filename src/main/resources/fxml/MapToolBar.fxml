@@ -9,7 +9,7 @@
    <center>
       <Accordion fx:id="AccordionForFilter" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="213.0" minWidth="112.8" prefHeight="213.0" prefWidth="202.0" BorderPane.alignment="TOP_LEFT">
         <panes>
-          <TitledPane alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="373.0" minWidth="300.0" prefHeight="373.0" prefWidth="351.0" text="Plan Trip">
+          <TitledPane fx:id="planTrip" alignment="TOP_LEFT" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="373.0" minWidth="300.0" prefHeight="373.0" prefWidth="351.0" text="Plan Trip">
             <content>
                   <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                      <content>
