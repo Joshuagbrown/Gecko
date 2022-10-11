@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
@@ -641,11 +642,12 @@ public class MainScreenController {
      * @param actionEvent when 'Add Station' button is clicked.
      */
     public void addStation(ActionEvent actionEvent) throws IOException, InterruptedException {
-        if (getCurrentUserId() == 0 || getCurrentUserId() == -1) {
-            Optional<ButtonType> result = AlertMessage.createMessageWithAction(
-                    "Unable to access this feature",
-                    "Please Log in or Sign up.");
-            if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (getCurrentUserId() == 0) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
                 loginButtonEventHandler(null);
             }
         } else {
@@ -659,11 +661,12 @@ public class MainScreenController {
      * @param actionEvent when 'Edit Station' button is clicked.
      */
     public void editStation(ActionEvent actionEvent) throws IOException, InterruptedException {
-        if (getCurrentUserId() == 0 || getCurrentUserId() == -1) {
-            Optional<ButtonType> result = AlertMessage.createMessageWithAction(
-                    "Unable to access this feature",
-                    "Please Log in or Sign up.");
-            if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (getCurrentUserId() == 0) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
                 loginButtonEventHandler(null);
             }
         } else {

@@ -8,12 +8,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
@@ -63,9 +66,15 @@ public class MapController implements ScreenController {
      * @param stationId the stationId of the station
      */
     public void editStation(String stationId) throws IOException, InterruptedException {
-        if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
-            AlertMessage.createMessage("Unable to access this feature",
-                    "Please Log in or Sign up.");
+        if (controller.getCurrentUserId() == 0) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                controller.loginButtonEventHandler(null);
+            }
+
         } else {
             loadEditStationWindow(Integer.parseInt(stationId));
         }
@@ -77,8 +86,13 @@ public class MapController implements ScreenController {
      */
     public void addStationToDatabase(String address) throws IOException, InterruptedException {
         if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
-            AlertMessage.createMessage("Unable to access this feature",
-                    "Please Log in or Sign up.");
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                controller.loginButtonEventHandler(null);
+            }
         } else {
             loadAddStationWindow(address);
         }

@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.json.simple.JSONObject;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -73,6 +74,7 @@ public class EditStationController implements StationController {
     private String originalAddress;
 
 
+
     /**
      * Initializes the Station Controller class.
      * @param stage the stage for the pop-up.
@@ -84,13 +86,9 @@ public class EditStationController implements StationController {
 
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Have you saved all of the "
-                    + "changes you have made?", ButtonType.YES, ButtonType.NO);
-            ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
-
-            if (ButtonType.NO.equals(result)) {
+            Boolean saved = checkChanges();
+            if (!saved) {
                 e.consume();
-                controller.changeToAddButton();
             }
         });
         this.stationScene = scene;
@@ -296,16 +294,74 @@ public class EditStationController implements StationController {
      * @param actionEvent when the "View chargers" button is clicked
      */
     public void viewChargers(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
-        Parent root = loader.load();
-        chargerScene = new Scene(root);
-        stage.setScene(chargerScene);
-        stage.setTitle("Current Chargers");
-        stage.show();
-        ChargerController chargerController = loader.getController();
-        chargerController.init(stage, stationScene, controller, station, "update");
+        Boolean saved = checkChanges();
+        if (saved) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
+            Parent root = loader.load();
+            chargerScene = new Scene(root);
+            stage.setScene(chargerScene);
+            stage.setTitle("Current Chargers");
+            stage.show();
+            ChargerController chargerController = loader.getController();
+            chargerController.init(stage, stationScene, controller, station, "update");
+        }
     }
 
+
+    /**
+     * Checks to see if any unsaved changes exist within the pop-up.
+     */
+    private boolean checkChanges() {
+        Boolean hasUnsavedChanges = false;
+
+        if (nameField.getText().length() > 0 && !nameField.getText().equals(
+                station.getName())) {
+            hasUnsavedChanges = true;
+        }
+        if (addressField.getText().length() > 0 && !addressField.getText()
+                        .equals(station.getAddress())) {
+            hasUnsavedChanges = true;
+        }
+        if (operatorField.getText().length() > 0 && !operatorField.getText()
+                .equals(station.getOperator())) {
+            hasUnsavedChanges = true;
+        }
+        if (ownerField.getText().length() > 0 && !ownerField.getText().equals(
+                station.getOwner())) {
+            hasUnsavedChanges = true;
+        }
+        if (hoursButton.isSelected() != station.is24Hours()) {
+            hasUnsavedChanges = true;
+        }
+        if (touristButton.isSelected() != station.isHasTouristAttraction()) {
+            hasUnsavedChanges = true;
+        }
+        if (timeLimitField.getText().length() > 0 && Integer.parseInt(timeLimitField
+                .getText()) != station.getTimeLimit()) {
+            hasUnsavedChanges = true;
+        }
+        if (numParksField.getText().length() > 0 && Integer.parseInt(numParksField
+                .getText()) != station.getNumberOfCarParks()) {
+            hasUnsavedChanges = true;
+        }
+        if (parkCostButton.isSelected() != station.isCarparkCost()) {
+            hasUnsavedChanges = true;
+        }
+        if (chargingCostButton.isSelected() != station.isChargingCost()) {
+            hasUnsavedChanges = true;
+        }
+
+        if (hasUnsavedChanges) {
+            Alert alert = AlertMessage.unsavedChanges();
+            ButtonType result = alert.showAndWait().orElse(ButtonType.OK);
+
+            if (ButtonType.OK.equals(result)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 
     /**
      * Function used to delete the currently selected Station from the database and map.
@@ -319,4 +375,7 @@ public class EditStationController implements StationController {
         controller.setTextAreaInMainScreen("");
 
     }
+
+
+
 }

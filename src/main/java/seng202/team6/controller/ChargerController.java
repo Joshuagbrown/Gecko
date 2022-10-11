@@ -8,7 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -64,6 +66,12 @@ public class ChargerController {
     public void init(Stage stage, Scene scene, MainScreenController controller,
                      Station newStation, String newOrUpdate) {
         this.stage = stage;
+        stage.setOnCloseRequest(e -> {
+            Boolean saved = checkChanges();
+            if (!saved) {
+                e.consume();
+            }
+        });
         this.stationScene = scene;
         this.station = newStation;
         this.controller = controller;
@@ -78,6 +86,7 @@ public class ChargerController {
             chargerTitle.setText("Add/Edit Charger Information");
             saveStationButton.setVisible(false);
         }
+
 
     }
 
@@ -266,9 +275,56 @@ public class ChargerController {
      * @param actionEvent when the return button is selected
      */
     public void returnStationInfo(ActionEvent actionEvent) {
+        Boolean saved = checkChanges();
+        if (saved) {
+            stage.setScene(stationScene);
+            stage.setTitle("Current Station");
+        }
 
-        stage.setScene(stationScene);
-        stage.setTitle("Current Station");
+    }
+
+    private boolean checkChanges() {
+        Boolean unsavedChanges = false;
+        if (station.getChargers().isEmpty() || (currentlySelectedCharger == station
+                .getChargers().size())) {
+            if (wattageText.getText().length() > 0) {
+                unsavedChanges = true;
+            }
+            if (!plugTypeDropDown.getSelectionModel().isEmpty()) {
+                unsavedChanges = true;
+            }
+        } else {
+
+            if (wattageText.getText().length() > 0 && Integer.parseInt(wattageText.getText())
+                    != station.getChargers().get(currentlySelectedCharger).getWattage()) {
+                unsavedChanges = true;
+            }
+            String compare;
+            if (opButton.isSelected()) {
+                compare = "Operative";
+            } else {
+                compare = "Not Operative";
+            }
+            if (!compare.equals(station.getChargers().get(currentlySelectedCharger)
+                    .getOperative())) {
+                unsavedChanges = true;
+            }
+            if (!plugTypeDropDown.getSelectionModel().getSelectedItem().equals(
+                    station.getChargers().get(currentlySelectedCharger).getPlugType())) {
+                unsavedChanges = true;
+            }
+        }
+
+        if (unsavedChanges) {
+            Alert alert = AlertMessage.unsavedChanges();
+            ButtonType result = alert.showAndWait().orElse(ButtonType.OK);
+
+            if (ButtonType.OK.equals(result)) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
 

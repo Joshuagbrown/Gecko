@@ -3,7 +3,6 @@ package seng202.team6.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,11 +15,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import org.json.simple.JSONObject;
-import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -85,6 +82,7 @@ public class AddStationController implements StationController {
     private Scene chargerScene;
     private List<Charger> chargers = new ArrayList<Charger>();
     private ChargerController chargerController = new ChargerController();
+    private Boolean hasUnsavedChanges;
 
 
     /**
@@ -97,13 +95,9 @@ public class AddStationController implements StationController {
             throws IOException, InterruptedException {
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Have you saved all of the "
-                    + "changes you have made?", ButtonType.YES, ButtonType.NO);
-            ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
-
-            if (ButtonType.NO.equals(result)) {
-                e.consume();
-            }
+            AlertMessage.createMessage("No station was created.", "To save a station you "
+                    + "must fill out all fields, then select 'Continue', add at least one charger, "
+                    + "finally, select 'Save Station'.");
         });
         this.stationScene = scene;
         this.address = address;
@@ -119,10 +113,11 @@ public class AddStationController implements StationController {
         viewChargersButton.setVisible(false);
         saveButton.setText("Continue");
         gridPane.getRowConstraints().remove(5);
-        //gridPane.getChildren().removeIf(
-
+        hasUnsavedChanges = false;
 
     }
+
+
 
 
     /**
@@ -279,8 +274,13 @@ public class AddStationController implements StationController {
      */
     public void viewChargers(ActionEvent actionEvent) throws IOException {
         if (station == null) {
-            AlertMessage.createMessage("Unable to add Chargers",
-                    "Please create station and select 'Save Changes' first.");
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                controller.loginButtonEventHandler(null);
+            }
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
             Parent root = loader.load();
