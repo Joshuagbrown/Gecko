@@ -130,7 +130,7 @@ public class MainScreenController {
     private int currentUserId;
 
 //    public MainScreenController(DataService dataService) {
-//        this.dataService = dataService;
+//    this.dataService = dataService;
 //    }
 
 
