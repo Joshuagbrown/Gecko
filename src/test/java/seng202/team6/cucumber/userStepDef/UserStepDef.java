@@ -1,33 +1,22 @@
-package seng202.team6.cucumber.stationStepDefs;
-
+package seng202.team6.cucumber.userStepDef;
 
 import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.junit.Assert;
-import org.junit.jupiter.api.*;
-import org.testfx.framework.junit5.ApplicationTest;
-import seng202.team6.controller.LoginController;
-import seng202.team6.controller.MainApplication;
+import org.junit.jupiter.api.Assertions;
 import seng202.team6.controller.MainScreenController;
 import seng202.team6.exceptions.DatabaseException;
-import seng202.team6.exceptions.InstanceAlreadyExistsException;
-import seng202.team6.models.Journey;
 import seng202.team6.models.User;
-import seng202.team6.models.UserLoginDetails;
+import seng202.team6.models.Vehicle;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.UserDao;
+import seng202.team6.repository.VehicleDao;
 import seng202.team6.services.DataService;
-import seng202.team6.testfx.controllertests.TestFXBase;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -35,20 +24,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
-import java.util.HexFormat;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.testfx.api.FxAssert.verifyThat;
 
 
-public class StationStepDef extends TestFXBase {
-
+public class UserStepDef {
     MainScreenController mainScreenController;
     static DatabaseManager manager;
     static UserDao userDao;
+
+    VehicleDao vehicleDao = new VehicleDao();
 
 
     User user() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -68,13 +51,10 @@ public class StationStepDef extends TestFXBase {
     }
 
     @Before
-    @Override
     public void setUpClass() throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         DataService dataService = new DataService();
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        Parent root = baseLoader.load();
         mainScreenController = baseLoader.getController();
         mainScreenController.init(null, dataService);
 
@@ -93,35 +73,31 @@ public class StationStepDef extends TestFXBase {
         manager.resetDB();
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
 
 
-    }
+    @When("User register vehicle with make {string}, year {string},Model {string}, charger type {string}")
+    public void userRegisterVehicleWithMakeYearModelChargerType(String arg0, String arg1, String arg2, String arg3) throws DatabaseException {
 
-    @When("The user save the start point {string} and end point {string} and save the journey")
-    public void theUserSaveTheStartPointAndEndPointAndSaveTheJourney(String start, String end) throws DatabaseException {
-
-        List<String> address = Arrays.asList(start,end);
-        mainScreenController.getDataService().addJourney(
-                new Journey(address,String.valueOf(mainScreenController.getCurrentUserId())));
-    }
-
-    @Then("the user have save journey with the start {string} and end point {string}")
-    public void theUserHaveSaveJourneyWithTheStartAndEndPoint(String start, String end) {
-        Map<Integer, Journey> journeyMap = mainScreenController.getDataService().fetchJourneyData(
-                mainScreenController.getCurrentUser().getUsername());
-        Assertions.assertEquals(journeyMap.get(1).getAddresses().get(0),start);
-        Assertions.assertEquals(journeyMap.get(1).getAddresses().get(1),end);
+        VehicleDao vehicleDao = new VehicleDao();
+        vehicleDao.add(new Vehicle(arg0,arg2,arg3,Integer.parseInt(arg1), mainScreenController.getCurrentUserId()));
     }
 
 
-    @Given("User logged in with {string} and {string}")
-    public void userLoggedInWithAnd(String arg0, String arg1) {
+    @Given("User logged in with {string} and passward for user feature")
+    public void userLoggedInWithAndPasswardForUserFeature(String arg0) {
         mainScreenController.loginUser(userDao.getOne(userDao.getLoginDetails(arg0).getUserId()));
         Assertions.assertEquals(mainScreenController.getCurrentUserId(),0);
-
-
         Assertions.assertNotEquals(mainScreenController.getCurrentUserId(),0);
+    }
+
+    @Then("User has the vehicle in the its acctount with make {string}, year {string},Model {string}, charger type {string}")
+    public void userHasTheVehicleInTheItsAcctountWithMakeYearModelChargerType(String arg0, String arg1, String arg2, String arg3) {
+
+        Vehicle vehicle = vehicleDao.getUserVehicle(mainScreenController.getCurrentUserId()).get(0);
+        Assertions.assertEquals(arg0,vehicle.getMake());
+        Assertions.assertEquals(Integer.parseInt(arg1),vehicle.getYear());
+        Assertions.assertEquals(arg2,vehicle.getModel());
+        Assertions.assertEquals(arg3,vehicle.getPlugType());
+
     }
 }

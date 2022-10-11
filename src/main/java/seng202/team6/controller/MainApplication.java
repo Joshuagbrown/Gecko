@@ -23,7 +23,7 @@ public class MainApplication extends Application {
         FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
         Parent root = baseLoader.load();
         MainScreenController baseController = baseLoader.getController();
-        baseController.init(primaryStage, dataService);
+        baseController.init(null, dataService);
 
         primaryStage.setTitle("Gecko");
         Scene scene = new Scene(root, preMinWidth, preMinHeight);

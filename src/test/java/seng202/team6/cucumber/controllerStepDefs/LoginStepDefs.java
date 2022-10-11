@@ -44,7 +44,6 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 public class LoginStepDefs extends TestFXBase {
 
-    MainScreenController mainScreenController;
     static DatabaseManager manager;
     static UserDao userDao;
 
@@ -68,7 +67,6 @@ public class LoginStepDefs extends TestFXBase {
     @Before
     @Override
     public void setUpClass() throws Exception {
-        MainScreenController mainScreenController = new MainScreenController();
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
@@ -89,10 +87,7 @@ public class LoginStepDefs extends TestFXBase {
     public void start(Stage stage) throws Exception {
 
     }
-    public void initState(FXMLLoader loader, Stage stage,MainScreenController mainScreenController) {
-        LoginController loginController = loader.getController();
-        loginController.init(stage,mainScreenController);
-    }
+
 
     @Given("I am on the login screen")
     public void iAmOnTheLoginScreen() {
@@ -174,25 +169,10 @@ public class LoginStepDefs extends TestFXBase {
     @Then("User Name have changed into {string} and address has changed into {string}")
     public void userNameHaveChangedIntoAndAddressHasChangedInto(String name, String address) {
 
-
-
-
         TextField nameTextField = (TextField) find("#usernameField");
         Assertions.assertEquals(name,nameTextField.getText());
 
         TextField homeTextField = (TextField) find("#homeAddressField");
         Assertions.assertEquals(address,homeTextField.getText());
-
-
-    }
-
-    @And("User input {string} on name space")
-    public void userInputOnNameSpace(String arg0) {
-
-
-    }
-
-    @Then("User Name have been into {string}")
-    public void userNameHaveBeenInto(String arg0) {
     }
 }

@@ -51,7 +51,9 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ResultSet rs = ps.executeQuery();
             ResultSet rs2 = ps2.executeQuery();
             List<String> addresses = new ArrayList<>();
+
             boolean stillGoing = rs.next();
+
             while (stillGoing) {
                 if (rs.getInt("journeyId") != rs2.getInt("journeyId")) {
                     Journey journey = journeyFromResultSet(rs2, new ArrayList<>(addresses));

@@ -128,6 +128,9 @@ public class MainScreenController {
 
     private int currentUserId;
 
+    public MainScreenController(DataService dataService) {
+        this.dataService = dataService;
+    }
 
 
     /**
@@ -201,7 +204,7 @@ public class MainScreenController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.sizeToScene();
+        //stage.sizeToScene();
 
     }
 
