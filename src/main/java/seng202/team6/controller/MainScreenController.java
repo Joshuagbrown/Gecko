@@ -129,11 +129,6 @@ public class MainScreenController {
 
     private int currentUserId;
 
-//    public MainScreenController(DataService dataService) {
-//    this.dataService = dataService;
-//    }
-
-
     /**
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen.

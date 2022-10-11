@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
@@ -162,14 +163,15 @@ public class LoginStepDefs extends TestFXBase {
     public void userInputOnNameSpaceAndInputOnTheAddressSpace(String name, String address) {
         doubleClickOn("#nameField");
         write(name);
-        doubleClickOn("#homeAddressField");
+        clickOn("#homeAddressField");
+        push(KeyCode.CONTROL,KeyCode.A);
         write(address);
     }
 
     @Then("User Name have changed into {string} and address has changed into {string}")
     public void userNameHaveChangedIntoAndAddressHasChangedInto(String name, String address) {
 
-        TextField nameTextField = (TextField) find("#usernameField");
+        TextField nameTextField = (TextField) find("#nameField");
         Assertions.assertEquals(name,nameTextField.getText());
 
         TextField homeTextField = (TextField) find("#homeAddressField");
