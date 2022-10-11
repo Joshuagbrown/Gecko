@@ -35,11 +35,12 @@ Feature:  LoginController
     And User clicks My Details button
     Then I am on the login screen
 
-  Scenario: (AT_) User want to change the name
+  Scenario: (AT_) User want to change the name and address,
     Given User logged in with with username "admin" and password "123456789" and in my detail page
     When User click edit button
-    And User input "New Name" on name space
+    And User input "New Name" on name space and input "5 ilam road" on the address space
     And User click confirm edit button
-    Then User Name have been into "New Name"
+    Then User Name have changed into "New Name" and address has changed into "5 ilam road"
+
 
 
