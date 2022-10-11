@@ -62,6 +62,7 @@ public class MainScreenController {
     @FXML
     public Text geckoTitle;
     public Button loginPageBtn;
+    public Button dataPageBtn;
     private Stage stage;
     private DataService dataService;
     /**
@@ -128,9 +129,9 @@ public class MainScreenController {
 
     private int currentUserId;
 
-    public MainScreenController(DataService dataService) {
-        this.dataService = dataService;
-    }
+//    public MainScreenController(DataService dataService) {
+//        this.dataService = dataService;
+//    }
 
 
     /**
@@ -204,7 +205,7 @@ public class MainScreenController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //stage.sizeToScene();
+        stage.sizeToScene();
 
     }
 

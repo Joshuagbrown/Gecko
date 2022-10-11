@@ -61,16 +61,16 @@ public class JourneyStepDef extends TestFXBase {
     public void setUpClass() throws Exception {
 //
 
-
-        DatabaseManager.removeInstance();
-        manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
-
-
-        DataService dataService = new DataService();
-//        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        mainScreenController = new MainScreenController( dataService);
-        userDao = new UserDao();
-        userDao.add(user());
+//
+//        DatabaseManager.removeInstance();
+//        manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
+//
+//
+//        DataService dataService = new DataService();
+////        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
+//        mainScreenController = new MainScreenController( dataService);
+//        userDao = new UserDao();
+//        userDao.add(user());
     }
 
 

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import seng202.team6.models.Position;
 import seng202.team6.repository.FilterBuilder;
@@ -14,6 +15,7 @@ import seng202.team6.repository.FilterBuilder;
  * @author  Phyu Wai Lwin.
  */
 public class DataToolBarController implements ScreenController {
+    public BorderPane dataToolBarScreen;
     @FXML
     private CheckBox is24HourCheckBox;
     @FXML

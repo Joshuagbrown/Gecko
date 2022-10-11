@@ -53,15 +53,17 @@ public class UserStepDef {
     @Before
     public void setUpClass() throws Exception {
 
-        DataService dataService = new DataService();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        mainScreenController = baseLoader.getController();
-        mainScreenController.init(null, dataService);
-
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
         userDao.add(user());
+
+//        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
+//        Parent root = baseLoader.load();
+        mainScreenController = new MainScreenController();
+        mainScreenController.init(null, new DataService());
+
+
     }
 
 
