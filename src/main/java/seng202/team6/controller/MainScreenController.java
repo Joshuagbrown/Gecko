@@ -124,7 +124,7 @@ public class MainScreenController {
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
-    private User currentUser = null;
+    private SimpleObjectProperty<User> userProperty = new SimpleObjectProperty<>(null);
     private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
 
@@ -142,6 +142,14 @@ public class MainScreenController {
     void init(Stage stage, DataService dataService) {
         Pair<Parent, ScreenController> pair;
         LoadScreen screen = new LoadScreen();
+
+        userProperty.addListener((observableValue, oldValue, newValue) -> {
+            if (newValue == null) {
+                loginPageBtn.setText("Login");
+            } else {
+                loginPageBtn.setText("My Details");
+            }
+        });
 
         this.stage = stage;
         this.dataService = dataService;
@@ -288,7 +296,7 @@ public class MainScreenController {
      * @return currentUser the current user.
      */
     public User getCurrentUser() {
-        return currentUser;
+        return userProperty.getValue();
     }
 
     /**
@@ -297,7 +305,7 @@ public class MainScreenController {
      * @param currentUser the current user.
      */
     public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+        userProperty.setValue(currentUser);
     }
 
     /**
@@ -314,9 +322,9 @@ public class MainScreenController {
      */
     public void updateJourneysFromDatabase() {
         getJourneys().clear();
-        if (currentUser != null) {
+        if (getCurrentUser() != null) {
             Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(
-                    currentUser.getUsername());
+                    getCurrentUser().getUsername());
             getJourneys().putAll(journeyMap);
         }
     }
@@ -328,20 +336,6 @@ public class MainScreenController {
      */
     public Button getLoginPageBtn() {
         return loginPageBtn;
-    }
-
-    /**
-     * Changing the text of the button.
-     */
-    public void setLoginBtnText() {
-        this.loginPageBtn.setText("My Details");
-    }
-
-    /**
-     * Changing the text of the button.
-     */
-    public void setLoginBtnTextBack() {
-        this.loginPageBtn.setText("Login");
     }
 
     /**
@@ -483,7 +477,7 @@ public class MainScreenController {
      * @param actionEvent when Login button is clicked
      */
     public void loginButtonEventHandler(ActionEvent actionEvent) {
-        if (currentUser == null) {
+        if (getCurrentUser() == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
             mainBorderPane.setRight(null);
@@ -520,7 +514,6 @@ public class MainScreenController {
         loadMyDetailsViewAndToolBars();
         getMyDetailsController().loadUserData();
         mapButtonEventHandler();
-        setLoginBtnText();
         changeToAddButton();
     }
 

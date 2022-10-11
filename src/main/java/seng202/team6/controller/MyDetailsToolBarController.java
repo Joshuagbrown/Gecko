@@ -52,6 +52,5 @@ public class MyDetailsToolBarController implements ScreenController {
         controller.setCurrentUserId(0);
         controller.loadSignUpViewAndToolBars();
         controller.mapButtonEventHandler();
-        controller.setLoginBtnTextBack();
     }
 }
