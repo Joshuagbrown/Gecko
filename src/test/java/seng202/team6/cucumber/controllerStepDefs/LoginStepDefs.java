@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
@@ -30,6 +31,7 @@ import seng202.team6.testfx.controllertests.TestFXBase;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -66,6 +68,7 @@ public class LoginStepDefs extends TestFXBase {
     @Before
     @Override
     public void setUpClass() throws Exception {
+        MainScreenController mainScreenController = new MainScreenController();
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
@@ -84,19 +87,6 @@ public class LoginStepDefs extends TestFXBase {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-        DataService dataService = new DataService();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        Parent root = baseLoader.load();
-        mainScreenController = baseLoader.getController();
-        mainScreenController.init(stage, dataService);
-        Parent page = loader.load();
-        initState(loader, stage,mainScreenController);
-        Scene scene = new Scene(page);
-        stage.setScene(scene);
-        stage.show();
-
 
     }
     public void initState(FXMLLoader loader, Stage stage,MainScreenController mainScreenController) {
@@ -167,25 +157,42 @@ public class LoginStepDefs extends TestFXBase {
         clickOn("#editDetailsButton");
     }
 
-    @And("User input {string} on name space")
-    public void userInputOnNameSpace(String name) {
-
-        doubleClickOn("#nameField");
-        write(name);
-
-    }
-
     @And("User click confirm edit button")
     public void userClickConfirmEditButton() {
         clickOn("#confirmEditButton");
 
     }
 
-    @Then("User Name have been into {string}")
-    public void userNameHaveBeenInto(String name) {
-        //Boolean value = "#usernameField".equals(name);
-        verifyThat("#editDetailsButton", Node::isVisible);
+    @And("User input {string} on name space and input {string} on the address space")
+    public void userInputOnNameSpaceAndInputOnTheAddressSpace(String name, String address) {
+        doubleClickOn("#nameField");
+        write(name);
+        doubleClickOn("#homeAddressField");
+        write(address);
+    }
 
-//        Assertions.assertTrue("#usernameField".matches(name));
+    @Then("User Name have changed into {string} and address has changed into {string}")
+    public void userNameHaveChangedIntoAndAddressHasChangedInto(String name, String address) {
+
+
+
+
+        TextField nameTextField = (TextField) find("#usernameField");
+        Assertions.assertEquals(name,nameTextField.getText());
+
+        TextField homeTextField = (TextField) find("#homeAddressField");
+        Assertions.assertEquals(address,homeTextField.getText());
+
+
+    }
+
+    @And("User input {string} on name space")
+    public void userInputOnNameSpace(String arg0) {
+
+
+    }
+
+    @Then("User Name have been into {string}")
+    public void userNameHaveBeenInto(String arg0) {
     }
 }
