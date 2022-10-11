@@ -182,10 +182,7 @@ public class AddStationController implements StationController {
                     address, newTimeLimit, is24Hours, chargers, newCarParks, newCarParkCost,
                     newChargingCost, tourist);
             station = newStation;
-            //            controller.getDataService().getStationDao().add(newStation);
-            //            controller.updateStationsFromDatabase();
             viewChargers(null);
-            controller.setTextAreaInMainScreen(newStation.toString());
 
         }
 

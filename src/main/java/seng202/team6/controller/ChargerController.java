@@ -179,14 +179,13 @@ public class ChargerController {
             }
             
             if (Objects.equals(newOrUpdate, "update")) {
-                System.out.println("Maybe this why");
                 controller.getDataService().getStationDao().update(station);
                 controller.updateStationsFromDatabase();
+                controller.setTextAreaInMainScreen(station.toString());
             }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
             //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
-            controller.setTextAreaInMainScreen(station.toString());
         }
 
     }

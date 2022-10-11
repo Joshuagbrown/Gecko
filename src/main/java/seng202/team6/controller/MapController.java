@@ -153,8 +153,7 @@ public class MapController implements ScreenController {
 
 
     /**
-     * Function to set the current address, if address is given, else, indicate a
-     * progress bar.
+     * Function to set the current address.
      * @param address the new address to set.
      */
     public void setAddress(String address) throws IOException {
@@ -167,14 +166,23 @@ public class MapController implements ScreenController {
      * Function that cll to display the station information when the station marker is clicked.
      * @param stationId the id of the station.
      */
-    public void onStationClicked(int stationId) throws IOException {
-        Station station = stations.get(stationId);
-        currentlySelected = station;
-        setClickLocation(station.getCoordinates().getLatitude(),
-                        station.getCoordinates().getLongitude());
-        setAddress(station.getAddress());
-        controller.setTextAreaInMainScreen(station.toString());
-        controller.changeToEditButton();
+    public void onStationClicked(Integer stationId) throws IOException {
+        System.out.println("Gets here");
+        System.out.println(stationId);
+        if (stationId == null || stationId == 0) {
+            currentlySelected = null;
+            setAddress(null);
+            controller.setTextAreaInMainScreen("");
+            controller.changeToAddButton();
+        } else {
+            Station station = stations.get(stationId);
+            currentlySelected = station;
+            setClickLocation(station.getCoordinates().getLatitude(),
+                    station.getCoordinates().getLongitude());
+            setAddress(station.getAddress());
+            controller.setTextAreaInMainScreen(station.toString());
+            controller.changeToEditButton();
+        }
     }
 
     /**
