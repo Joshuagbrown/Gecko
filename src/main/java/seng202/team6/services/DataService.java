@@ -109,16 +109,9 @@ public class DataService {
     }
 
     /**
-     * Fetch all data from the database.
-     */
-    public Map<Integer, Station> fetchData() {
-        return dao.getAll();
-    }
-
-    /**
      * Fetch data from the database filtered by the FilterBuilder.
      */
-    public Map<Integer, Station> fetchData(FilterBuilder builder) {
+    public Map<Integer, Station> fetchData(FilterBuilder builder) throws DatabaseException {
         return dao.getFromFilterBuilder(builder);
     }
 
@@ -161,12 +154,6 @@ public class DataService {
         journeyDao.delete(journey.getJourneyId());
     }
 
-    /** Get a station from the database by id.
-     * @param id the id
-     */
-    public Station getStation(int id) {
-        return dao.getOne(id);
-    }
 
     /**
      * Get the station DAO.

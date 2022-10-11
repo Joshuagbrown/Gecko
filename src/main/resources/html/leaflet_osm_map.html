@@ -105,11 +105,10 @@
             if (currentClicked != null) {
                 map.removeLayer(currentClicked)
             }
-
+            currentClicked = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
             fetchAddress(e.latlng)
                 .then(address => {
                     //marker.bindPopup(address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`).openPopup();
-                    currentClicked = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
                     if (address != null) {
                         const markerContent = address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`
                         currentClicked.bindPopup(markerContent).openPopup();

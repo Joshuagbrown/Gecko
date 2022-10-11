@@ -313,7 +313,11 @@ public class AddStationController {
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
         controller.getDataService().getStationDao().delete(station.getStationId());
-        controller.updateStationsFromDatabase();
+        try {
+            controller.updateStationsFromDatabase();
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
         stage.close();
         controller.setTextAreaInMainScreen("");
 

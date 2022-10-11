@@ -94,6 +94,7 @@ public class FilterBuilder {
         String sql = "SELECT * FROM stations "
                 + "JOIN chargers c ON stations.stationId = c.stationId ";
         if (filters.isEmpty()) {
+            sql += " ORDER BY stations.stationId";
             return conn.prepareStatement(sql);
         }
 
@@ -101,7 +102,6 @@ public class FilterBuilder {
                 .map(str -> String.format("(%s)", str))
                 .collect(Collectors.joining());
         sql += " ORDER BY stations.stationId";
-        System.out.println(sql);
         PreparedStatement ps = conn.prepareStatement(sql);
         for (int i = 0; i < arguments.size(); i++) {
             ps.setObject(i + 1, arguments.get(i));
