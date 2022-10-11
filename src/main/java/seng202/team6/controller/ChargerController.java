@@ -98,6 +98,7 @@ public class ChargerController {
             chargerDropDown.getSelectionModel().select(0);
         }
 
+        opButton.setSelected(true);
 
     }
 
@@ -169,6 +170,7 @@ public class ChargerController {
             }
             
             if (Objects.equals(newOrUpdate, "update")) {
+                System.out.println("Maybe this why");
                 controller.getDataService().getStationDao().update(station);
                 controller.updateStationsFromDatabase();
             }
@@ -281,6 +283,7 @@ public class ChargerController {
                             + "to your Station.");
         } else {
             try {
+                System.out.println(station);
                 controller.getDataService().getStationDao().add(station);
             } catch (DatabaseException e) {
                 throw new RuntimeException(e);
@@ -288,6 +291,5 @@ public class ChargerController {
             controller.updateStationsFromDatabase();
             stage.close();
         }
-
     }
 }

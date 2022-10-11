@@ -20,11 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
-import seng202.team6.business.EditStationInterface;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import seng202.team6.services.Progress;
 
 
 /**
@@ -147,24 +145,8 @@ public class MapController implements ScreenController {
      */
     public void setAddress(String address) throws IOException {
 
-        if (Objects.equals(address, "")) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProgressPopUp.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Gecko Progress Indicator");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.DECORATED);
-            stage.show();
+        currentAddress = address;
 
-            ProgressController progController = loader.getController();
-            Progress.fill(progController);
-
-
-        } else {
-            currentAddress = address;
-        }
     }
 
     /**

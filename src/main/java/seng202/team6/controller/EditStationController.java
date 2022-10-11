@@ -182,7 +182,7 @@ public class EditStationController {
             station.setIs24Hours(is24Hours);
             station.setHasTouristAttraction(tourist);
             station.setOperator(newOperator);
-            station.setOperator(newOwner);
+            station.setOwner(newOwner);
             station.setTimeLimit(newTimeLimit);
             station.setNumberOfCarParks(newCarParks);
             station.setCarParkCost(newCarParkCost);
