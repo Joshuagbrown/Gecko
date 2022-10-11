@@ -211,6 +211,8 @@
         route = L.Routing.control({
             waypoints: locations,
             routeWhileDragging: false,
+            draggableWaypoints: false,
+            addWaypoints: false,
             serviceUrl: 'https://tile.csse.canterbury.ac.nz/route/v1',
         }).addTo(map);
 
