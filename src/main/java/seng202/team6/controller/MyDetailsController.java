@@ -20,13 +20,18 @@ import seng202.team6.services.Validity;
 
 public class MyDetailsController implements ScreenController {
 
-
-    public TextField usernameField;
-    public TextField homeAddressField;
-    public TextField nameField;
-    public Button confirmEditButton;
-    public Button editDetailsButton;
-    public Button cancelEditButton;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private TextField homeAddressField;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private Button confirmEditButton;
+    @FXML
+    private Button editDetailsButton;
+    @FXML
+    private Button cancelEditButton;
     @FXML
     private Text invalidNameMyDetails;
     @FXML
@@ -37,9 +42,13 @@ public class MyDetailsController implements ScreenController {
     public TableColumn<Vehicle, String> plugType;
     public TableColumn<Vehicle, String> model;
     public TableColumn<Vehicle, Integer> year;
-    public Button btnAddVehicle;
-    public Button btnEditVehicle;
-    public Button btnDeleteVehicle;
+
+    @FXML
+    private Button btnAddVehicle;
+    @FXML
+    private Button btnEditVehicle;
+    @FXML
+    private Button btnDeleteVehicle;
     private MainScreenController controller;
     private String name = null;
     private String address = null;
