@@ -84,4 +84,5 @@ public class Journey {
     public int hashCode() {
         return Objects.hash(start, end, midPoints, username);
     }
+
 }
