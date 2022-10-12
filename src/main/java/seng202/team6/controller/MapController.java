@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -46,6 +48,8 @@ public class MapController implements ScreenController {
 
     private ObservableMap<Integer, Station> stations;
     private Station currentlySelected;
+
+    private ArrayList<Button> autoFillButtons;
 
     /**
      * Initialises the map view.
@@ -157,13 +161,17 @@ public class MapController implements ScreenController {
      * @param address the new address to set.
      */
     public void setAddress(String address) throws IOException {
-
+        if (address.length() == 0) {
+            controller.getMapToolBarController().setAutoFillButtonsOff();
+        } else {
+            controller.getMapToolBarController().setAutoFillButtonsOn();
+        }
         currentAddress = address;
 
     }
 
     /**
-     * Function that cll to display the station information when the station marker is clicked.
+     * Function that call to display the station information when the station marker is clicked.
      * @param stationId the id of the station.
      */
     public void onStationClicked(Integer stationId) throws IOException {

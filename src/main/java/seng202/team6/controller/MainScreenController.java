@@ -65,6 +65,7 @@ public class MainScreenController {
     public Text geckoTitle;
     public Button loginPageBtn;
     public Button stationButton;
+    public Button mapButton;
     private Stage stage;
     private DataService dataService;
     /**
@@ -435,6 +436,7 @@ public class MainScreenController {
      */
     public void mapButtonEventHandler(ActionEvent actionEvent) {
 
+        mapButton.setStyle("-fx-border-color: #93c14e");
         textAreaInMainScreen.setText("");
         mainBorderPane.setCenter(mapScreen);
         toolBarPane.setCenter(mapToolBarScreen);
