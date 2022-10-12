@@ -152,9 +152,7 @@ public class CharginStationStepDef extends TestFXBase{
     @When("User click the second station on the station table which name is")
     public void userClickTheSecondStationOnTheStationTableWhichNameIs() {
 
-//        clickOn((Matcher<Node>) lookup("#table").nth(2).query());
         clickOn("#table");
-//        clickOn( find("#table").lookup("#table").nth(2).query());
 
 
 

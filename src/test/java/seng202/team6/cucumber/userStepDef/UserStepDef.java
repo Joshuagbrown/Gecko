@@ -6,9 +6,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
+import org.testfx.framework.junit5.ApplicationTest;
+import seng202.team6.controller.MainApplication;
 import seng202.team6.controller.MainScreenController;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
@@ -17,6 +21,7 @@ import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.UserDao;
 import seng202.team6.repository.VehicleDao;
 import seng202.team6.services.DataService;
+import seng202.team6.testfx.controllertests.TestFXBase;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -26,12 +31,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 
-public class UserStepDef {
-    MainScreenController mainScreenController;
+public class UserStepDef extends TestFXBase {
     static DatabaseManager manager;
     static UserDao userDao;
-
-    VehicleDao vehicleDao = new VehicleDao();
 
 
     User user() throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -51,19 +53,13 @@ public class UserStepDef {
     }
 
     @Before
+    @Override
     public void setUpClass() throws Exception {
-
         DatabaseManager.removeInstance();
         manager = DatabaseManager.initialiseInstanceWithUrl("jdbc:sqlite:database-test.db");
         userDao = new UserDao();
         userDao.add(user());
-
-//        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-//        Parent root = baseLoader.load();
-        mainScreenController = new MainScreenController();
-        mainScreenController.init(null, new DataService());
-
-
+        ApplicationTest.launch(MainApplication.class);
     }
 
 
@@ -75,31 +71,67 @@ public class UserStepDef {
         manager.resetDB();
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+
+    }
+    @Given("User logged in with {string} and {string}")
+    public void userLoggedInWithAnd(String username, String password) {
+        clickOn("#loginPageBtn");
+        clickOn("#usernameLogin");
+        write(username);
+        clickOn("#passwordLogin");
+        write(password);
+        clickOn("#logInButton");
+    }
+
+    @When("User register vehicle with make {string}, year {string},model {string}, charger type {string}")
+    public void userRegisterVehicleWithMakeYearModelChargerType(String make, String model, String year, String arg3) throws DatabaseException {
+
+        clickOn("#loginPageBtn");
+        clickOn("#registerVehicleButton");
+        clickOn("#inputVehicleMake");
+        press(KeyCode.DOWN);
+
+        press(KeyCode.DOWN);press(KeyCode.DOWN);
+        press(KeyCode.DOWN);
+        press(KeyCode.DOWN);
 
 
-    @When("User register vehicle with make {string}, year {string},Model {string}, charger type {string}")
-    public void userRegisterVehicleWithMakeYearModelChargerType(String arg0, String arg1, String arg2, String arg3) throws DatabaseException {
+        release(KeyCode.DOWN);
+        clickOn();
 
-        VehicleDao vehicleDao = new VehicleDao();
-        vehicleDao.add(new Vehicle(arg0,arg2,arg3,Integer.parseInt(arg1), mainScreenController.getCurrentUserId()));
+        clickOn();clickOn();
+        clickOn();
+        clickOn();
+        clickOn();
+        clickOn();
+
+
+
+
+
+        clickOn("#inputTextOfMake");
+        write(make);
+        clickOn("#inputTextOfYear");
+        write(year);
+        clickOn("#inputTextOfModel");
+        write(model);
+        clickOn("#inputChargerType");
+        press(KeyCode.DOWN);
+        release(KeyCode.DOWN);
+        clickOn();
+        clickOn("#submitVehicleButton");
+
+
     }
 
 
-    @Given("User logged in with {string} and passward for user feature")
-    public void userLoggedInWithAndPasswardForUserFeature(String arg0) {
-        mainScreenController.loginUser(userDao.getOne(userDao.getLoginDetails(arg0).getUserId()));
-        Assertions.assertEquals(mainScreenController.getCurrentUserId(),0);
-        Assertions.assertNotEquals(mainScreenController.getCurrentUserId(),0);
-    }
+
 
     @Then("User has the vehicle in the its acctount with make {string}, year {string},Model {string}, charger type {string}")
     public void userHasTheVehicleInTheItsAcctountWithMakeYearModelChargerType(String arg0, String arg1, String arg2, String arg3) {
 
-        Vehicle vehicle = vehicleDao.getUserVehicle(mainScreenController.getCurrentUserId()).get(0);
-        Assertions.assertEquals(arg0,vehicle.getMake());
-        Assertions.assertEquals(Integer.parseInt(arg1),vehicle.getYear());
-        Assertions.assertEquals(arg2,vehicle.getModel());
-        Assertions.assertEquals(arg3,vehicle.getPlugType());
 
     }
 }

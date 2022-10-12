@@ -19,11 +19,11 @@
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="40.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints fx:id="planTripRow" minHeight="40.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="40.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="40.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints fx:id="sixRowGridPane" minHeight="40.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Text fx:id="startLabel" strokeWidth="0.0" text="Start: ">

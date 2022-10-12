@@ -17,12 +17,12 @@ Feature:  LoginController
     When I login with username "<username>" and password "<password>"
     Then I am not logged in
 
-#    Examples:
-#      | username | password         |
-#      | admin    | notauserpassward |
-#      | admain    | 123456789       |
-#      | admain    | admain          |
-#
+    Examples:
+      | username | password         |
+      | admin    | notauserpassward |
+      | admain    | 123456789       |
+      | admain    | admain          |
+
   Scenario: (AT_14) Viewing user details
     Given User logged in with with username "admin" and password "123456789" and in my detail page
     When User clicks My Details button

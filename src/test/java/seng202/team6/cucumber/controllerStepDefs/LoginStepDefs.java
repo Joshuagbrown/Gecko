@@ -110,8 +110,6 @@ public class LoginStepDefs extends TestFXBase {
         // We know that once we log in the main screen has a button to log out, so if we can see this it must've logged us in correctly
 
         verifyThat("#logOutButton", Node::isVisible);
-        //Assertions.assertNotNull(mainScreenController.getCurrentUser());
-        //verifyThat("#logInButton", Node::isVisible);
     }
 
     @Then("I am not logged in")

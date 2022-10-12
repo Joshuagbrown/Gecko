@@ -10,9 +10,9 @@ Feature:  Manipulate the stations
     When The user save the start point "3 ilam road" and end point "499 greers road" and save the journey
     Then the user have save journey with the start "3 ilam road" and end point "499 greers road"
 
-#  Scenario: User want to add one stop point on the journey
-#
-#    Given User logged in with "admin" and "123456789"
-#    When The user save the start point "3 ilam road" and end point "499 greers road" and add "161 ilam road" as a stop point and save the journey
-#    Then the user have save journey with the start "3 ilam road" and end point "499 greers road" and "161 ilam road" as middle point
+  Scenario: User want to add one stop point on the journey
+
+    Given User logged in with "admin" and "123456789"
+    When The user save the start point "3 ilam road" and end point "499 greers road" and add "161 ilam road" as a stop point and save the journey
+    Then the user have save journey with the start "3 ilam road" and end point "499 greers road" and "161 ilam road" as middle point
 

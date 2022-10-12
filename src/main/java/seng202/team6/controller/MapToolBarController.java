@@ -317,6 +317,7 @@ public class MapToolBarController implements ScreenController {
             addOneTextField = new TextField();
             addOneTextField.setFont(Font.font(13));
             addOneTextField.setVisible(true);
+            addOneTextField.setId("addOneTextField"+String.valueOf(numAddresses));
 
             arrayOfTextFields.add(addOneTextField);
 
