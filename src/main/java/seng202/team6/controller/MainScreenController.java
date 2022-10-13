@@ -126,11 +126,12 @@ public class MainScreenController {
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
-    private User currentUser = null;
+    private SimpleObjectProperty<User> userProperty = new SimpleObjectProperty<>(null);
     private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
 
     private int currentUserId;
+    private FilterBuilder filterBuilder = new FilterBuilder();
 
 
     /**
@@ -144,12 +145,21 @@ public class MainScreenController {
         Pair<Parent, ScreenController> pair;
         LoadScreen screen = new LoadScreen();
 
+        userProperty.addListener((observableValue, oldValue, newValue) -> {
+            if (newValue == null) {
+                loginPageBtn.setText("Login");
+            } else {
+                loginPageBtn.setText("My Details");
+            }
+        });
+
         this.stage = stage;
         this.dataService = dataService;
-        updateStationsFromDatabase();
-        updateJourneysFromDatabase();
 
         try {
+            updateStationsFromDatabase();
+            updateJourneysFromDatabase();
+
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
             helpScreen = pair.getKey();
             helpController = (HelpController) pair.getValue();
@@ -203,10 +213,8 @@ public class MainScreenController {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-            //} catch (DatabaseException e) {
-            //throw new RuntimeException(e);
-            //} catch (CsvFileException e) {
-            // throw new RuntimeException(e);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
         }
         stage.sizeToScene();
 
@@ -290,7 +298,7 @@ public class MainScreenController {
      * @return currentUser the current user.
      */
     public User getCurrentUser() {
-        return currentUser;
+        return userProperty.getValue();
     }
 
     /**
@@ -299,25 +307,14 @@ public class MainScreenController {
      * @param currentUser the current user.
      */
     public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+        userProperty.setValue(currentUser);
     }
 
     /**
-     * Function to update the stations.
-     *
-     * @param builder The filter builder to use
+     * Function to update the stations using the current filterBuilder.
      */
-    public void updateStationsFromDatabase(FilterBuilder builder) {
-        Map<Integer, Station> stationMap = dataService.fetchData(builder);
-        getStations().clear();
-        getStations().putAll(stationMap);
-    }
-
-    /**
-     * Function to update the stations.
-     */
-    public void updateStationsFromDatabase() {
-        Map<Integer, Station> stationMap = dataService.fetchData();
+    public void updateStationsFromDatabase() throws DatabaseException {
+        Map<Integer, Station> stationMap = dataService.fetchData(filterBuilder);
         getStations().clear();
         getStations().putAll(stationMap);
     }
@@ -327,9 +324,9 @@ public class MainScreenController {
      */
     public void updateJourneysFromDatabase() {
         getJourneys().clear();
-        if (currentUser != null) {
+        if (getCurrentUser() != null) {
             Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(
-                    currentUser.getUsername());
+                    getCurrentUser().getUsername());
             getJourneys().putAll(journeyMap);
         }
     }
@@ -341,20 +338,6 @@ public class MainScreenController {
      */
     public Button getLoginPageBtn() {
         return loginPageBtn;
-    }
-
-    /**
-     * Changing the text of the button.
-     */
-    public void setLoginBtnText() {
-        this.loginPageBtn.setText("My Details");
-    }
-
-    /**
-     * Changing the text of the button.
-     */
-    public void setLoginBtnTextBack() {
-        this.loginPageBtn.setText("Login");
     }
 
     /**
@@ -496,7 +479,7 @@ public class MainScreenController {
      * @param actionEvent when Login button is clicked
      */
     public void loginButtonEventHandler(ActionEvent actionEvent) {
-        if (currentUser == null) {
+        if (getCurrentUser() == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
             mainBorderPane.setRight(null);
@@ -533,7 +516,6 @@ public class MainScreenController {
         loadMyDetailsViewAndToolBars();
         getMyDetailsController().loadUserData();
         mapButtonEventHandler();
-        setLoginBtnText();
         changeToAddButton();
     }
 
@@ -571,7 +553,7 @@ public class MainScreenController {
     /**
      * This function imports the data from a selected file.
      */
-    public void importData() {
+    public void importData() throws DatabaseException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");
         fileChooser.getExtensionFilters()
@@ -709,6 +691,10 @@ public class MainScreenController {
                 throw new RuntimeException(ex);
             }
         });
+    }
+
+    public void setFilterBuilder(FilterBuilder builder) {
+        this.filterBuilder = builder;
     }
 }
 

@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.json.simple.JSONObject;
+import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.services.Validity;
@@ -107,8 +109,8 @@ public class EditStationController implements StationController {
      * Finds and sets the station to display.
      */
     public void findStation() {
-        this.station = controller.getDataService().getStation(stationId);
-        this.originalAddress = station.getAddress();
+        station = controller.getStations().get(stationId);
+        originalAddress = station.getAddress();
     }
 
 
@@ -191,7 +193,11 @@ public class EditStationController implements StationController {
             }
 
             controller.getDataService().getStationDao().update(station);
-            controller.updateStationsFromDatabase();
+            try {
+                controller.updateStationsFromDatabase();
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
             stage.close();
             controller.setTextAreaInMainScreen(station.toString());
         }
@@ -370,7 +376,11 @@ public class EditStationController implements StationController {
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
         controller.getDataService().getStationDao().delete(station.getStationId());
-        controller.updateStationsFromDatabase();
+        try {
+            controller.updateStationsFromDatabase();
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
         stage.close();
         controller.setTextAreaInMainScreen("");
 

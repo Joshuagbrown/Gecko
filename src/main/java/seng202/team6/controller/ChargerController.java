@@ -180,8 +180,11 @@ public class ChargerController {
             
             if (Objects.equals(newOrUpdate, "update")) {
                 controller.getDataService().getStationDao().update(station);
-                controller.updateStationsFromDatabase();
-                controller.setTextAreaInMainScreen(station.toString());
+                try {
+                    controller.updateStationsFromDatabase();
+                } catch (DatabaseException e) {
+                    throw new RuntimeException(e);
+                }
             }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
@@ -249,7 +252,11 @@ public class ChargerController {
             chargers.remove(currentlySelectedCharger);
             station.setChargers(chargers);
             controller.getDataService().getStationDao().update(station);
-            controller.updateStationsFromDatabase();
+            try {
+                controller.updateStationsFromDatabase();
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
             controller.setTextAreaInMainScreen(station.toString());
             setChargerAndPlugDropDown();
             wattageText.setText("");
@@ -338,12 +345,15 @@ public class ChargerController {
                             + "to your Station.");
         } else {
             try {
-                System.out.println(station);
                 controller.getDataService().getStationDao().add(station);
             } catch (DatabaseException e) {
                 throw new RuntimeException(e);
             }
-            controller.updateStationsFromDatabase();
+            try {
+                controller.updateStationsFromDatabase();
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
             stage.close();
         }
     }

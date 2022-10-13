@@ -151,7 +151,6 @@
             if (currentClicked != null) {
                 map.removeLayer(currentClicked)
             }
-
             currentClicked = new L.Marker(e.latlng, {icon:redIcon}, {draggable:true});
             fetchAddress(e.latlng)
                 .then(address => {

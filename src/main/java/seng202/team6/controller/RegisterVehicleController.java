@@ -207,6 +207,7 @@ public class RegisterVehicleController implements ScreenController {
     public void submitVehicle(ActionEvent actionEvent) throws DatabaseException {
         if (inputChecking() != null) {
             vehicleDao.add(inputChecking());
+            // TODO: ???
             controller.getMyDetailController().loadUserVehicle();
             clearVehicleSelect(null);
 
@@ -218,7 +219,7 @@ public class RegisterVehicleController implements ScreenController {
      * @return the vehicle that has all the essential data.
      */
     public Vehicle inputChecking() {
-        String error = null;
+        String error = "";
 
         String make = null;
         int year = -1;
