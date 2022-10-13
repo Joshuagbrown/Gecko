@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Label?>
-<SplitPane fx:id="myDetailsPane" dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
+<SplitPane fx:id="myDetailsPane" dividerPositions="0.7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
   <items>
      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0">
         <columnConstraints>
@@ -126,15 +117,15 @@
             </Text>
         </children>
      </GridPane>
-     <TableView fx:id="userVehicleTable" layoutX="74.0" layoutY="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
+     <TableView fx:id="userVehicleTable" layoutX="74.0" layoutY="346.0" onMouseClicked="#clickItem" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
         <placeholder>
            <Label text="No vehicles yet, add a vehicle and you'll see it here!" />
         </placeholder>
         <columns>
-           <TableColumn fx:id="make" prefWidth="75.0" text="Make" />
-           <TableColumn fx:id="model" prefWidth="75.0" text="Model" />
-            <TableColumn fx:id="plugType" prefWidth="75.0" text="Plug type" />
-            <TableColumn fx:id="year" prefWidth="75.0" text="Year" />
+           <TableColumn fx:id="make" prefWidth="112.0" text="Make" />
+            <TableColumn fx:id="year" minWidth="9.0" prefWidth="103.0" text="Year" />
+           <TableColumn fx:id="model" prefWidth="170.0" text="Model" />
+            <TableColumn fx:id="plugType" prefWidth="215.0" text="Plug type" />
         </columns>
      </TableView>
   </items>

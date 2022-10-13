@@ -108,4 +108,10 @@ public class Vehicle {
     public int hashCode() {
         return Objects.hash(make, model, plugType, year, userId);
     }
+
+    public String toString() {
+        String info = String.format("Make : %s\nYear : %s\nModel : %s\nCharger Type : %s",make,year,model,plugType);
+        return info;
+
+    }
 }

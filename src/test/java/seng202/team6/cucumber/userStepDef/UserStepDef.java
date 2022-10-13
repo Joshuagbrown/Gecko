@@ -8,6 +8,7 @@ import io.cucumber.java.en.When;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
@@ -85,49 +86,91 @@ public class UserStepDef extends TestFXBase {
         clickOn("#logInButton");
     }
 
-    @When("User register vehicle with make {string}, year {string},model {string}, charger type {string}")
-    public void userRegisterVehicleWithMakeYearModelChargerType(String make, String model, String year, String chargerType) throws DatabaseException {
 
+
+
+
+    @Then("User has the vehicle in the its acctount with make {string}  , year {string} , model {string} input charger type {string}")
+    public void userHasTheVehicleInTheItsAcctountWithMakeYearModelInputChargerType(String make, String year, String model, String type) {
+
+        clickOn((Node) lookup("#year").nth(1).query());
+
+        TextArea textArea = find("#textAreaInMainScreen");
+
+        Assertions.assertEquals(String.format("Make : %s\nYear : %s\nModel : %s\nCharger Type : %s",make,year,model,type), textArea.getText());
+    }
+
+
+    @When("User register vehicle by choose make ARCIMOTO  , year {string} , model EVERGREEN input charger type {string}")
+    public void userRegisterVehicleByChooseMakeARCIMOTOYearModelEVERGREENInputChargerType(String arg0, String chargerType) {
         clickOn("#loginPageBtn");
         clickOn("#registerVehicleButton");
         clickOn("#inputVehicleMake");
         moveBy(10,20);
         clickOn();
 
-        clickOn();clickOn();
+        clickOn("#inputVehicleYear");
+        moveBy(10,20);
         clickOn();
+        clickOn("#inputVehicleModel");
+        moveBy(10,20);
         clickOn();
-        clickOn();
-        clickOn();
-
-
-
-
-
-        clickOn("#inputTextOfMake");
-        write(make);
-        clickOn("#inputTextOfYear");
-        write(year);
-        clickOn("#inputTextOfModel");
-        write(model);
         clickOn("#inputChargerType");
         moveBy(10,20);
+        clickOn();
         clickOn("#inputTextOfChargerType");
         write(chargerType);
 
         clickOn("#submitVehicleButton");
+        clickOn("#quitButton");
+    }
+
+    @When("User change the register vehicle year to {string} , model {string}")
+    public void userChangeTheRegisterVehicleYearToModel(String year, String model) {
+        clickOn((Node) lookup("#make").nth(1).query());
+        clickOn("#btnEditVehicle");
+
+        clickOn("#inputVehicleYear");
+        moveBy(10,20);
+        moveBy(10,20);
+        clickOn();
+        clickOn("#inputTextOfYear");
+        write(year);
+        clickOn("#inputTextOfModel");
+        write(model);
+
+
+        clickOn("#btnConfirmEdit");
+        clickOn("#quitButton");
+
+        clickOn();
+        clickOn();
+
+
+
+        clickOn((Node) lookup("#year").nth(0).query());
+        moveBy(10,20);
+        clickOn();
 
 
     }
 
+    @When("user selected the vehicle and delete it")
+    public void userSelectedTheVehicleAndDeleteIt() {
+        clickOn((Node) lookup("#make").nth(1).query());
+        clickOn("#btnDeleteVehicle");
+
+    }
 
 
+    @Then("user has no vehicle in table.")
+    public void userHasNoVehicleInTable() {
+        clickOn((Node) lookup("#year").nth(0).query());
+        moveBy(10,20);
+        clickOn();
+        TextArea textArea = find("#textAreaInMainScreen");
 
-    @Then("User has the vehicle in the its acctount with make {string}, year {string},Model {string}, charger type {string}")
-    public void userHasTheVehicleInTheItsAcctountWithMakeYearModelChargerType(String arg0, String arg1, String arg2, String arg3) {
-
-
-
+        Assertions.assertNull( textArea.getText());
 
     }
 }

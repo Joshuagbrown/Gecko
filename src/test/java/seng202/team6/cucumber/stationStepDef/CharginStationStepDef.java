@@ -77,7 +77,7 @@ public class CharginStationStepDef extends TestFXBase{
         List<Charger> chargerList1 = Arrays.asList(
                 new Charger("Type 2 Socketed", "Opermainative", 22));
         stationDao.add(new Station(new Position(-43.73745,170.100913), "YHA MT COOK",
-                1,"MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
+                "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "4 Kitchener Dr, Mount Cook National Park 7999, New Zealand" ,
                 0, true, chargerList1,1,false,
                 true,false));
@@ -85,7 +85,7 @@ public class CharginStationStepDef extends TestFXBase{
         List<Charger> chargerList2 = Arrays.asList(
                 new Charger("Type 2 Socketed", "Operative", 44));
         stationDao.add(new Station(new Position(-43.59049,172.630201), "CHRISTCHURCH ADVENTURE PARK",
-                2,"MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
+                "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "Worsleys Rd, Cashmere, Christchurch 8022, New Zealand" ,
                 0, false, chargerList2,4,false,
                 false,true));
@@ -94,7 +94,7 @@ public class CharginStationStepDef extends TestFXBase{
         List<Charger> chargerList3 = Arrays.asList(
                 new Charger("Type 2 Socketed", "Operative", 44));
         stationDao.add(new Station(new Position(-44.303657,171.225107), "TIMARU AIRPORT",
-                4,"MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
+                "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "186 Falvey Road, Levels 7975, New Zealand" ,
                 0, false, chargerList3,4,false,
                 false,false));
@@ -103,7 +103,7 @@ public class CharginStationStepDef extends TestFXBase{
         List<Charger> chargerList4 = Arrays.asList(
                 new Charger("Type 2 Socketed", "Operative", 7));
         stationDao.add(new Station(new Position(-40.721068,175.639788), "PUKAHA NATIONAL WILDLIFE CENTRE",
-                3,"MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
+                "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "85379 State Highway 2, Mount Bruce 5881" ,
                 0, true, chargerList4,2,false,
                 false,true));
@@ -112,7 +112,7 @@ public class CharginStationStepDef extends TestFXBase{
         List<Charger> chargerList5 = Arrays.asList(
                 new Charger("Type 2 Socketed", "Operative", 44));
         stationDao.add(new Station(new Position(-43.557139,172.680089), "THE TANNERY",
-                5,"MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
+                "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "3 Garlands Road, Woolston, Christchurch 8023" ,
                 240, true, chargerList5,45,false,
                 false,false));
@@ -168,7 +168,6 @@ public class CharginStationStepDef extends TestFXBase{
         Assertions.assertEquals(table.getItems().get(1).toString(),
                 "Station Name : CHRISTCHURCH ADVENTURE PARK\n" +
                         "Coordinate : -43.59049,172.630201\n" +
-                        "ObjectId : 2\n" +
                         "Operator : MERIDIAN ENERGY LIMITED\n" +
                         "Owner : MERIDIAN ENERGY LIMITED\n" +
                         "Address : Worsleys Rd, Cashmere, Christchurch 8022, New Zealand\n" +
@@ -180,5 +179,22 @@ public class CharginStationStepDef extends TestFXBase{
                         "CarPark Cost : false\n" +
                         "Charging Cost : false\n" +
                         "Has Tourist Attraction : true");
+    }
+
+    @When("User filter the station by the station name {string} and choose {int} hour operative and no charging cost")
+    public void userFilterTheStationByTheStationNameAndChooseHourOperativeAndNoChargingCost(String name, int arg1) {
+        clickOn("#inputStationName");
+        write(name);
+        clickOn("#is24HourCheckBox");
+        clickOn("#hasChargingCostCheckBox");
+        clickOn("#filterButton");
+
+
+    }
+
+    @Then("User has no vehicle on the table as no vehicle meet the situation.")
+    public void userHasNoVehicleOnTheTableAsNoVehicleMeetTheSituation() {
+        TableView<?> table = find("#table");
+        System.out.println(table.getItems());
     }
 }

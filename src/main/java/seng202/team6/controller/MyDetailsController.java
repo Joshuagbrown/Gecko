@@ -3,15 +3,18 @@ package seng202.team6.controller;
 import java.io.IOException;
 import java.util.List;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
+import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.VehicleDao;
@@ -60,6 +63,7 @@ public class MyDetailsController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         valid = new Validity(controller);
+
     }
 
     /**
@@ -87,7 +91,16 @@ public class MyDetailsController implements ScreenController {
 
         userVehicleTable.getItems().addAll(vehicles);
 
+
     }
+
+
+    /**
+     * This sets the selected vehicle to what vehicle has been clicked on.
+     *
+     * @param mouseClicked
+     */
+
 
     /**
      * Allows you to make changes to your details.
@@ -188,7 +201,9 @@ public class MyDetailsController implements ScreenController {
     public void editVehicleEventHandler(ActionEvent actionEvent) {
 
 
+
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
+            controller.setTextAreaInMainScreen(null);
             controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
             controller.getRegisterVehicleController().loadEditVehicle(
                     userVehicleTable.getSelectionModel().getSelectedItem());
@@ -227,5 +242,20 @@ public class MyDetailsController implements ScreenController {
                     "Please click the vehicle table to select one vehicle.");
         }
 
+    }
+    /**
+     * This sets the selected vehicle to what vehicle has been clicked on.
+     *
+     * @param mouseEvent
+     */
+
+    public void clickItem(MouseEvent mouseEvent) {
+        Vehicle selected = userVehicleTable.getSelectionModel().getSelectedItem();
+
+        if (selected != null) {
+            controller.setTextAreaInMainScreen(selected.toString());
+        } else {
+            controller.setTextAreaInMainScreen(null);
+        }
     }
 }
