@@ -88,6 +88,7 @@ public class MapToolBarController implements ScreenController {
     public CheckBox saveJourneyCheck;
     @FXML
     public Button removeRouteButton;
+    public Button removeLastStopButton;
     private MainScreenController controller;
     @FXML
     private TextField startLocation;
@@ -374,6 +375,15 @@ public class MapToolBarController implements ScreenController {
     }
 
     /**
+     * Function called after the 'Remove Last Stop' button is selected.
+     * Removes the last stop in the route.
+     * @param actionEvent
+     */
+    public void removeLastStop(ActionEvent actionEvent) {
+
+    }
+
+    /**
      * This function removes the route from the map,
      * also resets the amount of text fields back to a start and end,
      * also resets the texts fields back to empty,
@@ -447,6 +457,7 @@ public class MapToolBarController implements ScreenController {
             autofill.setDisable(false);
         }
     }
+
 
 
 }
