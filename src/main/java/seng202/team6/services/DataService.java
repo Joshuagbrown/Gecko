@@ -70,17 +70,18 @@ public class DataService {
     }
 
     /**
-     * load the vehicle data from csv file into the database.
-     * @param file the csv file that want to load the vehicle type data.
-     * @throws DatabaseException if the database error occur.
+     * load the vehicle data from the csv file into a list.
      * @throws CsvFileException if the csv file error open.
      */
-    public void loadVehicleDataFromCsv(File file) throws DatabaseException, CsvFileException {
+    public List<Vehicle> getVehicleDataFromCsv(File file) throws CsvFileException {
         VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
-        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, new ArrayList<>());
-        for (Vehicle vehicle : vehicles) {
-            vehicleDao.add(vehicle);
+        List<CsvLineException> errors = new ArrayList<>();
+        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, errors);
+        for (CsvLineException error : errors) {
+            log.error(String.format("Error loading vehicle from line %d: %s",
+                                    error.getLine(), error.getMessage()));
         }
+        return vehicles;
     }
 
     /**

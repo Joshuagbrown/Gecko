@@ -31,6 +31,7 @@ import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.models.Vehicle;
 import seng202.team6.repository.FilterBuilder;
 import seng202.team6.services.DataService;
 
@@ -128,6 +129,8 @@ public class MainScreenController {
     private RegisterVehicleController registerVehicleController;
 
     private int currentUserId;
+    private List<Vehicle> vehicles;
+
 
     /**
      * Initialize the window by loading necessary screen and
@@ -195,10 +198,10 @@ public class MainScreenController {
             journeysScreen = pair.getKey();
             saveJourneyController = (SaveJourneyController) pair.getValue();
 
-            // loadVehicleType();
+            loadVehicleType();
             mapButtonEventHandler();
 
-        } catch (IOException e) {
+        } catch (IOException | CsvFileException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
@@ -221,6 +224,10 @@ public class MainScreenController {
      */
     public RegisterVehicleController getRegisterVehicleController() {
         return registerVehicleController;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
     }
 
     /**
@@ -625,14 +632,13 @@ public class MainScreenController {
     }
 
     /**
-     * Action to load the csv file of green vehicle into the database.
-     * 
-     * @throws DatabaseException the error from database.
+     * Action to load the csv file of green vehicles.
+     *
      * @throws CsvFileException  the error from the csv file loading.
      */
-    public void loadVehicleType() throws DatabaseException, CsvFileException {
+    public void loadVehicleType() throws CsvFileException {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
-        dataService.loadVehicleDataFromCsv(csvFile);
+        vehicles = dataService.getVehicleDataFromCsv(csvFile);
     }
 
 }
