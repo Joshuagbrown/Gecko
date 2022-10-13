@@ -14,6 +14,7 @@ import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
+import org.json.simple.JSONObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -50,6 +52,8 @@ public class MapController implements ScreenController {
     private Station currentlySelected;
 
     private ArrayList<Button> autoFillButtons;
+
+    private String homeAddress = null;
 
     /**
      * Initialises the map view.
@@ -299,4 +303,78 @@ public class MapController implements ScreenController {
     public String getAddress() {
         return currentAddress;
     }
+
+
+    /**
+     * When a user has logged in or signed up, their home address it set, to be used
+     * for filtering stations.
+     * @param address the home address of the user
+     */
+    public void setHomeAddress(String address) {
+        homeAddress = address;
+        String title = "Home: " + address;
+        double lat;
+        double lon;
+        try {
+            Position pos = findLatLon(address);
+
+            lat = pos.getLatitude();
+            lon = pos.getLongitude();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        javaScriptConnector.call("fixAddressMarker", title, lat, lon);
+    }
+
+
+    /**
+     * When a user has logged out, remove the address marker from the map.
+     */
+    public void removeHomeAddress() {
+        homeAddress = null;
+        javaScriptConnector.call("removeAddressMarker");
+    }
+
+
+    /**
+     * Function to return a position representation of the currently set home address.
+     * @return the position of the home address
+     */
+    public Position getHomePosition() {
+        if (Objects.equals(homeAddress, "") || homeAddress == null) {
+            return null;
+        } else {
+            try {
+                return findLatLon(homeAddress);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Finds the corresponding latitude and longitude for the given address.
+     * and sets it to the position variable
+     *
+     * @throws IOException from geocoding
+     * @throws InterruptedException from geocoding
+     */
+    private Position findLatLon(String address) throws IOException, InterruptedException {
+
+        JSONObject positionField = controller.getMapToolBarController().geoCode(address);
+        double lat = (double) positionField.get("lat");
+        double lng = (double) positionField.get("lng");
+        return new Position(lat, lng);
+
+    }
+
+
+
 }

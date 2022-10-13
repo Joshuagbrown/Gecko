@@ -206,7 +206,7 @@ public class ChargerController {
         if (!valid.checkWattage(wattage)) {
             wattageText.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
-            currentErrors.add("Wattage must be a valid integer between 0 and 500");
+            currentErrors.add("Wattage must be a valid integer between 1 and 500");
         } else {
             wattageText.setStyle("");
         }

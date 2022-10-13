@@ -2,11 +2,9 @@ package seng202.team6.controller;
 
 import java.util.List;
 import java.util.Optional;
-import javafx.scene.control.Alert;
+
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 
@@ -97,12 +95,12 @@ public class AlertMessage {
      * @return the alert pop-up
      */
     public static Alert unsavedChanges() {
-        Alert alert = new Alert(AlertType.WARNING, """
+        ButtonType cancel = new ButtonType("OK", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType ok = new ButtonType("Cancel", ButtonBar.ButtonData.OK_DONE);
+        return new Alert(AlertType.WARNING, """
                 You currently have unsaved Changes.\s
                 Select 'OK' to return and save changes.""",
-                ButtonType.CANCEL, ButtonType.OK);
-        return alert;
-
+                cancel, ok);
     }
 
     /**
@@ -112,10 +110,21 @@ public class AlertMessage {
      */
     public static Alert noAccess() {
         ButtonType login = new ButtonType("Go to Login / Sign-up");
-        Alert alert = new Alert(AlertType.ERROR, "Unable to access this feature.\n"
+        return new Alert(AlertType.ERROR, "Unable to access this feature.\n"
                 + "Please login or sign-up", login);
-        return alert;
     }
+
+    /**
+     * Function called to create a pop-up to let the user know they need to
+     * sign in (or sign up) to use this current feature (for filtering from home).
+     * @return the alert pop-up
+     */
+    public static Alert notLoggedIn() {
+        ButtonType login = new ButtonType("Go to Login / Sign-up");
+        return new Alert(AlertType.ERROR, "Home location is not yet assigned.\n"
+                + "Please login or sign-up", login);
+    }
+
 
 
 

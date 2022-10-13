@@ -2,9 +2,8 @@ package seng202.team6.controller;
 
 import java.io.IOException;
 import java.util.List;
+import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,35 +21,21 @@ import seng202.team6.services.Validity;
 
 public class MyDetailsController implements ScreenController {
 
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField homeAddressField;
-    @FXML
-    private TextField nameField;
-    @FXML
-    private Button confirmEditButton;
-    @FXML
-    private Button editDetailsButton;
-    @FXML
-    private Button cancelEditButton;
-    @FXML
-    private Text invalidNameMyDetails;
-    @FXML
-    private Text invalidAddressMyDetails;
 
+    public TextField usernameField;
+    public TextField homeAddressField;
+    public TextField nameField;
+    public Button confirmEditButton;
+    public Button editDetailsButton;
+    public Button cancelEditButton;
     public TableView<Vehicle> userVehicleTable;
     public TableColumn<Vehicle, String> make;
     public TableColumn<Vehicle, String> plugType;
     public TableColumn<Vehicle, String> model;
     public TableColumn<Vehicle, Integer> year;
-
-    @FXML
-    private Button btnAddVehicle;
-    @FXML
-    private Button btnEditVehicle;
-    @FXML
-    private Button btnDeleteVehicle;
+    public Button btnAddVehicle;
+    public Button btnEditVehicle;
+    public Button btnDeleteVehicle;
     private MainScreenController controller;
     private String name = null;
     private String address = null;
@@ -63,7 +48,6 @@ public class MyDetailsController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         valid = new Validity(controller);
-
     }
 
     /**
@@ -91,16 +75,7 @@ public class MyDetailsController implements ScreenController {
 
         userVehicleTable.getItems().addAll(vehicles);
 
-
     }
-
-
-    /**
-     * This sets the selected vehicle to what vehicle has been clicked on.
-     *
-     * @param mouseClicked
-     */
-
 
     /**
      * Allows you to make changes to your details.
@@ -137,6 +112,7 @@ public class MyDetailsController implements ScreenController {
             invalidAddressMyDetails.setVisible(false);
             address = homeAddressField.getText();
             user.setAddress(address);
+            controller.getMapController().setHomeAddress(address);
             homeAddressField.setStyle(null);
         } else {
             homeAddressField.setText(user.getAddress());

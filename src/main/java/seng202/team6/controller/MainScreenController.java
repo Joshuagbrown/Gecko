@@ -275,7 +275,7 @@ public class MainScreenController {
     }
 
     /**
-     * Fuction to set the current user id.
+     * Function to set the current user id.
      *
      * @param currentUserId the user id to be set.
      */
@@ -317,6 +317,11 @@ public class MainScreenController {
      */
     public void setCurrentUser(User currentUser) {
         userProperty.setValue(currentUser);
+        if (currentUser == null) {
+            mapController.removeHomeAddress();
+        } else {
+            mapController.setHomeAddress(currentUser.getAddress());
+        }
     }
 
     /**
