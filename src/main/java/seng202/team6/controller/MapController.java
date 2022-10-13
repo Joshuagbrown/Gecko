@@ -5,15 +5,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
@@ -23,8 +28,6 @@ import netscape.javascript.JSObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
-import seng202.team6.repository.StationDao;
-
 
 
 /**
@@ -44,6 +47,9 @@ public class MapController implements ScreenController {
     private String currentAddress;
 
     private ObservableMap<Integer, Station> stations;
+    private Station currentlySelected;
+
+    private ArrayList<Button> autoFillButtons;
 
     /**
      * Initialises the map view.
@@ -52,22 +58,58 @@ public class MapController implements ScreenController {
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
         this.javaScriptBridge = new JavaScriptBridge(this::onStationClicked,
-                this::setClickLocation, this::setAddress, this::editStation);
+                this::setClickLocation, this::setAddress, this::editStation,
+                this::addStationToDatabase);
         initMap();
         this.stations = controller.getStations();
+
     }
 
     /**
      * Function to call the edit station pop-up.
      * @param stationId the stationId of the station
      */
-    public void editStation(String stationId) throws IOException {
-        if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
-            AlertMessage.createMessage("Unable to access this feature",
-                    "Please Log in or Sign up.");
+    public void editStation(String stationId) throws IOException, InterruptedException {
+        if (controller.getCurrentUserId() == 0) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                controller.loginButtonEventHandler(null);
+            }
+
         } else {
-            loadStationWindow(Integer.parseInt(stationId));
+            loadEditStationWindow(Integer.parseInt(stationId));
         }
+    }
+
+    /**
+     * Function to call the add station pop-up.
+     * @param address the string of the address
+     */
+    public void addStationToDatabase(String address) throws IOException, InterruptedException {
+        if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                controller.loginButtonEventHandler(null);
+            }
+        } else {
+            loadAddStationWindow(address);
+        }
+    }
+
+    /**
+     * Adds a single station to the map.
+     * @param station A station.
+     */
+    public void addStation(Station station) {
+        javaScriptConnector.call(
+                "addMarker", station.getName(), station.getCoordinates().getLatitude(),
+                station.getCoordinates().getLongitude(), station.getStationId());
     }
 
     /**
@@ -75,8 +117,11 @@ public class MapController implements ScreenController {
      * @param id the station id number
      * @throws IOException exception thrown
      */
-    public void loadStationWindow(int id) throws IOException {
+    public void loadEditStationWindow(Integer id) throws IOException,
+            InterruptedException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
+        EditStationController editStationController = new EditStationController();
+        loader.setController(editStationController);
         Parent root = loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -85,28 +130,67 @@ public class MapController implements ScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
         stage.show();
-        StationController stationController = loader.getController();
-        stationController.init(stage, controller, id);
+        editStationController.init(stage, scene, controller, id);
     }
+
+
+    /**
+     * Function to initialize and load thew station pop-up.
+     * @param address the address of the station
+     */
+    public void loadAddStationWindow(String address) throws IOException, InterruptedException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
+        AddStationController addStationController = new AddStationController();
+        loader.setController(addStationController);
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Add a New Station");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        stage.show();
+        addStationController.init(stage, scene, controller, address);
+
+    }
+
+
 
     /**
      * Function to set the current address.
      * @param address the new address to set.
      */
-    public void setAddress(String address) {
+    public void setAddress(String address) throws IOException {
+        if (address != null) {
+            if (address.length() == 0) {
+                controller.getMapToolBarController().setAutoFillButtonsOff();
+            } else {
+                controller.getMapToolBarController().setAutoFillButtonsOn();
+            }
+        }
         currentAddress = address;
+
     }
 
     /**
-     * Function that cll to display the station information when the station marker is clicked.
+     * Function that call to display the station information when the station marker is clicked.
      * @param stationId the id of the station.
      */
-    public void onStationClicked(int stationId) {
-        Station station = stations.get(stationId);
-        setClickLocation(station.getCoordinates().getLatitude(),
-                        station.getCoordinates().getLongitude());
-        setAddress(station.getAddress());
-        controller.setTextAreaInMainScreen(station.toString());
+    public void onStationClicked(Integer stationId) throws IOException {
+        if (stationId == null || stationId == 0) {
+            currentlySelected = null;
+            setAddress(null);
+            controller.setTextAreaInMainScreen("");
+            controller.changeToAddButton();
+        } else {
+            Station station = stations.get(stationId);
+            currentlySelected = station;
+            setClickLocation(station.getCoordinates().getLatitude(),
+                    station.getCoordinates().getLongitude());
+            setAddress(station.getAddress());
+            controller.setTextAreaInMainScreen(station.toString());
+            controller.changeToEditButton();
+        }
     }
 
     /**
@@ -116,6 +200,7 @@ public class MapController implements ScreenController {
      */
     public void setClickLocation(double lat, double lng) {
         position = new Position(lat, lng);
+        controller.changeToAddButton();
     }
 
     /**
@@ -124,6 +209,14 @@ public class MapController implements ScreenController {
      */
     public Position getLatLng() {
         return position;
+    }
+
+    /**
+     * Function to return the currently selected station in the map.
+     * @return the currently select station
+     */
+    public Station getCurrentlySelected() {
+        return currentlySelected;
     }
 
 
@@ -158,7 +251,7 @@ public class MapController implements ScreenController {
                             }
 
                             if (change.wasRemoved()) {
-                                removeStation(change.getValueRemoved().getObjectId());
+                                removeStation(change.getValueRemoved().getStationId());
                             }
                         });
 
@@ -189,22 +282,13 @@ public class MapController implements ScreenController {
         return javaScriptConnector;
     }
 
-    /**
-     * Adds a single station to the map.
-     * @param station A station.
-     */
-    public void addStation(Station station) {
-        javaScriptConnector.call(
-                "addMarker", station.getName(), station.getCoordinates().getLatitude(),
-                station.getCoordinates().getLongitude(), station.getObjectId());
-    }
 
     /**
      * Remove a station from the map.
-     * @param objectId the objectId of the station
+     * @param stationId the objectId of the station
      */
-    public void removeStation(int objectId) {
-        javaScriptConnector.call("removeMarker", objectId);
+    public void removeStation(int stationId) {
+        javaScriptConnector.call("removeMarker", stationId);
     }
 
 

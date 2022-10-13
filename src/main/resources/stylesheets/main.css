@@ -15,10 +15,10 @@
 }
 
 .button {
-    -fx-background-color: #93c14e;
+    -fx-background-color: #7faf59;
     -fx-background-radius: 12px;
     -fx-background-insets: 0, 1;
-    -fx-border-color: #ffffff;
+    -fx-border-color: #93c14e;
     -fx-border-width: 3 3 3 3;
     -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.4) , 5, 0 , 2, 2 );
     -fx-text-fill: #ffffff;
@@ -26,9 +26,7 @@
 }
 
 .button:hover {
-    -fx-background-color: #93c14e;
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
+    -fx-border-color: #7faf59;
 }
 
 .accordion {

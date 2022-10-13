@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class Station {
 
     private Position coordinates;
-    private int objectId;
     private String name;
     private String operator;
     private String owner;
@@ -22,12 +21,12 @@ public class Station {
     private boolean carParkCost;
     private boolean chargingCost;
     private boolean hasTouristAttraction;
+    private int stationId = -1;
 
     /**
      * The constructor of the station with related information.
      * @param coordinates the coordinate of the station.
      * @param name the name of the station.
-     * @param objectId the objectId of the station.
      * @param operator the operator of the station.
      * @param owner the owner of the station.
      * @param address the address of the station.
@@ -39,14 +38,13 @@ public class Station {
      * @param chargingCost the chargingCost of the station.
      * @param hasTouristAttraction the hasTouristAttraction of the station.
      */
-    public Station(Position coordinates, String name, int objectId, String operator, String owner,
+    public Station(Position coordinates, String name, String operator, String owner,
                    String address, int timeLimit, boolean is24Hours, List<Charger> chargers,
                    int numberOfCarparks, boolean carparkCost, boolean chargingCost,
                    boolean hasTouristAttraction) {
 
         this.coordinates = coordinates;
         this.name = name;
-        this.objectId = objectId;
         this.operator = operator;
         this.owner = owner;
         this.address = address;
@@ -57,6 +55,36 @@ public class Station {
         this.carParkCost = carparkCost;
         this.chargingCost = chargingCost;
         this.hasTouristAttraction = hasTouristAttraction;
+    }
+
+    /**
+     * New Constructor.
+     * @param coordinates the coordinate of the station.
+     * @param name the name of the station.
+     * @param operator the operator of the station.
+     * @param owner the owner of the station.
+     * @param address the address of the station.
+     * @param timeLimit the timeLimit of the station.
+     * @param is24Hours the is24Hours of the station.
+     * @param chargers the chargers of the station.
+     * @param numberOfCarparks the number of car-parks of the station.
+     * @param carparkCost the car-park Cost of the station.
+     * @param chargingCost the chargingCost of the station.
+     * @param hasTouristAttraction the hasTouristAttraction of the station.
+     * @param stationId the stations' id
+     */
+    public Station(Position coordinates, String name, String operator, String owner,
+                   String address, int timeLimit, boolean is24Hours, List<Charger> chargers,
+                   int numberOfCarparks, boolean carparkCost, boolean chargingCost,
+                   boolean hasTouristAttraction, int stationId) {
+        this(coordinates, name, operator, owner, address, timeLimit, is24Hours, chargers,
+                numberOfCarparks, carparkCost, chargingCost, hasTouristAttraction);
+        this.stationId = stationId;
+    }
+
+
+    public int getStationId() {
+        return stationId;
     }
 
     /**
@@ -73,14 +101,6 @@ public class Station {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Function call to get the object id of the station.
-     * @return the object id of the station.
-     */
-    public int getObjectId() {
-        return objectId;
     }
 
     /**
@@ -171,7 +191,6 @@ public class Station {
         return "Station Name : " + name + "\n"
                 + "Coordinate : " + coordinates.getLatitude() + ","
                 + coordinates.getLongitude() + "\n"
-                + "ObjectId : " + objectId + "\n"
                 + "Operator : " + operator + "\n"
                 + "Owner : " + owner + "\n"
                 + "Address : " + address + "\n"
@@ -298,7 +317,7 @@ public class Station {
             return false;
         }
         Station station = (Station) o;
-        return objectId == station.objectId && timeLimit == station.timeLimit
+        return timeLimit == station.timeLimit
                 && is24Hours == station.is24Hours && numberOfCarParks == station.numberOfCarParks
                 && carParkCost == station.carParkCost && chargingCost == station.chargingCost
                 && hasTouristAttraction == station.hasTouristAttraction
@@ -317,7 +336,7 @@ public class Station {
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinates, objectId, name, operator, owner, address, timeLimit,
+        return Objects.hash(coordinates, name, operator, owner, address, timeLimit,
                 is24Hours, chargers, numberOfCarParks, carParkCost, chargingCost,
                 hasTouristAttraction);
     }

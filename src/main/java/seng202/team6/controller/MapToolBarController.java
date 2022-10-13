@@ -18,7 +18,10 @@ import javafx.geometry.HPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -85,6 +88,7 @@ public class MapToolBarController implements ScreenController {
     public CheckBox saveJourneyCheck;
     @FXML
     public Button removeRouteButton;
+    public Button removeLastStopButton;
     private MainScreenController controller;
     @FXML
     private TextField startLocation;
@@ -95,6 +99,7 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<String> addressMarkerTitles = new ArrayList<>();
     private ArrayList<ArrayList<Double>> addressMarkerLatLng = new ArrayList<>();
     private ArrayList<String> addresses = new ArrayList<>();
+    private ArrayList<Button> autoFillButtons = new ArrayList<>();
     private int numAddresses = 2;
 
     /**
@@ -126,6 +131,9 @@ public class MapToolBarController implements ScreenController {
         addStopButton.setOnAction(event -> insertAddressFieldAndButton(addStopButton));
         startAutoFill.setOnAction(event -> autoFillEventHandler(startLocation));
         endAutoFill.setOnAction(event -> autoFillEventHandler(endLocation));
+
+        autoFillButtons.add(startAutoFill);
+        autoFillButtons.add(endAutoFill);
 
     }
 
@@ -320,6 +328,7 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.getChildren().remove(addStopButton);
             planTripGridPane.getChildren().remove(removeRouteButton);
             planTripGridPane.getChildren().remove(saveJourneyCheck);
+            planTripGridPane.getChildren().remove(removeLastStopButton);
 
             TextField addOneTextField = new TextField();
             addOneTextField.setFont(Font.font(13));
@@ -335,11 +344,19 @@ public class MapToolBarController implements ScreenController {
             addressMarkerLatLng.add(current);
             addressMarkerTitles.add(null);
 
-            Button autoFillButton = new Button("Auto-Fill");
-            // autoFillButton.setFont(Font.font(15));
+            Button autoFillButton = new Button("Auto-fill from");
+            autoFillButton.setContentDisplay(ContentDisplay.RIGHT);
+            Image image = new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream("/images/marker-icon-2x-red.png")));
+            ImageView imageview = new ImageView(image);
+            imageview.setFitHeight(addStopButton.getHeight());
+            imageview.setPreserveRatio(true);
+            autoFillButton.setGraphic(imageview);
+            autoFillButton.setFont(Font.font(15));
             GridPane.setHalignment(autoFillButton, HPos.RIGHT);
             autoFillButton.setVisible(true);
             autoFillButton.setOnAction(e -> autoFillEventHandler(addOneTextField));
+            autoFillButtons.add(autoFillButton);
 
             RowConstraints firstRow = new RowConstraints();
             firstRow.fillHeightProperty();
@@ -361,11 +378,42 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.add(addOneTextField, 0, row + 1);
             planTripGridPane.add(autoFillButton, 0, row);
             planTripGridPane.add(endLabel, 0, row);
-            planTripGridPane.add(findRouteButton, 0, row + 3);
-            planTripGridPane.add(addStopButton, 0, row + 2);
-            planTripGridPane.add(saveJourneyCheck, 0, row + 2);
-            planTripGridPane.add(removeRouteButton, 0, row + 3);
+            planTripGridPane.add(findRouteButton, 0,row + 4);
+            planTripGridPane.add(addStopButton, 0,row + 2);
+            planTripGridPane.add(saveJourneyCheck, 0, row + 3);
+            planTripGridPane.add(removeRouteButton, 0, row + 4);
+            planTripGridPane.add(removeLastStopButton, 0, row + 2);
         }
+    }
+
+    /**
+     * Function called after the 'Remove Last Stop' button is selected.
+     * Removes the last stop in the route.
+     * @param actionEvent when the 'Remove Last Stop' button is selected
+     */
+    public void removeLastStop(ActionEvent actionEvent) {
+        //to be done
+        ArrayList<String> currentAddresses = new ArrayList<String>();
+        for (TextField text : arrayOfTextFields) {
+            currentAddresses.add(text.getText());
+        }
+        deleteRoute();
+
+        int max = currentAddresses.size() - 1;
+        int index = 0;
+
+        while (index < max) {
+            if (index < 2) {
+                arrayOfTextFields.get(index).setText(currentAddresses.get(index));
+            } else {
+                Button lastButton = addAddressButton.get(addAddressButton.size() - 1);
+                insertAddressFieldAndButton(lastButton);
+                arrayOfTextFields.get(arrayOfTextFields.size() - 1).setText(currentAddresses
+                        .get(index));
+            }
+            index++;
+        }
+        //findRoute(null);
     }
 
     /**
@@ -391,10 +439,11 @@ public class MapToolBarController implements ScreenController {
         planTripGridPane.add(endAutoFill, 0, 2);
         planTripGridPane.add(endLabel, 0, 2);
         planTripGridPane.add(endLocation, 0, 3);
-        planTripGridPane.add(saveJourneyCheck, 0, 4);
-        planTripGridPane.add(addStopButton, 0, 4);
-        planTripGridPane.add(findRouteButton, 0, 5);
-        planTripGridPane.add(removeRouteButton, 0, 5);
+        planTripGridPane.add(addStopButton, 0,4);
+        planTripGridPane.add(removeLastStopButton, 0, 4);
+        planTripGridPane.add(saveJourneyCheck, 0, 5);
+        planTripGridPane.add(findRouteButton, 0,6);
+        planTripGridPane.add(removeRouteButton, 0, 6);
 
         while (arrayOfTextFields.size() > 2) {
             arrayOfTextFields.remove(2);
@@ -407,6 +456,11 @@ public class MapToolBarController implements ScreenController {
             textField.setText("");
         }
         saveJourneyCheck.setSelected(false);
+
+        while (autoFillButtons.size() > 2) {
+            int size = autoFillButtons.size();
+            autoFillButtons.remove(size - 1);
+        }
     }
 
     /**
@@ -418,4 +472,27 @@ public class MapToolBarController implements ScreenController {
     public void removeRoute(ActionEvent actionEvent) {
         deleteRoute();
     }
+
+
+    /**
+     * Sets all auto-fill buttons to disabled, so user is unable to autofill until address it
+     * fetched.
+     */
+    public void setAutoFillButtonsOff() {
+        for (Button autofill : autoFillButtons) {
+            autofill.setDisable(true);
+        }
+    }
+
+    /**
+     * Sets all auto-fill buttons to enabled, so user is able to autofill.
+     */
+    public void setAutoFillButtonsOn() {
+        for (Button autofill : autoFillButtons) {
+            autofill.setDisable(false);
+        }
+    }
+
+
+
 }

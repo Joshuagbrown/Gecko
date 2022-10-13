@@ -14,6 +14,8 @@ public class JavaScriptBridge {
     private GetAddressInterface getAddressInterface;
     private EditStationInterface editStationInterface;
 
+    private AddStationInterface addStationInterface;
+
     /**
      * Constructor for the javascript bridge.
      *
@@ -32,18 +34,20 @@ public class JavaScriptBridge {
      */
     public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface
             getLocationLambda, GetAddressInterface getAddressLambda,
-                            EditStationInterface editStationLambda) {
+                            EditStationInterface editStationLambda,
+                            AddStationInterface addStationLambda) {
         getStationInterface = getStationLambda;
         getLocationInterface = getLocationLambda;
         getAddressInterface = getAddressLambda;
         editStationInterface = editStationLambda;
+        addStationInterface = addStationLambda;
     }
 
     /**
      * Function to get initiate the edit station pop-up.
      * @param id the stationID of the station
      */
-    public void editStation(String id) throws IOException {
+    public void editStation(String id) throws IOException, InterruptedException {
         editStationInterface.operation(id);
     }
 
@@ -51,7 +55,7 @@ public class JavaScriptBridge {
      * function to get location from the station id.
      * @param id the station id.
      */
-    public void getStationFromClick(int id) {
+    public void getStationFromClick(int id) throws IOException {
         getStationInterface.operation(id);
     }
 
@@ -68,8 +72,18 @@ public class JavaScriptBridge {
      * function to get the location form address.
      * @param address the address.
      */
-    public void setAddress(String address) {
+    public void setAddress(String address) throws IOException {
         getAddressInterface.operation(address);
+    }
+
+    /**
+     * Function to add a new station from marker.
+     * @param address the address of marker
+     * @throws IOException error from pop-up
+     * @throws InterruptedException error from pop-up
+     */
+    public void addStation(String address) throws IOException, InterruptedException {
+        addStationInterface.operation(address);
     }
 }
 
