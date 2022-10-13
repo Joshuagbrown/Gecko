@@ -86,19 +86,12 @@ public class UserStepDef extends TestFXBase {
     }
 
     @When("User register vehicle with make {string}, year {string},model {string}, charger type {string}")
-    public void userRegisterVehicleWithMakeYearModelChargerType(String make, String model, String year, String arg3) throws DatabaseException {
+    public void userRegisterVehicleWithMakeYearModelChargerType(String make, String model, String year, String chargerType) throws DatabaseException {
 
         clickOn("#loginPageBtn");
         clickOn("#registerVehicleButton");
         clickOn("#inputVehicleMake");
-        press(KeyCode.DOWN);
-
-        press(KeyCode.DOWN);press(KeyCode.DOWN);
-        press(KeyCode.DOWN);
-        press(KeyCode.DOWN);
-
-
-        release(KeyCode.DOWN);
+        moveBy(10,20);
         clickOn();
 
         clickOn();clickOn();
@@ -118,9 +111,10 @@ public class UserStepDef extends TestFXBase {
         clickOn("#inputTextOfModel");
         write(model);
         clickOn("#inputChargerType");
-        press(KeyCode.DOWN);
-        release(KeyCode.DOWN);
-        clickOn();
+        moveBy(10,20);
+        clickOn("#inputTextOfChargerType");
+        write(chargerType);
+
         clickOn("#submitVehicleButton");
 
 
@@ -131,6 +125,8 @@ public class UserStepDef extends TestFXBase {
 
     @Then("User has the vehicle in the its acctount with make {string}, year {string},Model {string}, charger type {string}")
     public void userHasTheVehicleInTheItsAcctountWithMakeYearModelChargerType(String arg0, String arg1, String arg2, String arg3) {
+
+
 
 
     }

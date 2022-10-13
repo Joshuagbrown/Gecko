@@ -7,7 +7,7 @@
 
 <!--TODO place in correct controller-->
 
-<BorderPane prefHeight="348.0" prefWidth="258.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
+<BorderPane prefHeight="358.0" prefWidth="422.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
     <center>
           <GridPane prefHeight="352.0" prefWidth="321.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -32,7 +32,7 @@
                       </font>
             </Text>
 
-                  <Button fx:id="submitVehicleButton" alignment="CENTER" mnemonicParsing="false" onAction="#submitVehicle" prefHeight="29.0" prefWidth="79.0" text="Add new" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                  <Button fx:id="submitVehicleButton" alignment="CENTER" mnemonicParsing="false" onAction="#submitVehicle" prefHeight="35.0" prefWidth="96.0" text="Add new" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                       <font>
                           <Font size="15.0" />
                       </font>
@@ -42,7 +42,7 @@
                           <Font size="15.0" />
                       </font>
             </Text>
-                  <Button mnemonicParsing="false" onAction="#clearVehicleSelect" text="Clear Selection" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                  <Button mnemonicParsing="false" onAction="#clearVehicleSelect" prefHeight="37.0" prefWidth="167.0" text="Clear Selection" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                       <font>
                           <Font size="15.0" />
                       </font>
@@ -64,8 +64,9 @@
             <TextField fx:id="inputTextOfYear" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="inputTextOfModel" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="inputTextOfChargerType" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Button fx:id="btnConfirmEdit" disable="true" mnemonicParsing="false" onAction="#updateEditVehicle" prefHeight="29.0" prefWidth="79.0" text="Confirm Edit" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <Button fx:id="btnConfirmEdit" disable="true" mnemonicParsing="false" onAction="#updateEditVehicle" prefHeight="35.0" prefWidth="98.0" text="Confirm Edit" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
             <ComboBox fx:id="inputChargerType" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="7" />
+            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="35.0" text="Quit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
               </children>
           </GridPane>
     </center>

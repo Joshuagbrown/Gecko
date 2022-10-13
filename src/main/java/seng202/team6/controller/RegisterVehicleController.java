@@ -26,6 +26,7 @@ public class RegisterVehicleController implements ScreenController {
     public TextField inputTextOfModel;
     public TextField inputTextOfChargerType;
     public Button btnConfirmEdit;
+    public Button quitButton;
     private MainScreenController controller;
 
 
@@ -323,5 +324,11 @@ public class RegisterVehicleController implements ScreenController {
 
     public void setEditVehicle(Vehicle editVehicle) {
         this.editVehicle = editVehicle;
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        Stage stage = (Stage) quitButton.getScene().getWindow();
+        stage.close();
+
     }
 }
