@@ -161,10 +161,12 @@ public class MapController implements ScreenController {
      * @param address the new address to set.
      */
     public void setAddress(String address) throws IOException {
-        if (address.length() == 0) {
-            controller.getMapToolBarController().setAutoFillButtonsOff();
-        } else {
-            controller.getMapToolBarController().setAutoFillButtonsOn();
+        if (address != null) {
+            if (address.length() == 0) {
+                controller.getMapToolBarController().setAutoFillButtonsOff();
+            } else {
+                controller.getMapToolBarController().setAutoFillButtonsOn();
+            }
         }
         currentAddress = address;
 
@@ -175,8 +177,6 @@ public class MapController implements ScreenController {
      * @param stationId the id of the station.
      */
     public void onStationClicked(Integer stationId) throws IOException {
-        System.out.println("Gets here");
-        System.out.println(stationId);
         if (stationId == null || stationId == 0) {
             currentlySelected = null;
             setAddress(null);
