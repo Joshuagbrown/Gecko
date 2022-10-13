@@ -105,6 +105,7 @@ public class MyDetailsController implements ScreenController {
         if (valid.checkAddress(homeAddressField.getText())) {
             address = homeAddressField.getText();
             user.setAddress(address);
+            controller.getMapController().setHomeAddress(address);
         } else {
             homeAddressField.setText("Invalid Address");
         }
