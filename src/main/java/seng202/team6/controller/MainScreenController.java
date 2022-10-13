@@ -436,7 +436,6 @@ public class MainScreenController {
      */
     public void mapButtonEventHandler(ActionEvent actionEvent) {
 
-        mapButton.setStyle("-fx-border-color: #93c14e");
         textAreaInMainScreen.setText("");
         mainBorderPane.setCenter(mapScreen);
         toolBarPane.setCenter(mapToolBarScreen);

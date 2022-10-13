@@ -332,11 +332,13 @@ public class MapToolBarController implements ScreenController {
             addressMarkerLatLng.add(current);
             addressMarkerTitles.add(null);
 
-            Button autoFillButton = new Button("Auto-Fill");
+            Button autoFillButton = new Button("Auto-fill from");
             autoFillButton.setContentDisplay(ContentDisplay.RIGHT);
             Image image = new Image(Objects.requireNonNull(getClass()
-                    .getResourceAsStream("../resources/images/marker-icon-2x-red.png")));
+                    .getResourceAsStream("/images/marker-icon-2x-red.png")));
             ImageView imageview = new ImageView(image);
+            imageview.setFitHeight(addStopButton.getHeight());
+            imageview.setPreserveRatio(true);
             autoFillButton.setGraphic(imageview);
             autoFillButton.setFont(Font.font(15));
             GridPane.setHalignment(autoFillButton, HPos.RIGHT);
