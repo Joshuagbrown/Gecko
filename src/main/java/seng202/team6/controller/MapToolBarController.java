@@ -392,7 +392,6 @@ public class MapToolBarController implements ScreenController {
         int max = currentAddresses.size() - 1;
         int index = 0;
 
-
         while (index < max) {
             if (index < 2) {
                 arrayOfTextFields.get(index).setText(currentAddresses.get(index));
@@ -404,9 +403,7 @@ public class MapToolBarController implements ScreenController {
             }
             index++;
         }
-        findRoute(null);
-
-
+        //findRoute(null);
     }
 
     /**
