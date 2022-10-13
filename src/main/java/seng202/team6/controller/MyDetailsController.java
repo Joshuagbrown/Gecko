@@ -36,6 +36,8 @@ public class MyDetailsController implements ScreenController {
     public Button btnAddVehicle;
     public Button btnEditVehicle;
     public Button btnDeleteVehicle;
+    public Text invalidNameMyDetails;
+    public Text invalidAddressMyDetails;
     private MainScreenController controller;
     private String name = null;
     private String address = null;
