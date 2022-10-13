@@ -25,6 +25,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -36,6 +38,7 @@ import seng202.team6.models.Station;
  * @author Tara Lipscombe and Lucas Redding
  */
 public class MapController implements ScreenController {
+    private Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
     private JavaScriptBridge javaScriptBridge;
     @FXML
@@ -69,7 +72,7 @@ public class MapController implements ScreenController {
      * Function to call the edit station pop-up.
      * @param stationId the stationId of the station
      */
-    public void editStation(String stationId) throws IOException, InterruptedException {
+    public void editStation(String stationId) {
         if (controller.getCurrentUserId() == 0) {
             Alert alert = AlertMessage.noAccess();
             ButtonType button = alert.getButtonTypes().get(0);
@@ -88,7 +91,7 @@ public class MapController implements ScreenController {
      * Function to call the add station pop-up.
      * @param address the string of the address
      */
-    public void addStationToDatabase(String address) throws IOException, InterruptedException {
+    public void addStationToDatabase(String address) {
         if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
             Alert alert = AlertMessage.noAccess();
             ButtonType button = alert.getButtonTypes().get(0);
@@ -115,22 +118,25 @@ public class MapController implements ScreenController {
     /**
      * Function to initialize and load the station pop-up.
      * @param id the station id number
-     * @throws IOException exception thrown
      */
-    public void loadEditStationWindow(Integer id) throws IOException,
-            InterruptedException {
+    public void loadEditStationWindow(Integer id) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         EditStationController editStationController = new EditStationController();
         loader.setController(editStationController);
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Current Station");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.DECORATED);
-        stage.show();
-        editStationController.init(stage, scene, controller, id);
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Current Station");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            editStationController.init(stage, scene, controller, id);
+        } catch (IOException e) {
+            AlertMessage.createMessage("Error", "There was an error loading the edit station window. See the logs for more detail.");
+            log.error("Error loading edit station window", e);
+        }
     }
 
 
@@ -138,20 +144,25 @@ public class MapController implements ScreenController {
      * Function to initialize and load thew station pop-up.
      * @param address the address of the station
      */
-    public void loadAddStationWindow(String address) throws IOException, InterruptedException {
+    public void loadAddStationWindow(String address) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         AddStationController addStationController = new AddStationController();
         loader.setController(addStationController);
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Add a New Station");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.DECORATED);
-        stage.show();
-        addStationController.init(stage, scene, controller, address);
-
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Add a New Station");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            addStationController.init(stage, scene, controller, address);
+        } catch (IOException e) {
+            AlertMessage.createMessage("Error", "There was an error loading the add station window. " +
+                                                "See the log for more details");
+            log.error("Error loading add station window", e);
+        }
     }
 
 
@@ -160,7 +171,7 @@ public class MapController implements ScreenController {
      * Function to set the current address.
      * @param address the new address to set.
      */
-    public void setAddress(String address) throws IOException {
+    public void setAddress(String address) {
         if (address != null) {
             if (address.length() == 0) {
                 controller.getMapToolBarController().setAutoFillButtonsOff();
@@ -176,7 +187,7 @@ public class MapController implements ScreenController {
      * Function that call to display the station information when the station marker is clicked.
      * @param stationId the id of the station.
      */
-    public void onStationClicked(Integer stationId) throws IOException {
+    public void onStationClicked(Integer stationId) {
         if (stationId == null || stationId == 0) {
             currentlySelected = null;
             setAddress(null);

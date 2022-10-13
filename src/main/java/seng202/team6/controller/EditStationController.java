@@ -83,12 +83,11 @@ public class EditStationController implements StationController {
      * @param controller the mainscreen controller.
      * @param id The stationId of the station.
      */
-    public void init(Stage stage, Scene scene, MainScreenController controller, Integer id)
-            throws IOException, InterruptedException {
+    public void init(Stage stage, Scene scene, MainScreenController controller, Integer id) {
 
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
-            Boolean saved = checkChanges();
+            boolean saved = checkChanges();
             if (!saved) {
                 e.consume();
             }

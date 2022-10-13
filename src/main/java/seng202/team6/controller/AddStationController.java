@@ -17,6 +17,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
@@ -31,7 +33,7 @@ import seng202.team6.services.Validity;
  * Author: Tara Lipscombe
  */
 public class AddStationController implements StationController {
-
+    private Logger log = LogManager.getLogger();
     @FXML
     private Text stationTitle;
     @FXML
@@ -92,8 +94,7 @@ public class AddStationController implements StationController {
      * @param stage      the stage for the pop-up.
      * @param controller the mainscreen controller.
      */
-    public void init(Stage stage, Scene scene, MainScreenController controller, String address)
-            throws IOException, InterruptedException {
+    public void init(Stage stage, Scene scene, MainScreenController controller, String address) {
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
             AlertMessage.createMessage("No station was created.", "To save a station you "
@@ -128,13 +129,11 @@ public class AddStationController implements StationController {
      * @throws IOException from geocoding
      * @throws InterruptedException from geocoding
      */
-    private void findLatLon() throws IOException, InterruptedException {
-
-        JSONObject positionField = controller.getMapToolBarController().geoCode(address);
-        double lat = (double) positionField.get("lat");
-        double lng = (double) positionField.get("lng");
-        pos = new Position(lat, lng);
-
+    private void findLatLon() {
+            JSONObject positionField = controller.getMapToolBarController().geoCode(address);
+            double lat = (double) positionField.get("lat");
+            double lng = (double) positionField.get("lng");
+            pos = new Position(lat, lng);
     }
 
 
