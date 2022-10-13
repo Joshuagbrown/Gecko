@@ -9,6 +9,7 @@ public class App {
 
     /**
      * Entry point which runs the javaFX application.
+     * 
      * @param args program arguments from command line.
      */
     public static void main(String[] args) {

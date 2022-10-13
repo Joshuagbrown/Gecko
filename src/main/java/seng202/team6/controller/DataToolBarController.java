@@ -7,6 +7,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Position;
 import seng202.team6.repository.FilterBuilder;
 
@@ -43,7 +44,7 @@ public class DataToolBarController implements ScreenController {
      * and with that string applies the filters to the map and data table.
      * @param actionEvent When filter station button is clicked.
      */
-    public void filterStation(ActionEvent actionEvent) {
+    public void filterStation(ActionEvent actionEvent) throws DatabaseException {
         FilterBuilder builder = new FilterBuilder();
 
         if (!inputStationName.getText().isBlank()) {
@@ -81,14 +82,15 @@ public class DataToolBarController implements ScreenController {
             builder.addHasTouristAttractionFilter();
         }
 
-        controller.updateStationsFromDatabase(builder);
+        controller.setFilterBuilder(builder);
+        controller.updateStationsFromDatabase();
     }
 
     /**
      * This function resets the values of the filters.
      * @param actionEvent When reset button is clicked.
      */
-    public void resetFilter(ActionEvent actionEvent) {
+    public void resetFilter(ActionEvent actionEvent) throws DatabaseException {
         distanceSliderOfFilter.setValue(0);
         timeLimitInFilter.setValue(0);
         is24HourCheckBox.setSelected(false);

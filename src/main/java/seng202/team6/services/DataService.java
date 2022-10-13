@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.WritableObjectValue;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -58,26 +60,28 @@ public class DataService {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         List<CsvLineException> errors = new ArrayList<>();
         List<Station> stations = stationCsvImporter.readFromFile(file, errors);
-        int i = 0;
-        for (Station station : stations) {
-            dao.add(station);
-            value.set(new Pair<>(++i, stations.size()));
-        }
+
+        IntegerProperty integerProperty = new SimpleIntegerProperty();
+        integerProperty.addListener((observable, oldValue, newValue) ->
+                value.setValue(new Pair<>(newValue.intValue(), stations.size())));
+
+        dao.addAll(stations, integerProperty);
         return errors;
     }
 
     /**
-     * load the vehicle data from csv file into the database.
-     * @param file the csv file that want to load the vehicle type data.
-     * @throws DatabaseException if the database error occur.
+     * load the vehicle data from the csv file into a list.
      * @throws CsvFileException if the csv file error open.
      */
-    public void loadVehicleDataFromCsv(File file) throws DatabaseException, CsvFileException {
+    public List<Vehicle> getVehicleDataFromCsv(File file) throws CsvFileException {
         VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
-        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, new ArrayList<>());
-        for (Vehicle vehicle : vehicles) {
-            vehicleDao.add(vehicle);
+        List<CsvLineException> errors = new ArrayList<>();
+        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, errors);
+        for (CsvLineException error : errors) {
+            log.error(String.format("Error loading vehicle from line %d: %s",
+                                    error.getLine(), error.getMessage()));
         }
+        return vehicles;
     }
 
     /**
@@ -106,16 +110,9 @@ public class DataService {
     }
 
     /**
-     * Fetch all data from the database.
-     */
-    public Map<Integer, Station> fetchData() {
-        return dao.getAll();
-    }
-
-    /**
      * Fetch data from the database filtered by the FilterBuilder.
      */
-    public Map<Integer, Station> fetchData(FilterBuilder builder) {
+    public Map<Integer, Station> fetchData(FilterBuilder builder) throws DatabaseException {
         return dao.getFromFilterBuilder(builder);
     }
 
@@ -154,16 +151,10 @@ public class DataService {
      * Deletes a journey from the database.
      * @param journey the journey to delete
      */
-    public void deleteJourney(Journey journey) throws DatabaseException {
+    public void deleteJourney(Journey journey) {
         journeyDao.delete(journey.getJourneyId());
     }
 
-    /** Get a station from the database by id.
-     * @param id the id
-     */
-    public Station getStation(int id) {
-        return dao.getOne(id);
-    }
 
     /**
      * Get the station DAO.

@@ -62,7 +62,11 @@ public class Validity {
      * @param address the address to check
      */
     public boolean checkAddress(String address) throws IOException, InterruptedException {
-        return controller.getMapToolBarController().geoCode(address) != null;
+        if (address.length() == 0) {
+            return false;
+        } else {
+            return controller.getMapToolBarController().geoCode(address) != null;
+        }
     }
 
     /**

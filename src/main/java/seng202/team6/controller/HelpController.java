@@ -1,9 +1,14 @@
 package seng202.team6.controller;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -40,8 +45,8 @@ public class HelpController implements ScreenController {
         webEngine = helpPage.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml(file));
-        webEngine.setUserStyleSheetLocation(getClass().getResource(
-                "/stylesheets/htmlMain.css/").toString());
+        String uri = getClass().getResource("/stylesheets/htmlMain.css").toExternalForm();
+        webEngine.setUserStyleSheetLocation(uri);
     }
 
     /**

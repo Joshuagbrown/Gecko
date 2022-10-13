@@ -95,14 +95,10 @@ public class SaveJourneyController implements ScreenController {
     public void deleteJourney(ActionEvent actionEvent) {
         if (selectedJourney != null
                 && journeyTable.getSelectionModel().isSelected(selectedJourneyIndex)) {
-            try {
-                controller.getDataService().deleteJourney(selectedJourney);
-                journeyTable.getItems().remove(selectedJourneyIndex);
-                selectedJourney = null;
-                selectedJourneyIndex = -1;
-            } catch (DatabaseException e) {
-                log.error("Error removing journey from database",e);
-            }
+            controller.getDataService().deleteJourney(selectedJourney);
+            journeyTable.getItems().remove(selectedJourneyIndex);
+            selectedJourney = null;
+            selectedJourneyIndex = -1;
         } else {
             AlertMessage.createMessage("No Journey Selected",
                     "Please select a journey and try again");

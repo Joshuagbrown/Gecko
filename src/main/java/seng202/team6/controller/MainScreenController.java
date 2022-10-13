@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -15,7 +16,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
@@ -27,17 +30,18 @@ import javafx.stage.StageStyle;
 import javafx.util.Pair;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
-import seng202.team6.exceptions.CsvLineException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Station;
 import seng202.team6.models.User;
+import seng202.team6.models.Vehicle;
 import seng202.team6.repository.FilterBuilder;
 import seng202.team6.services.DataService;
 
 /**
  * Controller of the main screen fxml.
- * @author  Phyu Wai Lwin.
+ * 
+ * @author Phyu Wai Lwin.
  */
 public class MainScreenController {
 
@@ -62,7 +66,8 @@ public class MainScreenController {
     @FXML
     public Text geckoTitle;
     public Button loginPageBtn;
-    public Button dataPageBtn;
+    public Button stationButton;
+    public Button mapButton;
     private Stage stage;
     private DataService dataService;
     /**
@@ -107,7 +112,8 @@ public class MainScreenController {
      */
     private Parent myDetailsToolBarScreen;
     /**
-     * parent class for the saved journeys screen to display the saved journeys page.
+     * parent class for the saved journeys screen to display the saved journeys
+     * page.
      */
     private Parent journeysScreen;
     private MapController mapController;
@@ -123,30 +129,41 @@ public class MainScreenController {
 
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
-    private User currentUser = null;
+    private SimpleObjectProperty<User> userProperty = new SimpleObjectProperty<>(null);
     private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
 
     private int currentUserId;
+    private List<Vehicle> vehicles;
+    private FilterBuilder filterBuilder = new FilterBuilder();
+
 
     /**
      * Initialize the window by loading necessary screen and
      * initialize the parent of different screen.
      *
-     * @param stage Top level container for this window.
+     * @param stage       Top level container for this window.
      * @param dataService Service class to handle accessing and storing the necessary information.
-     *
      */
     public void init(Stage stage, DataService dataService) {
         Pair<Parent, ScreenController> pair;
         LoadScreen screen = new LoadScreen();
 
+        userProperty.addListener((observableValue, oldValue, newValue) -> {
+            if (newValue == null) {
+                loginPageBtn.setText("Login");
+            } else {
+                loginPageBtn.setText("My Details");
+            }
+        });
+
         this.stage = stage;
         this.dataService = dataService;
-        updateStationsFromDatabase();
-        updateJourneysFromDatabase();
 
         try {
+            updateStationsFromDatabase();
+            updateJourneysFromDatabase();
+
             pair = screen.loadBigScreen(stage, "/fxml/Help.fxml", this);
             helpScreen = pair.getKey();
             helpController = (HelpController) pair.getValue();
@@ -190,14 +207,17 @@ public class MainScreenController {
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
 
+            //loadVehicleType();
             pair = screen.loadBigScreen(stage, "/fxml/SaveJourney.fxml", this);
             journeysScreen = pair.getKey();
             saveJourneyController = (SaveJourneyController) pair.getValue();
 
-            // loadVehicleType();
+            loadVehicleType();
             mapButtonEventHandler();
 
-        } catch (IOException e) {
+        } catch (IOException | CsvFileException e) {
+            throw new RuntimeException(e);
+        } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
@@ -206,6 +226,7 @@ public class MainScreenController {
 
     /**
      * Function to get my detail controller of the app.
+     *
      * @return my detail controller.
      */
     public MyDetailsController getMyDetailController() {
@@ -214,10 +235,15 @@ public class MainScreenController {
 
     /**
      * Function to get register vehicle controller of the app.
+     *
      * @return register vehicle controller.
      */
     public RegisterVehicleController getRegisterVehicleController() {
         return registerVehicleController;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
     }
 
     /**
@@ -241,6 +267,7 @@ public class MainScreenController {
 
     /**
      * Function to get the current user id.
+     *
      * @return current user id.
      */
     public int getCurrentUserId() {
@@ -249,6 +276,7 @@ public class MainScreenController {
 
     /**
      * Fuction to set the current user id.
+     *
      * @param currentUserId the user id to be set.
      */
     public void setCurrentUserId(int currentUserId) {
@@ -257,6 +285,7 @@ public class MainScreenController {
 
     /**
      * Function to get the stations.
+     *
      * @return An observable map of stations.
      */
     public ObservableMap<Integer, Station> getStations() {
@@ -265,6 +294,7 @@ public class MainScreenController {
 
     /**
      * Function to get the journeys.
+     * 
      * @return An observable map of journeys.
      */
     public ObservableMap<Integer, Journey> getJourneys() {
@@ -273,35 +303,27 @@ public class MainScreenController {
 
     /**
      * Function that returns the current user.
+     *
      * @return currentUser the current user.
      */
     public User getCurrentUser() {
-        return currentUser;
+        return userProperty.getValue();
     }
 
     /**
      * Function to set the current user.
+     *
      * @param currentUser the current user.
      */
     public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+        userProperty.setValue(currentUser);
     }
 
     /**
-     * Function to update the stations.
-     * @param builder The filter builder to use
+     * Function to update the stations using the current filterBuilder.
      */
-    public void updateStationsFromDatabase(FilterBuilder builder) {
-        Map<Integer, Station> stationMap = dataService.fetchData(builder);
-        getStations().clear();
-        getStations().putAll(stationMap);
-    }
-
-    /**
-     * Function to update the stations.
-     */
-    public void updateStationsFromDatabase() {
-        Map<Integer, Station> stationMap = dataService.fetchData();
+    public void updateStationsFromDatabase() throws DatabaseException {
+        Map<Integer, Station> stationMap = dataService.fetchData(filterBuilder);
         getStations().clear();
         getStations().putAll(stationMap);
     }
@@ -311,15 +333,16 @@ public class MainScreenController {
      */
     public void updateJourneysFromDatabase() {
         getJourneys().clear();
-        if (currentUser != null) {
+        if (getCurrentUser() != null) {
             Map<Integer, Journey> journeyMap = dataService.fetchJourneyData(
-                    currentUser.getUsername());
+                    getCurrentUser().getUsername());
             getJourneys().putAll(journeyMap);
         }
     }
 
     /**
      * Function to return the loginPage button.
+     *
      * @return the login page button.
      */
     public Button getLoginPageBtn() {
@@ -327,21 +350,8 @@ public class MainScreenController {
     }
 
     /**
-     * Changing the text of the button.
-     */
-    public void setLoginBtnText() {
-        this.loginPageBtn.setText("My Details");
-    }
-
-    /**
-     * Changing the text of the button.
-     */
-    public void setLoginBtnTextBack() {
-        this.loginPageBtn.setText("Login");
-    }
-
-    /**
      * Function to return the map controller.
+     *
      * @return mapController.
      */
     public MapController getMapController() {
@@ -350,6 +360,7 @@ public class MainScreenController {
 
     /**
      * getter that returns the myDetailsScreen.
+     * 
      * @return myDetailsScreen.
      */
     public Parent getMyDetailsScreen() {
@@ -358,6 +369,7 @@ public class MainScreenController {
 
     /**
      * Function to return the map toolbar controller.
+     *
      * @return map toolbar controller.
      */
     public MapToolBarController getMapToolBarController() {
@@ -366,6 +378,7 @@ public class MainScreenController {
 
     /**
      * Function to return the stage.
+     *
      * @return stage of main screen controller.
      */
     public Stage getStage() {
@@ -374,6 +387,7 @@ public class MainScreenController {
 
     /**
      * Function to return the data service.
+     *
      * @return data service. of main screen controller.
      */
     public DataService getDataService() {
@@ -382,6 +396,7 @@ public class MainScreenController {
 
     /**
      * Function to return the help controller.
+     *
      * @return help controller.
      */
     public HelpController getHelpController() {
@@ -390,6 +405,7 @@ public class MainScreenController {
 
     /**
      * Function to return the data controller.
+     *
      * @return data controller.
      */
     public DataController getDataController() {
@@ -398,6 +414,7 @@ public class MainScreenController {
 
     /**
      * Function to return the login controller.
+     *
      * @return loginController the login controller.
      */
     public LoginController getLoginController() {
@@ -406,6 +423,8 @@ public class MainScreenController {
 
     /**
      * Function to return the 'My Details' controller.
+     * 
+     *
      * @return myDetailsController the 'my details' controller.
      */
     public MyDetailsController getMyDetailsController() {
@@ -424,6 +443,7 @@ public class MainScreenController {
         toolBarPane.setCenter(mapToolBarScreen);
         mainBorderPane.setRight(null);
         mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
+        changeToAddButton();
     }
 
     /**
@@ -446,6 +466,7 @@ public class MainScreenController {
 
     /**
      * Pick random fun fact and loads it into the text area.
+     *
      * @param file the Fun fact text file
      */
     public void loadGeckoFact(InputStream file) {
@@ -473,10 +494,12 @@ public class MainScreenController {
 
     /**
      * The action handler that linked to the Login button on main screen.
+     * 
+     *
      * @param actionEvent when Login button is clicked
      */
     public void loginButtonEventHandler(ActionEvent actionEvent) {
-        if (currentUser == null) {
+        if (getCurrentUser() == null) {
             mainBorderPane.setCenter(loginScreen);
             toolBarPane.setCenter(loginToolBarScreen);
             mainBorderPane.setRight(null);
@@ -500,10 +523,12 @@ public class MainScreenController {
     public void loadMyDetailsViewAndToolBars() {
         mainBorderPane.setCenter(myDetailsScreen);
         toolBarPane.setCenter(myDetailsToolBarScreen);
+        changeToAddButton();
     }
 
     /**
      * Function to call when logging in a user.
+     *
      * @param user The user to login
      */
     public void loginUser(User user) {
@@ -511,17 +536,19 @@ public class MainScreenController {
         loadMyDetailsViewAndToolBars();
         getMyDetailsController().loadUserData();
         mapButtonEventHandler();
-        setLoginBtnText();
+        changeToAddButton();
     }
 
     /**
      * The action handler that linked to the map button on main screen.
+     *
      * @param actionEvent Top level container for this window.
      */
     public void loadDataViewAndToolBars(ActionEvent actionEvent) {
 
         mainBorderPane.setCenter(dataScreen);
         toolBarPane.setCenter(dataToolBarScreen);
+        changeToAddButton();
     }
 
     /**
@@ -536,6 +563,7 @@ public class MainScreenController {
 
     /**
      * Display string information on the text area.
+     *
      * @param info the string information.
      */
     public void setTextAreaInMainScreen(String info) {
@@ -545,7 +573,7 @@ public class MainScreenController {
     /**
      * This function imports the data from a selected file.
      */
-    public void importData() {
+    public void importData() throws DatabaseException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");
         fileChooser.getExtensionFilters()
@@ -554,7 +582,7 @@ public class MainScreenController {
         if (selectedFile != null) {
             Task<List<String>> task = new Task<>() {
                 @Override
-                protected List<String> call()  {
+                protected List<String> call() {
                     ObjectProperty<Pair<Integer, Integer>> value = new SimpleObjectProperty<>();
                     value.addListener((observable, oldValue, newValue) -> {
                         updateProgress(newValue.getKey(), newValue.getValue());
@@ -562,11 +590,10 @@ public class MainScreenController {
                     });
                     try {
                         return dataService.loadDataFromCsv(selectedFile, value)
-                                .stream().map(e ->
-                                        String.format(
-                                                "Line %d: %s",
-                                                e.getLine(),
-                                                e.getCause().getMessage()))
+                                .stream().map(e -> String.format(
+                                        "Line %d: %s",
+                                        e.getLine(),
+                                        e.getCause().getMessage()))
                                 .toList();
                     } catch (CsvFileException | DatabaseException e) {
                         throw new RuntimeException(e);
@@ -582,7 +609,7 @@ public class MainScreenController {
                 AlertMessage.createMessage("An error occurred when importing data",
                         task.getException().getCause().getMessage());
             } else if (task.getState() == Worker.State.SUCCEEDED) {
-                AlertMessage.createListMessage("Warning",
+                AlertMessage.createListMessageStation("Warning",
                         "Some lines were skipped",
                         task.getValue());
             }
@@ -592,7 +619,8 @@ public class MainScreenController {
     }
 
     /**
-     * Funtion to get my detail toolbar controller.
+     * Function to get my detail toolbar controller.
+     *
      * @return my detail toolbar controller.
      */
     public MyDetailsToolBarController getMyDetailsToolBarController() {
@@ -600,13 +628,92 @@ public class MainScreenController {
     }
 
     /**
-     * Action to load the csv file of green vehicle into the database.
-     * @throws DatabaseException the error from database.
-     * @throws CsvFileException the error from the csv file loading.
+     * Action to load the csv file of green vehicles.
+     *
+     * @throws CsvFileException  the error from the csv file loading.
      */
-    public void loadVehicleType() throws DatabaseException, CsvFileException {
+    public void loadVehicleType() throws CsvFileException {
         File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
-        dataService.loadVehicleDataFromCsv(csvFile);
+        vehicles = dataService.getVehicleDataFromCsv(csvFile);
     }
 
+    /**
+     * Function to generate add station pop-up.
+     *
+     * @param actionEvent when 'Add Station' button is clicked.
+     */
+    public void addStation(ActionEvent actionEvent) throws IOException, InterruptedException {
+        if (getCurrentUserId() == 0) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                loginButtonEventHandler(null);
+            }
+        } else {
+            getMapController().loadAddStationWindow(null);
+        }
+    }
+
+    /**
+     * Function to generate edit station pop-up.
+     *
+     * @param actionEvent when 'Edit Station' button is clicked.
+     */
+    public void editStation(ActionEvent actionEvent) throws IOException, InterruptedException {
+        if (getCurrentUserId() == 0) {
+            Alert alert = AlertMessage.noAccess();
+            ButtonType button = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(button);
+
+            if (button.equals(result)) {
+                loginButtonEventHandler(null);
+            }
+        } else {
+            Parent current = (Parent) mainBorderPane.getCenter();
+            int stationID;
+            if (current == dataScreen) {
+                stationID = getDataController().getCurrentlySelected().getStationId();
+            } else {
+                stationID = getMapController().getCurrentlySelected().getStationId();
+            }
+            getMapController().loadEditStationWindow(stationID);
+        }
+    }
+
+    /**
+     * Change the add station button to the edit station button.
+     */
+    public void changeToEditButton() {
+        stationButton.setText("Edit Station");
+        stationButton.setOnAction(e -> {
+            try {
+                editStation(e);
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+    }
+
+
+    /**
+     * Change the edit station button to the add station button.
+     */
+    public void changeToAddButton() {
+        stationButton.setText("Add Station");
+        stationButton.setOnAction(e -> {
+            try {
+                addStation(e);
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+    }
+
+    public void setFilterBuilder(FilterBuilder builder) {
+        this.filterBuilder = builder;
+    }
 }
+
+

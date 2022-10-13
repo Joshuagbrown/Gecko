@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="321.0" prefWidth="510.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
+<AnchorPane prefHeight="380.0" prefWidth="709.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
    <children>
       <GridPane layoutX="147.0" layoutY="59.0" prefHeight="321.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -82,7 +82,7 @@
                         </RadioButton>
                      </children>
                   </GridPane>
-                  <Button mnemonicParsing="false" onAction="#saveChargerChanges" prefHeight="28.0" prefWidth="136.0" text="Save Changes" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <Button fx:id="saveChanges" mnemonicParsing="false" onAction="#saveChargerChanges" prefHeight="28.0" prefWidth="136.0" text="Save Charger" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <font>
                         <Font size="14.0" />
                      </font></Button>
@@ -115,11 +115,11 @@
                            </font></Text>
                      </children>
                   </GridPane>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="                        PlugType:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="                                                   PlugType:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <font>
                         <Font size="14.0" />
                      </font></Text>
-                  <ComboBox fx:id="plugTypeDropDown" prefHeight="30.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <ComboBox fx:id="plugTypeDropDown" prefHeight="30.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -134,11 +134,20 @@
                   </Button>
                </children>
             </GridPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit Charger Information" underline="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Text fx:id="chargerTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit Charger Information" underline="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
+            <Button mnemonicParsing="false" onAction="#returnStationInfo" text="Return">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button fx:id="saveStationButton" mnemonicParsing="false" onAction="#saveStation" text="Save Station" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

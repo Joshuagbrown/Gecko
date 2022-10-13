@@ -1,6 +1,8 @@
 package seng202.team6.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,12 +16,10 @@ import seng202.team6.services.Validity;
 
 public class RegisterVehicleController implements ScreenController {
 
-    public ComboBox inputChargerType;
-    public ComboBox inputVehicleMake;
-    public ComboBox inputVehicleModel;
-    public ComboBox inputVehicleYear;
-
-    public ComboBox[] comboBoxeList = {inputVehicleMake,inputVehicleModel,inputVehicleYear};
+    public ComboBox<String> inputChargerType;
+    public ComboBox<String> inputVehicleMake;
+    public ComboBox<String> inputVehicleModel;
+    public ComboBox<String> inputVehicleYear;
     public Button submitVehicleButton;
     public TextField inputTextOfMake;
     public TextField inputTextOfYear;
@@ -28,28 +28,48 @@ public class RegisterVehicleController implements ScreenController {
     public Button btnConfirmEdit;
     public Button quitButton;
     private MainScreenController controller;
-
-
-    private List<String> chargerTypeList;
-    private List<String> makeList;
-    private List<String> modelList;
-    private List<String> yearList;
-    private VehicleDao vehicleDao = new VehicleDao();
-
-    private Validity validity = new Validity(controller);
-
     private Vehicle editVehicle;
+    private List<Vehicle> vehicles;
+    private VehicleDao vehicleDao = new VehicleDao();
 
 
     @Override
     public void init(Stage stage, MainScreenController controller) {
 
-
         this.controller = controller;
+        vehicles = controller.getVehicles();
+
         loadPlugType();
         loadVehicleDataAndActionHandler();
+    }
 
+    private List<String> getMakes() {
+        return vehicles.stream()
+            .map(Vehicle::getMake)
+            .distinct()
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
 
+    private List<String> getYears(String make) {
+        return vehicles.stream()
+            .filter(v -> v.getMake().equals(make))
+            .map(Vehicle::getYear)
+            .map(String::valueOf)
+            .distinct()
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private List<String> getModels(String make, int year) {
+        return vehicles.stream()
+            .filter(v -> v.getMake().equals(make))
+            .filter(v -> v.getYear() == year)
+            .map(Vehicle::getModel)
+            .distinct()
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private List<String> getPlugTypes() {
+        return vehicleDao.getPlugType();
     }
 
     /**
@@ -59,7 +79,7 @@ public class RegisterVehicleController implements ScreenController {
     public void loadEditVehicle(Vehicle vehicle) {
 
         inputVehicleMake.valueProperty().set(vehicle.getMake());
-        inputVehicleYear.valueProperty().set(Integer.toString(vehicle.getYear()));
+        inputVehicleYear.valueProperty().set(String.valueOf(vehicle.getYear()));
 
         inputVehicleModel.valueProperty().set(vehicle.getModel());
         inputChargerType.valueProperty().set(vehicle.getPlugType());
@@ -117,8 +137,11 @@ public class RegisterVehicleController implements ScreenController {
                 inputTextOfYear.setVisible(false);
                 inputTextOfModel.setVisible(false);
 
-                loadModel((String) inputVehicleMake.getValue(),
-                        (String) inputVehicleYear.getValue());
+                int value = -1;
+                if (inputVehicleYear.getValue() != null) {
+                    value = Integer.parseInt(inputVehicleYear.getValue());
+                }
+                loadModel(inputVehicleMake.getValue(), value);
             }
         });
 
@@ -147,7 +170,7 @@ public class RegisterVehicleController implements ScreenController {
      * load the vehicle make into the choice box.
      */
     public void loadMake() {
-        makeList = vehicleDao.getMakes();
+        List<String> makeList = getMakes();
         makeList.add("other");
         inputVehicleMake.getItems().setAll(makeList);
     }
@@ -157,7 +180,7 @@ public class RegisterVehicleController implements ScreenController {
      * @param make the vehicle make that determine the vehicle year.
      */
     public void loadYear(String make) {
-        yearList = vehicleDao.getYear(make);
+        List<String> yearList = getYears(make);
         yearList.add("other");
         inputVehicleYear.getItems().setAll(yearList);
     }
@@ -167,8 +190,8 @@ public class RegisterVehicleController implements ScreenController {
      * @param make the vehicle make that determine the vehicle model.
      * @param year the vehicle year that determine the vehicle model.
      */
-    public void loadModel(String make, String year) {
-        modelList = vehicleDao.getModel(make,year);
+    public void loadModel(String make, int year) {
+        List<String> modelList = getModels(make, year);
         modelList.add("other");
         inputVehicleModel.getItems().setAll(modelList);
     }
@@ -177,8 +200,7 @@ public class RegisterVehicleController implements ScreenController {
      * load the possible plug type into the choice box.
      */
     public void loadPlugType() {
-
-        List<String> plugType = vehicleDao.getPlugType();
+        List<String> plugType = getPlugTypes();
         plugType.add("other");
         inputChargerType.getItems().setAll(plugType);
 
@@ -208,6 +230,7 @@ public class RegisterVehicleController implements ScreenController {
     public void submitVehicle(ActionEvent actionEvent) throws DatabaseException {
         if (inputChecking() != null) {
             vehicleDao.add(inputChecking());
+            // TODO: ???
             controller.getMyDetailController().loadUserVehicle();
             clearVehicleSelect(null);
 
@@ -219,7 +242,7 @@ public class RegisterVehicleController implements ScreenController {
      * @return the vehicle that has all the essential data.
      */
     public Vehicle inputChecking() {
-        String error = null;
+        String error = "";
 
         String make = null;
         int year = -1;

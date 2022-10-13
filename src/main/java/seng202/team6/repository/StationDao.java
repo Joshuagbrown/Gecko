@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.value.WritableIntegerValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
@@ -21,65 +22,97 @@ public class StationDao implements DaoInterface<Integer, Station> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
-    private Station stationFromResultSet(ResultSet rs, List<Charger> chargers) throws SQLException {
+    private Station stationFromResultSet(ResultSet rs) throws SQLException {
         return new Station(
                 new Position(
                         rs.getDouble("lat"),
                         rs.getDouble("long")
                 ),
                 rs.getString("name"),
-                rs.getInt("objectId"),
                 rs.getString("operator"),
                 rs.getString("owner"),
                 rs.getString("address"),
                 rs.getInt("timeLimit"),
                 rs.getBoolean("is24Hours"),
-                chargers,
+                new ArrayList<>(),
                 rs.getInt("numberOfCarparks"),
                 rs.getBoolean("carparkCost"),
                 rs.getBoolean("chargingCost"),
-                rs.getBoolean("hasTouristAttraction")
+                rs.getBoolean("hasTouristAttraction"),
+                rs.getInt("stationId")
         );
     }
 
     /**
-     * Get stations from a filter builder.
-     * @param builder The builder to use.
+     * Get a map of stations from the database, using the filter builder provided.
+     * @param builder The filter builder to use
      */
-    public Map<Integer, Station> getFromFilterBuilder(FilterBuilder builder) {
+    public Map<Integer, Station> getFromFilterBuilder(FilterBuilder builder)
+            throws DatabaseException {
         Map<Integer, Station> stations = new HashMap<>();
+        Map<Integer, List<Charger>> chargers = new HashMap<>();
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = builder.build(conn);
-             PreparedStatement ps2 = builder.build(conn);
-             ResultSet rs = ps.executeQuery();
-             ResultSet rs2 = ps2.executeQuery()) {
-            ArrayList<Charger> chargers = new ArrayList<>();
-            boolean stillGoing = rs.next();
-            while (stillGoing) {
-                if (rs.getInt("stationId") != rs2.getInt("stationId")) {
-                    Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
-                    stations.put(station.getObjectId(), station);
-                    chargers.clear();
+             PreparedStatement ps = builder.build(conn)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                if (!stations.containsKey(rs.getInt("stationId"))) {
+                    stations.put(rs.getInt("stationId"), stationFromResultSet(rs));
                 }
-                chargers.add(chargerFromResultSet(rs));
-                stillGoing = rs.next();
-                if (stillGoing) {
-                    rs2.next();
-                }
+                chargers.putIfAbsent(rs.getInt("stationId"), new ArrayList<>());
+                chargers.get(rs.getInt("stationId"))
+                        .add(chargerFromResultSet(rs));
             }
-            if (!chargers.isEmpty()) {
-                Station station = stationFromResultSet(rs2, chargers);
-                stations.put(station.getObjectId(), station);
+
+            for (Station station : stations.values()) {
+                for (Charger charger : chargers.getOrDefault(
+                        station.getStationId(), new ArrayList<>())) {
+                    station.addCharger(charger);
+                }
             }
             return stations;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException("An error occurred getting stations from the database", e);
         }
     }
 
+    //    /**
+    //     * Get stations from a filter builder.
+    //     * @param builder The builder to use.
+    //     */
+    //    public Map<Integer, Station> getFromFilterBuilder(FilterBuilder builder) {
+    //        Map<Integer, Station> stations = new HashMap<>();
+    //        try (Connection conn = databaseManager.connect();
+    //             PreparedStatement ps = builder.build(conn);
+    //             PreparedStatement ps2 = builder.build(conn);
+    //             ResultSet rs = ps.executeQuery();
+    //             ResultSet rs2 = ps2.executeQuery()) {
+    //            ArrayList<Charger> chargers = new ArrayList<>();
+    //            boolean stillGoing = rs.next();
+    //            while (stillGoing) {
+    //                if (rs.getInt("stationId") != rs2.getInt("stationId")) {
+    //                    Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
+    //                    stations.put(station.getStationId(), station);
+    //                    chargers.clear();
+    //                }
+    //                chargers.add(chargerFromResultSet(rs));
+    //                stillGoing = rs.next();
+    //                if (stillGoing) {
+    //                    rs2.next();
+    //                }
+    //            }
+    //            if (!chargers.isEmpty()) {
+    //                Station station = stationFromResultSet(rs2, chargers);
+    //                stations.put(station.getStationId(), station);
+    //            }
+    //            return stations;
+    //        } catch (SQLException e) {
+    //            throw new RuntimeException(e);
+    //        }
+    //    }
+
     @Override
     public Map<Integer, Station> getAll() {
-        return getFromFilterBuilder(new FilterBuilder());
+        throw new UnsupportedOperationException("Please use getFromFilterBuilder instead");
     }
 
     private Charger chargerFromResultSet(ResultSet rs) throws SQLException {
@@ -93,78 +126,82 @@ public class StationDao implements DaoInterface<Integer, Station> {
 
     @Override
     public Station getOne(int id) {
-        String sql = "SELECT * from stations INNER JOIN chargers "
-                + "ON stations.stationId = chargers.stationId "
-                + "WHERE stations.stationId = (?)";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             PreparedStatement ps2 = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps2.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            ResultSet rs2 = ps2.executeQuery();
-            ArrayList<Charger> chargers = new ArrayList<>();
-            boolean stillGoing = rs.next();
-            while (stillGoing) {
-                chargers.add(chargerFromResultSet(rs));
-                stillGoing = rs.next();
-                if (stillGoing) {
-                    rs2.next();
-                }
+        throw new UnsupportedOperationException("Please use the getFromFilterBuilder");
+    }
+
+    private void addChargers(List<Charger> chargers, int stationId,
+                             Connection conn) throws SQLException {
+        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
+                + "values (?,?,?,?)";
+        for (Charger charger : chargers) {
+            try (PreparedStatement ps = conn.prepareStatement(chargerSql)) {
+                ps.setInt(1, stationId);
+                ps.setString(2, charger.getPlugType());
+                ps.setInt(3, charger.getWattage());
+                ps.setString(4, charger.getOperative());
+                ps.executeUpdate();
             }
-            if (!chargers.isEmpty()) {
-                return stationFromResultSet(rs2, chargers);
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    private void addChargers(List<Charger> chargers, int stationId) throws SQLException {
-        String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
-                + "values (?,?,?,?)";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(chargerSql)) {
-            for (Charger charger : chargers) {
-                try (PreparedStatement ps2 = conn.prepareStatement(chargerSql)) {
-                    ps.setInt(1, stationId);
-                    ps.setString(2, charger.getPlugType());
-                    ps.setInt(3, charger.getWattage());
-                    ps.setString(4, charger.getOperative());
-                    ps.executeUpdate();
-                }
+    /**
+     * Add a list of stations to the database.
+     * @param stations the list of stations to add
+     * @param value A writableintegervalue to use for the progress bar
+     */
+    public void addAll(List<Station> stations,
+                       WritableIntegerValue value) throws DatabaseException {
+        try (Connection conn = databaseManager.connect()) {
+            conn.setAutoCommit(false);
+            for (Station station : stations) {
+                add(station, conn);
+                value.set(value.get() + 1);
             }
+            conn.commit();
+        } catch (SQLException e) {
+            throw new DatabaseException("A database error occurred", e);
         }
     }
 
     /**
      * Adds a station to the database.
      * @param toAdd object of type T to add.
-     * @return The id of the station in the db, or -1 if there was an error.
+     * @return The id of the station in the db
      */
     @Override
     public int add(Station toAdd) throws DatabaseException {
-        String stationSql = "INSERT INTO stations (objectId, name, operator, owner,"
+        try (Connection conn = databaseManager.connect()) {
+            return add(toAdd, conn);
+        } catch (SQLException e) {
+            throw new DatabaseException("A database error occurred", e);
+        }
+    }
+
+    /**
+     * Adds a station to the database using the given connection.
+     * @param toAdd object of type T to add.
+     * @param conn The connection to use, useful for batch (not really) processing
+     * @return The id of the station in the db
+     */
+    private int add(Station toAdd, Connection conn) throws DatabaseException {
+        String stationSql = "INSERT INTO stations (name, operator, owner,"
                 + "address, timeLimit, is24Hours, numberOfCarparks, carparkCost,"
                 + "chargingCost, hasTouristAttraction, lat, long)"
-                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?);";
 
-        try (Connection conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(stationSql)) {
-            ps.setInt(1, toAdd.getObjectId());
-            ps.setString(2, toAdd.getName());
-            ps.setString(3, toAdd.getOperator());
-            ps.setString(4, toAdd.getOwner());
-            ps.setString(5, toAdd.getAddress());
-            ps.setInt(6, toAdd.getTimeLimit());
-            ps.setBoolean(7, toAdd.is24Hours());
-            ps.setInt(8, toAdd.getNumberOfCarParks());
-            ps.setBoolean(9, toAdd.isCarparkCost());
-            ps.setBoolean(10, toAdd.isChargingCost());
-            ps.setBoolean(11, toAdd.isHasTouristAttraction());
-            ps.setDouble(12, toAdd.getCoordinates().getLatitude());
-            ps.setDouble(13, toAdd.getCoordinates().getLongitude());
+        try (PreparedStatement ps = conn.prepareStatement(stationSql)) {
+            ps.setString(1, toAdd.getName());
+            ps.setString(2, toAdd.getOperator());
+            ps.setString(3, toAdd.getOwner());
+            ps.setString(4, toAdd.getAddress());
+            ps.setInt(5, toAdd.getTimeLimit());
+            ps.setBoolean(6, toAdd.is24Hours());
+            ps.setInt(7, toAdd.getNumberOfCarParks());
+            ps.setBoolean(8, toAdd.isCarparkCost());
+            ps.setBoolean(9, toAdd.isChargingCost());
+            ps.setBoolean(10, toAdd.isHasTouristAttraction());
+            ps.setDouble(11, toAdd.getCoordinates().getLatitude());
+            ps.setDouble(12, toAdd.getCoordinates().getLongitude());
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -172,13 +209,15 @@ public class StationDao implements DaoInterface<Integer, Station> {
             if (rs.next()) {
                 insertId = rs.getInt(1);
             }
-            addChargers(toAdd.getChargers(), insertId);
+            addChargers(toAdd.getChargers(), insertId, conn);
             return insertId;
         } catch (SQLException e) {
+            log.error("An error occurred", e);
             if (e.getErrorCode() == 19) {
                 throw new DatabaseException("A duplicate entry was provided", e);
             }
             throw new DatabaseException("A database error occurred", e);
+
         }
     }
 
@@ -238,7 +277,7 @@ public class StationDao implements DaoInterface<Integer, Station> {
         String stationSql = "UPDATE stations SET name=? , operator=? , owner=?,"
                 + "address=? , timeLimit=? , is24Hours=? , numberOfCarparks=?, carparkCost=? ,"
                 + "chargingCost=? , hasTouristAttraction=?, lat=? , long=? "
-                + "WHERE objectId=?";
+                + "WHERE stationId=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(stationSql)) {
             ps.setString(1, toUpdate.getName());
@@ -253,13 +292,13 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps.setBoolean(10, toUpdate.isHasTouristAttraction());
             ps.setDouble(11, toUpdate.getCoordinates().getLatitude());
             ps.setDouble(12, toUpdate.getCoordinates().getLongitude());
-            ps.setInt(13, toUpdate.getObjectId());
+            ps.setInt(13, toUpdate.getStationId());
 
             ps.executeUpdate();
 
             for (Charger charger : toUpdate.getChargers()) {
                 if (charger.getChargerId() == -1) {
-                    addCharger(charger, toUpdate.getObjectId());
+                    addCharger(charger, toUpdate.getStationId());
                 } else {
                     updateCharger(charger);
                 }
@@ -289,5 +328,4 @@ public class StationDao implements DaoInterface<Integer, Station> {
             throw new RuntimeException(e);
         }
     }
-
 }

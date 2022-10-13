@@ -37,7 +37,6 @@ public class StationCsvImporter extends CsvImporter<Station> {
     protected Station readValueFromLine(String[] line) throws CsvLineException {
         try {
             String name = line[3];
-            int objectId = Integer.parseInt(line[2]);
             String operator = line[4];
             String owner = line[5];
             String address = line[6];
@@ -54,7 +53,7 @@ public class StationCsvImporter extends CsvImporter<Station> {
             List<Charger> chargers = parseConnectorsList(line[17]);
             boolean hasChargingCost = Boolean.parseBoolean(line[18]);
 
-            return new Station(coordinates, name, objectId, operator, owner, address,
+            return new Station(coordinates, name, operator, owner, address,
                     maxTimeLimit, is24Hours, chargers, carparkCount, carparkCost, hasChargingCost,
                     hasTouristAttraction);
         } catch (NumberFormatException e) {

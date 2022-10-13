@@ -6,7 +6,7 @@ checkstyle:
 junit:
   stage: test
   script:
-    - mvn -B clean test
+    - mvn -B clean test -P headlessTests
 
 generate_artifacts:
   stage: deploy

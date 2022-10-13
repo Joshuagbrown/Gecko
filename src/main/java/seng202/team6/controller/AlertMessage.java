@@ -1,9 +1,14 @@
 package seng202.team6.controller;
 
 import java.util.List;
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
+
 
 /**
  * Alert class to pop up a message box and display the message.
@@ -67,5 +72,52 @@ public class AlertMessage {
         alert.getDialogPane().setPrefWidth(500);
         alert.getDialogPane().setPrefHeight(300);
         alert.showAndWait();
+
+
     }
+
+    /**
+     * Creates a pop-up message and displays the error.
+     * @param header The header message.
+     * @param body The error messages.
+     * @return the optional button type to invoke function call
+     */
+    public static Optional<ButtonType> createMessageWithAction(String header, String body) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error Message:");
+        alert.setHeaderText(header);
+        alert.setContentText(body);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result;
+    }
+
+    /**
+     * Creates a pop-up to indicate to the user that they have unsaved
+     * changes.
+     * @return the alert pop-up
+     */
+    public static Alert unsavedChanges() {
+        Alert alert = new Alert(AlertType.WARNING, """
+                You currently have unsaved Changes.\s
+                Select 'OK' to return and save changes.""",
+                ButtonType.CANCEL, ButtonType.OK);
+        return alert;
+
+    }
+
+    /**
+     * Function called to create a pop-up to let the user know they need to
+     * sign in (or sign up) to use this current feature.
+     * @return the alert pop-up
+     */
+    public static Alert noAccess() {
+        ButtonType login = new ButtonType("Go to Login / Sign-up");
+        Alert alert = new Alert(AlertType.ERROR, "Unable to access this feature.\n"
+                + "Please login or sign-up", login);
+        return alert;
+    }
+
+
+
+
 }

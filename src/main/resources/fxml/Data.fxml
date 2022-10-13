@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 
-<TableView fx:id="table" minHeight="0.0" minWidth="0.0" onMouseClicked="#clickItem" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataController">
+<TableView fx:id="table" minHeight="0.0" minWidth="0.0" onMouseClicked="#clickItem" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataController">
   <placeholder>
     <Label text="No charging station data yet, import some charging station data and you'll see it here!"/>
   </placeholder>
