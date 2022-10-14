@@ -349,6 +349,11 @@ public class RegisterVehicleController implements ScreenController {
         this.editVehicle = editVehicle;
     }
 
+    /**
+     * Function use to close the window of the register vehicle.
+     *
+     * @param actionEvent close the window when the button is clickd.
+     */
     public void closeWindow(ActionEvent actionEvent) {
         Stage stage = (Stage) quitButton.getScene().getWindow();
         stage.close();

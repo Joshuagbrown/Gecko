@@ -109,8 +109,14 @@ public class Vehicle {
         return Objects.hash(make, model, plugType, year, userId);
     }
 
+    /**
+     * Overwrite the string info of the vehicle.
+     *
+     * @return the string info of the vehicle.
+     */
     public String toString() {
-        String info = String.format("Make : %s\nYear : %s\nModel : %s\nCharger Type : %s",make,year,model,plugType);
+        String info = String.format("Make : %s\nYear : %s\nModel : %s\n"
+                + "Charger Type : %s",make,year,model,plugType);
         return info;
 
     }

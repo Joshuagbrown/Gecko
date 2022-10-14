@@ -224,7 +224,7 @@ public class MyDetailsController implements ScreenController {
     /**
      * This sets the selected vehicle to what vehicle has been clicked on.
      *
-     * @param mouseEvent
+     * @param mouseEvent when the user click the selected vehicle
      */
 
     public void clickItem(MouseEvent mouseEvent) {
