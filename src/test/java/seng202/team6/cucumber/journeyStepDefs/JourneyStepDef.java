@@ -3,6 +3,7 @@ package seng202.team6.cucumber.journeyStepDefs;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -84,7 +86,7 @@ public class JourneyStepDef extends TestFXBase {
     @When("The user save the start point {string} and end point {string} and save the journey")
     public void theUserSaveTheStartPointAndEndPointAndSaveTheJourney(String start, String end) throws DatabaseException {
 
-        clickOn("#planTrip");
+        //clickOn("#planTrip");
         clickOn("#startLocation");
         write(start);
         clickOn("#endLocation");
@@ -122,7 +124,7 @@ public class JourneyStepDef extends TestFXBase {
 
     @When("The user save the start point {string} and end point {string} and add {string} as a stop point and save the journey")
     public void theUserSaveTheStartPointAndEndPointAndAddAsAStopPointAndSaveTheJourney(String start, String end, String middle) {
-        clickOn("#planTrip");
+
         clickOn("#startLocation");
         write(start);
         clickOn("#addStopButton");
@@ -149,5 +151,46 @@ public class JourneyStepDef extends TestFXBase {
         Assertions.assertEquals(journey.getEnd(),end);
         Assertions.assertEquals(journey.getAddresses().get(1),middle);
 
+    }
+
+    @And("User go to the save journey page in my detail")
+    public void userGoToTheSaveJourneyPageInMyDetail() {
+        clickOn("#loginPageBtn");
+        clickOn("#savedJourneyButton");
+        clickOn("#journeyTable");
+        clickOn((Node) lookup("#startPoint").nth(1).query());
+    }
+
+    @And("User remove the routing from the plan trip page")
+    public void userRemoveTheRoutingFromThePlanTripPage() {
+        clickOn("#removeRouteButton");
+        
+    }
+
+    @When("User choose that journey and show it on the map")
+    public void userChooseThatJourneyAndShowItOnTheMap() {
+        clickOn((Node) lookup("#startPoint").nth(1).query());
+        clickOn("#showJourneyButton");
+    }
+
+    @Then("User can see the journey reloaded on the plan trip page")
+    public void userCanSeeTheJourneyReloadedOnThePlanTripPage() {
+        TextField textField = find("#startLocation");
+        assertEquals(textField.getText(),"3 ilam road");
+    }
+
+
+    @When("User delete the first selected journey")
+    public void userDeleteTheFirstSelectedJourney() {
+        clickOn("#deleteJourneyButton");
+
+    }
+
+
+
+
+    @And("User click plan Trip")
+    public void userClickPlanTrip() {
+        clickOn("#planTrip");
     }
 }

@@ -181,13 +181,15 @@ public class CharginStationStepDef extends TestFXBase{
                         "Has Tourist Attraction : true");
     }
 
-    @When("User filter the station by the station name {string} and choose {int} hour operative and no charging cost")
+    @When("User filter the station by the station name {string} and choose {int} hour operative and no charging cost and has tourist attriction")
     public void userFilterTheStationByTheStationNameAndChooseHourOperativeAndNoChargingCost(String name, int arg1) {
         clickOn("#inputStationName");
         write(name);
         clickOn("#is24HourCheckBox");
         clickOn("#hasChargingCostCheckBox");
+        clickOn("#hasTouristAttractionCostCheckBox");
         clickOn("#filterButton");
+
 
 
     }
@@ -195,6 +197,18 @@ public class CharginStationStepDef extends TestFXBase{
     @Then("User has no vehicle on the table as no vehicle meet the situation.")
     public void userHasNoVehicleOnTheTableAsNoVehicleMeetTheSituation() {
         TableView<?> table = find("#table");
-        System.out.println(table.getItems());
+        Assertions.assertEquals("Station Name : PUKAHA NATIONAL WILDLIFE CENTRE\n" +
+                "Coordinate : -40.721068,175.639788\n" +
+                "Operator : MERIDIAN ENERGY LIMITED\n" +
+                "Owner : MERIDIAN ENERGY LIMITED\n" +
+                "Address : 85379 State Highway 2, Mount Bruce 5881\n" +
+                "Time Limit : 0\n" +
+                "Is 24 Hour : true\n" +
+                "Chargers : \n" +
+                "7 kW Type 2 Socketed, Status: Operative\n" +
+                "Number Of CarPark : 2\n" +
+                "CarPark Cost : false\n" +
+                "Charging Cost : false\n" +
+                "Has Tourist Attraction : true",table.getItems().get(0).toString());
     }
 }
