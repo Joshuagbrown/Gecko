@@ -250,6 +250,8 @@ public class ChargerController {
             AlertMessage.createMessage("Unable to delete the currently selected charger.",
                     "Please save your changes first.");
         } else {
+            controller.getDataService().getStationDao().deleteCharger(chargers
+                            .get(currentlySelectedCharger), station.getStationId());
             chargers.remove(currentlySelectedCharger);
             station.setChargers(chargers);
             controller.getDataService().getStationDao().update(station);
