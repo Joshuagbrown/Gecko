@@ -173,4 +173,18 @@ public class UserStepDef extends TestFXBase {
         Assertions.assertNull( textArea.getText());
 
     }
+
+    @When("User go to the data page and select the first station and edit the station info by")
+    public void userGoToTheDataPageAndSelectTheFirstStationAndEditTheStationInfoBy() {
+        clickOn("#stationButton");
+        clickOn("#nameField");
+        clickOn("#addressField");
+        clickOn("#timeLimitField");
+        clickOn("#numParksField");
+        clickOn("#viewChargersButton");
+        clickOn("#wattageText");
+        clickOn("#saveChanges");//save charger
+        clickOn("#saveButton");
+
+    }
 }

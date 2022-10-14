@@ -99,7 +99,7 @@ public class FilterBuilder {
 
         sql += " WHERE " + filters.stream()
                 .map(str -> String.format("(%s)", str))
-                .collect(Collectors.joining());
+                .collect(Collectors.joining(" AND "));
         PreparedStatement ps = conn.prepareStatement(sql);
         for (int i = 0; i < arguments.size(); i++) {
             ps.setObject(i + 1, arguments.get(i));

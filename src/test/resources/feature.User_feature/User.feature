@@ -22,4 +22,71 @@ Feature: log in user feature
 
   Scenario: User edit the charging station information
     Given User logged in with "admin" and "123456789"
-    When User go to the data page and select the first station and edit the station info by
+    When User go to the data page
+    And select the first station
+    And click edit button
+    And the station info by edit the name to "SOMETHING"
+    And edit address to "3 ilam road, christchurch"
+    And number of carpark to "3"
+    And time limit to "240"
+    And save the changes
+    Then User have the charging station with those information
+
+    Scenario: User eidt the charger information of the station
+      Given User logged in with "admin" and "123456789"
+      And User go to the data page
+      And select the first station
+      And click edit button
+      And click the view charger
+      When User edit the charger wattage to "10"
+      And plug type to CHAdeMo
+      And click save change
+      And User click the return Button
+      And User click the save button in station
+      Then the user have the charger type changed in that station
+
+
+  Scenario: User add the charger information of the station
+    Given User logged in with "admin" and "123456789"
+    And User go to the data page
+    And select the first station
+    And click edit button
+    And click the view charger
+    And User click the add charger button
+    When User edit the charger wattage to "10"
+    And plug type to CHAdeMo
+    And click save change
+    And User click the return Button
+    And User click the save button in station
+    Then User have the new charger type changed in that station
+
+
+    Scenario: User delete the fist charger at the selected station
+      Given User logged in with "admin" and "123456789"
+      And User go to the data page
+      And select the first station
+      And click edit button
+      And click the view charger
+      And User click the add charger button
+      And User edit the charger wattage to "10"
+      And plug type to CHAdeMo
+      And click save change
+      And User click the return Button
+      And User click the save button in station
+      When User selected the first charger and delete it
+      Then User will only have the previous added charger info in that station
+
+
+  Scenario: User delete the first station
+    Given User logged in with "admin" and "123456789"
+    And User go to the data page
+    And select the first station
+    When user delete the charging station
+    Then the first charging station has been deleted and replace by other one.
+
+
+
+
+
+
+
