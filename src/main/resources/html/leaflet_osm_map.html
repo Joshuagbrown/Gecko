@@ -26,6 +26,9 @@
 <script src="https://cdn.jsdelivr.net/gh/aazuspan/leaflet-feature-legend/src/feature-legend.js"></script>
 <link href="https://cdn.jsdelivr.net/gh/aazuspan/leaflet-feature-legend/src/feature-legend.css" rel="stylesheet" />
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
@@ -79,7 +82,8 @@
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
-    })
+    });
+    var homeAddress;
 
 
 
@@ -141,6 +145,9 @@
             drawShadows: true,
         }).addTo(map);
 
+        L.easyButton('<img src="../images/home_icon.png">', function(btn, map){
+            map.flyTo(homeAddress);
+        }).addTo(map);
     }
 
     /**
@@ -260,7 +267,8 @@
         addressMarker = new L.Marker([lat, lng], {icon:homeIcon})
         addressMarker.bindPopup(title).openPopup();
         addressMarker.addTo(map);
-        map.flyTo(new L.LatLng(lat, lng));
+        homeAddress = new L.LatLng(lat, lng);
+        map.flyTo(homeAddress);
     }
 
     function removeMarker(stationId) {
