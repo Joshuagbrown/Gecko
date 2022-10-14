@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -323,9 +324,10 @@ public class ChargerController {
 
         if (unsavedChanges) {
             Alert alert = AlertMessage.unsavedChanges();
-            ButtonType result = alert.showAndWait().orElse(ButtonType.OK);
+            ButtonType cancel = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(cancel);
 
-            if (ButtonType.OK.equals(result)) {
+            if (cancel.equals(result)) {
                 return false;
             }
         }

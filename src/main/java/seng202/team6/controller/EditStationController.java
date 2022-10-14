@@ -359,9 +359,10 @@ public class EditStationController implements StationController {
 
         if (hasUnsavedChanges) {
             Alert alert = AlertMessage.unsavedChanges();
-            ButtonType result = alert.showAndWait().orElse(ButtonType.OK);
+            ButtonType cancel = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(cancel);
 
-            if (ButtonType.OK.equals(result)) {
+            if (cancel.equals(result)) {
                 return false;
             }
         }
