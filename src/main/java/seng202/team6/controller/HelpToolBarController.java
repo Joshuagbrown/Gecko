@@ -50,4 +50,22 @@ public class HelpToolBarController implements ScreenController {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
                 "/html/LoginHelpPage.html"));
     }
+
+    /**
+     * Calls the initPageInfo function with the filter html file as input.
+     * @param actionEvent Loads filter help button clicked
+     */
+    public void loadFilterHelp(ActionEvent actionEvent) {
+        controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
+                "/html/FilterHelpPage.html"));
+    }
+
+    /**
+     * Calls the initPageInfo function with the edit info html file as input.
+     * @param actionEvent Loads editing info screen help button clicked
+     */
+    public void loadEditHelp(ActionEvent actionEvent) {
+        controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
+                "/html/EditDataHelpPage.html"));
+    }
 }
