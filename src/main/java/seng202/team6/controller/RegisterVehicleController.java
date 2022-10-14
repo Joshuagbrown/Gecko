@@ -262,7 +262,8 @@ public class RegisterVehicleController implements ScreenController {
         String model = null;
         String plugType = null;
 
-        if (inputVehicleMake.getValue() != null && !Objects.equals(inputVehicleMake.getValue(), otherString)) {
+        if (inputVehicleMake.getValue() != null && !Objects.equals(inputVehicleMake.getValue(),
+                otherString)) {
             make = inputVehicleMake.getValue();
         } else {
             if (Validity.checkName(inputTextOfMake.getText())) {
@@ -271,7 +272,8 @@ public class RegisterVehicleController implements ScreenController {
                 error += "Please input a valid make \n";
             }
         }
-        if (inputVehicleYear.getValue() != null && !Objects.equals(inputVehicleYear.getValue(), otherString)) {
+        if (inputVehicleYear.getValue() != null && !Objects.equals(inputVehicleYear.getValue(),
+                otherString)) {
             year = Integer.parseInt(inputVehicleYear.getValue());
         } else {
             if (Validity.checkVehicleYear(inputTextOfYear.getText())) {
@@ -280,7 +282,8 @@ public class RegisterVehicleController implements ScreenController {
                 error += "Please input a valid year \n";
             }
         }
-        if (inputVehicleModel.getValue() != null && !Objects.equals(inputVehicleModel.getValue(), otherString)) {
+        if (inputVehicleModel.getValue() != null && !Objects.equals(inputVehicleModel.getValue(),
+                otherString)) {
             model = inputVehicleModel.getValue();
         } else {
             if (Validity.checkUserName(inputTextOfModel.getText())) {
@@ -290,7 +293,8 @@ public class RegisterVehicleController implements ScreenController {
             }
         }
 
-        if (inputChargerType.getValue() != null && !Objects.equals(inputChargerType.getValue(), otherString)) {
+        if (inputChargerType.getValue() != null && !Objects.equals(inputChargerType.getValue(),
+                otherString)) {
             plugType = inputChargerType.getValue();
         } else {
             if (Validity.checkPlugType(inputTextOfChargerType.getText())) {

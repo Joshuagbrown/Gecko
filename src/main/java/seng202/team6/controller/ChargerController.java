@@ -265,7 +265,7 @@ public class ChargerController {
             plugTypeDropDown.getSelectionModel().clearSelection();
             chargerDropDown.getSelectionModel().clearSelection();
         }
-
+        currentlySelectedCharger = station.getChargers().size();
     }
 
 
@@ -292,6 +292,7 @@ public class ChargerController {
 
     private boolean checkChanges() {
         boolean unsavedChanges = false;
+
         if (station.getChargers().isEmpty() || (currentlySelectedCharger == station
                 .getChargers().size())) {
             if (wattageText.getText().length() > 0) {
@@ -321,7 +322,6 @@ public class ChargerController {
                 unsavedChanges = true;
             }
         }
-
         if (unsavedChanges) {
             Alert alert = AlertMessage.unsavedChanges();
             ButtonType cancel = alert.getButtonTypes().get(0);
