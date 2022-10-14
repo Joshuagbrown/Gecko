@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -30,6 +28,7 @@ import org.json.simple.JSONObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 
 
 /**
@@ -50,8 +49,6 @@ public class MapController implements ScreenController {
 
     private ObservableMap<Integer, Station> stations;
     private Station currentlySelected;
-
-    private ArrayList<Button> autoFillButtons;
 
     private String homeAddress = null;
 
@@ -320,9 +317,7 @@ public class MapController implements ScreenController {
 
             lat = pos.getLatitude();
             lon = pos.getLongitude();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | RuntimeException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         javaScriptConnector.call("fixAddressMarker", title, lat, lon);
@@ -348,9 +343,7 @@ public class MapController implements ScreenController {
         } else {
             try {
                 return findLatLon(homeAddress);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }

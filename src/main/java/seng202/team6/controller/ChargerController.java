@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -21,6 +20,7 @@ import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
@@ -28,7 +28,7 @@ public class ChargerController {
     @FXML
     public ToggleGroup operative;
     @FXML
-    public ComboBox<Charger> chargerDropDown = new ComboBox<Charger>();
+    public ComboBox<Charger> chargerDropDown = new ComboBox<>();
     @FXML
     public Button addButton;
     @FXML
@@ -68,7 +68,7 @@ public class ChargerController {
                      Station newStation, String newOrUpdate) {
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
-            Boolean saved = checkChanges();
+            boolean saved = checkChanges();
             if (!saved) {
                 e.consume();
             }
@@ -104,7 +104,7 @@ public class ChargerController {
         ObservableList<Charger> options = FXCollections.observableArrayList();
         options.addAll(station.getChargers());
         chargerDropDown.setItems(options);
-        if (options.size() > 0) {
+        if (!options.isEmpty()) {
             chargerDropDown.getSelectionModel().select(0);
         }
 
@@ -120,7 +120,7 @@ public class ChargerController {
      */
     public void chargerSelected(ActionEvent actionEvent) {
 
-        Charger current = (Charger) chargerDropDown.getValue();
+        Charger current = chargerDropDown.getValue();
         currentlySelectedCharger = chargerDropDown.getSelectionModel().getSelectedIndex();
         if (current != null) {
             String op = current.getOperative();
@@ -146,9 +146,9 @@ public class ChargerController {
      */
     public void saveChargerChanges(ActionEvent actionEvent) {
 
-        Boolean valid = checkValues();
+        boolean isValid = checkValues();
 
-        if (!valid) {
+        if (!isValid) {
             AlertMessage.createListMessageStation("Invalid Changes made.",
                     "Please fix the changes with errors.", currentErrors);
             currentErrors.clear();
@@ -186,10 +186,10 @@ public class ChargerController {
                 } catch (DatabaseException e) {
                     throw new RuntimeException(e);
                 }
+                controller.setTextAreaInMainScreen(station.toString());
             }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
-            //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
         }
 
     }
@@ -282,7 +282,7 @@ public class ChargerController {
      * @param actionEvent when the return button is selected
      */
     public void returnStationInfo(ActionEvent actionEvent) {
-        Boolean saved = checkChanges();
+        boolean saved = checkChanges();
         if (saved) {
             stage.setScene(stationScene);
             stage.setTitle("Current Station");
@@ -291,7 +291,7 @@ public class ChargerController {
     }
 
     private boolean checkChanges() {
-        Boolean unsavedChanges = false;
+        boolean unsavedChanges = false;
         if (station.getChargers().isEmpty() || (currentlySelectedCharger == station
                 .getChargers().size())) {
             if (wattageText.getText().length() > 0) {
@@ -358,5 +358,6 @@ public class ChargerController {
             }
             stage.close();
         }
+        controller.setSelected(controller.getPrevSelected());
     }
 }

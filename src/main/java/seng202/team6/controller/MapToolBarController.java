@@ -36,6 +36,7 @@ import org.json.simple.parser.ParseException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Position;
+import seng202.team6.services.AlertMessage;
 
 /**
  * Controller for the map toolbar.
@@ -45,50 +46,51 @@ public class MapToolBarController implements ScreenController {
      * Border pane that hold the filter section on map toolbar.
      */
     @FXML
-    public BorderPane filterSectionOnMapToolBar;
+    private BorderPane filterSectionOnMapToolBar;
     /**
      * The grid pane that hold the find routes texts.
      */
     @FXML
-    public GridPane planTripGridPane;
+    private GridPane planTripGridPane;
     /**
      * Button that click to load the text box.
      */
     @FXML
-    public Button addStopButton;
+    private Button addStopButton;
     /**
      * Button that click to autofill the start location on text.
      */
     @FXML
-    public Button startAutoFill;
+    private Button startAutoFill;
     /**
      * Button that click to autofill the end location on text.
      */
     @FXML
-    public Button endAutoFill;
+    private Button endAutoFill;
     /**
      * Button that click to find the route.
      */
     @FXML
-    public Button findRouteButton;
+    private Button findRouteButton;
     /**
      * the text for the start location.
      */
     @FXML
-    public Text startLabel;
+    private Text startLabel;
     /**
      * the text for the end location.
      */
     @FXML
-    public Text endLabel;
+    private Text endLabel;
     /**
      * Button is clicked to remove the route from the map.
      */
     @FXML
-    public CheckBox saveJourneyCheck;
+    private CheckBox saveJourneyCheck;
     @FXML
-    public Button removeRouteButton;
-    public Button removeLastStopButton;
+    private Button removeRouteButton;
+    @FXML
+    private Button removeLastStopButton;
     private MainScreenController controller;
     @FXML
     private TextField startLocation;
@@ -393,7 +395,7 @@ public class MapToolBarController implements ScreenController {
      */
     public void removeLastStop(ActionEvent actionEvent) {
         //to be done
-        ArrayList<String> currentAddresses = new ArrayList<String>();
+        ArrayList<String> currentAddresses = new ArrayList<>();
         for (TextField text : arrayOfTextFields) {
             currentAddresses.add(text.getText());
         }
@@ -413,7 +415,6 @@ public class MapToolBarController implements ScreenController {
             }
             index++;
         }
-        //findRoute(null);
     }
 
     /**

@@ -2,8 +2,10 @@ package seng202.team6.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -11,25 +13,38 @@ import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.VehicleDao;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
 public class RegisterVehicleController implements ScreenController {
 
-    public ComboBox<String> inputChargerType;
-    public ComboBox<String> inputVehicleMake;
-    public ComboBox<String> inputVehicleModel;
-    public ComboBox<String> inputVehicleYear;
+    @FXML
+
+    private ComboBox<String> inputChargerType;
+    @FXML
+    private ComboBox<String> inputVehicleMake;
+    @FXML
+    private ComboBox<String> inputVehicleModel;
+    @FXML
+    private ComboBox<String> inputVehicleYear;
+    @FXML
     public Button submitVehicleButton;
-    public TextField inputTextOfMake;
-    public TextField inputTextOfYear;
-    public TextField inputTextOfModel;
-    public TextField inputTextOfChargerType;
+    @FXML
+    private TextField inputTextOfMake;
+    @FXML
+    private TextField inputTextOfYear;
+    @FXML
+    private TextField inputTextOfModel;
+    @FXML
+    private TextField inputTextOfChargerType;
+    @FXML
     public Button btnConfirmEdit;
     private MainScreenController controller;
     private Vehicle editVehicle;
     private List<Vehicle> vehicles;
     private VehicleDao vehicleDao = new VehicleDao();
+    private final String otherString = "other";
 
 
     @Override
@@ -89,7 +104,7 @@ public class RegisterVehicleController implements ScreenController {
     private void loadVehicleDataAndActionHandler() {
         loadMake();
         inputVehicleMake.setOnAction(event -> {
-            if (inputVehicleMake.getValue() == "other") {
+            if (Objects.equals(inputVehicleMake.getValue(), otherString)) {
 
                 inputVehicleYear.getItems().clear();
                 inputVehicleModel.getItems().clear();
@@ -109,13 +124,13 @@ public class RegisterVehicleController implements ScreenController {
             } else {
 
                 resetInputMake();
-                loadYear((String) inputVehicleMake.getValue());
+                loadYear(inputVehicleMake.getValue());
 
             }
         });
 
         inputVehicleYear.setOnAction(event -> {
-            if (inputVehicleYear.getValue() == "other") {
+            if (Objects.equals(inputVehicleYear.getValue(), otherString)) {
 
                 inputVehicleModel.getItems().clear();
 
@@ -146,7 +161,7 @@ public class RegisterVehicleController implements ScreenController {
 
         inputVehicleModel.setOnAction(event -> {
 
-            if (inputVehicleModel.getValue() == "other") {
+            if (Objects.equals(inputVehicleModel.getValue(), otherString)) {
                 inputTextOfModel.setVisible(true);
 
             } else {
@@ -155,7 +170,7 @@ public class RegisterVehicleController implements ScreenController {
         });
         inputChargerType.setOnAction(event -> {
 
-            if (inputChargerType.getValue() == "other") {
+            if (Objects.equals(inputChargerType.getValue(), otherString)) {
                 inputTextOfChargerType.setVisible(true);
 
             } else {
@@ -229,8 +244,7 @@ public class RegisterVehicleController implements ScreenController {
     public void submitVehicle(ActionEvent actionEvent) throws DatabaseException {
         if (inputChecking() != null) {
             vehicleDao.add(inputChecking());
-            // TODO: ???
-            controller.getMyDetailController().loadUserVehicle();
+            controller.getMyDetailsController().loadUserVehicle();
             clearVehicleSelect(null);
 
         }
@@ -248,8 +262,8 @@ public class RegisterVehicleController implements ScreenController {
         String model = null;
         String plugType = null;
 
-        if (inputVehicleMake.getValue() != null && inputVehicleMake.getValue() != "other") {
-            make = (String) inputVehicleMake.getValue();
+        if (inputVehicleMake.getValue() != null && !Objects.equals(inputVehicleMake.getValue(), otherString)) {
+            make = inputVehicleMake.getValue();
         } else {
             if (Validity.checkName(inputTextOfMake.getText())) {
                 make = inputTextOfMake.getText();
@@ -257,18 +271,17 @@ public class RegisterVehicleController implements ScreenController {
                 error += "Please input a valid make \n";
             }
         }
-        if (inputVehicleYear.getValue() != null && inputVehicleYear.getValue() != "other") {
-            year = Integer.parseInt((String) inputVehicleYear.getValue());
+        if (inputVehicleYear.getValue() != null && !Objects.equals(inputVehicleYear.getValue(), otherString)) {
+            year = Integer.parseInt(inputVehicleYear.getValue());
         } else {
             if (Validity.checkVehicleYear(inputTextOfYear.getText())) {
                 year = Integer.parseInt(inputTextOfYear.getText());
             } else {
                 error += "Please input a valid year \n";
-                //AlertMessage.createMessage("Invalid vehicle data", "Please input a numeric year");
             }
         }
-        if (inputVehicleModel.getValue() != null && inputVehicleModel.getValue() != "other") {
-            model = (String) inputVehicleModel.getValue();
+        if (inputVehicleModel.getValue() != null && !Objects.equals(inputVehicleModel.getValue(), otherString)) {
+            model = inputVehicleModel.getValue();
         } else {
             if (Validity.checkUserName(inputTextOfModel.getText())) {
                 model = inputTextOfModel.getText();
@@ -277,8 +290,8 @@ public class RegisterVehicleController implements ScreenController {
             }
         }
 
-        if (inputChargerType.getValue() != null && inputChargerType.getValue() != "other") {
-            plugType = (String) inputChargerType.getValue();
+        if (inputChargerType.getValue() != null && !Objects.equals(inputChargerType.getValue(), otherString)) {
+            plugType = inputChargerType.getValue();
         } else {
             if (Validity.checkPlugType(inputTextOfChargerType.getText())) {
                 plugType = inputTextOfChargerType.getText();
@@ -332,7 +345,7 @@ public class RegisterVehicleController implements ScreenController {
             editVehicle.setYear(vehicle.getYear());
             editVehicle.setPlugType(vehicle.getPlugType());
             vehicleDao.update(editVehicle);
-            controller.getMyDetailController().loadUserVehicle();
+            controller.getMyDetailsController().loadUserVehicle();
 
             editVehicle = null;
             btnConfirmEdit.setVisible(false);

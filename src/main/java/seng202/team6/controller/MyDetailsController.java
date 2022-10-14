@@ -2,39 +2,51 @@ package seng202.team6.controller;
 
 import java.io.IOException;
 import java.util.List;
-import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
-import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.VehicleDao;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 public class MyDetailsController implements ScreenController {
 
-
-    public TextField usernameField;
-    public TextField homeAddressField;
-    public TextField nameField;
-    public Button confirmEditButton;
-    public Button editDetailsButton;
-    public Button cancelEditButton;
-    public TableView<Vehicle> userVehicleTable;
-    public TableColumn<Vehicle, String> make;
-    public TableColumn<Vehicle, String> plugType;
-    public TableColumn<Vehicle, String> model;
-    public TableColumn<Vehicle, Integer> year;
-    public Button btnAddVehicle;
-    public Button btnEditVehicle;
-    public Button btnDeleteVehicle;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private TextField homeAddressField;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private Button confirmEditButton;
+    @FXML
+    private Button editDetailsButton;
+    @FXML
+    private Button cancelEditButton;
+    @FXML
+    private TableView<Vehicle> userVehicleTable;
+    @FXML
+    private TableColumn<Vehicle, String> make;
+    @FXML
+    private TableColumn<Vehicle, String> plugType;
+    @FXML
+    private TableColumn<Vehicle, String> model;
+    @FXML
+    private TableColumn<Vehicle, Integer> year;
+    @FXML
+    private Button btnAddVehicle;
+    @FXML
+    private Button btnEditVehicle;
+    @FXML
+    private Button btnDeleteVehicle;
     private MainScreenController controller;
     private String name = null;
     private String address = null;
@@ -126,7 +138,7 @@ public class MyDetailsController implements ScreenController {
     /**
      * Cancel editing my details.
      */
-    public void cancelEditButton(ActionEvent actionEvent) {
+    public void cancelEditButton() {
         User user = controller.getCurrentUser();
         nameField.setText(user.getName());
         homeAddressField.setText(user.getAddress());
@@ -176,10 +188,10 @@ public class MyDetailsController implements ScreenController {
      * @param actionEvent  the click action of delete button.
      */
     public void deleteVehicleEventHandler(ActionEvent actionEvent) {
-        VehicleDao vehicleDao = new VehicleDao();
+        VehicleDao currentVehicleDao = new VehicleDao();
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             try {
-                vehicleDao.delete(userVehicleTable
+                currentVehicleDao.delete(userVehicleTable
                         .getSelectionModel().getSelectedItem().getVehicleId());
                 controller.getRegisterVehicleController().setEditVehicle(
                         userVehicleTable.getSelectionModel().getSelectedItem());

@@ -48,7 +48,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadHelpScreenAndToolBar" text="Help" GridPane.rowIndex="1">
+                                          <Button fx:id="helpButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadHelpScreenAndToolBar" text="Help" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </GridPane.margin>
@@ -64,7 +64,7 @@
                                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#importData" text="Import Data" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                <Button fx:id="importDataButton" mnemonicParsing="false" onAction="#importData" text="Import Data" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                                 <Button fx:id="stationButton" mnemonicParsing="false" onAction="#addStation" text="Add Station" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                              </children>
                                           </GridPane>
@@ -100,7 +100,7 @@
 <!--                              <Font size="17.0" />-->
 <!--                           </font>-->
                         </Button>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadDataViewAndToolBars" text="Data" GridPane.columnIndex="1">
+                        <Button fx:id="dataButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#loadDataViewAndToolBars" text="Data" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </GridPane.margin>
