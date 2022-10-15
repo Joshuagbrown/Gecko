@@ -300,9 +300,10 @@ public class MainScreenController {
         Scene scene = new Scene(root, 500, 600);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Current Station");
+        stage.setTitle("Register a New Vehicle");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
+        stage.setResizable(false);
         stage.show();
         registerVehicleController = loader.getController();
         registerVehicleController.init(stage, this);

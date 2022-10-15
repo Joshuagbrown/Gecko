@@ -122,11 +122,13 @@ public class MyDetailsController implements ScreenController {
             homeAddressField.setText("Invalid Address");
         }
         if (address != null && name != null) {
+
             try {
                 controller.getDataService().updateUser(user);
-            } catch (Exception e) {
-                AlertMessage.createMessage("testing", "failed to update user information");
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
             }
+
             nameField.setEditable(false);
             homeAddressField.setEditable(false);
             confirmEditButton.setVisible(false);
@@ -154,10 +156,8 @@ public class MyDetailsController implements ScreenController {
      */
     public void addVehicleEventHandler(ActionEvent actionEvent) {
 
-
         controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
-        controller.getRegisterVehicleController().btnConfirmEdit.setDisable(true);
-        controller.getRegisterVehicleController().submitVehicleButton.setDisable(false);
+        controller.getRegisterVehicleController().swapToAddVehicle();
     }
 
     /**
@@ -166,19 +166,17 @@ public class MyDetailsController implements ScreenController {
      */
     public void editVehicleEventHandler(ActionEvent actionEvent) {
 
-
         if (userVehicleTable.getSelectionModel().getSelectedItem() != null) {
             controller.getMyDetailsToolBarController().loadRegisterVehicle(null);
+            controller.getRegisterVehicleController().swapToEditVehicle();
             controller.getRegisterVehicleController().loadEditVehicle(
                     userVehicleTable.getSelectionModel().getSelectedItem());
             controller.getRegisterVehicleController().setEditVehicle(
                     userVehicleTable.getSelectionModel().getSelectedItem());
-            controller.getRegisterVehicleController().submitVehicleButton.setDisable(true);
-            controller.getRegisterVehicleController().btnConfirmEdit.setDisable(false);
 
         } else {
-            AlertMessage.createMessage("Please selest a vehicle to edit",
-                    "Please click the vehicle table to select one vehicle.");
+            AlertMessage.createMessage("No vehicle is currently selected.",
+                    "Please select a vehicle in the table to edit it.");
         }
 
     }
@@ -197,13 +195,13 @@ public class MyDetailsController implements ScreenController {
                         userVehicleTable.getSelectionModel().getSelectedItem());
                 loadUserVehicle();
             } catch (DatabaseException e) {
-                AlertMessage.createMessage("Error", "Couldn't find vehicle to delete");
+                AlertMessage.createMessage("Error", "Could not find vehicle to delete");
             }
 
 
         } else {
-            AlertMessage.createMessage("Please select a vehicle to delete",
-                    "Please click the vehicle table to select one vehicle.");
+            AlertMessage.createMessage("No vehicle is currently selected.",
+                    "Please select a vehicle in the table to edit it.");
         }
 
     }

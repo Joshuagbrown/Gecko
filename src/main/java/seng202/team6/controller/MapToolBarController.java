@@ -236,8 +236,8 @@ public class MapToolBarController implements ScreenController {
             AlertMessage.createMessage("Invalid Address Entered.",
                     "Please input at least two valid destinations.");
         } else {
-            AlertMessage.createMessage("Incorrect number of addresses.",
-                    "Please input at least two destinations.");
+            AlertMessage.createMessage("Incorrect number of Addresses.",
+                    "Please input at least two valid destinations.");
         }
     }
 

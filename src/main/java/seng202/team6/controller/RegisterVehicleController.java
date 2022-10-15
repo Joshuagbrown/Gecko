@@ -20,6 +20,8 @@ import seng202.team6.services.Validity;
 public class RegisterVehicleController implements ScreenController {
 
     @FXML
+    public Button confirmButton;
+    @FXML
 
     private ComboBox<String> inputChargerType;
     @FXML
@@ -28,8 +30,7 @@ public class RegisterVehicleController implements ScreenController {
     private ComboBox<String> inputVehicleModel;
     @FXML
     private ComboBox<String> inputVehicleYear;
-    @FXML
-    public Button submitVehicleButton;
+
     @FXML
     private TextField inputTextOfMake;
     @FXML
@@ -38,18 +39,17 @@ public class RegisterVehicleController implements ScreenController {
     private TextField inputTextOfModel;
     @FXML
     private TextField inputTextOfChargerType;
-    @FXML
-    public Button btnConfirmEdit;
     private MainScreenController controller;
     private Vehicle editVehicle;
     private List<Vehicle> vehicles;
     private VehicleDao vehicleDao = new VehicleDao();
     private final String otherString = "other";
+    private Stage stage;
 
 
     @Override
     public void init(Stage stage, MainScreenController controller) {
-
+        this.stage = stage;
         this.controller = controller;
         vehicles = controller.getVehicles();
 
@@ -241,12 +241,16 @@ public class RegisterVehicleController implements ScreenController {
      * @param actionEvent event handler.
      * @throws DatabaseException the database error.
      */
-    public void submitVehicle(ActionEvent actionEvent) throws DatabaseException {
+    public void submitVehicle(ActionEvent actionEvent) {
         if (inputChecking() != null) {
-            vehicleDao.add(inputChecking());
+            try {
+                vehicleDao.add(inputChecking());
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
             controller.getMyDetailsController().loadUserVehicle();
             clearVehicleSelect(null);
-
+            stage.close();
         }
     }
 
@@ -338,9 +342,8 @@ public class RegisterVehicleController implements ScreenController {
     /**
      * Update the vehicle with the new data.
      * @param actionEvent event handler of click.
-     * @throws DatabaseException the database error that might occur.
      */
-    public void updateEditVehicle(ActionEvent actionEvent) throws DatabaseException {
+    public void updateEditVehicle(ActionEvent actionEvent) {
         if (inputChecking() != null) {
 
             Vehicle vehicle = inputChecking();
@@ -352,16 +355,37 @@ public class RegisterVehicleController implements ScreenController {
             controller.getMyDetailsController().loadUserVehicle();
 
             editVehicle = null;
-            btnConfirmEdit.setVisible(false);
-            btnConfirmEdit.setDisable(true);
-            submitVehicleButton.setDisable(false);
             clearVehicleSelect(null);
+            stage.close();
 
 
         }
     }
 
+
+    /**
+     * Function to set the vehicle to edit.
+     * @param editVehicle the vehicle to edit
+     */
     public void setEditVehicle(Vehicle editVehicle) {
         this.editVehicle = editVehicle;
+    }
+
+
+    /**
+     * Sets confirm button to handle adding a new vehicle.
+     */
+    public void swapToAddVehicle() {
+        confirmButton.setOnAction(e -> submitVehicle(e));
+        confirmButton.setText("Add New Vehicle");
+    }
+
+
+    /**
+     * Sets confirm button to handle editing a vehicle.
+     */
+    public void swapToEditVehicle() {
+        confirmButton.setOnAction(e -> updateEditVehicle(e));
+        confirmButton.setText("Confirm Edit");
     }
 }

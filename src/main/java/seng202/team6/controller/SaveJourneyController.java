@@ -98,7 +98,7 @@ public class SaveJourneyController implements ScreenController {
             selectedJourney = null;
             selectedJourneyIndex = -1;
         } else {
-            AlertMessage.createMessage("No Journey Selected",
+            AlertMessage.createMessage("No journey is selected",
                     "Please select a journey and try again");
         }
     }
@@ -119,7 +119,7 @@ public class SaveJourneyController implements ScreenController {
             controller.getMapToolBarController().findRouteFromJourney(stopAmount, allAddresses);
             controller.mapButtonEventHandler();
         } else {
-            AlertMessage.createMessage("No Journey Selected",
+            AlertMessage.createMessage("No journey is selected",
                     "Please select a journey and try again");
         }
     }

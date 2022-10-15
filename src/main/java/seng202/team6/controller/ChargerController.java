@@ -344,7 +344,7 @@ public class ChargerController {
      */
     public void saveStation(ActionEvent actionEvent) {
         if (station.getChargers().isEmpty()) {
-            AlertMessage.createMessage("Unable to Save Station.",
+            AlertMessage.createMessage("Unable to save Station.",
                     "Please ensure you have added at least one Charger "
                             + "to your Station.");
         } else {
