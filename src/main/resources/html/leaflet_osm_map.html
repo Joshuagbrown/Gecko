@@ -84,6 +84,7 @@
         shadowSize: [41, 41]
     });
     var homeAddress;
+    var homeButton;
 
 
 
@@ -93,6 +94,7 @@
     let jsConnector = {
         addMarker: addMarker,
         fixAddressMarker: fixAddressMarker,
+        removeAddressMarker: removeAddressMarker,
         addRoute: addRoute,
         initMap: initMap,
         cleanUpMarkerLayer :cleanUpMarkerLayer,
@@ -145,9 +147,10 @@
             drawShadows: true,
         }).addTo(map);
 
-        L.easyButton('<img src="../images/home_icon.png">', function(btn, map){
+        homeButton = L.easyButton('<img src="https://img.icons8.com/material-rounded/24/000000/home.png" style="width:16px">', function(btn, map){
             map.flyTo(homeAddress);
-        }).addTo(map);
+        })
+
     }
 
     /**
@@ -264,11 +267,20 @@
         if (addressMarker != null) {
             map.removeLayer(addressMarker)
         }
+        homeButton.addTo(map);
         addressMarker = new L.Marker([lat, lng], {icon:homeIcon})
         addressMarker.bindPopup(title).openPopup();
         addressMarker.addTo(map);
         homeAddress = new L.LatLng(lat, lng);
         map.flyTo(homeAddress);
+    }
+
+    function removeAddressMarker() {
+        if (addressMarker != null) {
+            map.removeLayer(addressMarker)
+            homeAddress = null;
+            map.removeLayer(homeButton);
+        }
     }
 
     function removeMarker(stationId) {
