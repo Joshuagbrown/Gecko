@@ -373,6 +373,9 @@ public class MapController implements ScreenController {
     private Position findLatLon(String address) throws IOException, InterruptedException {
 
         JSONObject positionField = controller.getMapToolBarController().geoCode(address);
+        if (positionField == null) {
+            return null;
+        }
         double lat = (double) positionField.get("lat");
         double lng = (double) positionField.get("lng");
         return new Position(lat, lng);
@@ -380,12 +383,38 @@ public class MapController implements ScreenController {
     }
 
 
-    public void searchLocationOnTheMap(ActionEvent actionEvent) throws IOException, InterruptedException {
-        Position location = findLatLon(locationTextBox.getText());
-        javaScriptConnector.call("findCurrentLocation", location.getLatitude(),location.getLongitude());
+    /**
+     * Function called when the user searches for an address on tab at the top of the map.
+     * Sets the current location on the map to be the given address.
+     * @param actionEvent when the search button is selected
+     */
+    public void searchLocationOnTheMap(ActionEvent actionEvent) {
+        String address = locationTextBox.getText();
+        Position location = null;
+        try {
+            location = findLatLon(address);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (location == null) {
+            AlertMessage.createMessage("Unable to fetch the given Address.",
+                    "Please search with a valid Address");
+        } else {
+            javaScriptConnector.call("findCurrentLocation", address, location.getLatitude(),
+                    location.getLongitude());
+        }
+
+
 
     }
 
+
+    /**
+     * Deletes Text from text area.
+     * @param mouseEvent User clicks on text box
+     */
     public void deleteTextFromTestArea(MouseEvent mouseEvent) {
         locationTextBox.setText("");
     }

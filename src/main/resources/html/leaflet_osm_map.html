@@ -221,32 +221,30 @@
 
     }
 
-    function findCurrentLocation(lat,lng) {
+    function findCurrentLocation(address, lat ,lng) {
 
-        javaScriptBridge.setAddress("");
+        javaScriptBridge.setAddress(address);
         if (currentClicked != null) {
             map.removeLayer(currentClicked)
         }
         currentClicked = new L.Marker([lat,lng], {icon:redIcon}, {draggable:true});
-        fetchAddress([lat,lng])
-            .then(address => {
-                //marker.bindPopup(address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station</button>`).openPopup();
-                if (address != null) {
-                    const markerContent = address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station on Marker</button>`
-                    currentClicked.bindPopup(markerContent).openPopup();
-                    L.popup({offset:[0, -28]}).setLatLng([lat,lng]).setContent(markerContent).openOn(map);
-                } else {
-                    currentClicked.bindPopup("No address found.").openPopup();
-                    L.popup({offset:[0, -33]}).setLatLng([lat,lng]).setContent("No address found.").openOn(map);
-                }
-                currentClicked.getPopup().on('remove', function() {
-                    javaScriptBridge.getStationFromClick(null);
-                });
+        if (address != null) {
+            const markerContent = address + "\n" +`<button data-id="${address}" class="AddButton" type="button">Add Station on Marker</button>`
+            currentClicked.bindPopup(markerContent).openPopup();
+            L.popup({offset:[0, -28]}).setLatLng([lat,lng]).setContent(markerContent).openOn(map);
+        } else {
+            currentClicked.bindPopup("No address found.").openPopup();
+            L.popup({offset:[0, -33]}).setLatLng([lat,lng]).setContent("No address found.").openOn(map);
+        }
+        currentClicked.getPopup().on('remove', function() {
+            javaScriptBridge.getStationFromClick(null);
+        });
 
-                javaScriptBridge.setClickLocation(lat, lng);
-                currentClicked.addTo(map);
+        javaScriptBridge.setClickLocation(lat, lng);
+        currentClicked.addTo(map);
+        map.flyTo(new L.LatLng(lat, lng));
 
-            })
+
     }
 
 
