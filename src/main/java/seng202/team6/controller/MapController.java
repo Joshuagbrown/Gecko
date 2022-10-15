@@ -12,6 +12,7 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -20,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
@@ -38,6 +41,7 @@ import seng202.team6.models.Station;
  * @author Tara Lipscombe and Lucas Redding
  */
 public class MapController implements ScreenController {
+    public TextField locationTextBox;
     private JSObject javaScriptConnector;
     private JavaScriptBridge javaScriptBridge;
     @FXML
@@ -376,5 +380,13 @@ public class MapController implements ScreenController {
     }
 
 
+    public void searchLocationOnTheMap(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Position location = findLatLon(locationTextBox.getText());
+        javaScriptConnector.call("findCurrentLocation", location.getLatitude(),location.getLongitude());
 
+    }
+
+    public void deleteTextFromTestArea(MouseEvent mouseEvent) {
+        locationTextBox.setText("");
+    }
 }

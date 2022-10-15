@@ -71,7 +71,7 @@ public class UserStepDef extends TestFXBase {
                 true,false));
 
         List<Charger> chargerList2 = Arrays.asList(
-                new Charger("Type 2 Socketed", "Operative", 44));
+                new Charger("Type 2 CCS", "Operative", 44));
         stationDao.add(new Station(new Position(-43.59049,172.630201), "CHRISTCHURCH ADVENTURE PARK",
                 "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "Worsleys Rd, Cashmere, Christchurch 8022, New Zealand" ,
@@ -80,7 +80,7 @@ public class UserStepDef extends TestFXBase {
 
 
         List<Charger> chargerList3 = Arrays.asList(
-                new Charger("Type 2 Socketed", "Operative", 44));
+                new Charger("CHAdeMO", "Operative", 44));
         stationDao.add(new Station(new Position(-44.303657,171.225107), "TIMARU AIRPORT",
                 "MERIDIAN ENERGY LIMITED","MERIDIAN ENERGY LIMITED",
                 "186 Falvey Road, Levels 7975, New Zealand" ,
@@ -143,7 +143,7 @@ public class UserStepDef extends TestFXBase {
 
 
 
-    @Then("User has the vehicle in the its acctount with make {string}  , year {string} , model {string} input charger type {string}")
+    @Then("User has the vehicle in the its acctount with make {string}  , year {string} , model {string}, charger type {string}")
     public void userHasTheVehicleInTheItsAcctountWithMakeYearModelInputChargerType(String make, String year, String model, String type) {
 
         clickOn((Node) lookup("#year").nth(1).query());
@@ -154,7 +154,7 @@ public class UserStepDef extends TestFXBase {
     }
 
 
-    @When("User register vehicle by choose make ARCIMOTO  , year {string} , model EVERGREEN input charger type {string}")
+    @When("User register vehicle by choose make ARCIMOTO  , year {string} , model EVERGREEN choose charger type {string}")
     public void userRegisterVehicleByChooseMakeARCIMOTOYearModelEVERGREENInputChargerType(String arg0, String chargerType) {
         clickOn("#loginPageBtn");
         clickOn("#registerVehicleButton");
@@ -171,8 +171,7 @@ public class UserStepDef extends TestFXBase {
         clickOn("#inputChargerType");
         moveBy(10,20);
         clickOn();
-        clickOn("#inputTextOfChargerType");
-        write(chargerType);
+
 
         clickOn("#submitVehicleButton");
         clickOn("#quitButton");

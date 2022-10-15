@@ -1,21 +1,21 @@
 Feature: log in user feature
 
-  Scenario:
+  Scenario: User register the vehicle in his account
     Given User logged in with "admin" and "123456789"
-    When User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN input charger type "type 2"
-    Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2019" , model "EVERGREEN" input charger type "type 2"
+    When User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
+    Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2019" , model "EVERGREEN", charger type "Type 2 Socketed"
 
 
     Scenario: User change the vehicl year and model and save.
       Given User logged in with "admin" and "123456789"
-      And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN input charger type "type 2"
+      And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
       When User change the register vehicle year to "2020" , model "something"
-      Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2020" , model "something" input charger type "type 2"
+      Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2020" , model "something", charger type "Type 2 Socketed"
 
 
   Scenario: User delete the vehicle
     Given User logged in with "admin" and "123456789"
-    And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN input charger type "type 2"
+    And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
     When user selected the vehicle and delete it
     Then user has no vehicle in table.
 
