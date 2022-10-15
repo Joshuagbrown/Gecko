@@ -68,6 +68,8 @@ public class MyDetailsController implements ScreenController {
         usernameField.setText(controller.getCurrentUser().getUsername());
         nameField.setText(controller.getCurrentUser().getName());
         homeAddressField.setText(controller.getCurrentUser().getAddress());
+        confirmEditButton.setVisible(false);
+        cancelEditButton.setVisible(false);
         loadUserVehicle();
     }
 
@@ -105,7 +107,7 @@ public class MyDetailsController implements ScreenController {
      * @throws IOException if address is invalid
      * @throws InterruptedException thrown by check address
      */
-    public void confirmEditButton(ActionEvent actionEvent)
+    public void confirmEditButtonEvent(ActionEvent actionEvent)
             throws IOException, InterruptedException {
         User user = controller.getCurrentUser();
         if (Validity.checkName(nameField.getText())) {
@@ -140,7 +142,7 @@ public class MyDetailsController implements ScreenController {
     /**
      * Cancel editing my details.
      */
-    public void cancelEditButton() {
+    public void cancelEditButtonEvent() {
         User user = controller.getCurrentUser();
         nameField.setText(user.getName());
         homeAddressField.setText(user.getAddress());
