@@ -312,6 +312,7 @@ public class EditStationController implements StationController {
             chargerScene = new Scene(root);
             stage.setScene(chargerScene);
             stage.setTitle("Current Chargers");
+            stage.setResizable(false);
             stage.show();
             ChargerController chargerController = loader.getController();
             chargerController.init(stage, stationScene, controller, station, "update");

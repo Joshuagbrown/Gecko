@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -49,7 +48,6 @@ public class AddStationController implements StationController {
     private CheckBox touristButton;
     @FXML
     private Button viewChargersButton;
-
     @FXML
     private Button saveButton;
     @FXML
@@ -127,10 +125,7 @@ public class AddStationController implements StationController {
 
     /**
      * Finds the corresponding latitude and longitude for the given address.
-     * and sets it to the position variable
-     *
-     * @throws IOException from geocoding
-     * @throws InterruptedException from geocoding
+     * and sets it to the position variable.
      */
     private void findLatLon() {
         JSONObject positionField = controller.getMapToolBarController().geoCode(address);
@@ -152,11 +147,11 @@ public class AddStationController implements StationController {
 
     }
 
-
     /**
      * Function to save changes made by user and update database.
-     *
      * @param actionEvent when save button is clicked
+     * @throws IOException Throws IO exception when validity doesn't work.
+     * @throws InterruptedException Throws Interrupted Exception when it is interrupted.
      */
     public void savingChanges(ActionEvent actionEvent) throws IOException,
             InterruptedException {
@@ -188,7 +183,6 @@ public class AddStationController implements StationController {
             viewChargers(null);
 
         }
-
 
     }
 
@@ -287,15 +281,13 @@ public class AddStationController implements StationController {
             chargerScene = new Scene(root);
             stage.setScene(chargerScene);
             stage.setTitle("Current Chargers");
+            stage.setResizable(false);
             stage.show();
             ChargerController chargerController = loader.getController();
             chargerController.init(stage, stationScene, controller, station, "new");
         }
 
     }
-
-
-
 
     /**
      * Adds any newly saved chargers on the charger pop-up to the charger list
@@ -322,7 +314,4 @@ public class AddStationController implements StationController {
         controller.setTextAreaInMainScreen("");
 
     }
-
-
-
 }

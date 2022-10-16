@@ -11,10 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
@@ -26,15 +25,11 @@ import seng202.team6.services.Validity;
 
 public class ChargerController {
     @FXML
-    public ToggleGroup operative;
-    @FXML
     public ComboBox<Charger> chargerDropDown = new ComboBox<>();
     @FXML
     public Button addButton;
     @FXML
-    public RadioButton opButton;
-    @FXML
-    public RadioButton notOpButton;
+    public CheckBox opButton;
     @FXML
     public TextField wattageText;
     @FXML
@@ -124,11 +119,7 @@ public class ChargerController {
         currentlySelectedCharger = chargerDropDown.getSelectionModel().getSelectedIndex();
         if (current != null) {
             String op = current.getOperative();
-            if (op.equals("Operative")) {
-                opButton.setSelected(true);
-            } else {
-                notOpButton.setSelected(true);
-            }
+            opButton.setSelected(op.equals("Operative"));
 
             int watts = current.getWattage();
             wattageText.setText(String.valueOf(watts));
@@ -329,9 +320,7 @@ public class ChargerController {
             ButtonType cancel = alert.getButtonTypes().get(0);
             ButtonType result = alert.showAndWait().orElse(cancel);
 
-            if (cancel.equals(result)) {
-                return false;
-            }
+            return !cancel.equals(result);
         }
         return true;
 
