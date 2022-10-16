@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -23,6 +24,7 @@ import seng202.team6.models.Position;
 import seng202.team6.models.Station;
 import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
+
 
 /**
  * Controller for edit station pop-up.
@@ -379,7 +381,7 @@ public class EditStationController implements StationController {
      */
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
-        Alert alert = AlertMessage.unsavedChanges();
+        Alert alert = AlertMessage.deleteStation();
         ButtonType delete = alert.getButtonTypes().get(1);
         ButtonType result = alert.showAndWait().orElse(delete);
 
@@ -396,7 +398,6 @@ public class EditStationController implements StationController {
         }
 
     }
-
 
 
 }

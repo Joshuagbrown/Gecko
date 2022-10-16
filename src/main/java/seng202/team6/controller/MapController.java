@@ -58,6 +58,8 @@ public class MapController implements ScreenController {
     private Station currentlySelected;
 
     private String homeAddress = null;
+    private String markerAddress;
+    private Position markerPosition;
 
     /**
      * Initialises the map view.
@@ -196,7 +198,19 @@ public class MapController implements ScreenController {
      * @param stationId the id of the station.
      */
     public void onStationClicked(Integer stationId) {
-        if (stationId == null || stationId == 0) {
+        if (stationId.equals(-2)) {
+            //Home address marker clicked
+            controller.getMapToolBarController().setImagesToHome();
+            currentAddress = homeAddress;
+            position = getHomePosition();
+
+
+        } else if (stationId == -1) {
+            //Current Location marker clicked
+            controller.getMapToolBarController().setImagesToMarker();
+            position = markerPosition;
+
+        } else if (stationId == null || stationId == 0) {
             currentlySelected = null;
             setAddress(null);
             controller.setTextAreaInMainScreen("");
@@ -218,7 +232,9 @@ public class MapController implements ScreenController {
      * @param lng longitude
      */
     public void setClickLocation(double lat, double lng) {
+        controller.getMapToolBarController().setImagesToMarker();
         position = new Position(lat, lng);
+        markerPosition = position;
         controller.changeToAddButton();
     }
 
