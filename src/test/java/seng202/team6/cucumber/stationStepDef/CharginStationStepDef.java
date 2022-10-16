@@ -211,4 +211,6 @@ public class CharginStationStepDef extends TestFXBase{
                 "Charging Cost : false\n" +
                 "Has Tourist Attraction : true",table.getItems().get(0).toString());
     }
+
+
 }

@@ -9,6 +9,7 @@ import io.cucumber.java.en.When;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -256,7 +257,7 @@ public class UserStepDef extends TestFXBase {
     }
 
     @And("plug type to Type 2 Socketed")
-    public void plugTypeToCHAdeMo() {
+    public void plugTypeToType2Scocketed() {
         clickOn("#plugTypeDropDown");
         press(KeyCode.DOWN);
         press(KeyCode.ENTER);
@@ -443,5 +444,79 @@ public class UserStepDef extends TestFXBase {
                 "CarPark Cost : false\n" +
                 "Charging Cost : true\n" +
                 "Has Tourist Attraction : false", textArea.getText());
+    }
+    @When("User filter the station by the station name {string} and choose {int} hour operative and no charging cost and has tourist attriction")
+    public void userFilterTheStationByTheStationNameAndChooseHourOperativeAndNoChargingCost(String name, int arg1) {
+        clickOn("#inputStationName");
+        write(name);
+        clickOn("#is24HourCheckBox");
+        clickOn("#hasChargingCostCheckBox");
+        clickOn("#hasTouristAttractionCostCheckBox");
+        clickOn("#filterButton");
+
+
+
+    }
+
+    @And("input the operator as {string}")
+    public void inputTheOperatorAs(String arg0) {
+        clickOn("#operatorField");
+        write(arg0);
+    }
+
+    @And("input the owner as {string}")
+    public void inputTheOwnerAs(String arg0) {
+        clickOn("#ownerField");
+        write(arg0);
+    }
+
+    @And("choose {int} hour operative")
+    public void chooseHourOperative(int arg0) {
+        clickOn("#hoursButton");
+    }
+
+    @And("choose no charging cost")
+    public void chooseNoChargingCost() {
+    }
+
+    @And("choose has tourist attraction")
+    public void chooseHasTouristAttraction() {
+        clickOn("#touristButton");
+    }
+
+    @And("click continue button")
+    public void clickContinueButton() {
+        clickOn("#saveButton");
+    }
+
+    @And("click the save station")
+    public void clickTheSaveStation() {
+        clickOn("#saveStationButton");
+    }
+
+    @Then("User have the charging station with related info")
+    public void userHaveTheChargingStationWithRelatedInfo() {
+
+        TableView<?> table = find("#table");
+        Assertions.assertEquals("Station Name : SOMETHING\n" +
+                "Coordinate : -43.53092,172.57957\n" +
+                "Operator : Some one\n" +
+                "Owner : Some one\n" +
+                "Address : 3 ilam road\n" +
+                "Time Limit : 240\n" +
+                "Is 24 Hour : true\n" +
+                "Chargers : \n" +
+                "10 kW Type 2 CCS, Status: Operative\n" +
+                "Number Of CarPark : 5\n" +
+                "CarPark Cost : false\n" +
+                "Charging Cost : false\n" +
+                "Has Tourist Attraction : true",table.getItems().get(0).toString());
+    }
+
+    @And("plug type to Type 2 CCS")
+    public void plugTypeToTypeCCS() {
+        clickOn("#plugTypeDropDown");
+        press(KeyCode.DOWN);
+        press(KeyCode.ENTER);
     }
 }
