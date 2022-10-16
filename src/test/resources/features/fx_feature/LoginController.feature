@@ -29,7 +29,7 @@ Feature:  LoginController
     Then User can see the my details page
 
 
-  Scenario:  (AT_) User Log Out
+  Scenario:  (AT_14) User Log Out
     Given User logged in with with username "admin" and password "123456789" and in my detail page
     When User clicks log out button
     And User clicks My Details button

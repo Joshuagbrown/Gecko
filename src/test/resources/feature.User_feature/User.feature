@@ -6,14 +6,14 @@ Feature: log in user feature
     Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2019" , model "EVERGREEN", charger type "Type 2 Socketed"
 
 
-    Scenario: User change the vehicle year and model and save.
+    Scenario:(AT_15) User change the vehicle year and model and save.
       Given User logged in with "admin" and "123456789"
       And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
       When User change the register vehicle year to "2020" , model "something"
       Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2020" , model "something", charger type "Type 2 Socketed"
 
 
-  Scenario: User delete the vehicle
+  Scenario: (AT_15) User delete the vehicle
     Given User logged in with "admin" and "123456789"
     And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
     When user selected the vehicle and delete it
@@ -48,7 +48,7 @@ Feature: log in user feature
       Then the user have the charger type changed in that station
 
 
-  Scenario: User add the new charger to the station
+  Scenario: (AT_11) User add the new charger to the station
     Given User logged in with "admin" and "123456789"
     And User go to the data page
     And select the first station
@@ -65,7 +65,7 @@ Feature: log in user feature
     Then User have the new charger type changed in that station
 
 
-    Scenario: User delete the fist charger at the selected station
+    Scenario: (AT_11) User delete the fist charger at the selected station
       Given User logged in with "admin" and "123456789"
       And User go to the data page
       And select the first station
