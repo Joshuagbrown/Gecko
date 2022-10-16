@@ -245,24 +245,30 @@ public class ChargerController {
             AlertMessage.createMessage("Unable to delete the currently selected charger.",
                     "Please save your changes first.");
         } else {
-            controller.getDataService().getStationDao().deleteCharger(chargers
-                            .get(currentlySelectedCharger), station.getStationId());
-            chargers.remove(currentlySelectedCharger);
-            station.setChargers(chargers);
-            controller.getDataService().getStationDao().update(station);
-            try {
-                controller.updateStationsFromDatabase();
-            } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+            if (currentlySelectedCharger == 0 && chargers.size() == 1) {
+                AlertMessage.createMessage("Unable to delete the currently selected charger.",
+                        "Each station must have at least one charger.");
+            } else {
+                controller.getDataService().getStationDao().deleteCharger(chargers
+                        .get(currentlySelectedCharger), station.getStationId());
+                chargers.remove(currentlySelectedCharger);
+                station.setChargers(chargers);
+                controller.getDataService().getStationDao().update(station);
+                try {
+                    controller.updateStationsFromDatabase();
+                } catch (DatabaseException e) {
+                    throw new RuntimeException(e);
+                }
+                controller.setTextAreaInMainScreen(station.toString());
+                setChargerAndPlugDropDown();
+                wattageText.setText("");
+                opButton.setSelected(true);
+                plugTypeDropDown.getSelectionModel().clearSelection();
+                chargerDropDown.getSelectionModel().clearSelection();
+                currentlySelectedCharger = station.getChargers().size();
             }
-            controller.setTextAreaInMainScreen(station.toString());
-            setChargerAndPlugDropDown();
-            wattageText.setText("");
-            opButton.setSelected(true);
-            plugTypeDropDown.getSelectionModel().clearSelection();
-            chargerDropDown.getSelectionModel().clearSelection();
         }
-        currentlySelectedCharger = station.getChargers().size();
+        //        currentlySelectedCharger = station.getChargers().size();
     }
 
 
