@@ -17,12 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DatabaseException;
-import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 /**
@@ -88,9 +87,13 @@ public class EditStationController implements StationController {
 
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
-            Boolean saved = checkChanges();
+            boolean saved = checkChanges();
             if (!saved) {
                 e.consume();
+            } else {
+                if (controller.checksSelectedStationButton()) {
+                    controller.setSelected(controller.getPrevSelected());
+                }
             }
         });
         this.stationScene = scene;
@@ -159,8 +162,8 @@ public class EditStationController implements StationController {
      */
     public void savingChanges(ActionEvent actionEvent) throws IOException, InterruptedException {
 
-        Boolean valid = checkValues();
-        if (!valid) {
+        boolean isValid = checkValues();
+        if (!isValid) {
             AlertMessage.createListMessageStation("Invalid Changes made.",
                     "Please fix the changes with the following errors.", currentErrors);
             currentErrors.clear();
@@ -199,6 +202,7 @@ public class EditStationController implements StationController {
                 throw new RuntimeException(e);
             }
             stage.close();
+            controller.setSelected(controller.getPrevSelected());
             controller.setTextAreaInMainScreen(station.toString());
         }
 
@@ -225,11 +229,12 @@ public class EditStationController implements StationController {
     public Boolean checkValues() throws IOException, InterruptedException {
 
         Boolean returnable = true;
+        String invalidStyle = "-fx-text-box-border: #B22222; -fx-focus-color: #B22222;";
 
         String newName = nameField.getText();
 
         if (!valid.checkStationName(newName)) {
-            nameField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            nameField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Station name must be greater than a length of 0, and only contain "
                     + "characters within the" + " following set {a-z, A-Z, '+', '&', ',', ' '}");
@@ -240,7 +245,7 @@ public class EditStationController implements StationController {
         String newAddress = addressField.getText();
 
         if (!valid.checkAddress(newAddress)) {
-            addressField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            addressField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Address must represent an existing address");
         } else {
@@ -251,8 +256,7 @@ public class EditStationController implements StationController {
         String newOperator = operatorField.getText();
 
         if (!valid.checkOp(newOperator)) {
-            operatorField.setStyle("-fx-text-box-border-width: 10px; -fx-text-box-border: #b22222; "
-                    + "-fx-focus-color: #b22222;");
+            operatorField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Operator name must be of length greater than 0 and only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
@@ -263,7 +267,7 @@ public class EditStationController implements StationController {
         String newOwner = ownerField.getText();
 
         if (!valid.checkOp(newOwner)) {
-            ownerField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            ownerField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Owner name must be of length greater than 0 and only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
@@ -274,7 +278,7 @@ public class EditStationController implements StationController {
         String newTimeLimit = timeLimitField.getText();
 
         if (!valid.checkInts(newTimeLimit)) {
-            timeLimitField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            timeLimitField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Time Limit must be a valid integer between 0 and 300");
         } else {
@@ -284,7 +288,7 @@ public class EditStationController implements StationController {
         String newCarParks = numParksField.getText();
 
         if (!valid.checkInts(newCarParks)) {
-            numParksField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            numParksField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Number of CarParks must be a valid integer between 0 and 300");
         } else {
@@ -300,7 +304,7 @@ public class EditStationController implements StationController {
      * @param actionEvent when the "View chargers" button is clicked
      */
     public void viewChargers(ActionEvent actionEvent) throws IOException {
-        Boolean saved = checkChanges();
+        boolean saved = checkChanges();
         if (saved) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Chargers.fxml"));
             Parent root = loader.load();
@@ -318,7 +322,7 @@ public class EditStationController implements StationController {
      * Checks to see if any unsaved changes exist within the pop-up.
      */
     private boolean checkChanges() {
-        Boolean hasUnsavedChanges = false;
+        boolean hasUnsavedChanges = false;
 
         if (nameField.getText().length() > 0 && !nameField.getText().equals(
                 station.getName())) {
@@ -359,9 +363,10 @@ public class EditStationController implements StationController {
 
         if (hasUnsavedChanges) {
             Alert alert = AlertMessage.unsavedChanges();
-            ButtonType result = alert.showAndWait().orElse(ButtonType.OK);
+            ButtonType cancel = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(cancel);
 
-            if (ButtonType.OK.equals(result)) {
+            if (cancel.equals(result)) {
                 return false;
             }
         }
@@ -375,14 +380,21 @@ public class EditStationController implements StationController {
      */
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
-        controller.getDataService().getStationDao().delete(station.getStationId());
-        try {
-            controller.updateStationsFromDatabase();
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+        Alert alert = AlertMessage.unsavedChanges();
+        ButtonType delete = alert.getButtonTypes().get(1);
+        ButtonType result = alert.showAndWait().orElse(delete);
+
+        if (delete.equals(result)) {
+            controller.getDataService().getStationDao().delete(station.getStationId());
+            try {
+                controller.updateStationsFromDatabase();
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
+            stage.close();
+            controller.setSelected(controller.getPrevSelected());
+            controller.setTextAreaInMainScreen("");
         }
-        stage.close();
-        controller.setTextAreaInMainScreen("");
 
     }
 

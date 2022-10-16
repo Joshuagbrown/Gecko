@@ -1,4 +1,4 @@
-package seng202.team6.controller;
+package seng202.team6.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +17,14 @@ import javafx.scene.layout.Region;
  */
 public class AlertMessage {
 
+
+    private static ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.OK_DONE);
+
     /**
      * Alert Message class constructor that.
      */
     private AlertMessage() {
+
         throw new IllegalStateException("Alert Message Class");
     }
 
@@ -87,8 +91,16 @@ public class AlertMessage {
         alert.setTitle("Error Message:");
         alert.setHeaderText(header);
         alert.setContentText(body);
-        Optional<ButtonType> result = alert.showAndWait();
-        return result;
+        return alert.showAndWait();
+    }
+
+
+    /**
+     * Function to get the button type used to cancel a close request.
+     * @return the button type
+     */
+    public static ButtonType getCancelButton() {
+        return cancel;
     }
 
     /**
@@ -97,12 +109,25 @@ public class AlertMessage {
      * @return the alert pop-up
      */
     public static Alert unsavedChanges() {
-        ButtonType cancel = new ButtonType("OK", ButtonBar.ButtonData.CANCEL_CLOSE);
-        ButtonType ok = new ButtonType("Cancel", ButtonBar.ButtonData.OK_DONE);
+        ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.CANCEL_CLOSE);
         return new Alert(AlertType.WARNING, """
                 You currently have unsaved Changes.\s
-                Select 'OK' to return and save changes.""",
+                Select 'Cancel' to return and save changes.""",
                 cancel, ok);
+    }
+
+
+    /**
+     * Creates a pop-up to indicate to the user that they have unsaved
+     * changes.
+     * @return the alert pop-up
+     */
+    public static Alert deleteStation() {
+        ButtonType delete = new ButtonType("Delete Station", ButtonBar.ButtonData.CANCEL_CLOSE);
+        return new Alert(AlertType.WARNING, """
+                Are you sure you want to delete this station?.\s
+                Select 'Cancel' to return and keep this station.""",
+                cancel, delete);
     }
 
     /**

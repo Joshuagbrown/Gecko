@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -36,6 +35,7 @@ import seng202.team6.models.Station;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.FilterBuilder;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.DataService;
 
 /**
@@ -65,9 +65,19 @@ public class MainScreenController {
      */
     @FXML
     public Text geckoTitle;
+    @FXML
     public Button loginPageBtn;
+    @FXML
     public Button stationButton;
+    @FXML
     public Button mapButton;
+    @FXML
+    public Button dataButton;
+    @FXML
+    public Button helpButton;
+    @FXML
+    public Button importDataButton;
+
     private Stage stage;
     private DataService dataService;
     /**
@@ -121,21 +131,22 @@ public class MainScreenController {
     private HelpController helpController;
     private MapToolBarController mapToolBarController;
     private LoginController loginController;
-    private SignUpController signUpController;
-    private LoginToolBarController loginToolBarController;
     private MyDetailsController myDetailsController;
     private MyDetailsToolBarController myDetailsToolBarController;
     private SaveJourneyController saveJourneyController;
-
+    private SignUpController signUpController;
+    private LoginToolBarController loginToolBarController;
+    
     private ObservableMap<Integer, Station> stations = FXCollections.observableHashMap();
     private ObservableMap<Integer, Journey> journeys = FXCollections.observableHashMap();
     private SimpleObjectProperty<User> userProperty = new SimpleObjectProperty<>(null);
-    private Parent registerVehicleScreen;
     private RegisterVehicleController registerVehicleController;
 
     private int currentUserId;
     private List<Vehicle> vehicles;
     private FilterBuilder filterBuilder = new FilterBuilder();
+    private Button currentlySelectedWindow;
+    private Button previouslySelectedWindow;
 
 
     /**
@@ -159,6 +170,7 @@ public class MainScreenController {
 
         this.stage = stage;
         this.dataService = dataService;
+        setSelected(mapButton);
 
         try {
             updateStationsFromDatabase();
@@ -206,8 +218,7 @@ public class MainScreenController {
             pair = screen.loadBigScreen(stage, "/fxml/MyDetailsToolBar.fxml", this);
             myDetailsToolBarScreen = pair.getKey();
             myDetailsToolBarController = (MyDetailsToolBarController) pair.getValue();
-
-            //loadVehicleType();
+            
             pair = screen.loadBigScreen(stage, "/fxml/SaveJourney.fxml", this);
             journeysScreen = pair.getKey();
             saveJourneyController = (SaveJourneyController) pair.getValue();
@@ -215,21 +226,54 @@ public class MainScreenController {
             loadVehicleType();
             mapButtonEventHandler();
 
-        } catch (IOException | CsvFileException e) {
-            throw new RuntimeException(e);
-        } catch (DatabaseException e) {
+        } catch (IOException | CsvFileException | DatabaseException e) {
             throw new RuntimeException(e);
         }
         stage.sizeToScene();
 
     }
 
+
+    /**
+     * Changes style of new selected button and resets the style of the previously selected
+     * button.
+     * @param button the new selected button.
+     */
+    public void setSelected(Button button) {
+        if (currentlySelectedWindow != null) {
+            currentlySelectedWindow.setStyle("");
+            if (currentlySelectedWindow != previouslySelectedWindow) {
+                previouslySelectedWindow = currentlySelectedWindow;
+            }
+        }
+        if (button != null) {
+            currentlySelectedWindow = button;
+            button.setStyle("-fx-border-color: #FFFFFF");
+        }
+
+    }
+
+    /**
+     * Function to return the previously selected window, to be used to reset "clicked" button.
+     */
+    public Button getPrevSelected() {
+        return previouslySelectedWindow;
+    }
+
+    /**
+     * Function to return the currently selected window, to be used to reset "clicked" button.
+     */
+    public boolean checksSelectedStationButton() {
+        return currentlySelectedWindow == stationButton;
+    }
+
+
     /**
      * Function to get my detail controller of the app.
      *
      * @return my detail controller.
      */
-    public MyDetailsController getMyDetailController() {
+    public MyDetailsController getMyDetailsController() {
         return myDetailsController;
     }
 
@@ -256,9 +300,10 @@ public class MainScreenController {
         Scene scene = new Scene(root, 500, 600);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Current Station");
+        stage.setTitle("Register a New Vehicle");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.DECORATED);
+        stage.setResizable(false);
         stage.show();
         registerVehicleController = loader.getController();
         registerVehicleController.init(stage, this);
@@ -426,15 +471,6 @@ public class MainScreenController {
         return loginController;
     }
 
-    /**
-     * Function to return the 'My Details' controller.
-     * 
-     *
-     * @return myDetailsController the 'my details' controller.
-     */
-    public MyDetailsController getMyDetailsController() {
-        return myDetailsController;
-    }
 
     /**
      * The action handler that linked to the map button on main screen.
@@ -449,6 +485,7 @@ public class MainScreenController {
         mainBorderPane.setRight(null);
         mapToolBarController.setFilterSectionOnMapToolBar(dataToolBarScreen);
         changeToAddButton();
+        setSelected(mapButton);
     }
 
     /**
@@ -499,7 +536,6 @@ public class MainScreenController {
 
     /**
      * The action handler that linked to the Login button on main screen.
-     * 
      *
      * @param actionEvent when Login button is clicked
      */
@@ -512,6 +548,7 @@ public class MainScreenController {
         } else {
             loadMyDetailsViewAndToolBars();
         }
+        setSelected(loginPageBtn);
 
     }
 
@@ -554,6 +591,7 @@ public class MainScreenController {
         mainBorderPane.setCenter(dataScreen);
         toolBarPane.setCenter(dataToolBarScreen);
         changeToAddButton();
+        setSelected(dataButton);
     }
 
     /**
@@ -564,6 +602,7 @@ public class MainScreenController {
     public void loadHelpScreenAndToolBar(ActionEvent actionEvent) {
         mainBorderPane.setCenter(helpScreen);
         toolBarPane.setCenter(helpToolBarScreen);
+        setSelected(helpButton);
     }
 
     /**
@@ -579,6 +618,7 @@ public class MainScreenController {
      * This function imports the data from a selected file.
      */
     public void importData() throws DatabaseException {
+        setSelected(importDataButton);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import Data from CSV file");
         fileChooser.getExtensionFilters()
@@ -621,6 +661,7 @@ public class MainScreenController {
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
             updateStationsFromDatabase();
         }
+        setSelected(previouslySelectedWindow);
     }
 
     /**
@@ -658,6 +699,7 @@ public class MainScreenController {
             }
         } else {
             getMapController().loadAddStationWindow(null);
+            setSelected(stationButton);
         }
     }
 
@@ -667,6 +709,7 @@ public class MainScreenController {
      * @param actionEvent when 'Edit Station' button is clicked.
      */
     public void editStation(ActionEvent actionEvent) throws IOException, InterruptedException {
+        setSelected(stationButton);
         if (getCurrentUserId() == 0) {
             Alert alert = AlertMessage.noAccess();
             ButtonType button = alert.getButtonTypes().get(0);

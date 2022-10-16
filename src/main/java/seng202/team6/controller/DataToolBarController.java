@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Position;
 import seng202.team6.repository.FilterBuilder;
+import seng202.team6.services.AlertMessage;
 
 
 /**
@@ -23,9 +24,11 @@ import seng202.team6.repository.FilterBuilder;
  * @author  Phyu Wai Lwin.
  */
 public class DataToolBarController implements ScreenController {
-    public RadioButton fromCurrentLoc;
-    public RadioButton fromHome;
-    public BorderPane dataToolBarScreen;
+
+    @FXML
+    private RadioButton fromCurrentLoc;
+    @FXML
+    private RadioButton fromHome;
     @FXML
     private CheckBox is24HourCheckBox;
     @FXML

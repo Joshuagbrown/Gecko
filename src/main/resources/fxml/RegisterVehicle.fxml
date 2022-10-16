@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <!--TODO place in correct controller-->
 
-<BorderPane prefHeight="372.0" prefWidth="501.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
     <center>
           <GridPane prefHeight="373.0" prefWidth="404.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -16,6 +22,7 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="51.0" />
               </columnConstraints>
               <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,47 +34,50 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="199.931640625" GridPane.rowIndex="2">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="53.931640625" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                       <font>
                           <Font size="15.0" />
                       </font>
             </Text>
 
-                  <Button fx:id="submitVehicleButton" alignment="CENTER" mnemonicParsing="false" onAction="#submitVehicle" prefHeight="35.0" prefWidth="96.0" text="Add new" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+              <Button fx:id="submitVehicleButton" alignment="CENTER" mnemonicParsing="false" onAction="#clearVehicleSelect" prefHeight="35.0" prefWidth="175.0" text="Clear Selection" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
                       <font>
                           <Font size="15.0" />
                       </font>
             </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Model:" wrappingWidth="188.7949104309082" GridPane.rowIndex="4">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Model:" wrappingWidth="52.7949104309082" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                       <font>
                           <Font size="15.0" />
                       </font>
             </Text>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#clearVehicleSelect" prefHeight="35.0" prefWidth="130.0" text="Clear Selection" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#submitVehicle" prefHeight="35.0" prefWidth="259.0" text="Add New Vehicle" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
                       <font>
                           <Font size="15.0" />
                       </font>
             </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make of Vehicle:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                       <font>
                           <Font size="15.0" />
                       </font>
                   </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Charger Type:" wrappingWidth="197.72266387939453" GridPane.rowIndex="6">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Charger Type:" wrappingWidth="116.72266387939453" GridPane.halignment="CENTER" GridPane.rowIndex="7">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="inputVehicleMake" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="1" />
-            <ComboBox fx:id="inputVehicleModel" prefHeight="26.0" prefWidth="247.0" GridPane.rowIndex="5" />
-            <ComboBox fx:id="inputVehicleYear" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="3" />
-            <TextField fx:id="inputTextOfMake" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="inputTextOfYear" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="inputTextOfModel" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="inputTextOfChargerType" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Button fx:id="btnConfirmEdit" disable="true" mnemonicParsing="false" onAction="#updateEditVehicle" prefHeight="35.0" prefWidth="98.0" text="Confirm Edit" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-            <ComboBox fx:id="inputChargerType" prefHeight="26.0" prefWidth="249.0" GridPane.rowIndex="7" />
-            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="35.0" prefWidth="46.0" text="Quit" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="inputVehicleMake" prefHeight="26.0" prefWidth="247.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <ComboBox fx:id="inputVehicleModel" prefHeight="26.0" prefWidth="247.0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <ComboBox fx:id="inputVehicleYear" prefHeight="26.0" prefWidth="249.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <TextField fx:id="inputTextOfMake" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="inputTextOfYear" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="inputTextOfModel" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="inputTextOfChargerType" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <ComboBox fx:id="inputChargerType" prefHeight="26.0" prefWidth="249.0" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Vehicle Information:" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
               </children>
           </GridPane>
     </center>
