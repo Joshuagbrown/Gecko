@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
@@ -27,7 +28,7 @@ public class ChargerController {
     @FXML
     public ToggleGroup operative;
     @FXML
-    public ComboBox<Charger> chargerDropDown = new ComboBox<Charger>();
+    public ComboBox<Charger> chargerDropDown = new ComboBox<>();
     @FXML
     public Button addButton;
     @FXML
@@ -67,7 +68,7 @@ public class ChargerController {
                      Station newStation, String newOrUpdate) {
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
-            Boolean saved = checkChanges();
+            boolean saved = checkChanges();
             if (!saved) {
                 e.consume();
             }
@@ -103,7 +104,7 @@ public class ChargerController {
         ObservableList<Charger> options = FXCollections.observableArrayList();
         options.addAll(station.getChargers());
         chargerDropDown.setItems(options);
-        if (options.size() > 0) {
+        if (!options.isEmpty()) {
             chargerDropDown.getSelectionModel().select(0);
         }
 
@@ -119,7 +120,7 @@ public class ChargerController {
      */
     public void chargerSelected(ActionEvent actionEvent) {
 
-        Charger current = (Charger) chargerDropDown.getValue();
+        Charger current = chargerDropDown.getValue();
         currentlySelectedCharger = chargerDropDown.getSelectionModel().getSelectedIndex();
         if (current != null) {
             String op = current.getOperative();
@@ -145,9 +146,9 @@ public class ChargerController {
      */
     public void saveChargerChanges(ActionEvent actionEvent) {
 
-        Boolean valid = checkValues();
+        boolean isValid = checkValues();
 
-        if (!valid) {
+        if (!isValid) {
             AlertMessage.createListMessageStation("Invalid Changes made.",
                     "Please fix the changes with errors.", currentErrors);
             currentErrors.clear();
@@ -185,10 +186,10 @@ public class ChargerController {
                 } catch (DatabaseException e) {
                     throw new RuntimeException(e);
                 }
+                controller.setTextAreaInMainScreen(station.toString());
             }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
-            //chargerDropDown.getSelectionModel().select(currentlySelectedCharger);
         }
 
     }
@@ -206,7 +207,7 @@ public class ChargerController {
         if (!valid.checkWattage(wattage)) {
             wattageText.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
             returnable = false;
-            currentErrors.add("Wattage must be a valid integer between 0 and 500");
+            currentErrors.add("Wattage must be a valid integer between 1 and 500");
         } else {
             wattageText.setStyle("");
         }
@@ -249,6 +250,8 @@ public class ChargerController {
             AlertMessage.createMessage("Unable to delete the currently selected charger.",
                     "Please save your changes first.");
         } else {
+            controller.getDataService().getStationDao().deleteCharger(chargers
+                            .get(currentlySelectedCharger), station.getStationId());
             chargers.remove(currentlySelectedCharger);
             station.setChargers(chargers);
             controller.getDataService().getStationDao().update(station);
@@ -264,7 +267,7 @@ public class ChargerController {
             plugTypeDropDown.getSelectionModel().clearSelection();
             chargerDropDown.getSelectionModel().clearSelection();
         }
-
+        currentlySelectedCharger = station.getChargers().size();
     }
 
 
@@ -281,7 +284,7 @@ public class ChargerController {
      * @param actionEvent when the return button is selected
      */
     public void returnStationInfo(ActionEvent actionEvent) {
-        Boolean saved = checkChanges();
+        boolean saved = checkChanges();
         if (saved) {
             stage.setScene(stationScene);
             stage.setTitle("Current Station");
@@ -290,7 +293,8 @@ public class ChargerController {
     }
 
     private boolean checkChanges() {
-        Boolean unsavedChanges = false;
+        boolean unsavedChanges = false;
+
         if (station.getChargers().isEmpty() || (currentlySelectedCharger == station
                 .getChargers().size())) {
             if (wattageText.getText().length() > 0) {
@@ -320,12 +324,12 @@ public class ChargerController {
                 unsavedChanges = true;
             }
         }
-
         if (unsavedChanges) {
             Alert alert = AlertMessage.unsavedChanges();
-            ButtonType result = alert.showAndWait().orElse(ButtonType.OK);
+            ButtonType cancel = alert.getButtonTypes().get(0);
+            ButtonType result = alert.showAndWait().orElse(cancel);
 
-            if (ButtonType.OK.equals(result)) {
+            if (cancel.equals(result)) {
                 return false;
             }
         }
@@ -340,7 +344,7 @@ public class ChargerController {
      */
     public void saveStation(ActionEvent actionEvent) {
         if (station.getChargers().isEmpty()) {
-            AlertMessage.createMessage("Unable to Save Station.",
+            AlertMessage.createMessage("Unable to save Station.",
                     "Please ensure you have added at least one Charger "
                             + "to your Station.");
         } else {
@@ -356,5 +360,6 @@ public class ChargerController {
             }
             stage.close();
         }
+        controller.setSelected(controller.getPrevSelected());
     }
 }

@@ -26,6 +26,9 @@
 <script src="https://cdn.jsdelivr.net/gh/aazuspan/leaflet-feature-legend/src/feature-legend.js"></script>
 <link href="https://cdn.jsdelivr.net/gh/aazuspan/leaflet-feature-legend/src/feature-legend.css" rel="stylesheet" />
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@[VERSION]/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
@@ -40,6 +43,7 @@
     var route;
     var javaScriptBridge;
     var currentClicked;
+    var addressMarker;
     var greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -64,14 +68,6 @@
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
     });
-    var yellowIcon = new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
     var blueIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -80,6 +76,15 @@
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
     });
+    var homeIcon = new L.Icon({
+        iconUrl: 'https://img.icons8.com/material-rounded/24/000000/home.png',
+        iconSize: [35, 40],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+    var homeAddress;
+    var homeButton;
 
 
 
@@ -88,6 +93,8 @@
      */
     let jsConnector = {
         addMarker: addMarker,
+        fixAddressMarker: fixAddressMarker,
+        removeAddressMarker: removeAddressMarker,
         addRoute: addRoute,
         initMap: initMap,
         cleanUpMarkerLayer :cleanUpMarkerLayer,
@@ -115,16 +122,18 @@
 
         var tempLatlng = L.latLng(50, 50);
 
-        var greenLayer = new L.Marker(tempLatlng, {icon:greenIcon}, {draggable:true});
-        var yellowLayer = new L.Marker(tempLatlng, {icon:yellowIcon}, {draggable:true});
-        var redLayer = new L.Marker(tempLatlng, {icon:redIcon}, {draggable:true});
-        var blueLayer = new L.Marker(tempLatlng, {icon:blueIcon}, {draggable:true});
+        var greenLayer = new L.Marker(tempLatlng, {icon:greenIcon}, {draggable:false});
+        var yellowLayer = new L.Marker(tempLatlng, {icon:yellowIcon}, {draggable:false});
+        var redLayer = new L.Marker(tempLatlng, {icon:redIcon}, {draggable:false});
+        var blueLayer = new L.Marker(tempLatlng, {icon:blueIcon}, {draggable:false});
+        var homeLayer = new L.Marker(tempLatlng, {icon:homeIcon}, {draggable:false});
 
         const items = {
             "Charging Station" : greenLayer,
             "Auto-filled Location" : yellowLayer,
             "Current Location" : redLayer,
             "Journey Stops" : blueLayer,
+            "Home" : homeLayer,
         };
 
         const legend = L.control.featureLegend(items, {
@@ -137,6 +146,10 @@
             collapsed: false,
             drawShadows: true,
         }).addTo(map);
+
+        homeButton = L.easyButton('<img src="https://img.icons8.com/material-rounded/24/000000/home.png" style="width:16px">', function(btn, map){
+            map.flyTo(homeAddress);
+        })
 
     }
 
@@ -247,6 +260,27 @@
         });
         m.stationId = stationId;
         markers.push(m)
+    }
+
+
+    function fixAddressMarker(title, lat, lng) {
+        if (addressMarker != null) {
+            map.removeLayer(addressMarker)
+        }
+        homeButton.addTo(map);
+        addressMarker = new L.Marker([lat, lng], {icon:homeIcon})
+        addressMarker.bindPopup(title).openPopup();
+        addressMarker.addTo(map);
+        homeAddress = new L.LatLng(lat, lng);
+        //map.flyTo(homeAddress);
+    }
+
+    function removeAddressMarker() {
+        if (addressMarker != null) {
+            map.removeLayer(addressMarker)
+            homeAddress = null;
+            map.removeLayer(homeButton);
+        }
     }
 
     function removeMarker(stationId) {

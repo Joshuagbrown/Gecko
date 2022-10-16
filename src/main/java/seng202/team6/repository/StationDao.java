@@ -234,6 +234,26 @@ public class StationDao implements DaoInterface<Integer, Station> {
         }
     }
 
+
+    /**
+     * Function to delete a charger from the database.
+     * @param charger the charger to be deleted.
+     * @param stationId the station id for the station the charger is to be deleted from
+     */
+    public void deleteCharger(Charger charger, int stationId) {
+        String deleteChargerSql = "DELETE FROM chargers WHERE chargerId = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(deleteChargerSql)) {
+            ps.setInt(1, charger.getChargerId());
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
     private void addCharger(Charger charger, int stationId) {
         String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative,stationId) "
                 + "Values (?,?,?,?)";
@@ -271,6 +291,9 @@ public class StationDao implements DaoInterface<Integer, Station> {
             throw new RuntimeException(e);
         }
     }
+
+
+
 
     @Override
     public void update(Station toUpdate) {

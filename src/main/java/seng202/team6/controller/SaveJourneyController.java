@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,9 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
-import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 
 public class SaveJourneyController implements ScreenController {
 
@@ -100,7 +98,7 @@ public class SaveJourneyController implements ScreenController {
             selectedJourney = null;
             selectedJourneyIndex = -1;
         } else {
-            AlertMessage.createMessage("No Journey Selected",
+            AlertMessage.createMessage("No journey is selected",
                     "Please select a journey and try again");
         }
     }
@@ -121,7 +119,7 @@ public class SaveJourneyController implements ScreenController {
             controller.getMapToolBarController().findRouteFromJourney(stopAmount, allAddresses);
             controller.mapButtonEventHandler();
         } else {
-            AlertMessage.createMessage("No Journey Selected",
+            AlertMessage.createMessage("No journey is selected",
                     "Please select a journey and try again");
         }
     }

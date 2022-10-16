@@ -2,11 +2,24 @@ package seng202.team6.controller;
 
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class MyDetailsToolBarController implements ScreenController {
 
+
+    @FXML
+    public Button generalButton;
+    @FXML
+    public Button registerVehicleButton;
+    @FXML
+    public Button savedJourneyButton;
+
     private MainScreenController controller;
+
+    private Button currentlySelected;
+    private Button prevSelected;
 
     /**
      * Initialise the controller.
@@ -15,32 +28,56 @@ public class MyDetailsToolBarController implements ScreenController {
      */
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
+        setSelected(generalButton);
     }
+
+
+    /**
+     * Changes style of new selected button and resets the style of the previously selected
+     * button.
+     * @param button the new selected button.
+     */
+    public void setSelected(Button button) {
+        if (currentlySelected != null) {
+            currentlySelected.setStyle("");
+            prevSelected = currentlySelected;
+        }
+        if (button != null) {
+            currentlySelected = button;
+            button.setStyle("-fx-border-color: #FFFFFF");
+        }
+
+    }
+
 
     /**
      * Load the register vehicle pop up.
      */
     public void loadRegisterVehicle(ActionEvent actionEvent) {
         try {
+            setSelected(registerVehicleButton);
             controller.loadRegisterVehicleScreen();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        setSelected(prevSelected);
     }
 
     /**
      * Load the saved journeys section.
      */
-    public void loadSavedJourneys(ActionEvent actionEvent) {
+    public void loadSavedJourneys() {
         controller.loadJourneysButtonEventHandler();
+        setSelected(savedJourneyButton);
     }
 
 
     /**
      * Load the general section.
      */
-    public void loadGeneral(ActionEvent actionEvent) {
+    public void loadGeneral() {
         controller.loadMyDetailsViewAndToolBars();
+        setSelected(generalButton);
     }
 
     /**
@@ -52,5 +89,6 @@ public class MyDetailsToolBarController implements ScreenController {
         controller.setCurrentUserId(0);
         controller.loadSignUpViewAndToolBars();
         controller.mapButtonEventHandler();
+        controller.getMapController().removeHomeAddress();
     }
 }
