@@ -60,23 +60,4 @@ public class HelpController implements ScreenController {
                 .lines()
                 .collect(Collectors.joining("\n"));
     }
-    //    public void showFileLines(InputStream file) {
-    //        this.linesTextArea.clear();
-    //
-    //        List<String> lines = new ArrayList<>();
-    //        String line;
-    //        try {
-    //            BufferedReader br = new BufferedReader(new InputStreamReader(file));
-    //
-    //            while ((line = br.readLine()) != null) {
-    //                lines.add(line);
-    //            }
-    //            br.close();
-    //        } catch (IOException ex) {
-    //            ex.printStackTrace();
-    //        }
-    //        for (String eachLine : lines) {
-    //            this.linesTextArea.appendText(eachLine + "\n");
-    //        }
-    //    }
 }

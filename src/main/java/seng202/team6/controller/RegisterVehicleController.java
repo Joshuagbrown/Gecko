@@ -290,7 +290,7 @@ public class RegisterVehicleController implements ScreenController {
                 otherString)) {
             model = inputVehicleModel.getValue();
         } else {
-            if (Validity.checkUserName(inputTextOfModel.getText())) {
+            if (inputTextOfModel.getText() != "") {
                 model = inputTextOfModel.getText();
             } else {
                 error += "Please input a valid model of vehicle\n";
