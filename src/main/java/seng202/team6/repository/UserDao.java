@@ -10,7 +10,7 @@ import seng202.team6.models.UserLoginDetails;
 
 
 /**
- * Class that controls the user information in the database
+ * Class that controls the user information in the database.
  */
 public class UserDao implements DaoInterface<Integer, User> {
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -80,7 +80,7 @@ public class UserDao implements DaoInterface<Integer, User> {
     }
 
 
-    /** Function used to add a new user to the database
+    /** Function used to add a new user to the database.
      *
      * @param toAdd object of type T to add.
      * @return the insert id
