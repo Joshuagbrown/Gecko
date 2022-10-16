@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="380.0" prefWidth="709.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
+<AnchorPane prefHeight="380.0" prefWidth="709.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
    <children>
       <GridPane layoutX="147.0" layoutY="59.0" prefHeight="321.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
