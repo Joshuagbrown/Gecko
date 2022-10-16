@@ -162,7 +162,7 @@ public class MapToolBarController implements ScreenController {
 
         String encodedQuery = null;
         encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
-        String apiKey = "NdSNzsRJvYIyENlbzYj4XzOfYj0iK2Tv0lh0hLxky0w";
+        String apiKey = "jk20Rt0J_aLXsNPklajLAHVmZMHbzMGHW33QAdNB-60";
 
         String requestUri = "https://geocode.search.hereapi.com/v1/geocode" + "?apiKey=" + apiKey + "&q="
                 + encodedQuery;
