@@ -445,7 +445,7 @@ public class UserStepDef extends TestFXBase {
                 "Charging Cost : true\n" +
                 "Has Tourist Attraction : false", textArea.getText());
     }
-    @When("User filter the station by the station name {string} and choose {int} hour operative and no charging cost and has tourist attriction")
+    @When("User filter the station by the station name {string} and choose {int} hour operative and no charging cost and has tourist attraction")
     public void userFilterTheStationByTheStationNameAndChooseHourOperativeAndNoChargingCost(String name, int arg1) {
         clickOn("#inputStationName");
         write(name);
@@ -453,9 +453,6 @@ public class UserStepDef extends TestFXBase {
         clickOn("#hasChargingCostCheckBox");
         clickOn("#hasTouristAttractionCostCheckBox");
         clickOn("#filterButton");
-
-
-
     }
 
     @And("input the operator as {string}")
