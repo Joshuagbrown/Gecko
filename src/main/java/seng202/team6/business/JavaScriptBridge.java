@@ -1,7 +1,9 @@
 package seng202.team6.business;
 
 import java.io.IOException;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 /**
  * A class created to provide the ability to "bridge" from javascript (used within the OSM html)

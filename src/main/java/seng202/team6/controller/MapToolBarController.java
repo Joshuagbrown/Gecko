@@ -156,7 +156,7 @@ public class MapToolBarController implements ScreenController {
      *
      * @param query the query to geocode
      */
-    public JSONObject 		geoCode(String query) {
+    public JSONObject geoCode(String query) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
@@ -169,8 +169,8 @@ public class MapToolBarController implements ScreenController {
         HttpRequest geocodingRequest = HttpRequest.newBuilder().GET().uri(URI.create(requestUri))
                 .timeout(Duration.ofMillis(2000)).build();
         try {
-            HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest,
-                                                                     HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> geocodingResponse =
+                httpClient.send(geocodingRequest, HttpResponse.BodyHandlers.ofString());
             String jsonString = geocodingResponse.body();
             JSONParser parser = new JSONParser();
             JSONObject jsonResponse = null;
@@ -187,7 +187,9 @@ public class MapToolBarController implements ScreenController {
                 return (JSONObject) bestResult.get("position");
             }
         } catch (InterruptedException | IOException e) {
-            AlertMessage.createMessage("An error occurred", "There was an error connecting to the geocoding API. See the log for more details.");
+            AlertMessage.createMessage("An error occurred",
+                                       "There was an error connecting to the geocoding API."
+                                       + "See the log for more details.");
             log.error("Error connecting to geocoding API", e);
         }
         return null;

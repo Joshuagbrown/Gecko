@@ -132,10 +132,10 @@ public class AddStationController implements StationController {
      * @throws InterruptedException from geocoding
      */
     private void findLatLon() {
-            JSONObject positionField = controller.getMapToolBarController().geoCode(address);
-            double lat = (double) positionField.get("lat");
-            double lng = (double) positionField.get("lng");
-            pos = new Position(lat, lng);
+        JSONObject positionField = controller.getMapToolBarController().geoCode(address);
+        double lat = (double) positionField.get("lat");
+        double lng = (double) positionField.get("lng");
+        pos = new Position(lat, lng);
     }
 
 

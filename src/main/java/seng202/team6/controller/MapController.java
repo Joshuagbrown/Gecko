@@ -29,6 +29,7 @@ import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
@@ -138,7 +139,9 @@ public class MapController implements ScreenController {
             stage.show();
             editStationController.init(stage, scene, controller, id);
         } catch (IOException e) {
-            AlertMessage.createMessage("Error", "There was an error loading the edit station window. See the logs for more detail.");
+            AlertMessage.createMessage("Error", "There was an error loading"
+                                                + "the edit station window."
+                                                + "See the logs for more detail.");
             log.error("Error loading edit station window", e);
         }
     }
@@ -163,8 +166,9 @@ public class MapController implements ScreenController {
             stage.show();
             addStationController.init(stage, scene, controller, address);
         } catch (IOException e) {
-            AlertMessage.createMessage("Error", "There was an error loading the add station window. " +
-                                                "See the log for more details");
+            AlertMessage.createMessage("Error", "There was an error loading"
+                                                + "the add station window. "
+                                                + "See the log for more details");
             log.error("Error loading add station window", e);
         }
     }
