@@ -200,7 +200,7 @@ public class AddStationController implements StationController {
         if (!valid.checkStationName(newName)) {
             nameField.setStyle(invalidStyle);
             returnable = false;
-            currentErrors.add("Station name must be greater than a length of 0, and only contain "
+            currentErrors.add("Station name must only contain "
                     + "characters within the" + " following set {a-z, A-Z, '+', '&', ',', ' '}");
         } else {
             nameField.setStyle("");
@@ -222,7 +222,7 @@ public class AddStationController implements StationController {
         if (!valid.checkOp(newOperator)) {
             operatorField.setStyle(invalidStyle);
             returnable = false;
-            currentErrors.add("Operator name must be of length greater than 0 and only contain "
+            currentErrors.add("Operator name must only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
         } else {
             operatorField.setStyle("");
@@ -233,7 +233,7 @@ public class AddStationController implements StationController {
         if (!valid.checkOp(newOwner)) {
             ownerField.setStyle(invalidStyle);
             returnable = false;
-            currentErrors.add("Owner name must be of length greater than 0 and only contain "
+            currentErrors.add("Owner name must only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
         } else {
             ownerField.setStyle("");
