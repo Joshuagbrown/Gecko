@@ -29,6 +29,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -42,6 +44,7 @@ import seng202.team6.services.AlertMessage;
  * Controller for the map toolbar.
  */
 public class MapToolBarController implements ScreenController {
+    private Logger log = LogManager.getLogger();
     /**
      * Border pane that hold the filter section on map toolbar.
      */
@@ -153,7 +156,7 @@ public class MapToolBarController implements ScreenController {
      *
      * @param query the query to geocode
      */
-    public JSONObject geoCode(String query) throws IOException, InterruptedException {
+    public JSONObject 		geoCode(String query) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
@@ -165,23 +168,29 @@ public class MapToolBarController implements ScreenController {
 
         HttpRequest geocodingRequest = HttpRequest.newBuilder().GET().uri(URI.create(requestUri))
                 .timeout(Duration.ofMillis(2000)).build();
-        HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest,
-                HttpResponse.BodyHandlers.ofString());
-        String jsonString = geocodingResponse.body();
-        JSONParser parser = new JSONParser();
-        JSONObject jsonResponse = null;
         try {
-            jsonResponse = (JSONObject) parser.parse(jsonString);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+            HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest,
+                                                                     HttpResponse.BodyHandlers.ofString());
+            String jsonString = geocodingResponse.body();
+            JSONParser parser = new JSONParser();
+            JSONObject jsonResponse = null;
+            try {
+                jsonResponse = (JSONObject) parser.parse(jsonString);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            JSONArray items = (JSONArray) jsonResponse.get("items");
+            if (items == null || items.isEmpty()) {
+                return null;
+            } else {
+                JSONObject bestResult = (JSONObject) items.get(0);
+                return (JSONObject) bestResult.get("position");
+            }
+        } catch (InterruptedException | IOException e) {
+            AlertMessage.createMessage("An error occurred", "There was an error connecting to the geocoding API. See the log for more details.");
+            log.error("Error connecting to geocoding API", e);
         }
-        JSONArray items = (JSONArray) jsonResponse.get("items");
-        if (items == null || items.isEmpty()) {
-            return null;
-        } else {
-            JSONObject bestResult = (JSONObject) items.get(0);
-            return (JSONObject) bestResult.get("position");
-        }
+        return null;
     }
 
     /**
@@ -203,14 +212,10 @@ public class MapToolBarController implements ScreenController {
         ArrayList<JSONObject> posArray = new ArrayList<>();
         addresses.clear();
         for (TextField textField : arrayOfTextFields) {
-            try {
-                if (!Objects.equals(textField.getText(), "")) {
-                    addresses.add(textField.getText());
-                    JSONObject location = geoCode(textField.getText());
-                    posArray.add(location);
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+            if (!Objects.equals(textField.getText(), "")) {
+                addresses.add(textField.getText());
+                JSONObject location = geoCode(textField.getText());
+                posArray.add(location);
             }
         }
         boolean validAddresses = true;
