@@ -61,6 +61,13 @@ public class StationCsvImporter extends CsvImporter<Station> {
         }
     }
 
+
+    /**
+     * Function to parse the connectors list.
+     * @param field the string to parse
+     * @return a list of chargers
+     * @throws CsvLineException when error occurs reading from CSV line
+     */
     private static List<Charger> parseConnectorsList(String field) throws CsvLineException {
         int index = 0;
         List<Charger> chargers = new ArrayList<>();

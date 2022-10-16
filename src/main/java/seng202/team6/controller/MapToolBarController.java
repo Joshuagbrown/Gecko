@@ -107,16 +107,17 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<Button> autoFillButtons = new ArrayList<>();
     private int numAddresses = 2;
 
-
     @FXML
     public TextField addOneTextField;
+
+
+
     /**
      * Initializes the controller.
      *
      * @param stage      Primary Stage of the application.
      * @param controller The Controller class for the main screen.
      */
-
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;

@@ -12,7 +12,13 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.CsvLineException;
 
+
+/**
+ * Class used tho import CSV files.
+ */
 public abstract class CsvImporter<T> implements Importable<T, CsvLineException> {
+
+
     /**
      * A Logger object is used to log messages for a specific system.
      */
@@ -44,6 +50,12 @@ public abstract class CsvImporter<T> implements Importable<T, CsvLineException> 
         return values;
     }
 
+
+    /**
+     * Function to parse an integer or zero.
+     * @param toParse the string to parse
+     * @return the corresponding integer
+     */
     protected int parseIntOrZero(String toParse) {
         int value;
         try {
@@ -54,6 +66,13 @@ public abstract class CsvImporter<T> implements Importable<T, CsvLineException> 
         return value;
     }
 
+    /**
+     * Function to read lines from the CSV.
+     * @param values the values
+     * @param line the line
+     * @param i the index
+     * @param errors any errors
+     */
     private void readLine(List<T> values, String[] line, int i,
                           List<CsvLineException> errors) {
         try {
@@ -65,5 +84,11 @@ public abstract class CsvImporter<T> implements Importable<T, CsvLineException> 
         }
     }
 
+    /**
+     * Function to read the value from the given line.
+     * @param line the line to read from
+     * @return the value of the line
+     * @throws CsvLineException error occured when reading
+     */
     protected abstract T readValueFromLine(String[] line) throws CsvLineException;
 }

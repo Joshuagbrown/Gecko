@@ -17,6 +17,13 @@ public class MainApplication extends Application {
     private final int preMinWidth = 1200;
     private final int preMinHeight = 800;
 
+
+    /**
+     * Function to start and initialize the application.
+     * @param primaryStage the primary stage for the application
+     * @throws IOException an IO exception
+     * @throws URISyntaxException a syntax exception
+     */
     @Override
     public void start(Stage primaryStage) throws IOException, URISyntaxException {
         dataService.createTables();

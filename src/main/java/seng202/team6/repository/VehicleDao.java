@@ -11,16 +11,29 @@ import seng202.team6.models.Charger;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.models.Vehicle;
 
+
+/**
+ * Class the controls the information of vehicles in the database.
+ */
 public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
+    /**
+     * Function to get all vehicles from the database.
+     * @return a hashmap of integers and vehicles
+     */
     @Override
     public Map<Integer, Vehicle> getAll() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Function to get a vehicle from the database given its id.
+     * @param id id of object to get.
+     * @return the vehicle
+     */
     @Override
     public Vehicle getOne(int id) {
         throw new UnsupportedOperationException();
@@ -70,7 +83,7 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
     }
 
     /**
-     * he sql query to get the year of vehicle with related make from the database.
+     * The sql query to get the year of vehicle with related make from the database.
      * @param make the make of the vehicle.
      * @return list of vehicle year string.
      */
@@ -165,6 +178,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     }
 
+
+    /**
+     * Function called ot delete a vehicle from the database.
+     * @param id id of object to delete.
+     * @throws DatabaseException a database error
+     */
     @Override
     public void delete(int id) throws DatabaseException {
         String vehicleSql = "DELETE FROM vehicles WHERE  vehicleId = ? ";
@@ -180,6 +199,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
         }
     }
 
+
+    /**
+     * Function called to update a vehicle in the database.
+     * @param toUpdate Object that needs to be updated (this object must be able to
+     *                 identify itself and its previous self).
+     */
     @Override
     public void update(Vehicle toUpdate) {
         String vehicleSql = "UPDATE vehicles SET make = ? , "

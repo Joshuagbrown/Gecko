@@ -22,6 +22,13 @@ public class StationDao implements DaoInterface<Integer, Station> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
+
+    /**
+     * Function to get station form result set.
+     * @param rs the result set
+     * @return the station
+     * @throws SQLException a database error
+     */
     private Station stationFromResultSet(ResultSet rs) throws SQLException {
         return new Station(
                 new Position(
@@ -75,46 +82,22 @@ public class StationDao implements DaoInterface<Integer, Station> {
         }
     }
 
-    //    /**
-    //     * Get stations from a filter builder.
-    //     * @param builder The builder to use.
-    //     */
-    //    public Map<Integer, Station> getFromFilterBuilder(FilterBuilder builder) {
-    //        Map<Integer, Station> stations = new HashMap<>();
-    //        try (Connection conn = databaseManager.connect();
-    //             PreparedStatement ps = builder.build(conn);
-    //             PreparedStatement ps2 = builder.build(conn);
-    //             ResultSet rs = ps.executeQuery();
-    //             ResultSet rs2 = ps2.executeQuery()) {
-    //            ArrayList<Charger> chargers = new ArrayList<>();
-    //            boolean stillGoing = rs.next();
-    //            while (stillGoing) {
-    //                if (rs.getInt("stationId") != rs2.getInt("stationId")) {
-    //                    Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
-    //                    stations.put(station.getStationId(), station);
-    //                    chargers.clear();
-    //                }
-    //                chargers.add(chargerFromResultSet(rs));
-    //                stillGoing = rs.next();
-    //                if (stillGoing) {
-    //                    rs2.next();
-    //                }
-    //            }
-    //            if (!chargers.isEmpty()) {
-    //                Station station = stationFromResultSet(rs2, chargers);
-    //                stations.put(station.getStationId(), station);
-    //            }
-    //            return stations;
-    //        } catch (SQLException e) {
-    //            throw new RuntimeException(e);
-    //        }
-    //    }
 
+    /**
+     * Function to get all Stations.
+     * @return a hashmap of integers and stations
+     */
     @Override
     public Map<Integer, Station> getAll() {
         throw new UnsupportedOperationException("Please use getFromFilterBuilder instead");
     }
 
+    /**
+     * Function to get chargers from result set.
+     * @param rs the result set
+     * @return the charger
+     * @throws SQLException a database error
+     */
     private Charger chargerFromResultSet(ResultSet rs) throws SQLException {
         return new Charger(
                 rs.getString("plugType"),
@@ -124,11 +107,24 @@ public class StationDao implements DaoInterface<Integer, Station> {
         );
     }
 
+
+    /**
+     * Function to get a station given its id.
+     * @param id id of object to get.
+     * @return the station
+     */
     @Override
     public Station getOne(int id) {
         throw new UnsupportedOperationException("Please use the getFromFilterBuilder");
     }
 
+    /**
+     * Function to add chargers to a station.
+     * @param chargers the chargers to add
+     * @param stationId the station to add the chargers too
+     * @param conn the connection to the database
+     * @throws SQLException a database error
+     */
     private void addChargers(List<Charger> chargers, int stationId,
                              Connection conn) throws SQLException {
         String chargerSql = "INSERT INTO chargers (stationId, plugType, wattage, operative)"
@@ -221,6 +217,11 @@ public class StationDao implements DaoInterface<Integer, Station> {
         }
     }
 
+
+    /**
+     * Function to delete a station form the database given its id.
+     * @param id id of object to delete.
+     */
     @Override
     public void delete(int id) {
         String stationSql = "DELETE FROM stations WHERE stationId=?";
@@ -253,7 +254,11 @@ public class StationDao implements DaoInterface<Integer, Station> {
     }
 
 
-
+    /**
+     * Function to add a charger to a station in the database.
+     * @param charger the charger to add
+     * @param stationId the station it is connected too
+     */
     private void addCharger(Charger charger, int stationId) {
         String insertChargerSql = "INSERT INTO chargers (plugType,wattage,operative,stationId) "
                 + "Values (?,?,?,?)";
@@ -277,6 +282,11 @@ public class StationDao implements DaoInterface<Integer, Station> {
         }
     }
 
+
+    /**
+     * Function called to update a charger.
+     * @param charger the charger to update
+     */
     private void updateCharger(Charger charger) {
         String updateChargerSql = "UPDATE chargers SET plugType =?, wattage=? , operative=? "
                 + "WHERE chargerId=?";
@@ -293,8 +303,11 @@ public class StationDao implements DaoInterface<Integer, Station> {
     }
 
 
-
-
+    /**
+     * Function to update a station.
+     * @param toUpdate Object that needs to be updated (this object must be able to
+     *                 identify itself and its previous self).
+     */
     @Override
     public void update(Station toUpdate) {
         String stationSql = "UPDATE stations SET name=? , operator=? , owner=?,"

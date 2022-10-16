@@ -17,6 +17,9 @@ import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
+/**
+ * Controller class for the register vehicle screen.
+ */
 public class RegisterVehicleController implements ScreenController {
 
     @FXML
@@ -47,6 +50,11 @@ public class RegisterVehicleController implements ScreenController {
     private Stage stage;
 
 
+    /**
+     * Function to initialize the register vehicle pop-up.
+     * @param stage Primary Stage of the application.
+     * @param controller The Controller class for the main screen.
+     */
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.stage = stage;
@@ -57,6 +65,11 @@ public class RegisterVehicleController implements ScreenController {
         loadVehicleDataAndActionHandler();
     }
 
+
+    /**
+     * Function to get the different makes of the vehicles in the database.
+     * @return the makes
+     */
     private List<String> getMakes() {
         return vehicles.stream()
             .map(Vehicle::getMake)
@@ -64,6 +77,11 @@ public class RegisterVehicleController implements ScreenController {
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Function to get the different years corresponding to given make.
+     * @param make the make of the vehicle
+     * @return the years
+     */
     private List<String> getYears(String make) {
         return vehicles.stream()
             .filter(v -> v.getMake().equals(make))
@@ -73,6 +91,12 @@ public class RegisterVehicleController implements ScreenController {
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Function to get the corresponding models for the given make and year.
+     * @param make the given make
+     * @param year the given year
+     * @return the corresponding models
+     */
     private List<String> getModels(String make, int year) {
         return vehicles.stream()
             .filter(v -> v.getMake().equals(make))
@@ -82,6 +106,10 @@ public class RegisterVehicleController implements ScreenController {
             .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Function to get the plug types for the vehicles.
+     * @return the plug types
+     */
     private List<String> getPlugTypes() {
         return vehicleDao.getPlugType();
     }
@@ -101,6 +129,9 @@ public class RegisterVehicleController implements ScreenController {
     }
 
 
+    /**
+     * Function to load vehicle data.
+     */
     private void loadVehicleDataAndActionHandler() {
         loadMake();
         inputVehicleMake.setOnAction(event -> {
@@ -231,8 +262,6 @@ public class RegisterVehicleController implements ScreenController {
         inputChargerType.valueProperty().set(null);
         resetInputMake();
         loadVehicleDataAndActionHandler();
-
-
 
     }
 

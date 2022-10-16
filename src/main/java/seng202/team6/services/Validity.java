@@ -8,7 +8,9 @@ import java.util.Objects;
 import seng202.team6.controller.MainScreenController;
 
 
-
+/**
+ * Validity Class, used to check if user input is valid.
+ */
 public class Validity {
     private MainScreenController controller;
 

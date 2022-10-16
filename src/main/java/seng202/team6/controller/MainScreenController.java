@@ -766,6 +766,11 @@ public class MainScreenController {
         });
     }
 
+
+    /**
+     * Function to set the filter builder for the main screen controller.
+     * @param builder the filter builder
+     */
     public void setFilterBuilder(FilterBuilder builder) {
         this.filterBuilder = builder;
     }

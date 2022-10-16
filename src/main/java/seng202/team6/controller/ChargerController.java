@@ -23,6 +23,10 @@ import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
+/**
+ * Controller class for the charger pop-up screens.
+ * Author: Tara Lipscombe
+ */
 public class ChargerController {
     @FXML
     public ComboBox<Charger> chargerDropDown = new ComboBox<>();
@@ -283,6 +287,12 @@ public class ChargerController {
 
     }
 
+
+    /**
+     * Function used to check if there are any unsaved changes within the pop-up and alert the user
+     * if so.
+     * @return true if there are unsaved changes
+     */
     private boolean checkChanges() {
         boolean unsavedChanges = false;
 

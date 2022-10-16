@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.DialogEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -322,6 +321,7 @@ public class EditStationController implements StationController {
 
     /**
      * Checks to see if any unsaved changes exist within the pop-up.
+     * @return boolean returns true if any unsaved changes exist.
      */
     private boolean checkChanges() {
         boolean hasUnsavedChanges = false;

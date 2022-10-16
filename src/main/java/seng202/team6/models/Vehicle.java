@@ -51,46 +51,91 @@ public class Vehicle {
         this.vehicleId = vehicleId;
     }
 
+    /**
+     * Function to get the vehicle id.
+     * @return the vehicle id
+     */
     public int getVehicleId() {
         return vehicleId;
     }
 
+    /**
+     * Function to get te make of the vehicle.
+     * @return the make of the vehicle
+     */
     public String getMake() {
         return make;
     }
 
+    /**
+     * Function to set the make of the vehicle.
+     * @param make the new make of the vehicle
+     */
     public void setMake(String make) {
         this.make = make;
     }
 
+    /**
+     * Function to get the model of the vehicle.
+     * @return model the model of the vehicle
+     */
     public String getModel() {
         return model;
     }
 
+    /**
+     * Function to set the model.
+     * @param model the new model of the vehicle.
+     */
     public void setModel(String model) {
         this.model = model;
     }
 
+    /**
+     * Function to get the plugtype of the vehicle.
+     * @return the vehicle plugtype
+     */
     public String getPlugType() {
         return plugType;
     }
 
+    /**
+     * Function to set the vehicle plug type.
+     * @param plugType the new plugtype
+     */
     public void setPlugType(String plugType) {
         this.plugType = plugType;
     }
 
+    /**
+     * Function to get the year of the vehicle.
+     * @return the year of the vehicle
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Function to set the year of the vehicle.
+     * @param year the new vehicle year
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * Function to get the user id.
+     * @return the user id
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * Function to check if another vehicle is equal to this one.
+     * @param o the other vehicle
+     * @return true if they are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -104,6 +149,10 @@ public class Vehicle {
                 && model.equals(vehicle.model) && plugType.equals(vehicle.plugType);
     }
 
+    /**
+     * Function to hash the vehicle.
+     * @return the hashed representation of the vehicle
+     */
     @Override
     public int hashCode() {
         return Objects.hash(make, model, plugType, year, userId);

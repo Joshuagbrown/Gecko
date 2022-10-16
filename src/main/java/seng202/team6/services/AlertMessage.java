@@ -13,7 +13,7 @@ import javafx.scene.layout.Region;
 /**
  * Alert class to pop up a message box and display the message.
  * database access.
- * @author Phyu Wai Lwin.
+ * @author Phyu Wai Lwin and Tara Lipscombe
  */
 public class AlertMessage {
 

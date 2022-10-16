@@ -19,6 +19,10 @@ import seng202.team6.repository.VehicleDao;
 import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
+
+/**
+ * Controller class for the my-details screen.
+ */
 public class MyDetailsController implements ScreenController {
 
     @FXML
@@ -62,6 +66,11 @@ public class MyDetailsController implements ScreenController {
     private VehicleDao vehicleDao = new VehicleDao();
 
 
+    /**
+     * Function to initialize the my-details screen.
+     * @param stage Primary Stage of the application.
+     * @param controller The Controller class for the main screen.
+     */
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
@@ -69,7 +78,7 @@ public class MyDetailsController implements ScreenController {
     }
 
     /**
-     * loads the users data into the fields.
+     * Loads the users data into the fields.
      */
     public void loadUserData() {
         usernameField.setText(controller.getCurrentUser().getUsername());
@@ -81,7 +90,7 @@ public class MyDetailsController implements ScreenController {
     }
 
     /**
-     * load the user vehicles with user id.
+     * Load the user vehicles with user id.
      */
     public void loadUserVehicle() {
 
@@ -235,6 +244,9 @@ public class MyDetailsController implements ScreenController {
         }
 
     }
+
+
+
     /**
      * This sets the selected vehicle to what vehicle has been clicked on.
      *
