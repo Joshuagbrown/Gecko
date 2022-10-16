@@ -136,6 +136,7 @@ public class MapController implements ScreenController {
             stage.setTitle("Current Station");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.show();
             editStationController.init(stage, scene, controller, id);
         } catch (IOException e) {
@@ -163,6 +164,7 @@ public class MapController implements ScreenController {
             stage.setTitle("Add a New Station");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.show();
             addStationController.init(stage, scene, controller, address);
         } catch (IOException e) {

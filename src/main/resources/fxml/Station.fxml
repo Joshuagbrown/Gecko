@@ -59,16 +59,6 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="24 Hours:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tourist Attraction:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
                               <Text fx:id="chargerText" strokeType="OUTSIDE" strokeWidth="0.0" text="Chargers:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
@@ -95,12 +85,12 @@
                                     <Font size="15.0" />
                                  </font>
                               </Button>
-                              <CheckBox fx:id="hoursButton" mnemonicParsing="false" text="Is 24 Hours" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <CheckBox fx:id="hoursButton" mnemonicParsing="false" text="Is 24 Hours" translateX="-47.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </CheckBox>
-                              <CheckBox fx:id="touristButton" mnemonicParsing="false" text="Has Attraction" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                              <CheckBox fx:id="touristButton" mnemonicParsing="false" text="Has Attraction" translateX="-51.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -110,7 +100,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Owner:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Owner:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -120,7 +110,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Carparks:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Carparks:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -133,7 +123,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="ownerField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <TextField fx:id="ownerField" GridPane.columnIndex="3">
                                  <GridPane.margin>
                                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                  </GridPane.margin>
@@ -141,31 +131,20 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <GridPane GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="110.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="10.0" prefWidth="75.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <TextField fx:id="timeLimitField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="100.0" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-                                       <GridPane.margin>
-                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                       </GridPane.margin>
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </TextField>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="min(s)" wrappingWidth="60.43115234375" GridPane.columnIndex="1">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                              </GridPane>
-                              <TextField fx:id="numParksField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <TextField fx:id="timeLimitField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </TextField>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="min(s)" wrappingWidth="60.43115234375" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="numParksField" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                  </GridPane.margin>
