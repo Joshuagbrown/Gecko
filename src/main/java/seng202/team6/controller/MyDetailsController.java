@@ -191,7 +191,7 @@ public class MyDetailsController implements ScreenController {
 
     /**
      * Edit vehicle page is show when user click the edit vehicle button.
-     * @param actionEvent the click action of add button.
+     * @param actionEvent the click action of edit button.
      */
     public void editVehicleEventHandler(ActionEvent actionEvent) {
 

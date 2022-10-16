@@ -91,7 +91,7 @@ public class GeneralStepdefs extends TestFXBase {
     @Given("User launch the the app")
     public void userLaunchTheTheApp() throws Exception {
 
-        verifyThat("#dataPageBtn", Node::isVisible);
+        verifyThat("#dataButton", Node::isVisible);
     }
 
     @When("User click the help button")

@@ -13,7 +13,7 @@
 
 <!--TODO place in correct controller-->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.RegisterVehicleController">
     <center>
           <GridPane prefHeight="373.0" prefWidth="404.0" BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -40,7 +40,7 @@
                       </font>
             </Text>
 
-              <Button fx:id="submitVehicleButton" alignment="CENTER" mnemonicParsing="false" onAction="#clearVehicleSelect" prefHeight="35.0" prefWidth="175.0" text="Clear Selection" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
+              <Button fx:id="clearButton" alignment="CENTER" mnemonicParsing="false" onAction="#clearVehicleSelect" prefHeight="35.0" prefWidth="175.0" text="Clear Selection" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
                       <font>
                           <Font size="15.0" />
                       </font>

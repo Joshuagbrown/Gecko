@@ -173,8 +173,8 @@ public class UserStepDef extends TestFXBase {
         clickOn();
 
 
-        clickOn("#submitVehicleButton");
-        clickOn("#quitButton");
+        clickOn("#confirmButton");
+
     }
 
     @When("User change the register vehicle year to {string} , model {string}")
@@ -192,14 +192,7 @@ public class UserStepDef extends TestFXBase {
         write(model);
 
 
-        clickOn("#btnConfirmEdit");
-        clickOn("#quitButton");
-
-        clickOn();
-        clickOn();
-
-
-
+        clickOn("#confirmButton");
         clickOn((Node) lookup("#year").nth(0).query());
         moveBy(10,20);
         clickOn();
@@ -243,7 +236,7 @@ public class UserStepDef extends TestFXBase {
     @And("User go to the data page")
     public void userGoToTheDataPage() {
 
-        clickOn("#dataPageBtn");
+        clickOn("#dataButton");
     }
 
     @And("select the first station")
@@ -323,7 +316,7 @@ public class UserStepDef extends TestFXBase {
 
     @When("User selected the first charger and delete it")
     public void userSelectedTheFirstChargerAndDeleteIt() {
-        clickOn("#chargerDropDown");
+        //clickOn("#chargerDropDown");
         clickOn("#deleteButton");
         
     }
@@ -350,6 +343,10 @@ public class UserStepDef extends TestFXBase {
     @When("user delete the charging station")
     public void userDeleteTheChargingStation() {
         clickOn("#deleteButton");
+        press(KeyCode.TAB);
+        release(KeyCode.TAB);
+        press(KeyCode.ENTER);
+        release(KeyCode.ENTER);
     }
 
     @Then("the first charging station has been deleted and replace by other one.")

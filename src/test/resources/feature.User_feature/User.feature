@@ -65,30 +65,29 @@ Feature: log in user feature
     Then User have the new charger type changed in that station
 
 
-#    Scenario: User delete the fist charger at the selected station
-#      Given User logged in with "admin" and "123456789"
-#      And User go to the data page
-#      And select the first station
-#      And click edit button
-#      And click the view charger
-#      And User click the add charger button
-#      When User edit the charger wattage to "10"
-#      And plug type to Type 2 Socketed
-#      And click save change
-#      And User click the return Button
-#      And User click the save button in station
-#      And User go to the data page
-#      And select the first station
-#      And click edit button
-#      And click the view charger
-#      When User selected the first charger and delete it
-#      And click save change
-#      And User click the return Button
-#      And User click the save button in station
-#      And User go to the data page
-#      And select the first station
-#      Then User will only have the previous added charger info in that station
-##
+    Scenario: User delete the fist charger at the selected station
+      Given User logged in with "admin" and "123456789"
+      And User go to the data page
+      And select the first station
+      And click edit button
+      And click the view charger
+      And User click the add charger button
+      When User edit the charger wattage to "10"
+      And plug type to Type 2 Socketed
+      And click save change
+      And User click the return Button
+      And User click the save button in station
+      And User go to the data page
+      And select the first station
+      And click edit button
+      And click the view charger
+      When User selected the first charger and delete it
+      And User click the return Button
+      And User click the save button in station
+      And User go to the data page
+      And select the first station
+      Then User will only have the previous added charger info in that station
+
 
   Scenario: User delete the first station
     Given User logged in with "admin" and "123456789"
@@ -101,8 +100,4 @@ Feature: log in user feature
     Then the first charging station has been deleted and replace by other one.
 
 
-
-
-#
-#
 

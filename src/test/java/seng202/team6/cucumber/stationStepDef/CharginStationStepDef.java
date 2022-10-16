@@ -144,7 +144,7 @@ public class CharginStationStepDef extends TestFXBase{
 
     @Given("User is on the data page")
     public void userIsOnTheDataPage() {
-        clickOn("#dataPageBtn");
+        clickOn("#dataButton");
         verifyThat("#dataToolBarScreen", Node::isVisible );
     }
 
