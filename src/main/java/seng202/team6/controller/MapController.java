@@ -155,28 +155,32 @@ public class MapController implements ScreenController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         AddStationController addStationController = new AddStationController();
         loader.setController(addStationController);
-        JSONObject result = controller.getMapToolBarController().geoCode(address);
-        if (result != null) {
-            try {
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Add a New Station");
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initStyle(StageStyle.DECORATED);
-                stage.show();
-                addStationController.init(stage, scene, controller, address);
-            } catch (IOException e) {
-                AlertMessage.createMessage("Error", "There was an error loading"
-                        + "the add station window. "
-                        + "See the log for more details");
-                log.error("Error loading add station window", e);
+        JSONObject result = null;
+        if (address != null) {
+            result = controller.getMapToolBarController().geoCode(address);
+            if (result == null) {
+                AlertMessage.createMessage("Invalid Address used", "Please place marker"
+                        + " in New Zealand and try again.");
+                return;
             }
-        } else {
-            AlertMessage.createMessage("Invalid Address used", "Please place marker"
-                    + " in New Zealand and try again.");
         }
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Add a New Station");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            addStationController.init(stage, scene, controller, address);
+        } catch (IOException e) {
+            AlertMessage.createMessage("Error", "There was an error loading"
+                    + "the add station window. "
+                    + "See the log for more details");
+            log.error("Error loading add station window", e);
+        }
+
 
     }
 
