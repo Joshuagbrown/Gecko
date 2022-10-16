@@ -71,7 +71,7 @@ public class HelpToolBarController implements ScreenController {
 
     /**
      * Calls the initPageInfo function with the my d file as input.
-     * @param actionEvent Loads editing info screen help button clicked
+     * @param actionEvent Loads data page help button clicked
      */
     public void loadDetailsHelp(ActionEvent actionEvent) {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
