@@ -89,7 +89,7 @@ Feature: log in user feature
       Then User will only have the previous added charger info in that station
 
 
-  Scenario: User delete the first station
+  Scenario: (AT_25) User delete the first station
     Given User logged in with "admin" and "123456789"
     And User go to the data page
     And select the first station
@@ -100,7 +100,7 @@ Feature: log in user feature
     Then the first charging station has been deleted and replace by other one.
 
 
-    Scenario: User add a new charging station and charger
+    Scenario: (AT_24) User add a new charging station and charger
       Given User logged in with "admin" and "123456789"
       And User go to the data page
       And click edit button
