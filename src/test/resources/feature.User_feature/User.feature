@@ -6,7 +6,7 @@ Feature: log in user feature
     Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2019" , model "EVERGREEN", charger type "Type 2 Socketed"
 
 
-    Scenario: User change the vehicl year and model and save.
+    Scenario: User change the vehicle year and model and save.
       Given User logged in with "admin" and "123456789"
       And User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
       When User change the register vehicle year to "2020" , model "something"
@@ -33,7 +33,7 @@ Feature: log in user feature
     And select the first station
     Then User have the charging station with those information
 
-    Scenario: User eidt the charger information of the station
+    Scenario: User edit the charger information of the station
       Given User logged in with "admin" and "123456789"
       And User go to the data page
       And select the first station
@@ -48,7 +48,7 @@ Feature: log in user feature
       Then the user have the charger type changed in that station
 
 
-  Scenario: User add the charger information of the station
+  Scenario: User add the new charger to the station
     Given User logged in with "admin" and "123456789"
     And User go to the data page
     And select the first station
@@ -100,7 +100,7 @@ Feature: log in user feature
     Then the first charging station has been deleted and replace by other one.
 
 
-    Scenario: User add a new charger
+    Scenario: User add a new charging station and charger
       Given User logged in with "admin" and "123456789"
       And User go to the data page
       And click edit button
@@ -118,7 +118,7 @@ Feature: log in user feature
       And plug type to Type 2 CCS
       And click save change
       And click the save station
-      And User filter the station by the station name "SOMETHING" and choose 24 hour operative and no charging cost and has tourist attriction
+      And User filter the station by the station name "SOMETHING" and choose 24 hour operative and no charging cost and has tourist attraction
       And select the first station
       Then User have the charging station with related info
 
