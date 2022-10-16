@@ -21,7 +21,7 @@ Feature:  Manipulate the stations
     When User choose that journey and show it on the map
     Then User can see the journey reloaded on the plan trip page
 
-  Scenario: User want to add one stop point on the journey
+  Scenario: (AT_17) User want to add one stop point on the journey
     Given User logged in with "admin" and "123456789"
     And User click plan Trip
     When The user save the start point "3 ilam road" and end point "499 greers road" and add "161 ilam road" as a stop point and save the journey

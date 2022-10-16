@@ -1,6 +1,6 @@
 Feature: log in user feature
 
-  Scenario: User register the vehicle in his account
+  Scenario: (AT_09) User register the vehicle in his account
     Given User logged in with "admin" and "123456789"
     When User register vehicle by choose make ARCIMOTO  , year "2019" , model EVERGREEN choose charger type "Type 2 Socketed"
     Then User has the vehicle in the its acctount with make "ARCIMOTO"  , year "2019" , model "EVERGREEN", charger type "Type 2 Socketed"
@@ -20,7 +20,7 @@ Feature: log in user feature
     Then user has no vehicle in table.
 
 
-  Scenario: User edit the charging station information
+  Scenario: (AT_11) User edit the charging station information
     Given User logged in with "admin" and "123456789"
     When User go to the data page
     And select the first station
@@ -33,7 +33,7 @@ Feature: log in user feature
     And select the first station
     Then User have the charging station with those information
 
-    Scenario: User eidt the charger information of the station
+    Scenario: (AT_11) User eidt the charger information of the station
       Given User logged in with "admin" and "123456789"
       And User go to the data page
       And select the first station

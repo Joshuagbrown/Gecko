@@ -4,7 +4,7 @@ Feature:  LoginController
 
 
 
-  Scenario: Logging in as valid user
+  Scenario: (AT_13) Logging in as valid user
     Given User clicks My Details button
     And I am on the login screen
     When I login with username "admin" and password "123456789"
@@ -35,7 +35,7 @@ Feature:  LoginController
     And User clicks My Details button
     Then I am on the login screen
 
-  Scenario: (AT_) User want to change the name
+  Scenario: (AT_14) User want to change the name
     Given User logged in with with username "admin" and password "123456789" and in my detail page
     When User click edit button
     And User input "Admin" on name space and input "3 ilam road" on the address space
