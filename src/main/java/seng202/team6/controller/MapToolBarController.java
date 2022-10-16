@@ -45,6 +45,7 @@ import seng202.team6.services.AlertMessage;
  */
 public class MapToolBarController implements ScreenController {
     private Logger log = LogManager.getLogger();
+    private Dotenv dotenv = Dotenv.load();
     /**
      * Border pane that hold the filter section on map toolbar.
      */
