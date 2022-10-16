@@ -8,7 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import seng202.team6.exceptions.DatabaseException;
@@ -19,8 +24,6 @@ import seng202.team6.services.Validity;
 
 
 public class ChargerController {
-    @FXML
-    public ToggleGroup operative;
     @FXML
     public ComboBox<Charger> chargerDropDown = new ComboBox<>();
     @FXML
