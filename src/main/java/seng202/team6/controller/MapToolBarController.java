@@ -1,6 +1,7 @@
 package seng202.team6.controller;
 
 import com.google.gson.Gson;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -162,8 +163,12 @@ public class MapToolBarController implements ScreenController {
 
         String encodedQuery = null;
         encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
-        String apiKey = "NdSNzsRJvYIyENlbzYj4XzOfYj0iK2Tv0lh0hLxky0w";
-
+        String apiKey = dotenv.get("HERE_COM_API_KEY");
+        if (apiKey == null) {
+            AlertMessage.createMessage("Error", "The api key has not been setup, "
+                                                + "see the README for more details.");
+            return null;
+        }
         String requestUri = "https://geocode.search.hereapi.com/v1/geocode" + "?apiKey=" + apiKey + "&q="
                 + encodedQuery;
 
