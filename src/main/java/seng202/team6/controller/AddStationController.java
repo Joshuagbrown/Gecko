@@ -116,6 +116,7 @@ public class AddStationController implements StationController {
         chargerText.setVisible(false);
         viewChargersButton.setVisible(false);
         saveButton.setText("Continue");
+        saveButton.setTranslateY(-18);
         gridPane.getRowConstraints().remove(5);
         hasUnsavedChanges = false;
 

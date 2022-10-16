@@ -14,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.21758021390374327" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MainScreenController">
+<SplitPane dividerPositions="0.21758021390374327" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MainScreenController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="126.0">
+    <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="290.0">
          <children>
-            <SplitPane dividerPositions="0.16330645161290325" layoutX="-29.0" layoutY="72.0" orientation="VERTICAL" prefHeight="398.4" prefWidth="116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.16330645161290325" layoutX="-29.0" layoutY="72.0" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="398.4" prefWidth="116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="58.0" prefWidth="126.0">
+                <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="126.0">
                      <children>
                         <ImageView layoutX="-57.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true" />
                         <Text fx:id="geckoTitle" boundsType="VISUAL" fill="WHITE" layoutX="6.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GECKO" textAlignment="CENTER" textOrigin="CENTER">
@@ -34,15 +34,18 @@
                            </image>
                         </ImageView>
                      </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <SplitPane dividerPositions="0.7433574879227053" orientation="VERTICAL" prefHeight="298.4" prefWidth="114.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.7433574879227053" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="298.4" prefWidth="114.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="176.0" prefWidth="113.0">
+                            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0" prefWidth="113.0">
                                  <children>
                                     <BorderPane fx:id="toolBarPane" layoutX="-44.0" layoutY="24.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="124.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <bottom>
-                                          <TextArea fx:id="textAreaInMainScreen" editable="false" minHeight="140.0" prefHeight="216.0" prefWidth="132.0" BorderPane.alignment="CENTER" />
+                                          <TextArea fx:id="textAreaInMainScreen" editable="false" minHeight="140.0" prefHeight="216.0" prefWidth="169.0" BorderPane.alignment="CENTER">
+                                             <font>
+                                                <Font size="13.5" />
+                                             </font></TextArea>
                                        </bottom></BorderPane>
                                  </children></AnchorPane>
                             <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="60.0" prefHeight="78.0" prefWidth="124.0" SplitPane.resizableWithParent="false">
@@ -92,7 +95,7 @@
               </items>
             </SplitPane>
          </children></AnchorPane>
-      <SplitPane dividerPositions="0.11646586345381528" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+      <SplitPane dividerPositions="0.11646586345381528" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
         <items>
           <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="43.2" prefWidth="160.0">
                <children>
