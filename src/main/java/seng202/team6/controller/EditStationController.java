@@ -396,6 +396,7 @@ public class EditStationController implements StationController {
             stage.close();
             controller.setSelected(controller.getPrevSelected());
             controller.setTextAreaInMainScreen("");
+            controller.getDataController().currentlySelected = null;
         }
 
     }

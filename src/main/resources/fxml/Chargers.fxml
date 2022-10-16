@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="380.0" prefWidth="720.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
+<AnchorPane prefHeight="380.0" prefWidth="720.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.ChargerController">
    <children>
       <GridPane layoutX="147.0" layoutY="59.0" prefHeight="321.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="240.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="240.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="240.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="227.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="340.0" minWidth="10.0" prefWidth="336.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="138.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
@@ -21,27 +28,27 @@
           <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ComboBox fx:id="chargerDropDown" onAction="#chargerSelected" visibleRowCount="3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <ComboBox fx:id="chargerDropDown" onAction="#chargerSelected" prefHeight="23.0" prefWidth="336.0" promptText="Adding a new Charger..." visibleRowCount="3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </ComboBox>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addCharger" prefHeight="30.0" prefWidth="140.0" text="Add New Charger" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addCharger" prefHeight="31.0" prefWidth="169.0" text="Add New Charger" translateX="-35.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <padding>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </padding>
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="saveChanges" mnemonicParsing="false" onAction="#saveChargerChanges" text="Save Charger" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+            <Button fx:id="saveChanges" mnemonicParsing="false" onAction="#saveChargerChanges" text="Save Charger" translateX="-36.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </Button>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wattage:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
                <GridPane.margin>
                   <Insets right="20.0" />
@@ -49,7 +56,7 @@
             </Text>
             <TextField fx:id="wattageText" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="130.0" promptText="Enter Wattage" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
                <opaqueInsets>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -62,44 +69,44 @@
             </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PlugType:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin>
             </Text>
-            <ComboBox fx:id="plugTypeDropDown" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <ComboBox fx:id="plugTypeDropDown" prefHeight="23.0" prefWidth="237.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </ComboBox>
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteCharger" text="Delete Charger" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </Button>
-            <Text fx:id="chargerTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit Charger Information" underline="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Text fx:id="chargerTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit Charger Information" translateX="-40.0" wrappingWidth="303.2236328125" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnStationInfo" text="Return" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnStationInfo" text="Return" translateX="-25.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font></Button>
-            <Button fx:id="saveStationButton" mnemonicParsing="false" onAction="#saveStation" text="Save Station" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button fx:id="saveStationButton" mnemonicParsing="false" onAction="#saveStation" text="Save Station" translateX="-20.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </Button>
             <CheckBox fx:id="opButton" mnemonicParsing="false" text="Operative" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
             </CheckBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Chargers:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
-                  <Font size="14.0" />
+                  <Font size="15.0" />
                </font>
                <GridPane.margin>
                   <Insets right="20.0" />

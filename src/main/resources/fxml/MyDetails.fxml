@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane fx:id="myDetailsPane" dividerPositions="0.577639751552795" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="807.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
+<SplitPane fx:id="myDetailsPane" dividerPositions="0.577639751552795" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="807.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.MyDetailsController">
   <items>
      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0">
         <columnConstraints>
@@ -59,6 +61,9 @@
               <GridPane.margin>
                  <Insets left="20.0" right="10.0" top="10.0" />
               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
            </TextField>
            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                   <GridPane.margin>
@@ -72,6 +77,9 @@
               <GridPane.margin>
                  <Insets left="20.0" right="10.0" top="10.0" />
               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
            </TextField>
            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Home Address:" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
               <font>
@@ -85,6 +93,9 @@
               <GridPane.margin>
                  <Insets left="20.0" right="10.0" top="10.0" />
               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
            </TextField>
            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicles:" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
               <font>
@@ -120,6 +131,11 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Text>
+            <ImageView fitHeight="321.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true" rotate="35.2" translateX="60.0" translateY="20.0" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../images/gecko2.png" />
+               </image>
+            </ImageView>
         </children>
      </GridPane>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0">
@@ -155,9 +171,18 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="btnAddVehicle" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onAction="#addVehicleEventHandler" text="Add New Vehicle" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Button fx:id="btnEditVehicle" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#editVehicleEventHandler" text="Edit Selected Vehicle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Button fx:id="btnDeleteVehicle" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#deleteVehicleEventHandler" text="Delete Vehicle" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Button fx:id="btnAddVehicle" minHeight="30.0" minWidth="110.0" mnemonicParsing="false" onAction="#addVehicleEventHandler" text="Add New Vehicle" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+                  <Button fx:id="btnEditVehicle" minHeight="30.0" minWidth="80.0" mnemonicParsing="false" onAction="#editVehicleEventHandler" text="Edit Selected Vehicle" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
+                  <Button fx:id="btnDeleteVehicle" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#deleteVehicleEventHandler" text="Delete Vehicle" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Button>
 
                </children>
             </GridPane>

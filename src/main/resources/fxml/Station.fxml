@@ -35,10 +35,10 @@
                         </Text>
                         <GridPane fx:id="gridPane" prefHeight="323.0" prefWidth="279.0" GridPane.rowIndex="1">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="99.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="160.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="160.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" prefWidth="160.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="92.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="214.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="146.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="243.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -64,7 +64,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <TextField fx:id="nameField" prefHeight="28.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                  </GridPane.margin>
@@ -85,12 +85,12 @@
                                     <Font size="15.0" />
                                  </font>
                               </Button>
-                              <CheckBox fx:id="hoursButton" mnemonicParsing="false" text="Is 24 Hours" translateX="-47.0" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <CheckBox fx:id="hoursButton" mnemonicParsing="false" text="Is 24 Hours" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </CheckBox>
-                              <CheckBox fx:id="touristButton" mnemonicParsing="false" text="Has Attraction" translateX="-51.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <CheckBox fx:id="touristButton" mnemonicParsing="false" text="Has Attraction" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -110,7 +110,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Carparks:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carpark count:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -123,7 +123,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="ownerField" GridPane.columnIndex="3">
+                              <TextField fx:id="ownerField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="200.0" GridPane.columnIndex="3">
                                  <GridPane.margin>
                                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                  </GridPane.margin>
@@ -139,12 +139,12 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="min(s)" wrappingWidth="60.43115234375" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="min(s)" translateX="-70.0" wrappingWidth="60.43115234375" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="numParksField" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              <TextField fx:id="numParksField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                  </GridPane.margin>
@@ -152,12 +152,12 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <CheckBox fx:id="parkCostButton" mnemonicParsing="false" text="Has CarPark Cost" translateX="-63.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                              <CheckBox fx:id="parkCostButton" mnemonicParsing="false" text="Has Carpark Cost" translateX="-63.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </CheckBox>
-                              <CheckBox fx:id="chargingCostButton" mnemonicParsing="false" text="Has Charging Cost" translateX="-63.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                              <CheckBox fx:id="chargingCostButton" mnemonicParsing="false" text="Has Charging Cost" translateX="-37.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
