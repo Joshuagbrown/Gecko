@@ -184,6 +184,11 @@ public class MapToolBarController implements ScreenController {
                 return null;
             } else {
                 JSONObject bestResult = (JSONObject) items.get(0);
+                JSONObject address = (JSONObject) bestResult.get("address");
+                String country = (String) address.get("countryName");
+                if (!Objects.equals(country, "New Zealand")) {
+                    return null;
+                }
                 return (JSONObject) bestResult.get("position");
             }
         } catch (InterruptedException | IOException e) {
