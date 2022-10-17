@@ -105,7 +105,6 @@ public class GeneralStepdefs extends TestFXBase {
         verifyThat("#generalHelpButton", Node::isVisible);
         verifyThat("#mapHelpButton", Node::isVisible);
         verifyThat("#dataHelpButton", Node::isVisible);
-        verifyThat("#loginHelpButton", Node::isVisible);
 
     }
 

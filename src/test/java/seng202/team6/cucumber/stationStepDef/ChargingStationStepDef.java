@@ -1,52 +1,36 @@
 package seng202.team6.cucumber.stationStepDef;
 
 import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.hamcrest.Matcher;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.service.query.PointQuery;
-import seng202.team6.controller.LoginController;
 import seng202.team6.controller.MainApplication;
-import seng202.team6.controller.MainScreenController;
 import seng202.team6.exceptions.DatabaseException;
-import seng202.team6.exceptions.InstanceAlreadyExistsException;
 import seng202.team6.models.*;
 import seng202.team6.repository.DatabaseManager;
 import seng202.team6.repository.StationDao;
 import seng202.team6.repository.UserDao;
-import seng202.team6.services.DataService;
 import seng202.team6.testfx.controllertests.TestFXBase;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
-import java.util.HexFormat;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 
-public class CharginStationStepDef extends TestFXBase{
+public class ChargingStationStepDef extends TestFXBase{
 
 
     static DatabaseManager manager;
