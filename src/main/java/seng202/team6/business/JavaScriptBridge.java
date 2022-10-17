@@ -1,6 +1,9 @@
 package seng202.team6.business;
 
 import java.io.IOException;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 /**
  * A class created to provide the ability to "bridge" from javascript (used within the OSM html)
@@ -9,12 +12,11 @@ import java.io.IOException;
  */
 public class JavaScriptBridge {
 
-    private GetStationInterface getStationInterface;
-    private GetLocationInterface getLocationInterface;
-    private GetAddressInterface getAddressInterface;
-    private EditStationInterface editStationInterface;
-
-    private AddStationInterface addStationInterface;
+    private IntConsumer getStationInterface;
+    private BiConsumer<Float, Float> getLocationInterface;
+    private Consumer<String> getAddressInterface;
+    private Consumer<String> editStationInterface;
+    private Consumer<String> addStationInterface;
 
     /**
      * Constructor for the javascript bridge.
@@ -32,10 +34,11 @@ public class JavaScriptBridge {
      *                          map controller class to communicate with the leaflet HTML in
      *                          javascript to initiate the pop-up to edit the station
      */
-    public JavaScriptBridge(GetStationInterface getStationLambda, GetLocationInterface
-            getLocationLambda, GetAddressInterface getAddressLambda,
-                            EditStationInterface editStationLambda,
-                            AddStationInterface addStationLambda) {
+    public JavaScriptBridge(IntConsumer getStationLambda,
+                            BiConsumer<Float, Float> getLocationLambda,
+                            Consumer<String> getAddressLambda,
+                            Consumer<String> editStationLambda,
+                            Consumer<String> addStationLambda) {
         getStationInterface = getStationLambda;
         getLocationInterface = getLocationLambda;
         getAddressInterface = getAddressLambda;
@@ -47,16 +50,16 @@ public class JavaScriptBridge {
      * Function to get initiate the edit station pop-up.
      * @param id the stationID of the station
      */
-    public void editStation(String id) throws IOException, InterruptedException {
-        editStationInterface.operation(id);
+    public void editStation(String id) {
+        editStationInterface.accept(id);
     }
 
     /**
      * function to get location from the station id.
      * @param id the station id.
      */
-    public void getStationFromClick(int id) throws IOException {
-        getStationInterface.operation(id);
+    public void getStationFromClick(int id) {
+        getStationInterface.accept(id);
     }
 
     /**
@@ -65,25 +68,23 @@ public class JavaScriptBridge {
      * @param lng longitude of the locaiton.
      */
     public void setClickLocation(float lat, float lng) {
-        getLocationInterface.operation(lat, lng);
+        getLocationInterface.accept(lat, lng);
     }
 
     /**
      * function to get the location form address.
      * @param address the address.
      */
-    public void setAddress(String address) throws IOException {
-        getAddressInterface.operation(address);
+    public void setAddress(String address) {
+        getAddressInterface.accept(address);
     }
 
     /**
      * Function to add a new station from marker.
      * @param address the address of marker
-     * @throws IOException error from pop-up
-     * @throws InterruptedException error from pop-up
      */
-    public void addStation(String address) throws IOException, InterruptedException {
-        addStationInterface.operation(address);
+    public void addStation(String address) {
+        addStationInterface.accept(address);
     }
 }
 

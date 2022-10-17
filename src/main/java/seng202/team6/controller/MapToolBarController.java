@@ -29,6 +29,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -36,59 +38,62 @@ import org.json.simple.parser.ParseException;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
 import seng202.team6.models.Position;
+import seng202.team6.services.AlertMessage;
 
 /**
  * Controller for the map toolbar.
  */
 public class MapToolBarController implements ScreenController {
+    private Logger log = LogManager.getLogger();
     /**
      * Border pane that hold the filter section on map toolbar.
      */
     @FXML
-    public BorderPane filterSectionOnMapToolBar;
+    private BorderPane filterSectionOnMapToolBar;
     /**
      * The grid pane that hold the find routes texts.
      */
     @FXML
-    public GridPane planTripGridPane;
+    private GridPane planTripGridPane;
     /**
      * Button that click to load the text box.
      */
     @FXML
-    public Button addStopButton;
+    private Button addStopButton;
     /**
      * Button that click to autofill the start location on text.
      */
     @FXML
-    public Button startAutoFill;
+    private Button startAutoFill;
     /**
      * Button that click to autofill the end location on text.
      */
     @FXML
-    public Button endAutoFill;
+    private Button endAutoFill;
     /**
      * Button that click to find the route.
      */
     @FXML
-    public Button findRouteButton;
+    private Button findRouteButton;
     /**
      * the text for the start location.
      */
     @FXML
-    public Text startLabel;
+    private Text startLabel;
     /**
      * the text for the end location.
      */
     @FXML
-    public Text endLabel;
+    private Text endLabel;
     /**
      * Button is clicked to remove the route from the map.
      */
     @FXML
-    public CheckBox saveJourneyCheck;
+    private CheckBox saveJourneyCheck;
     @FXML
-    public Button removeRouteButton;
-    public Button removeLastStopButton;
+    private Button removeRouteButton;
+    @FXML
+    private Button removeLastStopButton;
     private MainScreenController controller;
     @FXML
     private TextField startLocation;
@@ -102,9 +107,12 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<Button> autoFillButtons = new ArrayList<>();
     private int numAddresses = 2;
 
+
+    @FXML
+    public TextField addOneTextField;
     /**
      * Initializes the controller.
-     * 
+     *
      * @param stage      Primary Stage of the application.
      * @param controller The Controller class for the main screen.
      */
@@ -145,10 +153,10 @@ public class MapToolBarController implements ScreenController {
      * return this position, will return null if provided string does not correspond
      * to
      * an existing address.
-     * 
+     *
      * @param query the query to geocode
      */
-    public JSONObject geoCode(String query) throws IOException, InterruptedException {
+    public JSONObject geoCode(String query) {
         HttpClient httpClient = HttpClient.newHttpClient();
 
         String encodedQuery = null;
@@ -160,29 +168,42 @@ public class MapToolBarController implements ScreenController {
 
         HttpRequest geocodingRequest = HttpRequest.newBuilder().GET().uri(URI.create(requestUri))
                 .timeout(Duration.ofMillis(2000)).build();
-        HttpResponse<String> geocodingResponse = httpClient.send(geocodingRequest,
-                HttpResponse.BodyHandlers.ofString());
-        String jsonString = geocodingResponse.body();
-        JSONParser parser = new JSONParser();
-        JSONObject jsonResponse = null;
         try {
-            jsonResponse = (JSONObject) parser.parse(jsonString);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+            HttpResponse<String> geocodingResponse =
+                httpClient.send(geocodingRequest, HttpResponse.BodyHandlers.ofString());
+            String jsonString = geocodingResponse.body();
+            JSONParser parser = new JSONParser();
+            JSONObject jsonResponse = null;
+            try {
+                jsonResponse = (JSONObject) parser.parse(jsonString);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            JSONArray items = (JSONArray) jsonResponse.get("items");
+            if (items == null || items.isEmpty()) {
+                return null;
+            } else {
+                JSONObject bestResult = (JSONObject) items.get(0);
+                JSONObject address = (JSONObject) bestResult.get("address");
+                String country = (String) address.get("countryName");
+                if (!Objects.equals(country, "New Zealand")) {
+                    return null;
+                }
+                return (JSONObject) bestResult.get("position");
+            }
+        } catch (InterruptedException | IOException e) {
+            AlertMessage.createMessage("An error occurred",
+                                       "There was an error connecting to the geocoding API."
+                                       + "See the log for more details.");
+            log.error("Error connecting to geocoding API", e);
         }
-        JSONArray items = (JSONArray) jsonResponse.get("items");
-        if (items == null || items.isEmpty()) {
-            return null;
-        } else {
-            JSONObject bestResult = (JSONObject) items.get(0);
-            return (JSONObject) bestResult.get("position");
-        }
+        return null;
     }
 
     /**
      * when the 'GO!' button is clicked,
      * calls the 'goRoute' function.
-     * 
+     *
      * @param actionEvent When the 'GO!' button is clicked.
      */
     public void findRoute(ActionEvent actionEvent) {
@@ -198,14 +219,10 @@ public class MapToolBarController implements ScreenController {
         ArrayList<JSONObject> posArray = new ArrayList<>();
         addresses.clear();
         for (TextField textField : arrayOfTextFields) {
-            try {
-                if (!Objects.equals(textField.getText(), "")) {
-                    addresses.add(textField.getText());
-                    JSONObject location = geoCode(textField.getText());
-                    posArray.add(location);
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+            if (!Objects.equals(textField.getText(), "")) {
+                addresses.add(textField.getText());
+                JSONObject location = geoCode(textField.getText());
+                posArray.add(location);
             }
         }
         boolean validAddresses = true;
@@ -234,15 +251,15 @@ public class MapToolBarController implements ScreenController {
             AlertMessage.createMessage("Invalid Address Entered.",
                     "Please input at least two valid destinations.");
         } else {
-            AlertMessage.createMessage("Incorrect number of addresses.",
-                    "Please input at least two destinations.");
+            AlertMessage.createMessage("Incorrect number of Addresses.",
+                    "Please input at least two valid destinations.");
         }
     }
 
     /**
      * This function clears the route, the makes the route,
      * from the route given from the journey.
-     * 
+     *
      * @param stopAmount   the amount of stops needing to be added
      * @param allAddresses all the addresses in the route
      */
@@ -261,7 +278,7 @@ public class MapToolBarController implements ScreenController {
 
     /**
      * Display filter screen on the map toolbar.
-     * 
+     *
      * @param screen the screen that want to display.
      */
     public void setFilterSectionOnMapToolBar(Parent screen) {
@@ -313,7 +330,7 @@ public class MapToolBarController implements ScreenController {
     /**
      * This function adds another text field for a stop,
      * and add another autofill button for that text field.
-     * 
+     *
      * @param button When add stop button is clicked.
      */
     public void insertAddressFieldAndButton(Button button) {
@@ -330,9 +347,10 @@ public class MapToolBarController implements ScreenController {
             planTripGridPane.getChildren().remove(saveJourneyCheck);
             planTripGridPane.getChildren().remove(removeLastStopButton);
 
-            TextField addOneTextField = new TextField();
+            addOneTextField = new TextField();
             addOneTextField.setFont(Font.font(13));
             addOneTextField.setVisible(true);
+            addOneTextField.setId("addOneTextField" + String.valueOf(numAddresses));
 
             arrayOfTextFields.add(addOneTextField);
 
@@ -393,7 +411,7 @@ public class MapToolBarController implements ScreenController {
      */
     public void removeLastStop(ActionEvent actionEvent) {
         //to be done
-        ArrayList<String> currentAddresses = new ArrayList<String>();
+        ArrayList<String> currentAddresses = new ArrayList<>();
         for (TextField text : arrayOfTextFields) {
             currentAddresses.add(text.getText());
         }
@@ -413,7 +431,6 @@ public class MapToolBarController implements ScreenController {
             }
             index++;
         }
-        //findRoute(null);
     }
 
     /**
@@ -466,7 +483,7 @@ public class MapToolBarController implements ScreenController {
     /**
      * This function removes the route from the map,
      * by calling the 'delete route' function.
-     * 
+     *
      * @param actionEvent When remove route button is clicked.
      */
     public void removeRoute(ActionEvent actionEvent) {

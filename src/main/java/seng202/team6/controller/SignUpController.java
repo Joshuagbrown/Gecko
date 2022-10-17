@@ -159,5 +159,9 @@ public class SignUpController implements ScreenController {
         confirmPassword.clear();
         addressSignUp.clear();
         nameSignUp.clear();
+        username = null;
+        password = null;
+        address = null;
+        name = null;
     }
 }

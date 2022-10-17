@@ -17,11 +17,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
@@ -31,7 +34,7 @@ import seng202.team6.services.Validity;
  * Author: Tara Lipscombe
  */
 public class AddStationController implements StationController {
-
+    private Logger log = LogManager.getLogger();
     @FXML
     private Text stationTitle;
     @FXML
@@ -81,7 +84,7 @@ public class AddStationController implements StationController {
 
     private Scene stationScene;
     private Scene chargerScene;
-    private List<Charger> chargers = new ArrayList<Charger>();
+    private List<Charger> chargers = new ArrayList<>();
     private ChargerController chargerController = new ChargerController();
     private Boolean hasUnsavedChanges;
 
@@ -92,13 +95,13 @@ public class AddStationController implements StationController {
      * @param stage      the stage for the pop-up.
      * @param controller the mainscreen controller.
      */
-    public void init(Stage stage, Scene scene, MainScreenController controller, String address)
-            throws IOException, InterruptedException {
+    public void init(Stage stage, Scene scene, MainScreenController controller, String address) {
         this.stage = stage;
         stage.setOnCloseRequest(e -> {
             AlertMessage.createMessage("No station was created.", "To save a station you "
                     + "must fill out all fields, then select 'Continue', add at least one charger, "
                     + "finally, select 'Save Station'.");
+            controller.setSelected(controller.getPrevSelected());
         });
         this.stationScene = scene;
         this.address = address;
@@ -128,13 +131,11 @@ public class AddStationController implements StationController {
      * @throws IOException from geocoding
      * @throws InterruptedException from geocoding
      */
-    private void findLatLon() throws IOException, InterruptedException {
-
+    private void findLatLon() {
         JSONObject positionField = controller.getMapToolBarController().geoCode(address);
         double lat = (double) positionField.get("lat");
         double lng = (double) positionField.get("lng");
         pos = new Position(lat, lng);
-
     }
 
 
@@ -196,11 +197,12 @@ public class AddStationController implements StationController {
     public Boolean checkValues() throws IOException, InterruptedException {
 
         Boolean returnable = true;
+        String invalidStyle = "-fx-text-box-border: #B22222; -fx-focus-color: #B22222;";
 
         String newName = nameField.getText();
 
         if (!valid.checkStationName(newName)) {
-            nameField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            nameField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Station name must be greater than a length of 0, and only contain "
                     + "characters within the" + " following set {a-z, A-Z, '+', '&', ',', ' '}");
@@ -211,7 +213,7 @@ public class AddStationController implements StationController {
         String newAddress = addressField.getText();
 
         if (!valid.checkAddress(newAddress)) {
-            addressField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            addressField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Address must represent an existing address");
         } else {
@@ -222,8 +224,7 @@ public class AddStationController implements StationController {
         String newOperator = operatorField.getText();
 
         if (!valid.checkOp(newOperator)) {
-            operatorField.setStyle("-fx-text-box-border-width: 10px; -fx-text-box-border: #b22222; "
-                    + "-fx-focus-color: #b22222;");
+            operatorField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Operator name must be of length greater than 0 and only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
@@ -234,7 +235,7 @@ public class AddStationController implements StationController {
         String newOwner = ownerField.getText();
 
         if (!valid.checkOp(newOwner)) {
-            ownerField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            ownerField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Owner name must be of length greater than 0 and only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
@@ -245,7 +246,7 @@ public class AddStationController implements StationController {
         String newTimeLimit = timeLimitField.getText();
 
         if (!valid.checkInts(newTimeLimit)) {
-            timeLimitField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            timeLimitField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Time Limit must be a valid integer between 0 and 300");
         } else {
@@ -255,7 +256,7 @@ public class AddStationController implements StationController {
         String newCarParks = numParksField.getText();
 
         if (!valid.checkInts(newCarParks)) {
-            numParksField.setStyle("-fx-text-box-border: #B22222; -fx-focus-color: #B22222;");
+            numParksField.setStyle(invalidStyle);
             returnable = false;
             currentErrors.add("Number of CarParks must be a valid integer between 0 and 300");
         } else {

@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
@@ -44,7 +45,6 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 public class LoginStepDefs extends TestFXBase {
 
-    MainScreenController mainScreenController;
     static DatabaseManager manager;
     static UserDao userDao;
 
@@ -87,24 +87,8 @@ public class LoginStepDefs extends TestFXBase {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-        DataService dataService = new DataService();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/MainScreen.fxml"));
-        Parent root = baseLoader.load();
-        mainScreenController = baseLoader.getController();
-        mainScreenController.init(stage, dataService);
-        Parent page = loader.load();
-        initState(loader, stage,mainScreenController);
-        Scene scene = new Scene(page);
-        stage.setScene(scene);
-        stage.show();
-
-
     }
-    public void initState(FXMLLoader loader, Stage stage,MainScreenController mainScreenController) {
-        LoginController loginController = loader.getController();
-        loginController.init(stage,mainScreenController);
-    }
+
 
     @Given("I am on the login screen")
     public void iAmOnTheLoginScreen() {
@@ -126,8 +110,6 @@ public class LoginStepDefs extends TestFXBase {
         // We know that once we log in the main screen has a button to log out, so if we can see this it must've logged us in correctly
 
         verifyThat("#logOutButton", Node::isVisible);
-        //Assertions.assertNotNull(mainScreenController.getCurrentUser());
-        //verifyThat("#logInButton", Node::isVisible);
     }
 
     @Then("I am not logged in")
@@ -179,20 +161,18 @@ public class LoginStepDefs extends TestFXBase {
     public void userInputOnNameSpaceAndInputOnTheAddressSpace(String name, String address) {
         doubleClickOn("#nameField");
         write(name);
-        doubleClickOn("#homeAddressField");
+        clickOn("#homeAddressField");
+        push(KeyCode.CONTROL,KeyCode.A);
         write(address);
     }
 
     @Then("User Name have changed into {string} and address has changed into {string}")
     public void userNameHaveChangedIntoAndAddressHasChangedInto(String name, String address) {
 
-
-        TextField nameTextField = (TextField) find("#usernameField");
+        TextField nameTextField = (TextField) find("#nameField");
         Assertions.assertEquals(name,nameTextField.getText());
 
         TextField homeTextField = (TextField) find("#homeAddressField");
         Assertions.assertEquals(address,homeTextField.getText());
-
-
     }
 }

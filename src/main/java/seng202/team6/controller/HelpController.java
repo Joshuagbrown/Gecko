@@ -25,7 +25,7 @@ public class HelpController implements ScreenController {
      * the text Area to load the information.
      */
     @FXML
-    private WebView webView;
+    private WebView helpPage;
     @FXML
     public TextArea linesTextArea;
 
@@ -42,7 +42,7 @@ public class HelpController implements ScreenController {
      */
     public void initPageInfo(InputStream file) {
         WebEngine webEngine;
-        webEngine = webView.getEngine();
+        webEngine = helpPage.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.loadContent(getHtml(file));
         String uri = getClass().getResource("/stylesheets/htmlMain.css").toExternalForm();
@@ -60,23 +60,4 @@ public class HelpController implements ScreenController {
                 .lines()
                 .collect(Collectors.joining("\n"));
     }
-    //    public void showFileLines(InputStream file) {
-    //        this.linesTextArea.clear();
-    //
-    //        List<String> lines = new ArrayList<>();
-    //        String line;
-    //        try {
-    //            BufferedReader br = new BufferedReader(new InputStreamReader(file));
-    //
-    //            while ((line = br.readLine()) != null) {
-    //                lines.add(line);
-    //            }
-    //            br.close();
-    //        } catch (IOException ex) {
-    //            ex.printStackTrace();
-    //        }
-    //        for (String eachLine : lines) {
-    //            this.linesTextArea.appendText(eachLine + "\n");
-    //        }
-    //    }
 }

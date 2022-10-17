@@ -113,6 +113,7 @@ public class DataController implements ScreenController {
      * @param mouseEvent Station is clicked.
      */
     public void clickItem(MouseEvent mouseEvent) {
+        controller.setTextAreaInMainScreen(null);
         Station selected = table.getSelectionModel().getSelectedItem();
         currentlySelected = selected;
         if (selected != null) {
@@ -120,6 +121,7 @@ public class DataController implements ScreenController {
             controller.changeToEditButton();
         } else {
             controller.changeToAddButton();
+
         }
     }
 

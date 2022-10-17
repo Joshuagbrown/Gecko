@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,15 +19,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 import seng202.team6.business.JavaScriptBridge;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 
 
 /**
@@ -36,6 +42,8 @@ import seng202.team6.models.Station;
  * @author Tara Lipscombe and Lucas Redding
  */
 public class MapController implements ScreenController {
+    public TextField locationTextBox;
+    private Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
     private JavaScriptBridge javaScriptBridge;
     @FXML
@@ -49,7 +57,7 @@ public class MapController implements ScreenController {
     private ObservableMap<Integer, Station> stations;
     private Station currentlySelected;
 
-    private ArrayList<Button> autoFillButtons;
+    private String homeAddress = null;
 
     /**
      * Initialises the map view.
@@ -69,7 +77,7 @@ public class MapController implements ScreenController {
      * Function to call the edit station pop-up.
      * @param stationId the stationId of the station
      */
-    public void editStation(String stationId) throws IOException, InterruptedException {
+    public void editStation(String stationId) {
         if (controller.getCurrentUserId() == 0) {
             Alert alert = AlertMessage.noAccess();
             ButtonType button = alert.getButtonTypes().get(0);
@@ -88,7 +96,7 @@ public class MapController implements ScreenController {
      * Function to call the add station pop-up.
      * @param address the string of the address
      */
-    public void addStationToDatabase(String address) throws IOException, InterruptedException {
+    public void addStationToDatabase(String address) {
         if (controller.getCurrentUserId() == 0 || controller.getCurrentUserId() == -1) {
             Alert alert = AlertMessage.noAccess();
             ButtonType button = alert.getButtonTypes().get(0);
@@ -115,42 +123,64 @@ public class MapController implements ScreenController {
     /**
      * Function to initialize and load the station pop-up.
      * @param id the station id number
-     * @throws IOException exception thrown
      */
-    public void loadEditStationWindow(Integer id) throws IOException,
-            InterruptedException {
+    public void loadEditStationWindow(Integer id) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         EditStationController editStationController = new EditStationController();
         loader.setController(editStationController);
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Current Station");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.DECORATED);
-        stage.show();
-        editStationController.init(stage, scene, controller, id);
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Current Station");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            editStationController.init(stage, scene, controller, id);
+        } catch (IOException e) {
+            AlertMessage.createMessage("Error", "There was an error loading"
+                                                + "the edit station window."
+                                                + "See the logs for more detail.");
+            log.error("Error loading edit station window", e);
+        }
     }
 
 
     /**
-     * Function to initialize and load thew station pop-up.
+     * Function to initialize and load the station pop-up.
      * @param address the address of the station
      */
-    public void loadAddStationWindow(String address) throws IOException, InterruptedException {
+    public void loadAddStationWindow(String address) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Station.fxml"));
         AddStationController addStationController = new AddStationController();
         loader.setController(addStationController);
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Add a New Station");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.DECORATED);
-        stage.show();
-        addStationController.init(stage, scene, controller, address);
+        JSONObject result = null;
+        if (address != null) {
+            result = controller.getMapToolBarController().geoCode(address);
+            if (result == null) {
+                AlertMessage.createMessage("Invalid Address used", "Please place marker"
+                        + " in New Zealand and try again.");
+                return;
+            }
+        }
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Add a New Station");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            addStationController.init(stage, scene, controller, address);
+        } catch (IOException e) {
+            AlertMessage.createMessage("Error", "There was an error loading"
+                    + "the add station window. "
+                    + "See the log for more details");
+            log.error("Error loading add station window", e);
+        }
+
 
     }
 
@@ -160,7 +190,7 @@ public class MapController implements ScreenController {
      * Function to set the current address.
      * @param address the new address to set.
      */
-    public void setAddress(String address) throws IOException {
+    public void setAddress(String address) {
         if (address != null) {
             if (address.length() == 0) {
                 controller.getMapToolBarController().setAutoFillButtonsOff();
@@ -176,7 +206,7 @@ public class MapController implements ScreenController {
      * Function that call to display the station information when the station marker is clicked.
      * @param stationId the id of the station.
      */
-    public void onStationClicked(Integer stationId) throws IOException {
+    public void onStationClicked(Integer stationId) {
         if (stationId == null || stationId == 0) {
             currentlySelected = null;
             setAddress(null);
@@ -298,5 +328,112 @@ public class MapController implements ScreenController {
      */
     public String getAddress() {
         return currentAddress;
+    }
+
+
+    /**
+     * When a user has logged in or signed up, their home address it set, to be used
+     * for filtering stations.
+     * @param address the home address of the user
+     */
+    public void setHomeAddress(String address) {
+        homeAddress = address;
+        String title = "Home: " + address;
+        double lat;
+        double lon;
+        try {
+            Position pos = findLatLon(address);
+
+            lat = pos.getLatitude();
+            lon = pos.getLongitude();
+        } catch (IOException | RuntimeException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        javaScriptConnector.call("fixAddressMarker", title, lat, lon);
+    }
+
+
+    /**
+     * When a user has logged out, remove the address marker from the map.
+     */
+    public void removeHomeAddress() {
+        homeAddress = null;
+        javaScriptConnector.call("removeAddressMarker");
+    }
+
+
+    /**
+     * Function to return a position representation of the currently set home address.
+     * @return the position of the home address
+     */
+    public Position getHomePosition() {
+        if (Objects.equals(homeAddress, "") || homeAddress == null) {
+            return null;
+        } else {
+            try {
+                return findLatLon(homeAddress);
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
+
+    /**
+     * Finds the corresponding latitude and longitude for the given address.
+     * and sets it to the position variable
+     *
+     * @throws IOException from geocoding
+     * @throws InterruptedException from geocoding
+     */
+    private Position findLatLon(String address) throws IOException, InterruptedException {
+
+        JSONObject positionField = controller.getMapToolBarController().geoCode(address);
+        if (positionField == null) {
+            return null;
+        }
+        double lat = (double) positionField.get("lat");
+        double lng = (double) positionField.get("lng");
+        return new Position(lat, lng);
+
+    }
+
+
+    /**
+     * Function called when the user searches for an address on tab at the top of the map.
+     * Sets the current location on the map to be the given address.
+     * @param actionEvent when the search button is selected
+     */
+    public void searchLocationOnTheMap(ActionEvent actionEvent) {
+        String address = locationTextBox.getText();
+        Position location = null;
+        try {
+            location = findLatLon(address);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (location == null) {
+            AlertMessage.createMessage("Unable to fetch the given Address.",
+                    "Please search with a valid Address");
+        } else {
+            javaScriptConnector.call("findCurrentLocation", address, location.getLatitude(),
+                    location.getLongitude());
+        }
+
+
+
+    }
+
+
+    /**
+     * Deletes Text from text area.
+     * @param mouseEvent User clicks on text box
+     */
+    public void deleteTextFromTestArea(MouseEvent mouseEvent) {
+        locationTextBox.setText("");
     }
 }

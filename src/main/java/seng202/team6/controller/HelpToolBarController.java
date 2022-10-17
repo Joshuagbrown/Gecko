@@ -1,6 +1,8 @@
 package seng202.team6.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
@@ -8,11 +10,39 @@ import javafx.stage.Stage;
  */
 public class HelpToolBarController implements ScreenController {
 
+
+    @FXML
+    public Button generalHelpButton;
+    @FXML
+    public Button mapHelpButton;
+    @FXML
+    public Button dataHelpButton;
+    @FXML
+    public Button loginHelpButton;
     private MainScreenController controller;
+
+    private Button currentlySelected;
 
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
+        setSelected(generalHelpButton);
+    }
+
+    /**
+     * Changes style of new selected button and resets the style of the previously selected
+     * button.
+     * @param button the new selected button.
+     */
+    private void setSelected(Button button) {
+        if (currentlySelected != null) {
+            currentlySelected.setStyle("");
+        }
+        if (button != null) {
+            currentlySelected = button;
+            button.setStyle("-fx-border-color: #FFFFFF");
+        }
+
     }
 
     /**
@@ -22,6 +52,7 @@ public class HelpToolBarController implements ScreenController {
     public void loadMapHelp(ActionEvent actionEvent) {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
                 "/html/MapHelpPage.html"));
+        setSelected(mapHelpButton);
     }
 
     /**
@@ -31,6 +62,7 @@ public class HelpToolBarController implements ScreenController {
     public void loadDataHelp(ActionEvent actionEvent) {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
                 "/html/DataHelpPage.html"));
+        setSelected(dataHelpButton);
     }
 
     /**
@@ -40,6 +72,7 @@ public class HelpToolBarController implements ScreenController {
     public void loadGeneralHelp(ActionEvent actionEvent) {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
                 "/html/MainHelpPage.html"));
+        setSelected(generalHelpButton);
     }
 
     /**
