@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>seng202.team6</groupId>
-  <artifactId>revolt</artifactId> <!--Change me -->
+  <artifactId>gecko</artifactId> <!--Change me -->
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>2.0</version>
 
   <name>revolt</name>
   <url>http://maven.apache.org</url>
@@ -238,6 +238,12 @@
      <scope>test</scope>
     </dependency>
 
+  <!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
+  <dependency>
+    <groupId>io.github.cdimascio</groupId>
+    <artifactId>java-dotenv</artifactId>
+    <version>5.2.2</version>
+  </dependency>
 
   </dependencies>
 

@@ -11,7 +11,9 @@ junit:
 generate_artifacts:
   stage: deploy
   script:
-    - mvn -B clean package
+    - echo "HERE_COM_API_KEY=$HERE_COM_API_KEY" >> ./src/main/resources/.env
+    - echo "GEOAPIFY_API_KEY=$GEOAPIFY_API_KEY" >> ./src/main/resources/.env
+    - mvn -B clean package -DskipTests
   artifacts:
     paths:
     - target/revolt*.jar

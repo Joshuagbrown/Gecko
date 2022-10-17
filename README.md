@@ -1,7 +1,7 @@
 # Gecko
 
 Gecko is a user friendly applications for EV owners to help them consistently
-create trips and plan these around charging stations.
+create trips and plan these around charging stations. See the provided user manual for more information.
 
 ## Authors
 - Philip Dolbel
@@ -39,7 +39,7 @@ you’ll need to re-enable it). To import your project:
 ## Run App
 - If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar revolt-1.0.jar`
+- Run the command `java -jar revolt-2.0.jar`
 - On the first run, you will need to import data from a csv file. An example has been provided.
 
 ## Finally...
