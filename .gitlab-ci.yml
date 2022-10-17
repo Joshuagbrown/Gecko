@@ -11,6 +11,8 @@ junit:
 generate_artifacts:
   stage: deploy
   script:
+    - echo "HERE_COM_API_KEY=$HERE_COM_API_KEY" >> ./src/main/resources/.env
+    - echo "GEOAPIFY_API_KEY=$GEOAPIFY_API_KEY" >> ./src/main/resources/.env
     - mvn -B clean package -DskipTests
   artifacts:
     paths:
