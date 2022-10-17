@@ -743,11 +743,18 @@ public class MainScreenController {
             Parent current = (Parent) mainBorderPane.getCenter();
             int stationID;
             if (current == dataScreen) {
-                stationID = getDataController().getCurrentlySelected().getStationId();
+                if (getDataController().getCurrentlySelected() == null) {
+                    AlertMessage.createMessage("No Station is selected.",
+                            "Please select a Station to edit.");
+                } else {
+                    stationID = getDataController().getCurrentlySelected().getStationId();
+                    getMapController().loadEditStationWindow(stationID);
+                }
             } else {
                 stationID = getMapController().getCurrentlySelected().getStationId();
+                getMapController().loadEditStationWindow(stationID);
             }
-            getMapController().loadEditStationWindow(stationID);
+
         }
     }
 
@@ -777,6 +784,11 @@ public class MainScreenController {
         });
     }
 
+
+    /**
+     * Function to set the filter builder for the main screen controller.
+     * @param builder the filter builder
+     */
     public void setFilterBuilder(FilterBuilder builder) {
         this.filterBuilder = builder;
     }

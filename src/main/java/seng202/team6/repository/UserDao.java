@@ -9,15 +9,29 @@ import seng202.team6.models.User;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.services.AlertMessage;
 
+
+/**
+ * Class that controls the user information in the database.
+ */
 public class UserDao implements DaoInterface<Integer, User> {
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
+    /**
+     * Function to get all users from database.
+     * @return a hashmap of integers and users
+     */
     @Override
     public HashMap<Integer, User> getAll() {
         throw new UnsupportedOperationException();
     }
 
+
+    /**
+     * Function to get a user given its id.
+     * @param id id of object to get.
+     * @return the user
+     */
     @Override
     public User getOne(int id) {
         String userSql = "SELECT * FROM users WHERE userId = (?)";
@@ -72,6 +86,13 @@ public class UserDao implements DaoInterface<Integer, User> {
         return null;
     }
 
+
+    /** Function used to add a new user to the database.
+     *
+     * @param toAdd object of type T to add.
+     * @return the insert id
+     * @throws DatabaseException a database error
+     */
     @Override
     public int add(User toAdd) throws DatabaseException {
         String userSql = "INSERT INTO users (username, passwordHash, passwordSalt, address, name)"
@@ -101,12 +122,22 @@ public class UserDao implements DaoInterface<Integer, User> {
     }
 
 
-
+    /**
+     * Function to delete a user from the database.
+     * @param id id of object to delete.
+     *           *
+     */
     @Override
     public void delete(int id) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Function called to update a users information in the database.
+     * @param toUpdate Object that needs to be updated (this object must be able to
+     *                 identify itself and its previous self).
+     * @throws DatabaseException a database error
+     */
     @Override
     public void update(User toUpdate) throws DatabaseException {
         String userSql = "UPDATE users SET passwordHash=(?) , "

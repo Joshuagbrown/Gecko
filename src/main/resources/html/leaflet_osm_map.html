@@ -181,6 +181,8 @@
                         javaScriptBridge.getStationFromClick(null);
                     });
 
+                    currentClicked.on('click', e => javaScriptBridge.getStationFromClick(-1));
+
                     javaScriptBridge.setClickLocation(e.latlng.lat, e.latlng.lng);
                     currentClicked.addTo(map);
 
@@ -249,6 +251,7 @@
         currentClicked.getPopup().on('remove', function() {
             javaScriptBridge.getStationFromClick(null);
         });
+        currentClicked.on('click', e => javaScriptBridge.getStationFromClick(-1));
 
         javaScriptBridge.setClickLocation(lat, lng);
         currentClicked.addTo(map);
@@ -297,7 +300,7 @@
         homeButton.addTo(map);
         addressMarker = new L.Marker([lat, lng], {icon:homeIcon})
         addressMarker.bindPopup(title).openPopup();
-        addressMarker.addTo(map);
+        addressMarker.addTo(map).on('click', e => javaScriptBridge.getStationFromClick(-2));
         homeAddress = new L.LatLng(lat, lng);
         //map.flyTo(homeAddress);
     }

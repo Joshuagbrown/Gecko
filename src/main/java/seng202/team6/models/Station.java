@@ -82,7 +82,10 @@ public class Station {
         this.stationId = stationId;
     }
 
-
+    /**
+     * Function to get the station id.
+     * @return the station ID
+     */
     public int getStationId() {
         return stationId;
     }
@@ -308,6 +311,12 @@ public class Station {
         chargers.add(newCharger);
     }
 
+
+    /**
+     * Function to check if a station is equal to this one.
+     * @param o the station to check it against
+     * @return true if the stations are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -334,6 +343,11 @@ public class Station {
         chargers = newChargers;
     }
 
+
+    /**
+     * Function to hash the station object.
+     * @return the hashed representation
+     */
     @Override
     public int hashCode() {
         return Objects.hash(coordinates, name, operator, owner, address, timeLimit,

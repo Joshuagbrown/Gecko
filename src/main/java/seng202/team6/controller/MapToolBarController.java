@@ -107,16 +107,17 @@ public class MapToolBarController implements ScreenController {
     private ArrayList<Button> autoFillButtons = new ArrayList<>();
     private int numAddresses = 2;
 
-
     @FXML
     public TextField addOneTextField;
+
+
+
     /**
      * Initializes the controller.
      *
      * @param stage      Primary Stage of the application.
      * @param controller The Controller class for the main screen.
      */
-
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
@@ -513,6 +514,36 @@ public class MapToolBarController implements ScreenController {
         }
     }
 
+
+    /**
+     * Set autofill buttons to marker when the user has a marker selected.
+     */
+    public void setImagesToHome() {
+        for (Button button : autoFillButtons) {
+            Image home = new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream("/images/home_icon.png")));
+            ImageView homeImageview = new ImageView(home);
+            homeImageview.setFitHeight(24);
+            homeImageview.setPreserveRatio(true);
+            button.setGraphic(homeImageview);
+        }
+    }
+
+
+    /**
+     * Set autofill buttons to home when the user has the home icon selected.
+     */
+    public void setImagesToMarker() {
+        for (Button button : autoFillButtons) {
+            Image image = new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream("/images/marker-icon-2x-red.png")));
+            ImageView imageview = new ImageView(image);
+            imageview.setFitHeight(addStopButton.getHeight());
+            imageview.setPreserveRatio(true);
+            button.setGraphic(imageview);
+        }
+
+    }
 
 
 }

@@ -23,6 +23,12 @@ public class HelpToolBarController implements ScreenController {
 
     private Button currentlySelected;
 
+
+    /**
+     * Function to initialize the help toolbar screen.
+     * @param stage Primary Stage of the application.
+     * @param controller The Controller class for the main screen.
+     */
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;

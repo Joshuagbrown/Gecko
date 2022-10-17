@@ -8,10 +8,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import seng202.team6.models.Position;
 
+
+/**
+ * Filter Builder class.
+ */
 public class FilterBuilder {
     private List<String> filters = new ArrayList<>();
     private List<Object> arguments = new ArrayList<>();
 
+
+    /**
+     * Function used to escape wildcards.
+     * @param str the given string to fix
+     * @return the fixed string
+     */
     private static String escapeWildcards(String str) {
         return str
                 .replace("%", "\\%")

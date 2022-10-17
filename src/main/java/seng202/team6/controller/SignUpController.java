@@ -22,6 +22,10 @@ import seng202.team6.models.User;
 import seng202.team6.repository.UserDao;
 import seng202.team6.services.Validity;
 
+
+/**
+ * Controller class for the signup screen.
+ */
 public class SignUpController implements ScreenController {
     private MainScreenController controller;
     @FXML

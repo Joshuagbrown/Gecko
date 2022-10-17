@@ -16,6 +16,10 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.models.Journey;
 import seng202.team6.services.AlertMessage;
 
+
+/**
+ * Controller class for the save journey screen.
+ */
 public class SaveJourneyController implements ScreenController {
 
     private static final Logger log = LogManager.getLogger();

@@ -83,7 +83,7 @@ public class Charger {
 
 
     /**
-     * Funciton to set the plugType of the charger.
+     * Function to set the plugType of the charger.
      * @param type the new charger type
      */
     public void setPlugType(String type) {
@@ -91,7 +91,7 @@ public class Charger {
     }
 
     /**
-     * Funciton to set the new operative status of the charger.
+     * Function to set the new operative status of the charger.
      * @param op the new operative status
      */
     public void setOperative(String op) {
@@ -117,7 +117,7 @@ public class Charger {
     }
 
     /**
-     * This does NOT take into account chargerId.
+     * Function to hash the charger.
      */
     @Override
     public int hashCode() {
@@ -132,6 +132,11 @@ public class Charger {
         return this.wattage + " kW " + plugType + ", Status: " + operative;
     }
 
+
+    /**
+     * Function to se the charger ID of a charger.
+     * @param chargerId the given ID
+     */
     public void setChargerId(int chargerId) {
         this.chargerId = chargerId;
     }
