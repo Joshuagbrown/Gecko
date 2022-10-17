@@ -7,42 +7,35 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
-import seng202.team6.models.Charger;
-import seng202.team6.models.UserLoginDetails;
 import seng202.team6.models.Vehicle;
+import seng202.team6.services.AlertMessage;
 
+
+/**
+ * Class the controls the information of vehicles in the database.
+ */
 public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
+    /**
+     * Function to get all vehicles from the database.
+     * @return a hashmap of integers and vehicles
+     */
     @Override
     public Map<Integer, Vehicle> getAll() {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Function to get a vehicle from the database given its id.
+     * @param id id of object to get.
+     * @return the vehicle
+     */
     @Override
     public Vehicle getOne(int id) {
         throw new UnsupportedOperationException();
-    }
-
-    /**
-     * The sql query to get the make of vehicle from the database.
-     * @return list of vehicle make string.
-     */
-    public List<String> getMakes() {
-        List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT make FROM vehicles WHERE userId = -1";
-        try (Connection conn = databaseManager.connect();
-             Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(makeSql);
-            while (rs.next()) {
-                makes.add(rs.getString(1));
-            }
-            return makes;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -65,53 +58,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             }
             return vehicles;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting vehicles from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error getting vehicles from database", e);
         }
-    }
-
-    /**
-     * he sql query to get the year of vehicle with related make from the database.
-     * @param make the make of the vehicle.
-     * @return list of vehicle year string.
-     */
-    public List<String> getYear(String make) {
-        List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT year FROM vehicles WHERE userId = -1 and make = ?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(makeSql)) {
-            ps.setString(1, make);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                makes.add(rs.getString(1));
-            }
-            return makes;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Get the model of the vehicle with related make and year from database.
-     * @param make the make of the vehicle.
-     * @param year the year of the vehicle.
-     * @return the list of the model.
-     */
-    public List<String> getModel(String make,String year) {
-        List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT model FROM vehicles "
-                + "WHERE userId = -1 and make = ? and year = ?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(makeSql)) {
-            ps.setString(1, make);
-            ps.setString(2,year);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                makes.add(rs.getString(1));
-            }
-            return makes;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return new ArrayList<>();
     }
 
     /**
@@ -129,12 +81,16 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             }
             return plugType;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting plugtypes from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error getting plugtypes from database", e);
         }
+        return new ArrayList<>();
     }
 
     /**
-     * Add the vehicle to the data base.
+     * Add the vehicle to the database.
      * @param toAdd object of type T to add.
      * @return the insert id.
      * @throws DatabaseException the database error.
@@ -165,6 +121,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
     }
 
+
+    /**
+     * Function called ot delete a vehicle from the database.
+     * @param id id of object to delete.
+     * @throws DatabaseException a database error
+     */
     @Override
     public void delete(int id) throws DatabaseException {
         String vehicleSql = "DELETE FROM vehicles WHERE  vehicleId = ? ";
@@ -180,6 +142,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
         }
     }
 
+
+    /**
+     * Function called to update a vehicle in the database.
+     * @param toUpdate Object that needs to be updated (this object must be able to
+     *                 identify itself and its previous self).
+     */
     @Override
     public void update(Vehicle toUpdate) {
         String vehicleSql = "UPDATE vehicles SET make = ? , "

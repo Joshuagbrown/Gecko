@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="dataToolBarScreen" prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
+<BorderPane fx:id="dataToolBarScreen" prefHeight="348.0" prefWidth="258.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team6.controller.DataToolBarController">
    <center>
       <BorderPane prefHeight="278.0" prefWidth="228.0" BorderPane.alignment="CENTER">
          <center>
@@ -63,7 +63,7 @@
                      <font>
                         <Font size="15.0" />
                      </font></Button>
-                  <Slider fx:id="distanceSliderOfFilter" blockIncrement="5.0" majorTickUnit="5.0" max="25.0" minorTickCount="5" showTickLabels="true" GridPane.rowIndex="4" />
+                  <Slider fx:id="distanceSliderOfFilter" blockIncrement="5.0" majorTickUnit="10.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.rowIndex="4" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distance (Kilometers) from:" wrappingWidth="234.12825393676758" GridPane.rowIndex="2">
                      <font>
                         <Font size="15.0" />
@@ -73,7 +73,7 @@
                         <Font size="15.0" />
                      </font></Button>
                   <TextField fx:id="inputStationName" GridPane.rowIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station name, operator or address:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Station Name, Operator or Address:">
                      <font>
                         <Font size="15.0" />
                      </font>

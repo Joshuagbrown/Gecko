@@ -1,6 +1,8 @@
 package seng202.team6.repository;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,10 +160,10 @@ class StationDaoTest {
     }
 
     @Test
-    void addAllChargersFull() throws DatabaseException, URISyntaxException, CsvFileException {
+    void addAllChargersFull() throws DatabaseException, URISyntaxException, CsvFileException, FileNotFoundException {
         assertEquals(0, stationDao.getFromFilterBuilder(new FilterBuilder()).size());
         StationCsvImporter importer = new StationCsvImporter();
-        List<Station> stations = importer.readFromFile(new File(getClass().getResource("/full.csv").toURI()), new ArrayList<>());
+        List<Station> stations = importer.readFromFile(new FileReader(new File(getClass().getResource("/full.csv").toURI())), new ArrayList<>());
         IntegerProperty value = new SimpleIntegerProperty();
         value.addListener((observable, oldValue, newValue) -> System.out.println(newValue));
 

@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Position;
@@ -24,12 +26,13 @@ import seng202.team6.models.Station;
 import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
+
 /**
  * Controller for edit station pop-up.
  * Author: Tara Lipscomnbe
  */
 public class EditStationController implements StationController {
-
+    private final Logger log = LogManager.getLogger();
     @FXML
     private Text stationTitle;
     @FXML
@@ -198,7 +201,11 @@ public class EditStationController implements StationController {
             try {
                 controller.updateStationsFromDatabase();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred updating a "
+                                                    + "station from the "
+                                                    + "database. Please see the log for"
+                                                    + "more details.");
+                log.error("Error updating station from database", e);
             }
             stage.close();
             controller.setSelected(controller.getPrevSelected());
@@ -235,7 +242,7 @@ public class EditStationController implements StationController {
         if (!valid.checkStationName(newName)) {
             nameField.setStyle(invalidStyle);
             returnable = false;
-            currentErrors.add("Station name must be greater than a length of 0, and only contain "
+            currentErrors.add("Station name must only contain "
                     + "characters within the" + " following set {a-z, A-Z, '+', '&', ',', ' '}");
         } else {
             nameField.setStyle("");
@@ -257,7 +264,7 @@ public class EditStationController implements StationController {
         if (!valid.checkOp(newOperator)) {
             operatorField.setStyle(invalidStyle);
             returnable = false;
-            currentErrors.add("Operator name must be of length greater than 0 and only contain "
+            currentErrors.add("Operator name must only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
         } else {
             operatorField.setStyle("");
@@ -268,7 +275,7 @@ public class EditStationController implements StationController {
         if (!valid.checkOp(newOwner)) {
             ownerField.setStyle(invalidStyle);
             returnable = false;
-            currentErrors.add("Owner name must be of length greater than 0 and only contain "
+            currentErrors.add("Owner name must only contain "
                     + "characters within the following set {a-z, A-Z, '(', ')', ' '}");
         } else {
             ownerField.setStyle("");
@@ -310,6 +317,7 @@ public class EditStationController implements StationController {
             chargerScene = new Scene(root);
             stage.setScene(chargerScene);
             stage.setTitle("Current Chargers");
+            stage.setResizable(false);
             stage.show();
             ChargerController chargerController = loader.getController();
             chargerController.init(stage, stationScene, controller, station, "update");
@@ -319,6 +327,7 @@ public class EditStationController implements StationController {
 
     /**
      * Checks to see if any unsaved changes exist within the pop-up.
+     * @return boolean returns true if any unsaved changes exist.
      */
     private boolean checkChanges() {
         boolean hasUnsavedChanges = false;
@@ -379,7 +388,7 @@ public class EditStationController implements StationController {
      */
     public void deleteSelectedStation(ActionEvent actionEvent) {
 
-        Alert alert = AlertMessage.unsavedChanges();
+        Alert alert = AlertMessage.deleteStation();
         ButtonType delete = alert.getButtonTypes().get(1);
         ButtonType result = alert.showAndWait().orElse(delete);
 
@@ -388,15 +397,19 @@ public class EditStationController implements StationController {
             try {
                 controller.updateStationsFromDatabase();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred updating stations "
+                                                    + "from the "
+                                                    + "database. Please see the"
+                                                    + " log for more details.");
+                log.error("Error deleting station from database", e);
             }
             stage.close();
             controller.setSelected(controller.getPrevSelected());
             controller.setTextAreaInMainScreen("");
+            controller.getDataController().currentlySelected = null;
         }
 
     }
-
 
 
 }

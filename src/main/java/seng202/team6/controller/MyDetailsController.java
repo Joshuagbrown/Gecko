@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
@@ -19,8 +21,12 @@ import seng202.team6.repository.VehicleDao;
 import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
-public class MyDetailsController implements ScreenController {
 
+/**
+ * Controller class for the my-details screen.
+ */
+public class MyDetailsController implements ScreenController {
+    private final Logger log = LogManager.getLogger();
     @FXML
     private TextField usernameField;
     @FXML
@@ -62,6 +68,11 @@ public class MyDetailsController implements ScreenController {
     private VehicleDao vehicleDao = new VehicleDao();
 
 
+    /**
+     * Function to initialize the my-details screen.
+     * @param stage Primary Stage of the application.
+     * @param controller The Controller class for the main screen.
+     */
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
@@ -69,7 +80,7 @@ public class MyDetailsController implements ScreenController {
     }
 
     /**
-     * loads the users data into the fields.
+     * Loads the users data into the fields.
      */
     public void loadUserData() {
         usernameField.setText(controller.getCurrentUser().getUsername());
@@ -81,7 +92,7 @@ public class MyDetailsController implements ScreenController {
     }
 
     /**
-     * load the user vehicles with user id.
+     * Load the user vehicles with user id.
      */
     public void loadUserVehicle() {
 
@@ -144,7 +155,10 @@ public class MyDetailsController implements ScreenController {
             try {
                 controller.getDataService().updateUser(user);
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred updating the user from the "
+                                                    + "database. Please see the log "
+                                                    + "for more details.");
+                log.error("Error updating user from database", e);
             }
             resetDefault();
         }
@@ -235,6 +249,9 @@ public class MyDetailsController implements ScreenController {
         }
 
     }
+
+
+
     /**
      * This sets the selected vehicle to what vehicle has been clicked on.
      *

@@ -15,10 +15,20 @@ public class CsvLineException extends CsvException implements ImportableLineExce
         super(e);
     }
 
+
+    /**
+     * Function to get lines.
+     * @return the line of the error
+     */
     public int getLine() {
         return line;
     }
 
+
+    /**
+     * Function to set line.
+     * @param line the line to set
+     */
     public void setLine(int line) {
         this.line = line;
     }

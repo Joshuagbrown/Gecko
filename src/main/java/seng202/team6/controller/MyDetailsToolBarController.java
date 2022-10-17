@@ -5,9 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team6.services.AlertMessage;
 
 public class MyDetailsToolBarController implements ScreenController {
-
+    private final Logger log = LogManager.getLogger();
 
     @FXML
     public Button generalButton;
@@ -58,7 +61,10 @@ public class MyDetailsToolBarController implements ScreenController {
             setSelected(registerVehicleButton);
             controller.loadRegisterVehicleScreen();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "There was an error loading the register "
+                                                + "vehicle screen. Please see the "
+                                                + "log for more details.");
+            log.error("Error loading the register vehicle screen", e);
         }
         setSelected(prevSelected);
     }

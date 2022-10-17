@@ -61,6 +61,8 @@ public class MapController implements ScreenController {
     private Station currentlySelected;
 
     private String homeAddress = null;
+    private String markerAddress;
+    private Position markerPosition;
 
     /**
      * Initialises the map view.
@@ -139,10 +141,11 @@ public class MapController implements ScreenController {
             stage.setTitle("Current Station");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.show();
             editStationController.init(stage, scene, controller, id);
         } catch (IOException e) {
-            AlertMessage.createMessage("Error", "There was an error loading"
+            AlertMessage.createMessage("Error", "There was an error loading "
                                                 + "the edit station window."
                                                 + "See the logs for more detail.");
             log.error("Error loading edit station window", e);
@@ -175,6 +178,7 @@ public class MapController implements ScreenController {
             stage.setTitle("Add a New Station");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.DECORATED);
+            stage.setResizable(false);
             stage.show();
             addStationController.init(stage, scene, controller, address);
         } catch (IOException e) {
@@ -210,7 +214,19 @@ public class MapController implements ScreenController {
      * @param stationId the id of the station.
      */
     public void onStationClicked(Integer stationId) {
-        if (stationId == null || stationId == 0) {
+        if (stationId.equals(-2)) {
+            //Home address marker clicked
+            controller.getMapToolBarController().setImagesToHome();
+            currentAddress = homeAddress;
+            position = getHomePosition();
+
+
+        } else if (stationId == -1) {
+            //Current Location marker clicked
+            controller.getMapToolBarController().setImagesToMarker();
+            position = markerPosition;
+
+        } else if (stationId == null || stationId == 0) {
             currentlySelected = null;
             setAddress(null);
             controller.setTextAreaInMainScreen("");
@@ -232,7 +248,9 @@ public class MapController implements ScreenController {
      * @param lng longitude
      */
     public void setClickLocation(double lat, double lng) {
+        controller.getMapToolBarController().setImagesToMarker();
         position = new Position(lat, lng);
+        markerPosition = position;
         controller.changeToAddButton();
     }
 
@@ -349,14 +367,10 @@ public class MapController implements ScreenController {
         String title = "Home: " + address;
         double lat;
         double lon;
-        try {
-            Position pos = findLatLon(address);
+        Position pos = findLatLon(address);
 
-            lat = pos.getLatitude();
-            lon = pos.getLongitude();
-        } catch (IOException | RuntimeException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        lat = pos.getLatitude();
+        lon = pos.getLongitude();
         javaScriptConnector.call("fixAddressMarker", title, lat, lon);
     }
 
@@ -378,11 +392,7 @@ public class MapController implements ScreenController {
         if (Objects.equals(homeAddress, "") || homeAddress == null) {
             return null;
         } else {
-            try {
-                return findLatLon(homeAddress);
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            return findLatLon(homeAddress);
         }
     }
 
@@ -392,11 +402,8 @@ public class MapController implements ScreenController {
     /**
      * Finds the corresponding latitude and longitude for the given address.
      * and sets it to the position variable
-     *
-     * @throws IOException from geocoding
-     * @throws InterruptedException from geocoding
      */
-    private Position findLatLon(String address) throws IOException, InterruptedException {
+    private Position findLatLon(String address) {
 
         JSONObject positionField = controller.getMapToolBarController().geoCode(address);
         if (positionField == null) {
@@ -417,13 +424,7 @@ public class MapController implements ScreenController {
     public void searchLocationOnTheMap(ActionEvent actionEvent) {
         String address = locationTextBox.getText();
         Position location = null;
-        try {
-            location = findLatLon(address);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        location = findLatLon(address);
         if (location == null) {
             AlertMessage.createMessage("Unable to fetch the given Address.",
                     "Please search with a valid Address");

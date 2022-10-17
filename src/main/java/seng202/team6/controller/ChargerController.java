@@ -11,12 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
@@ -24,17 +25,18 @@ import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 
+/**
+ * Controller class for the charger pop-up screens.
+ * Author: Tara Lipscombe
+ */
 public class ChargerController {
-    @FXML
-    public ToggleGroup operative;
+    private final Logger log = LogManager.getLogger();
     @FXML
     public ComboBox<Charger> chargerDropDown = new ComboBox<>();
     @FXML
     public Button addButton;
     @FXML
-    public RadioButton opButton;
-    @FXML
-    public RadioButton notOpButton;
+    public CheckBox opButton;
     @FXML
     public TextField wattageText;
     @FXML
@@ -124,11 +126,7 @@ public class ChargerController {
         currentlySelectedCharger = chargerDropDown.getSelectionModel().getSelectedIndex();
         if (current != null) {
             String op = current.getOperative();
-            if (op.equals("Operative")) {
-                opButton.setSelected(true);
-            } else {
-                notOpButton.setSelected(true);
-            }
+            opButton.setSelected(op.equals("Operative"));
 
             int watts = current.getWattage();
             wattageText.setText(String.valueOf(watts));
@@ -183,10 +181,13 @@ public class ChargerController {
                 controller.getDataService().getStationDao().update(station);
                 try {
                     controller.updateStationsFromDatabase();
+                    controller.setTextAreaInMainScreen(station.toString());
                 } catch (DatabaseException e) {
-                    throw new RuntimeException(e);
+                    AlertMessage.createMessage("Error", "An error occurred loading stations "
+                                                        + "from the database. Please see "
+                                                        + "the log for more details.");
+                    log.error("Error loading stations from database", e);
                 }
-                controller.setTextAreaInMainScreen(station.toString());
             }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
@@ -250,24 +251,33 @@ public class ChargerController {
             AlertMessage.createMessage("Unable to delete the currently selected charger.",
                     "Please save your changes first.");
         } else {
-            controller.getDataService().getStationDao().deleteCharger(chargers
-                            .get(currentlySelectedCharger), station.getStationId());
-            chargers.remove(currentlySelectedCharger);
-            station.setChargers(chargers);
-            controller.getDataService().getStationDao().update(station);
-            try {
-                controller.updateStationsFromDatabase();
-            } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+            if (currentlySelectedCharger == 0 && chargers.size() == 1) {
+                AlertMessage.createMessage("Unable to delete the currently selected charger.",
+                        "Each station must have at least one charger.");
+            } else {
+                try {
+                    controller.getDataService().getStationDao().deleteCharger(chargers
+                            .get(currentlySelectedCharger));
+                    chargers.remove(currentlySelectedCharger);
+                    station.setChargers(chargers);
+                    controller.getDataService().getStationDao().update(station);
+                    controller.updateStationsFromDatabase();
+                    controller.setTextAreaInMainScreen(station.toString());
+                    setChargerAndPlugDropDown();
+                    wattageText.setText("");
+                    opButton.setSelected(true);
+                    plugTypeDropDown.getSelectionModel().clearSelection();
+                    chargerDropDown.getSelectionModel().clearSelection();
+                } catch (DatabaseException e) {
+                    AlertMessage.createMessage("Error", "An error occurred "
+                            + "loading stations from the "
+                            + "database. Please see the log "
+                            + "for more details.");
+                    log.error("Error loading stations from database", e);
+                    currentlySelectedCharger = station.getChargers().size();
+                }
             }
-            controller.setTextAreaInMainScreen(station.toString());
-            setChargerAndPlugDropDown();
-            wattageText.setText("");
-            opButton.setSelected(true);
-            plugTypeDropDown.getSelectionModel().clearSelection();
-            chargerDropDown.getSelectionModel().clearSelection();
         }
-        currentlySelectedCharger = station.getChargers().size();
     }
 
 
@@ -292,6 +302,12 @@ public class ChargerController {
 
     }
 
+
+    /**
+     * Function used to check if there are any unsaved changes within the pop-up and alert the user
+     * if so.
+     * @return true if there are unsaved changes
+     */
     private boolean checkChanges() {
         boolean unsavedChanges = false;
 
@@ -329,9 +345,7 @@ public class ChargerController {
             ButtonType cancel = alert.getButtonTypes().get(0);
             ButtonType result = alert.showAndWait().orElse(cancel);
 
-            if (cancel.equals(result)) {
-                return false;
-            }
+            return !cancel.equals(result);
         }
         return true;
 
@@ -351,12 +365,18 @@ public class ChargerController {
             try {
                 controller.getDataService().getStationDao().add(station);
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred adding a station to the "
+                                                    + "database. Please see the log for"
+                                                    + "more details.");
+                log.error("Error deleting station from database", e);
             }
             try {
                 controller.updateStationsFromDatabase();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred adding address from the "
+                                                    + "database. Please see the log for"
+                                                    + "more details.");
+                log.error("Error adding address to database", e);
             }
             stage.close();
         }

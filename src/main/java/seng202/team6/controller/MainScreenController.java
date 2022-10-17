@@ -1,6 +1,7 @@
 package seng202.team6.controller;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.controlsfx.dialog.ProgressDialog;
 import seng202.team6.exceptions.CsvFileException;
 import seng202.team6.exceptions.DatabaseException;
@@ -44,7 +47,7 @@ import seng202.team6.services.DataService;
  * @author Phyu Wai Lwin.
  */
 public class MainScreenController {
-
+    private final Logger log = LogManager.getLogger();
     /**
      * The toolbar pane of the main screen to display related toolbar screen.
      */
@@ -226,8 +229,21 @@ public class MainScreenController {
             loadVehicleType();
             mapButtonEventHandler();
 
-        } catch (IOException | CsvFileException | DatabaseException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            AlertMessage.createMessage("An error occurred",
+                                       "There was an error loading a screen"
+                                       + "See the log for more details.");
+            log.error("Error loading screen", e);
+        } catch (CsvFileException e) {
+            AlertMessage.createMessage("An error occurred",
+                                       "There was an error loading the vehicle csv"
+                                       + "See the log for more details.");
+            log.error("Error loading vehicle csv", e);
+        } catch (DatabaseException e) {
+            AlertMessage.createMessage("An error occurred",
+                                       "There was an error connecting to the database"
+                                       + "See the log for more details.");
+            log.error("Error connecting to database", e);
         }
         stage.sizeToScene();
 
@@ -641,8 +657,12 @@ public class MainScreenController {
                                         e.getCause().getMessage()))
                                 .toList();
                     } catch (CsvFileException | DatabaseException e) {
-                        throw new RuntimeException(e);
+                        AlertMessage.createMessage("An error occurred",
+                                                   "There was an error loading the csv file."
+                                                   + "See the log for more details.");
+                        log.error("Error loading csv file", e);
                     }
+                    return new ArrayList<>();
                 }
             };
             ProgressDialog dialog = new ProgressDialog(task);
@@ -679,8 +699,9 @@ public class MainScreenController {
      * @throws CsvFileException  the error from the csv file loading.
      */
     public void loadVehicleType() throws CsvFileException {
-        File csvFile = new File("src/main/resources/csv/green_vehicles.csv");
-        vehicles = dataService.getVehicleDataFromCsv(csvFile);
+        Reader inputReader = new InputStreamReader(
+                getClass().getResourceAsStream("/csv/green_vehicles.csv"));
+        vehicles = dataService.getVehicleDataFromCsv(inputReader);
     }
 
     /**
@@ -708,7 +729,7 @@ public class MainScreenController {
      *
      * @param actionEvent when 'Edit Station' button is clicked.
      */
-    public void editStation(ActionEvent actionEvent) throws IOException, InterruptedException {
+    public void editStation(ActionEvent actionEvent) {
         setSelected(stationButton);
         if (getCurrentUserId() == 0) {
             Alert alert = AlertMessage.noAccess();
@@ -722,11 +743,18 @@ public class MainScreenController {
             Parent current = (Parent) mainBorderPane.getCenter();
             int stationID;
             if (current == dataScreen) {
-                stationID = getDataController().getCurrentlySelected().getStationId();
+                if (getDataController().getCurrentlySelected() == null) {
+                    AlertMessage.createMessage("No Station is selected.",
+                            "Please select a Station to edit.");
+                } else {
+                    stationID = getDataController().getCurrentlySelected().getStationId();
+                    getMapController().loadEditStationWindow(stationID);
+                }
             } else {
                 stationID = getMapController().getCurrentlySelected().getStationId();
+                getMapController().loadEditStationWindow(stationID);
             }
-            getMapController().loadEditStationWindow(stationID);
+
         }
     }
 
@@ -735,13 +763,7 @@ public class MainScreenController {
      */
     public void changeToEditButton() {
         stationButton.setText("Edit Station");
-        stationButton.setOnAction(e -> {
-            try {
-                editStation(e);
-            } catch (IOException | InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        stationButton.setOnAction(this::editStation);
     }
 
 
@@ -754,11 +776,19 @@ public class MainScreenController {
             try {
                 addStation(e);
             } catch (IOException | InterruptedException ex) {
-                throw new RuntimeException(ex);
+                AlertMessage.createMessage("Error", "An error occurred adding a station to the "
+                                                    + "database. Please see the log "
+                                                    + "for more details.");
+                log.error("Error loading stations from database", e);
             }
         });
     }
 
+
+    /**
+     * Function to set the filter builder for the main screen controller.
+     * @param builder the filter builder
+     */
     public void setFilterBuilder(FilterBuilder builder) {
         this.filterBuilder = builder;
     }

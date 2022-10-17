@@ -1,5 +1,9 @@
 package seng202.team6.models;
 
+
+/**
+ * Class for the users login details.
+ */
 public class UserLoginDetails {
     int userId;
     byte[] passwordHash;
@@ -17,14 +21,26 @@ public class UserLoginDetails {
         this.passwordSalt = passwordSalt;
     }
 
+    /**
+     * Function to get the user ID.
+     * @return the user id
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * Function to get the password hash.
+     * @return the password hash
+     */
     public byte[] getPasswordHash() {
         return passwordHash;
     }
 
+    /**
+     * Function to get the password salt.
+     * @return the password salt
+     */
     public byte[] getPasswordSalt() {
         return passwordSalt;
     }

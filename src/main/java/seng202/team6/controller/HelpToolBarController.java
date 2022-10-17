@@ -23,6 +23,12 @@ public class HelpToolBarController implements ScreenController {
 
     private Button currentlySelected;
 
+
+    /**
+     * Function to initialize the help toolbar screen.
+     * @param stage Primary Stage of the application.
+     * @param controller The Controller class for the main screen.
+     */
     @Override
     public void init(Stage stage, MainScreenController controller) {
         this.controller = controller;
@@ -76,12 +82,38 @@ public class HelpToolBarController implements ScreenController {
     }
 
     /**
-     * Calls the initPageInfo function with the login html file as input.
-     * @param actionEvent Loads login help button clicked
+     * Calls the initPageInfo function with the login / signup html file as input.
+     * @param actionEvent Loads login /signup when help button clicked
      */
-    public void loadLoginHelp(ActionEvent actionEvent) {
+    public void loadLoginSignupHelp(ActionEvent actionEvent) {
         controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
-                "/html/LoginHelpPage.html"));
-        setSelected(loginHelpButton);
+                "/html/LoginSignupHelpPage.html"));
+    }
+
+    /**
+     * Calls the initPageInfo function with the filter html file as input.
+     * @param actionEvent Loads filter when help button clicked
+     */
+    public void loadFilterHelp(ActionEvent actionEvent) {
+        controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
+                "/html/FilterHelpPage.html"));
+    }
+
+    /**
+     * Calls the initPageInfo function with the edit info html file as input.
+     * @param actionEvent Loads editing info screen help button clicked
+     */
+    public void loadAddEditStationHelp(ActionEvent actionEvent) {
+        controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
+                "/html/EditAddStationHelpPage.html"));
+    }
+
+    /**
+     * Calls the initPageInfo function with the my d file as input.
+     * @param actionEvent Loads data page help button clicked
+     */
+    public void loadDetailsHelp(ActionEvent actionEvent) {
+        controller.getHelpController().initPageInfo(getClass().getResourceAsStream(
+                "/html/DetailsHelpPage.html"));
     }
 }

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
+import seng202.team6.services.AlertMessage;
 
 
 /**
@@ -23,6 +24,14 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private static final Logger log = LogManager.getLogger();
 
+
+    /**
+     * Function to get the Journey from a result set.
+     * @param rs the result set
+     * @param addresses a list of addresses
+     * @return the journey
+     * @throws SQLException error in database
+     */
     private Journey journeyFromResultSet(ResultSet rs,
                                          List<String> addresses)throws SQLException {
         return new Journey(
@@ -73,10 +82,19 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
 
             return journeys;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting journeys from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error getting journeys from database", e);
         }
+        return new HashMap<>();
     }
 
+
+    /**
+     * Function to get all journeys.
+     * @return a hash map of integers and journeys
+     */
     @Override
     public Map<Integer, Journey> getAll() {
         String sql = "SELECT * from journeys "
@@ -110,15 +128,32 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
 
             return journeys;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting journeys from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error getting journeys from database", e);
         }
+        return new HashMap<>();
     }
 
+
+    /**
+     * Function to get a specific journey.
+     * @param id id of object to get.
+     * @return the journey
+     */
     @Override
     public Journey getOne(int id) {
         throw new UnsupportedOperationException();
     }
 
+
+    /**
+     * Function to add addresses to a journey.
+     * @param addresses the addresses to add
+     * @param journeyId the journey id to add to
+     * @throws SQLException a database error
+     */
     private void addAddresses(List<String> addresses, int journeyId) throws SQLException {
         String addressSql = "INSERT INTO addresses (journeyId, address, addressOrder)"
                 + "values (?,?,?)";
@@ -175,7 +210,10 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps.setInt(1, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting journey from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error deleting from database", e);
         }
     }
 
@@ -190,10 +228,20 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting address from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error deleting address from database", e);
         }
     }
 
+
+    /**
+     * Function to add an address to a journey.
+     * @param journeyId the journey to add the address too
+     * @param address the new address
+     * @param order the order in which the address should be added
+     */
     private void addAddress(int journeyId, String address, int order) {
         String insertAddressSql = "INSERT INTO addresses (journeyId, address, addressOrder) "
                 + "Values (?,?,?)";
@@ -204,10 +252,18 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps2.setInt(3, order);
             ps2.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred adding address from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error adding address to database", e);
         }
     }
 
+    /**
+     * Update the journey.
+     * @param toUpdate Object that needs to be updated (this object must be able to
+     *                 identify itself and its previous self).
+     */
     @Override
     public void update(Journey toUpdate) {
         throw new UnsupportedOperationException();
