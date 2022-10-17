@@ -657,12 +657,8 @@ public class MainScreenController {
                                         e.getCause().getMessage()))
                                 .toList();
                     } catch (CsvFileException | DatabaseException e) {
-                        AlertMessage.createMessage("An error occurred",
-                                                   "There was an error loading the csv file."
-                                                   + "See the log for more details.");
-                        log.error("Error loading csv file", e);
+                        throw new RuntimeException(e);
                     }
-                    return new ArrayList<>();
                 }
             };
             ProgressDialog dialog = new ProgressDialog(task);
@@ -671,11 +667,16 @@ public class MainScreenController {
             new Thread(task).start();
             dialog.showAndWait();
             if (task.getState() == Worker.State.FAILED) {
-                AlertMessage.createMessage("An error occurred when importing data",
-                        task.getException().getCause().getMessage());
+                AlertMessage.createMessage("Error",
+                        "An error occurred importing data. Please see the log for more details.");
+                if (task.getException().getCause() != null) {
+                    log.error(task.getException().getCause());
+                } else {
+                    log.error(task.getException());
+                }
             } else if (task.getState() == Worker.State.SUCCEEDED) {
                 AlertMessage.createListMessageStation("Warning",
-                        "Some lines were skipped",
+                        "Some lines were skipped.",
                         task.getValue());
             }
             mapController.getJavaScriptConnector().call("cleanUpMarkerLayer");
