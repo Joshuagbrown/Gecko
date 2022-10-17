@@ -37,9 +37,10 @@ you’ll need to re-enable it). To import your project:
 1. Open a command line interface inside the project directory and run `mvn clean package` to build a .jar file. The file is located at `target/revolt-1.0.jar`
 
 ## Run App
+- You will need a `.env` with the "HERE_COM_API_KEY" and "GEOAPIFY_API_KEY" variables set to the respective api keys
 - If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar revolt-2.0.jar`
+- Run the command `java -jar gecko-2.0.jar`
 - On the first run, you will need to import data from a csv file. An example has been provided.
 
 ## Finally...
