@@ -272,7 +272,7 @@ public class UserStepDef extends TestFXBase {
 
     @And("User click the save button in station")
     public void userClickTheSaveButtonInStation() {
-        clickOn("#saveButton");
+        clickOn("#saveChanges");
     }
 
     @Then("User have the new charger type changed in that station")
@@ -405,7 +405,7 @@ public class UserStepDef extends TestFXBase {
 
     @And("save the changes")
     public void saveTheChanges() {
-        clickOn("#saveButton");
+        clickOn("#saveChanges");
     }
 
     @Then("User have the charging station with those information")
