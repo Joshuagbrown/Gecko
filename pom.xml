@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>seng202.team6</groupId>
-  <artifactId>revolt</artifactId> <!--Change me -->
+  <artifactId>gecko</artifactId> <!--Change me -->
   <packaging>jar</packaging>
   <version>2.0</version>
 
