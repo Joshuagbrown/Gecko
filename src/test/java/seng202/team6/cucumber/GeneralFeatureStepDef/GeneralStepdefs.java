@@ -114,7 +114,7 @@ public class GeneralStepdefs extends TestFXBase {
         clickOn("#signUpToolBarButton");
     }
 
-    @When("User input {string} in user name and input {string} as passward")
+    @When("User input {string} in user name and input {string} as password")
     public void userInputInUserNameAndInput(String arg0, String arg1) {
         clickOn("#usernameSignUp");
         write(arg0);
