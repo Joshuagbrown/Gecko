@@ -413,10 +413,10 @@ public class UserStepDef extends TestFXBase {
 
         TextArea textArea = find("#textAreaInMainScreen");
         Assertions.assertEquals("Station Name : SOMETHING\n" +
-                "Coordinate : -43.73745,170.100913\n" +
+                "Coordinate : -43.53092,172.57957\n" +
                 "Operator : MERIDIAN ENERGY LIMITED\n" +
                 "Owner : MERIDIAN ENERGY LIMITED\n" +
-                "Address : 4 Kitchener Dr, Mount Cook National Park 7999, New Zealand\n" +
+                "Address : 3 ilam road\n" +
                 "Time Limit : 240\n" +
                 "Is 24 Hour : true\n" +
                 "Chargers : \n" +
