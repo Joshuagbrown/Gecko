@@ -16,4 +16,4 @@ generate_artifacts:
     - mvn -B clean package -DskipTests
   artifacts:
     paths:
-    - target/revolt*.jar
+    - target/gecko*.jar
