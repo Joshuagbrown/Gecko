@@ -10,5 +10,5 @@ Feature:
   Scenario: (AT_19) User filter the station
 
     Given User is on the data page
-    When User filter the station by the station name "MERIDIAN" and choose 24 hour operative and no charging cost and has tourist attriction
+    When User filter the station by the station name "MERIDIAN" and choose 24 hour operative and no charging cost and has tourist attraction
     Then User has no vehicle on the table as no vehicle meet the situation.

@@ -108,4 +108,48 @@ public class GeneralStepdefs extends TestFXBase {
 
     }
 
+    @Given("User click the signup button in log in page")
+    public void userClickTheSignupButtonInLogInPage() {
+        clickOn("#loginPageBtn");
+        clickOn("#signUpToolBarButton");
+    }
+
+    @When("User input {string} in user name and input {string} as password")
+    public void userInputInUserNameAndInput(String arg0, String arg1) {
+        clickOn("#usernameSignUp");
+        write(arg0);
+        clickOn("#passwordSignUp");
+        write(arg1);
+        clickOn("#confirmPassword");
+        write(arg1);
+
+    }
+
+    @And("input address as {string} and signed up")
+    public void inputAddressAsAndSignedUp(String arg0) {
+        clickOn("#addressSignUp");
+        write(arg0);
+        clickOn("#signUpButton");
+
+    }
+
+    @And("input name as {string}")
+    public void inputNameAs(String arg0) {
+
+        clickOn("#nameSignUp");
+        write(arg0);
+
+    }
+
+
+
+    @Then("the user is signed up with name {string} and address {string}")
+    public void theUserIsSignedUpWithNameAndAddress(String arg0, String arg1) {
+        clickOn("#loginPageBtn");
+        TextField nameTextField = (TextField) find("#nameField");
+        Assertions.assertEquals(arg0,nameTextField.getText());
+
+        TextField homeTextField = (TextField) find("#homeAddressField");
+        Assertions.assertEquals(arg1,homeTextField.getText());
+    }
 }

@@ -268,13 +268,13 @@ public class ChargerController {
                     opButton.setSelected(true);
                     plugTypeDropDown.getSelectionModel().clearSelection();
                     chargerDropDown.getSelectionModel().clearSelection();
+                    currentlySelectedCharger = station.getChargers().size();
                 } catch (DatabaseException e) {
                     AlertMessage.createMessage("Error", "An error occurred "
                             + "loading stations from the "
                             + "database. Please see the log "
                             + "for more details.");
                     log.error("Error loading stations from database", e);
-                    currentlySelectedCharger = station.getChargers().size();
                 }
             }
         }

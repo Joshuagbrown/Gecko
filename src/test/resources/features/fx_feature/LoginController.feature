@@ -11,6 +11,8 @@ Feature:  LoginController
     And User clicks My Details button
     Then I am logged in success
 
+
+
   Scenario Outline: Logging in as invalid user
     Given User clicks My Details button
     And I am on the login screen
