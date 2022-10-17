@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
@@ -42,6 +44,7 @@ import seng202.team6.services.AlertMessage;
  * @author Tara Lipscombe and Lucas Redding
  */
 public class MapController implements ScreenController {
+    private Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
     public TextField locationTextBox;
     private Logger log = LogManager.getLogger();
     private JSObject javaScriptConnector;
@@ -271,8 +274,13 @@ public class MapController implements ScreenController {
                     // get a reference to the js object that has a reference
                     // to the js methods we need to use in java
                     javaScriptConnector = (JSObject) webEngine.executeScript("jsConnector");
-
-                    javaScriptConnector.call("initMap");
+                    String apiKey = dotenv.get("GEOAPIFY_API_KEY");
+                    if (apiKey == null) {
+                        AlertMessage.createMessage("Error", "The api key has not been setup, "
+                                + "see the README for more details.");
+                        return;
+                    }
+                    javaScriptConnector.call("initMap", apiKey);
 
                     controller.getStations().addListener((MapChangeListener<Integer, Station>)
                             change -> {
