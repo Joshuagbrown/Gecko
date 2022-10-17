@@ -61,7 +61,7 @@ public class MyDetailsToolBarController implements ScreenController {
             setSelected(registerVehicleButton);
             controller.loadRegisterVehicleScreen();
         } catch (IOException e) {
-            AlertMessage.createMessage("Error", "There was an error loading the register"
+            AlertMessage.createMessage("Error", "There was an error loading the register "
                                                 + "vehicle screen. Please see the "
                                                 + "log for more details.");
             log.error("Error loading the register vehicle screen", e);

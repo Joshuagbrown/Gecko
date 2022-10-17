@@ -142,7 +142,7 @@ public class MapController implements ScreenController {
             stage.show();
             editStationController.init(stage, scene, controller, id);
         } catch (IOException e) {
-            AlertMessage.createMessage("Error", "There was an error loading"
+            AlertMessage.createMessage("Error", "There was an error loading "
                                                 + "the edit station window."
                                                 + "See the logs for more detail.");
             log.error("Error loading edit station window", e);

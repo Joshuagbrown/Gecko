@@ -269,7 +269,8 @@ public class ChargerController {
                     plugTypeDropDown.getSelectionModel().clearSelection();
                     chargerDropDown.getSelectionModel().clearSelection();
                 } catch (DatabaseException e) {
-                    AlertMessage.createMessage("Error", "An error occurred loading stations from the "
+                    AlertMessage.createMessage("Error", "An error occurred "
+                            + "loading stations from the "
                             + "database. Please see the log "
                             + "for more details.");
                     log.error("Error loading stations from database", e);
