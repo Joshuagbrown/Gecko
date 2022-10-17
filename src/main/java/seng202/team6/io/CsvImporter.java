@@ -5,6 +5,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -21,16 +22,16 @@ public abstract class CsvImporter<T> implements Importable<T, CsvLineException> 
     /**
      * Read Values from csv file.
      *
-     * @param file File to read from.
+     * @param inputReader File to read from.
      * @return List of values from csv file.
      * @throws CsvFileException if there was an error in reading the file.
      */
     @Override
-    public List<T> readFromFile(File file,
+    public List<T> readFromFile(Reader inputReader,
                                 List<CsvLineException> errors) throws CsvFileException {
         List<T> values = new ArrayList<>();
 
-        try (CSVReader reader = new CSVReader(new FileReader(file))) {
+        try (CSVReader reader = new CSVReader(inputReader)) {
             reader.skip(1);
             int i = 0;
             String[] line;

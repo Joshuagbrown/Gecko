@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
 import seng202.team6.models.UserLoginDetails;
+import seng202.team6.services.AlertMessage;
 
 public class UserDao implements DaoInterface<Integer, User> {
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
@@ -34,10 +35,13 @@ public class UserDao implements DaoInterface<Integer, User> {
                         rs.getString("name")
                 );
             }
-            return null;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting user from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error getting user from database", e);
         }
+        return null;
     }
 
     /**
@@ -59,10 +63,13 @@ public class UserDao implements DaoInterface<Integer, User> {
                         rs.getBytes("passwordSalt")
                 );
             }
-            return null;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting user login details from "
+                                                + "the database. Please see the "
+                                                + "log for more details.");
+            log.error("Error getting user from database", e);
         }
+        return null;
     }
 
     @Override

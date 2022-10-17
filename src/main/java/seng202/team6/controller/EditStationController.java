@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Position;
@@ -29,7 +31,7 @@ import seng202.team6.services.Validity;
  * Author: Tara Lipscomnbe
  */
 public class EditStationController implements StationController {
-
+    private final Logger log = LogManager.getLogger();
     @FXML
     private Text stationTitle;
     @FXML
@@ -198,7 +200,11 @@ public class EditStationController implements StationController {
             try {
                 controller.updateStationsFromDatabase();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred updating a "
+                                                    + "station from the "
+                                                    + "database. Please see the log for"
+                                                    + "more details.");
+                log.error("Error updating station from database", e);
             }
             stage.close();
             controller.setSelected(controller.getPrevSelected());
@@ -388,7 +394,11 @@ public class EditStationController implements StationController {
             try {
                 controller.updateStationsFromDatabase();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred updating stations "
+                                                    + "from the "
+                                                    + "database. Please see the"
+                                                    + " log for more details.");
+                log.error("Error deleting station from database", e);
             }
             stage.close();
             controller.setSelected(controller.getPrevSelected());

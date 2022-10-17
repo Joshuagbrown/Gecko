@@ -10,6 +10,7 @@ import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.models.Vehicle;
+import seng202.team6.services.AlertMessage;
 
 public class VehicleDao implements DaoInterface<Integer, Vehicle> {
 
@@ -24,25 +25,6 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
     @Override
     public Vehicle getOne(int id) {
         throw new UnsupportedOperationException();
-    }
-
-    /**
-     * The sql query to get the make of vehicle from the database.
-     * @return list of vehicle make string.
-     */
-    public List<String> getMakes() {
-        List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT make FROM vehicles WHERE userId = -1";
-        try (Connection conn = databaseManager.connect();
-             Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(makeSql);
-            while (rs.next()) {
-                makes.add(rs.getString(1));
-            }
-            return makes;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -65,53 +47,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             }
             return vehicles;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting vehicles from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error getting vehicles from database", e);
         }
-    }
-
-    /**
-     * he sql query to get the year of vehicle with related make from the database.
-     * @param make the make of the vehicle.
-     * @return list of vehicle year string.
-     */
-    public List<String> getYear(String make) {
-        List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT year FROM vehicles WHERE userId = -1 and make = ?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(makeSql)) {
-            ps.setString(1, make);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                makes.add(rs.getString(1));
-            }
-            return makes;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Get the model of the vehicle with related make and year from database.
-     * @param make the make of the vehicle.
-     * @param year the year of the vehicle.
-     * @return the list of the model.
-     */
-    public List<String> getModel(String make,String year) {
-        List<String> makes = new ArrayList<>();
-        String makeSql = "SELECT DISTINCT model FROM vehicles "
-                + "WHERE userId = -1 and make = ? and year = ?";
-        try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(makeSql)) {
-            ps.setString(1, make);
-            ps.setString(2,year);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                makes.add(rs.getString(1));
-            }
-            return makes;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return new ArrayList<>();
     }
 
     /**
@@ -129,8 +70,12 @@ public class VehicleDao implements DaoInterface<Integer, Vehicle> {
             }
             return plugType;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting plugtypes from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error getting plugtypes from database", e);
         }
+        return new ArrayList<>();
     }
 
     /**

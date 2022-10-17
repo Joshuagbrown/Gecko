@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Journey;
+import seng202.team6.services.AlertMessage;
 
 
 /**
@@ -73,8 +74,12 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
 
             return journeys;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting journeys from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error getting journeys from database", e);
         }
+        return new HashMap<>();
     }
 
     @Override
@@ -110,8 +115,12 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
 
             return journeys;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting journeys from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error getting journeys from database", e);
         }
+        return new HashMap<>();
     }
 
     @Override
@@ -175,7 +184,10 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps.setInt(1, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting journey from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error deleting from database", e);
         }
     }
 
@@ -190,7 +202,10 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting address from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error deleting address from database", e);
         }
     }
 
@@ -204,7 +219,10 @@ public class JourneyDao implements DaoInterface<Integer,Journey> {
             ps2.setInt(3, order);
             ps2.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred adding address from the "
+                                                + "database. Please see the"
+                                                + "log for more details.");
+            log.error("Error adding address to database", e);
         }
     }
 

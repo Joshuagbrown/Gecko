@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.User;
 import seng202.team6.models.Vehicle;
@@ -20,7 +22,7 @@ import seng202.team6.services.AlertMessage;
 import seng202.team6.services.Validity;
 
 public class MyDetailsController implements ScreenController {
-
+    private final Logger log = LogManager.getLogger();
     @FXML
     private TextField usernameField;
     @FXML
@@ -144,7 +146,10 @@ public class MyDetailsController implements ScreenController {
             try {
                 controller.getDataService().updateUser(user);
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred updating the user from the "
+                                                    + "database. Please see the log "
+                                                    + "for more details.");
+                log.error("Error updating user from database", e);
             }
             resetDefault();
         }

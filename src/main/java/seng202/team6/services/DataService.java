@@ -1,10 +1,6 @@
 package seng202.team6.services;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,24 +55,28 @@ public class DataService {
     ) throws CsvFileException, DatabaseException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         List<CsvLineException> errors = new ArrayList<>();
-        List<Station> stations = stationCsvImporter.readFromFile(file, errors);
+        try {
+            List<Station> stations = stationCsvImporter.readFromFile(new FileReader(file), errors);
 
-        IntegerProperty integerProperty = new SimpleIntegerProperty();
-        integerProperty.addListener((observable, oldValue, newValue) ->
-                value.setValue(new Pair<>(newValue.intValue(), stations.size())));
+            IntegerProperty integerProperty = new SimpleIntegerProperty();
+            integerProperty.addListener((observable, oldValue, newValue) ->
+                    value.setValue(new Pair<>(newValue.intValue(), stations.size())));
 
-        dao.addAll(stations, integerProperty);
-        return errors;
+            dao.addAll(stations, integerProperty);
+            return errors;
+        } catch (FileNotFoundException e) {
+            throw new CsvFileException(e);
+        }
     }
 
     /**
      * load the vehicle data from the csv file into a list.
      * @throws CsvFileException if the csv file error open.
      */
-    public List<Vehicle> getVehicleDataFromCsv(File file) throws CsvFileException {
+    public List<Vehicle> getVehicleDataFromCsv(Reader inputReader) throws CsvFileException {
         VehicleCsvImporter vehicleCsvImporter = new VehicleCsvImporter();
         List<CsvLineException> errors = new ArrayList<>();
-        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(file, errors);
+        List<Vehicle> vehicles = vehicleCsvImporter.readFromFile(inputReader, errors);
         for (CsvLineException error : errors) {
             log.error(String.format("Error loading vehicle from line %d: %s",
                                     error.getLine(), error.getMessage()));

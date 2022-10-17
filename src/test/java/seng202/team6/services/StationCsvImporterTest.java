@@ -15,6 +15,8 @@ import seng202.team6.models.Station;
 import seng202.team6.io.StationCsvImporter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -35,33 +37,33 @@ public class StationCsvImporterTest {
     void invalidCsvFileTest() {
         StationCsvImporter csvImporter = new StationCsvImporter();
         assertThrows(CsvFileException.class,
-            () -> csvImporter.readFromFile(new File(getClass().getResource("/invalidfile.csv").toURI()), new ArrayList<>()));
+            () -> csvImporter.readFromFile(new FileReader(new File(getClass().getResource("/invalidfile.csv").toURI())), new ArrayList<>()));
     }
 
     @Test
-    void validCsvFileTest() throws URISyntaxException, CsvException {
+    void validCsvFileTest() throws URISyntaxException, CsvException, FileNotFoundException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         ObservableList<CsvLineException> warnings = FXCollections.observableArrayList();
-        List<Station> stations =  stationCsvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()), warnings);
+        List<Station> stations =  stationCsvImporter.readFromFile(new FileReader(new File(getClass().getResource("/valid.csv").toURI())), warnings);
         assertEquals(4, stations.size());
         assertEquals(0, warnings.size());
     }
 
     @Test
-    void invalidCsvLinesTest() throws URISyntaxException, CsvFileException {
+    void invalidCsvLinesTest() throws URISyntaxException, CsvFileException, FileNotFoundException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         List<CsvLineException> warnings = new ArrayList<>();
-        List<Station> stations = stationCsvImporter.readFromFile(new File(getClass().getResource("/invalidline.csv").toURI()), warnings);
+        List<Station> stations = stationCsvImporter.readFromFile(new FileReader(new File(getClass().getResource("/invalidline.csv").toURI())), warnings);
         assertEquals(3, stations.size());
         assertEquals(1, warnings.size());
 
     }
 
     @Test
-    void validCsvLinesTest() throws URISyntaxException, CsvFileException {
+    void validCsvLinesTest() throws URISyntaxException, CsvFileException, FileNotFoundException {
         StationCsvImporter stationCsvImporter = new StationCsvImporter();
         ObservableList<CsvLineException> warnings = FXCollections.observableArrayList();
-        List<Station> stations = stationCsvImporter.readFromFile(new File(getClass().getResource("/valid.csv").toURI()), warnings);
+        List<Station> stations = stationCsvImporter.readFromFile(new FileReader(new File(getClass().getResource("/valid.csv").toURI())), warnings);
         assertEquals(stations.get(0).getCoordinates(), new Position(-43.73745, 170.100913));
         assertEquals("YHA MT COOK", stations.get(0).getName() );
         assertEquals(stations.get(1).getCoordinates(), new Position(-43.59049, 172.630201));

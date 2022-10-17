@@ -12,6 +12,7 @@ import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Position;
 import seng202.team6.models.Station;
+import seng202.team6.services.AlertMessage;
 
 /**
  * Station class which implements the DaoInterface, provides common functionality for
@@ -74,41 +75,6 @@ public class StationDao implements DaoInterface<Integer, Station> {
             throw new DatabaseException("An error occurred getting stations from the database", e);
         }
     }
-
-    //    /**
-    //     * Get stations from a filter builder.
-    //     * @param builder The builder to use.
-    //     */
-    //    public Map<Integer, Station> getFromFilterBuilder(FilterBuilder builder) {
-    //        Map<Integer, Station> stations = new HashMap<>();
-    //        try (Connection conn = databaseManager.connect();
-    //             PreparedStatement ps = builder.build(conn);
-    //             PreparedStatement ps2 = builder.build(conn);
-    //             ResultSet rs = ps.executeQuery();
-    //             ResultSet rs2 = ps2.executeQuery()) {
-    //            ArrayList<Charger> chargers = new ArrayList<>();
-    //            boolean stillGoing = rs.next();
-    //            while (stillGoing) {
-    //                if (rs.getInt("stationId") != rs2.getInt("stationId")) {
-    //                    Station station = stationFromResultSet(rs2, new ArrayList<>(chargers));
-    //                    stations.put(station.getStationId(), station);
-    //                    chargers.clear();
-    //                }
-    //                chargers.add(chargerFromResultSet(rs));
-    //                stillGoing = rs.next();
-    //                if (stillGoing) {
-    //                    rs2.next();
-    //                }
-    //            }
-    //            if (!chargers.isEmpty()) {
-    //                Station station = stationFromResultSet(rs2, chargers);
-    //                stations.put(station.getStationId(), station);
-    //            }
-    //            return stations;
-    //        } catch (SQLException e) {
-    //            throw new RuntimeException(e);
-    //        }
-    //    }
 
     @Override
     public Map<Integer, Station> getAll() {
@@ -230,7 +196,10 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps.setInt(1, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting a station from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error deleting station from database", e);
         }
     }
 
@@ -247,7 +216,10 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps.setInt(1, charger.getChargerId());
             ps.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting a charger from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error deleting charger from database", e);
         }
 
     }
@@ -273,7 +245,10 @@ public class StationDao implements DaoInterface<Integer, Station> {
             }
             charger.setChargerId(insertId);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred adding a charger to the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error adding charger to database", e);
         }
     }
 
@@ -288,7 +263,10 @@ public class StationDao implements DaoInterface<Integer, Station> {
             ps2.setInt(4, charger.getChargerId());
             ps2.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred deleting a charger from the "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error deleting charger from database", e);
         }
     }
 
@@ -348,7 +326,11 @@ public class StationDao implements DaoInterface<Integer, Station> {
             }
             return types;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred getting charger types from "
+                                                + "database. Please see the "
+                                                + "log for more details.");
+            log.error("Error getting charger types from database", e);
         }
+        return new ArrayList<>();
     }
 }

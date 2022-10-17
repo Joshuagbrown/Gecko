@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Vehicle;
 import seng202.team6.repository.VehicleDao;
@@ -18,7 +20,7 @@ import seng202.team6.services.Validity;
 
 
 public class RegisterVehicleController implements ScreenController {
-
+    private final Logger log = LogManager.getLogger();
     @FXML
     private Button confirmButton;
     @FXML
@@ -239,14 +241,16 @@ public class RegisterVehicleController implements ScreenController {
     /**
      * The event handler of the add a new vehicle button.
      * @param actionEvent event handler.
-     * @throws DatabaseException the database error.
      */
     public void submitVehicle(ActionEvent actionEvent) {
         if (inputChecking() != null) {
             try {
                 vehicleDao.add(inputChecking());
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred adding a vehicle to the "
+                                                    + "database. Please see the log for"
+                                                    + " more details.");
+                log.error("Error adding vehicle to database", e);
             }
             controller.getMyDetailsController().loadUserVehicle();
             clearVehicleSelect(null);
