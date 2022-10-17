@@ -315,7 +315,10 @@ public class AddStationController implements StationController {
         try {
             controller.updateStationsFromDatabase();
         } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "An error occurred loading stations from the "
+                                                + "database. Please see "
+                                                + "the log for more details.");
+            log.error("Error loading stations from database", e);
         }
         stage.close();
         controller.setTextAreaInMainScreen("");

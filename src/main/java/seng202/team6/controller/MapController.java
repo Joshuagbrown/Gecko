@@ -341,14 +341,10 @@ public class MapController implements ScreenController {
         String title = "Home: " + address;
         double lat;
         double lon;
-        try {
-            Position pos = findLatLon(address);
+        Position pos = findLatLon(address);
 
-            lat = pos.getLatitude();
-            lon = pos.getLongitude();
-        } catch (IOException | RuntimeException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        lat = pos.getLatitude();
+        lon = pos.getLongitude();
         javaScriptConnector.call("fixAddressMarker", title, lat, lon);
     }
 
@@ -370,11 +366,7 @@ public class MapController implements ScreenController {
         if (Objects.equals(homeAddress, "") || homeAddress == null) {
             return null;
         } else {
-            try {
-                return findLatLon(homeAddress);
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            return findLatLon(homeAddress);
         }
     }
 
@@ -384,11 +376,8 @@ public class MapController implements ScreenController {
     /**
      * Finds the corresponding latitude and longitude for the given address.
      * and sets it to the position variable
-     *
-     * @throws IOException from geocoding
-     * @throws InterruptedException from geocoding
      */
-    private Position findLatLon(String address) throws IOException, InterruptedException {
+    private Position findLatLon(String address) {
 
         JSONObject positionField = controller.getMapToolBarController().geoCode(address);
         if (positionField == null) {
@@ -409,13 +398,7 @@ public class MapController implements ScreenController {
     public void searchLocationOnTheMap(ActionEvent actionEvent) {
         String address = locationTextBox.getText();
         Position location = null;
-        try {
-            location = findLatLon(address);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        location = findLatLon(address);
         if (location == null) {
             AlertMessage.createMessage("Unable to fetch the given Address.",
                     "Please search with a valid Address");

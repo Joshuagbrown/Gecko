@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team6.exceptions.DatabaseException;
 import seng202.team6.models.Charger;
 import seng202.team6.models.Station;
@@ -25,6 +27,7 @@ import seng202.team6.services.Validity;
 
 
 public class ChargerController {
+    private final Logger log = LogManager.getLogger();
     @FXML
     public ToggleGroup operative;
     @FXML
@@ -183,10 +186,13 @@ public class ChargerController {
                 controller.getDataService().getStationDao().update(station);
                 try {
                     controller.updateStationsFromDatabase();
+                    controller.setTextAreaInMainScreen(station.toString());
                 } catch (DatabaseException e) {
-                    throw new RuntimeException(e);
+                    AlertMessage.createMessage("Error", "An error occurred loading stations "
+                                                        + "from the database. Please see "
+                                                        + "the log for more details.");
+                    log.error("Error loading stations from database", e);
                 }
-                controller.setTextAreaInMainScreen(station.toString());
             }
             setChargerAndPlugDropDown();
             chargerDropDown.getSelectionModel().clearAndSelect(currentlySelectedCharger);
@@ -257,15 +263,18 @@ public class ChargerController {
             controller.getDataService().getStationDao().update(station);
             try {
                 controller.updateStationsFromDatabase();
+                controller.setTextAreaInMainScreen(station.toString());
+                setChargerAndPlugDropDown();
+                wattageText.setText("");
+                opButton.setSelected(true);
+                plugTypeDropDown.getSelectionModel().clearSelection();
+                chargerDropDown.getSelectionModel().clearSelection();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred loading stations from the "
+                                                    + "database. Please see the log "
+                                                    + "for more details.");
+                log.error("Error loading stations from database", e);
             }
-            controller.setTextAreaInMainScreen(station.toString());
-            setChargerAndPlugDropDown();
-            wattageText.setText("");
-            opButton.setSelected(true);
-            plugTypeDropDown.getSelectionModel().clearSelection();
-            chargerDropDown.getSelectionModel().clearSelection();
         }
         currentlySelectedCharger = station.getChargers().size();
     }
@@ -351,12 +360,18 @@ public class ChargerController {
             try {
                 controller.getDataService().getStationDao().add(station);
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred adding a station to the "
+                                                    + "database. Please see the log for"
+                                                    + "more details.");
+                log.error("Error deleting station from database", e);
             }
             try {
                 controller.updateStationsFromDatabase();
             } catch (DatabaseException e) {
-                throw new RuntimeException(e);
+                AlertMessage.createMessage("Error", "An error occurred adding address from the "
+                                                    + "database. Please see the log for"
+                                                    + "more details.");
+                log.error("Error adding address to database", e);
             }
             stage.close();
         }

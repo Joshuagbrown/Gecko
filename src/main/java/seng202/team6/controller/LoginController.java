@@ -16,6 +16,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import seng202.team6.models.UserLoginDetails;
 import seng202.team6.repository.UserDao;
+import seng202.team6.services.AlertMessage;
 
 public class LoginController implements ScreenController {
     @FXML
@@ -50,11 +51,12 @@ public class LoginController implements ScreenController {
         try {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            byte[] hash = factory.generateSecret(spec).getEncoded();
-            return hash;
+            return factory.generateSecret(spec).getEncoded();
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            AlertMessage.createMessage("Error", "There was an error hashing your password. "
+                                                + "Please see the log for more info.");
         }
+        return null;
     }
 
     /**
