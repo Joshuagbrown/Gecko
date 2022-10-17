@@ -28,7 +28,7 @@ public class Validity {
      * @return true if the name is valid otherwise false
      */
     public static boolean checkName(String name) {
-        return name.matches("[a-zA-Z\\s]+") && name.length() < 30;
+        return name.matches("[a-zA-Z\\s]+");
     }
 
     /**
@@ -37,7 +37,7 @@ public class Validity {
      * @return true if the username is valid otherwise false
      */
     public static boolean checkUserName(String username) {
-        return username.matches("[a-zA-Z0-9]+") && username.length() < 30;
+        return username.matches("[a-zA-Z0-9]+");
     }
 
     /**
@@ -64,7 +64,7 @@ public class Validity {
      * @param address the address to check
      */
     public boolean checkAddress(String address) throws IOException, InterruptedException {
-        if (address.length() == 0 || address.length() > 40) {
+        if (address.length() == 0) {
             return false;
         } else {
             return controller.getMapToolBarController().geoCode(address) != null;
