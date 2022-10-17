@@ -1,5 +1,6 @@
 package seng202.team6.controller;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import io.github.cdimascio.dotenv.Dotenv;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Worker;
