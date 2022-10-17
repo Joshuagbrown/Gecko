@@ -103,7 +103,6 @@ public class AddStationController implements StationController {
         });
         this.stationScene = scene;
         this.address = address;
-        System.out.println(address);
         this.controller = controller;
         valid = new Validity(controller);
         if (address != null) {
